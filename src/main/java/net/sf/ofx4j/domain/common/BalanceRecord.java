@@ -1,0 +1,144 @@
+package net.sf.ofx4j.domain.common;
+
+import net.sf.ofx4j.meta.Aggregate;
+import net.sf.ofx4j.meta.Element;
+
+import java.util.Date;
+
+/**
+ * @author Ryan Heaton
+ *
+ * @see "Section 3.1.3, OFX Spec"
+ */
+@Aggregate ( "BAL" )
+public class BalanceRecord {
+
+  public enum Type {
+
+    DOLLAR,
+
+    PERCENT,
+
+    NUMBER
+  }
+
+  private String name;
+  private String description;
+  private Type type;
+  private String value;
+  private Date timestamp;
+  private String currency;
+
+  /**
+   * Name of the balance.
+   *
+   * @return Name of the balance.
+   */
+  @Element ( value = "NAME", required = true )
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * Name of the balance.
+   *
+   * @param name Name of the balance.
+   */
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  /**
+   * Description of the balance.
+   *
+   * @return Description of the balance.
+   */
+  @Element ( value = "DESC", required = true )
+  public String getDescription() {
+    return description;
+  }
+
+  /**
+   * Description of the balance.
+   *
+   * @param description Description of the balance.
+   */
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  /**
+   * Type of the balance.
+   *
+   * @return Type of the balance.
+   */
+  @Element ( value = "BALTYPE", required = true )
+  public Type getType() {
+    return type;
+  }
+
+  /**
+   * Type of the balance.
+   *
+   * @param type Type of the balance.
+   */
+  public void setType(Type type) {
+    this.type = type;
+  }
+
+  /**
+   * The value of the balance.
+   *
+   * @return The value of the balance.
+   */
+  @Element ( value = "VALUE", required = true )
+  public String getValue() {
+    return value;
+  }
+
+  /**
+   * The value of the balance.
+   *
+   * @param value The value of the balance.
+   */
+  public void setValue(String value) {
+    this.value = value;
+  }
+
+  /**
+   * Timestamp of the balance.
+   *
+   * @return Timestamp of the balance.
+   */
+  @Element("DTASOF")
+  public Date getTimestamp() {
+    return timestamp;
+  }
+
+  /**
+   * Timestamp of the balance.
+   *
+   * @param timestamp Timestamp of the balance.
+   */
+  public void setTimestamp(Date timestamp) {
+    this.timestamp = timestamp;
+  }
+
+  /**
+   * Currency.
+   *
+   * @return Currency.
+   */
+  public String getCurrency() {
+    return currency;
+  }
+
+  /**
+   * Currency.
+   *
+   * @param currency Currency.
+   */
+  public void setCurrency(String currency) {
+    this.currency = currency;
+  }
+}
