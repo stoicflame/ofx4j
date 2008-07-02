@@ -1,8 +1,8 @@
 package net.sf.ofx4j.domain.signon;
 
 import net.sf.ofx4j.domain.ResponseMessage;
-import net.sf.ofx4j.meta.Element;
 import net.sf.ofx4j.meta.Aggregate;
+import net.sf.ofx4j.meta.Element;
 
 import java.util.Date;
 
@@ -12,7 +12,7 @@ import java.util.Date;
  * @author Ryan Heaton
  * @see "Section 2.5.2.2, OFX Spec."
  */
-@Aggregate ("PINCHRQ")
+@Aggregate ( "PINCHRQ" )
 public class PasswordChangeResponse extends ResponseMessage {
 
   private String userId;
@@ -23,7 +23,7 @@ public class PasswordChangeResponse extends ResponseMessage {
    *
    * @return The id of the user changing password.
    */
-  @Element ( value = "USERID", required = true )
+  @Element ( value = "USERID", required = true, order = 0 )
   public String getUserId() {
     return userId;
   }
@@ -42,6 +42,7 @@ public class PasswordChangeResponse extends ResponseMessage {
    *
    * @return The timestamp of the password change.
    */
+  @Element ( value = "DTCHANGED", order = 10 )
   public Date getChangeTimestamp() {
     return changeTimestamp;
   }

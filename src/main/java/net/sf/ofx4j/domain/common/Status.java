@@ -27,6 +27,7 @@ public class Status {
   public enum Code {
 
     SUCCESS(0, "Success", Severity.INFO),
+    CLIENT_UP_TO_DATE(1, "Client is up-to-date", Severity.INFO),
     GENERAL_ERROR(2000, "General error.", Severity.ERROR),
     UNSUPPORTED_VERSION(2021, "Unsupported version", Severity.ERROR),
     INVALID_TAN(2022, "Invalid transaction authorization number.", Severity.ERROR),

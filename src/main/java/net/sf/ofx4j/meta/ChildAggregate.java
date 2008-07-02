@@ -28,4 +28,11 @@ public @interface ChildAggregate {
    */
   boolean required() default false;
 
+  /**
+   * The order this child aggregate comes in its parent aggregate.
+   *
+   * @return The order this child aggregate comes in its parent aggregate.
+   */
+  int order();
+
 }

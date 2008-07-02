@@ -2,7 +2,6 @@ package net.sf.ofx4j.domain.signon;
 
 import net.sf.ofx4j.domain.MessageSetType;
 import net.sf.ofx4j.domain.ResponseMessageSet;
-import net.sf.ofx4j.domain.TransactionWrappedRequestMessage;
 import net.sf.ofx4j.domain.TransactionWrappedResponseMessage;
 import net.sf.ofx4j.meta.ChildAggregate;
 
@@ -14,7 +13,7 @@ import net.sf.ofx4j.meta.ChildAggregate;
  */
 public class SignonResponseMessageSet extends ResponseMessageSet {
 
-  private SignonResponse message;
+  private SignonResponse signonResponse;
   private TransactionWrappedResponseMessage<PasswordChangeResponse> passwordChangeResponse;
 
   public MessageSetType getType() {
@@ -26,17 +25,18 @@ public class SignonResponseMessageSet extends ResponseMessageSet {
    *
    * @return The message for this message set.
    */
-  public SignonResponse getMessage() {
-    return message;
+  @ChildAggregate (order = 0)
+  public SignonResponse getSignonResponse() {
+    return signonResponse;
   }
 
   /**
    * The message for this message set.
    *
-   * @param message The message for this message set.
+   * @param signonResponse The message for this message set.
    */
-  public void setMessage(SignonResponse message) {
-    this.message = message;
+  public void setSignonResponse(SignonResponse signonResponse) {
+    this.signonResponse = signonResponse;
   }
 
   /**
@@ -44,7 +44,7 @@ public class SignonResponseMessageSet extends ResponseMessageSet {
    *
    * @return The password change response.
    */
-  @ChildAggregate (name = "PINCHTRNRQ")
+  @ChildAggregate (name = "PINCHTRNRQ", order = 10)
   public TransactionWrappedResponseMessage<PasswordChangeResponse> getPasswordChangeResponse() {
     return passwordChangeResponse;
   }

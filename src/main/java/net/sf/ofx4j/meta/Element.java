@@ -27,4 +27,11 @@ public @interface Element {
    * @return Whether this element is required.
    */
   boolean required() default false;
+
+  /**
+   * The order this element comes in its parent aggregate.
+   *
+   * @return The order this element comes in its parent aggregate.
+   */
+  int order();
 }

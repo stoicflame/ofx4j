@@ -22,7 +22,7 @@ public class TransactionWrappedRequestMessage<M extends RequestMessage> extends 
    *
    * @return UID of this transaction.
    */
-  @Element ( value = "TRNUID", required = true)
+  @Element ( value = "TRNUID", required = true, order = 0)
   public String getUID() {
     return UID;
   }
@@ -41,7 +41,7 @@ public class TransactionWrappedRequestMessage<M extends RequestMessage> extends 
    *
    * @return Client cookie (echoed back by the response).
    */
-  @Element ("CLTCOOKIE")
+  @Element ("CLTCOOKIE", order = 10)
   public String getClientCookie() {
     return clientCookie;
   }
@@ -60,7 +60,7 @@ public class TransactionWrappedRequestMessage<M extends RequestMessage> extends 
    *
    * @return The transaction authorization number.
    */
-  @Element ("TAN")
+  @Element ("TAN", order = 20)
   public String getTransactionAuthorizationNumber() {
     return transactionAuthorizationNumber;
   }
@@ -79,7 +79,7 @@ public class TransactionWrappedRequestMessage<M extends RequestMessage> extends 
    *
    * @return The request message being wrapped in a transaction.
    */
-  @ChildAggregate (required = true)
+  @ChildAggregate (required = true, order = 30)
   public M getMessage() {
     return message;
   }

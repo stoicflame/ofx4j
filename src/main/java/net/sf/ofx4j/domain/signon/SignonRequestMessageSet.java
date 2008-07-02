@@ -25,7 +25,7 @@ public class SignonRequestMessageSet extends RequestMessageSet {
    *
    * @return The message for this message set.
    */
-  @ChildAggregate(required = true)
+  @ChildAggregate(required = true, order=0)
   public SignonRequest getSignonRequest() {
     return signonRequest;
   }
@@ -44,7 +44,7 @@ public class SignonRequestMessageSet extends RequestMessageSet {
    *
    * @return The password change request.
    */
-  @ChildAggregate(name = "PINCHTRNRQ")
+  @ChildAggregate(name = "PINCHTRNRQ", order=10)
   public TransactionWrappedRequestMessage<PasswordChangeRequest> getPasswordChangeRequest() {
     return passwordChangeRequest;
   }

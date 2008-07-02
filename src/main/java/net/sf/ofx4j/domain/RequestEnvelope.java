@@ -2,6 +2,9 @@ package net.sf.ofx4j.domain;
 
 import net.sf.ofx4j.meta.Header;
 import net.sf.ofx4j.meta.Aggregate;
+import net.sf.ofx4j.meta.ChildAggregate;
+
+import java.util.SortedSet;
 
 /**
  * Envelope for enclosing an OFX request.
@@ -18,7 +21,7 @@ public class RequestEnvelope {
   private String lastProcessedUID;
 
   //content
-  
+  private SortedSet<RequestMessageSet> messageSets;
 
   /**
    * The security of this envelope.
@@ -81,5 +84,26 @@ public class RequestEnvelope {
    */
   public void setLastProcessedUID(String lastProcessedUID) {
     this.lastProcessedUID = lastProcessedUID;
+  }
+
+  /**
+   * The message sets that make up the content of this request.
+   *
+   * @return The message sets that make up the content of this request.
+   * @see "Section 2.4.5, OFX Spec"
+   */
+  @ChildAggregate ( order = 1 )
+  public SortedSet<RequestMessageSet> getMessageSets() {
+    return messageSets;
+  }
+
+  /**
+   * The message sets that make up the content of this request.
+   *
+   * @param messageSets The message sets that make up the content of this request.
+   * @see "Section 2.4.5, OFX Spec"
+   */
+  public void setMessageSets(SortedSet<RequestMessageSet> messageSets) {
+    this.messageSets = messageSets;
   }
 }

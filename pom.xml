@@ -29,6 +29,25 @@
           <downloadJavadocs>true</downloadJavadocs>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.myfaces.tobago</groupId>
+        <artifactId>maven-apt-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <configuration>
+              <generated>target/classes/META-INF</generated>
+              <factory>net.sf.jelly.apt.freemarker.FreemarkerProcessorFactory</factory>
+              <aptOptions>template=${basedir}/src/main/templates/ofx-aggregate.list.fmt</aptOptions>
+              <nocompile>true</nocompile>
+              <showWarnings>true</showWarnings>
+            </configuration>
+            <goals>
+              <goal>execute</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
@@ -51,6 +70,20 @@
       <groupId>org.ccil.cowan.tagsoup</groupId>
       <artifactId>tagsoup</artifactId>
       <version>1.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>net.sf.apt-jelly</groupId>
+      <artifactId>apt-jelly</artifactId>
+      <version>2.3</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>freemarker</groupId>
+      <artifactId>freemarker</artifactId>
+      <version>2.3.6</version>
+      <scope>compile</scope>
     </dependency>
 
     <dependency>

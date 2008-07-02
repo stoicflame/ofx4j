@@ -1,18 +1,18 @@
 package net.sf.ofx4j.domain;
 
-import net.sf.ofx4j.meta.Header;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
+import net.sf.ofx4j.meta.Header;
 
 import java.util.SortedSet;
 
 /**
  * Envelope for enclosing an OFX response.
- * 
+ *
  * @author Ryan Heaton
  * @see "Section 2.4.3, OFX Spec"
  */
-@Aggregate ("OFX")
+@Aggregate ( "OFX" )
 public class ResponseEnvelope {
 
   //headers
@@ -70,7 +70,7 @@ public class ResponseEnvelope {
    * @return The message sets that make up the content of this response.
    * @see "Section 2.4.5, OFX Spec"
    */
-  @ChildAggregate
+  @ChildAggregate ( order = 1 )
   public SortedSet<ResponseMessageSet> getMessageSets() {
     return messageSets;
   }
@@ -84,4 +84,5 @@ public class ResponseEnvelope {
   public void setMessageSets(SortedSet<ResponseMessageSet> messageSets) {
     this.messageSets = messageSets;
   }
+
 }

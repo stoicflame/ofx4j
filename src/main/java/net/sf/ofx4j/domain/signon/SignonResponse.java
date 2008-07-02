@@ -34,7 +34,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The signon response status.
    */
-  @ChildAggregate(required = true)
+  @ChildAggregate(required = true, order=0)
   public Status getStatus() {
     return status;
   }
@@ -53,7 +53,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The timestamp of this response.
    */
-  @Element ( value = "DTSERVER", required = true )
+  @Element ( value = "DTSERVER", required = true, order=10 )
   public Date getTimestamp() {
     return timestamp;
   }
@@ -72,7 +72,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The userkey that can be used instead of the username/password.
    */
-  @Element("USERKEY")
+  @Element("USERKEY", order=20)
   public String getUserKey() {
     return userKey;
   }
@@ -91,7 +91,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The date/time of the expiration of the user key.
    */
-  @Element("TSKEYEXPIRE")
+  @Element("TSKEYEXPIRE", order=30)
   public Date getUserKeyExpiration() {
     return userKeyExpiration;
   }
@@ -111,7 +111,7 @@ public class SignonResponse implements StatusHolder {
    * @return The three-letter langauge code.
    * @see java.util.Locale#getISO3Language()
    */
-  @Element(value="LANGUAGE", required=true)
+  @Element(value="LANGUAGE", required=true, order=40)
   public String getLanguage() {
     return language;
   }
@@ -130,7 +130,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The date/time that the FI profile was last updated.
    */
-  @Element("DTPROFUP")
+  @Element("DTPROFUP", order=50)
   public Date getProfileLastUpdated() {
     return profileLastUpdated;
   }
@@ -149,7 +149,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The date/time that the user's account information was updated.
    */
-  @Element("DTACCTUP")
+  @Element("DTACCTUP", order=60)
   public Date getAccountLastUpdated() {
     return accountLastUpdated;
   }
@@ -168,7 +168,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The financial instutution identity information.
    */
-  @ChildAggregate
+  @ChildAggregate(order=70)
   public FinancialInstitution getFinancialInstitution() {
     return financialInstitution;
   }
@@ -187,7 +187,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The session id for the client.
    */
-  @Element("SESSCOOKIE")
+  @Element("SESSCOOKIE", order=80)
   public String getSessionId() {
     return sessionId;
   }
@@ -206,7 +206,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The access key that the client should return in the next sign-on requuest.
    */
-  @Element("ACCESSKEY")
+  @Element("ACCESSKEY", order=90)
   public String getAccessKey() {
     return accessKey;
   }

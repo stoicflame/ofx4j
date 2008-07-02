@@ -21,7 +21,7 @@ public class PasswordChangeRequest extends RequestMessage {
    *
    * @return The id of the user changing password.
    */
-  @Element ( value = "USERID", required = true )
+  @Element ( value = "USERID", required = true, order=0 )
   public String getUserId() {
     return userId;
   }
@@ -40,7 +40,7 @@ public class PasswordChangeRequest extends RequestMessage {
    *
    * @return The new password.
    */
-  @Element ( value = "NEWUSERPASS", required = true )
+  @Element ( value = "NEWUSERPASS", required = true, order=10 )
   public String getNewPassword() {
     return newPassword;
   }

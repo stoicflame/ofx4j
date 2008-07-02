@@ -14,7 +14,6 @@ public class TransactionWrappedResponseMessage<M extends ResponseMessage> extend
 
   private String UID;
   private String clientCookie;
-  private String transactionAuthorizationNumber;
   private Status status;
 
   private M message;
@@ -24,7 +23,7 @@ public class TransactionWrappedResponseMessage<M extends ResponseMessage> extend
    *
    * @return UID of this transaction.
    */
-  @Element ( value = "TRNUID", required = true)
+  @Element ( value = "TRNUID", required = true, order = 0)
   public String getUID() {
     return UID;
   }
@@ -43,7 +42,7 @@ public class TransactionWrappedResponseMessage<M extends ResponseMessage> extend
    *
    * @return Client cookie (echoed back by the response).
    */
-  @Element ("CLTCOOKIE")
+  @Element ("CLTCOOKIE", order = 20)
   public String getClientCookie() {
     return clientCookie;
   }
@@ -58,30 +57,11 @@ public class TransactionWrappedResponseMessage<M extends ResponseMessage> extend
   }
 
   /**
-   * The transaction authorization number.
-   *
-   * @return The transaction authorization number.
-   */
-  @Element ("TAN")
-  public String getTransactionAuthorizationNumber() {
-    return transactionAuthorizationNumber;
-  }
-
-  /**
-   * The transaction authorization number.
-   *
-   * @param transactionAuthorizationNumber The transaction authorization number.
-   */
-  public void setTransactionAuthorizationNumber(String transactionAuthorizationNumber) {
-    this.transactionAuthorizationNumber = transactionAuthorizationNumber;
-  }
-
-  /**
    * Status of the transaction.
    *
    * @return Status of the transaction.
    */
-  @ChildAggregate (required = true)
+  @ChildAggregate (required = true, order = 10)
   public Status getStatus() {
     return status;
   }
@@ -100,7 +80,7 @@ public class TransactionWrappedResponseMessage<M extends ResponseMessage> extend
    *
    * @return The response message being wrapped in a transaction.
    */
-  @ChildAggregate (required = true)
+  @ChildAggregate (required = true, order = 30)
   public M getMessage() {
     return message;
   }
