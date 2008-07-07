@@ -6,6 +6,6 @@ import net.sf.ofx4j.meta.Aggregate;
 /**
  * @author Ryan Heaton
  */
-@Aggregate ("BANKMSGSETV1")
+@Aggregate ( "BANKMSGSETV1" )
 public class BankingV1MessageSetInfo extends VersionSpecificMessageSetInfo {
 }

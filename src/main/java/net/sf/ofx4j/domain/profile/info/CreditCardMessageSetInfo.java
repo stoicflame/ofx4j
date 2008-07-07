@@ -6,6 +6,6 @@ import net.sf.ofx4j.meta.Aggregate;
 /**
  * @author Ryan Heaton
  */
-@Aggregate ("CREDITCARDMSGSET")
+@Aggregate ( "CREDITCARDMSGSET" )
 public class CreditCardMessageSetInfo extends MessageSetInfo {
 }

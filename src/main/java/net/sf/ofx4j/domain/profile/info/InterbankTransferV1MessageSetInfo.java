@@ -6,6 +6,6 @@ import net.sf.ofx4j.meta.Aggregate;
 /**
  * @author Ryan Heaton
  */
-@Aggregate ("INTERXFERMSGSETV1")
+@Aggregate ( "INTERXFERMSGSETV1" )
 public class InterbankTransferV1MessageSetInfo extends VersionSpecificMessageSetInfo {
 }

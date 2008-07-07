@@ -6,6 +6,6 @@ import net.sf.ofx4j.meta.Aggregate;
 /**
  * @author Ryan Heaton
  */
-@Aggregate ("INVSTMTMSGSETV1")
+@Aggregate ( "INVSTMTMSGSETV1" )
 public class InvestmentV1MessageSetInfo extends VersionSpecificMessageSetInfo {
 }

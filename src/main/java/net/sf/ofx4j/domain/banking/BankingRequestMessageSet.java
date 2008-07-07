@@ -1,7 +1,7 @@
 package net.sf.ofx4j.domain.banking;
 
-import net.sf.ofx4j.domain.RequestMessageSet;
 import net.sf.ofx4j.domain.MessageSetType;
+import net.sf.ofx4j.domain.RequestMessageSet;
 
 /**
  * @author Ryan Heaton

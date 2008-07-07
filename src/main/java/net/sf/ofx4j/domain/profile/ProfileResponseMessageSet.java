@@ -7,7 +7,6 @@ import net.sf.ofx4j.meta.ChildAggregate;
 
 /**
  * @author Ryan Heaton
- *
  * @see "Section 7 OFX Spec"
  */
 public class ProfileResponseMessageSet extends ResponseMessageSet {
@@ -23,7 +22,7 @@ public class ProfileResponseMessageSet extends ResponseMessageSet {
    *
    * @return The profile response.
    */
-  @ChildAggregate ( name = "PROFTRNRS", required = true, order=0 )
+  @ChildAggregate ( name = "PROFTRNRS", required = true, order = 0 )
   public TransactionWrappedResponseMessage<ProfileResponse> getProfileResponse() {
     return profileResponse;
   }

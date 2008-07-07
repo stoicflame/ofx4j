@@ -7,10 +7,9 @@ import java.util.List;
 
 /**
  * @author Ryan Heaton
- *
  * @see "Section 7.2, OFX Spec"
  */
-@Aggregate("MSGSETLIST")
+@Aggregate ( "MSGSETLIST" )
 public class MessageSetInfoList {
 
   private List<MessageSetInfo> informationList;
@@ -20,7 +19,7 @@ public class MessageSetInfoList {
    *
    * @return The list of information for each message set.
    */
-  @ChildAggregate(order = 0)
+  @ChildAggregate ( order = 0 )
   public List<MessageSetInfo> getInformationList() {
     return informationList;
   }

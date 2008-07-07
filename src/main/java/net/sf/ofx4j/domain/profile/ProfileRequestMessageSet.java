@@ -8,7 +8,6 @@ import net.sf.ofx4j.meta.ChildAggregate;
 
 /**
  * @author Ryan Heaton
- *
  * @see "Section 7 OFX Spec"
  */
 @Aggregate ( "PROFMSGSRQV1" )
@@ -25,7 +24,7 @@ public class ProfileRequestMessageSet extends RequestMessageSet {
    *
    * @return The profile request.
    */
-  @ChildAggregate ( name = "PROFTRNRQ", required = true, order=0 )
+  @ChildAggregate ( name = "PROFTRNRQ", required = true, order = 0 )
   public TransactionWrappedRequestMessage<ProfileRequest> getProfileRequest() {
     return profileRequest;
   }

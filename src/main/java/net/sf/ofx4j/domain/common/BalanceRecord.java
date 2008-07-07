@@ -1,13 +1,13 @@
 package net.sf.ofx4j.domain.common;
 
 import net.sf.ofx4j.meta.Aggregate;
+import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
 
 import java.util.Date;
 
 /**
  * @author Ryan Heaton
- *
  * @see "Section 3.1.3, OFX Spec"
  */
 @Aggregate ( "BAL" )
@@ -27,14 +27,14 @@ public class BalanceRecord {
   private Type type;
   private String value;
   private Date timestamp;
-  private String currency;
+  private Currency currency;
 
   /**
    * Name of the balance.
    *
    * @return Name of the balance.
    */
-  @Element ( value = "NAME", required = true )
+  @Element ( value = "NAME", required = true, order = 0 )
   public String getName() {
     return name;
   }
@@ -53,7 +53,7 @@ public class BalanceRecord {
    *
    * @return Description of the balance.
    */
-  @Element ( value = "DESC", required = true )
+  @Element ( value = "DESC", required = true, order = 10 )
   public String getDescription() {
     return description;
   }
@@ -72,7 +72,7 @@ public class BalanceRecord {
    *
    * @return Type of the balance.
    */
-  @Element ( value = "BALTYPE", required = true )
+  @Element ( value = "BALTYPE", required = true, order = 20 )
   public Type getType() {
     return type;
   }
@@ -91,7 +91,7 @@ public class BalanceRecord {
    *
    * @return The value of the balance.
    */
-  @Element ( value = "VALUE", required = true )
+  @Element ( value = "VALUE", required = true, order = 30 )
   public String getValue() {
     return value;
   }
@@ -110,7 +110,7 @@ public class BalanceRecord {
    *
    * @return Timestamp of the balance.
    */
-  @Element("DTASOF")
+  @Element ( value = "DTASOF", order = 40 )
   public Date getTimestamp() {
     return timestamp;
   }
@@ -129,7 +129,8 @@ public class BalanceRecord {
    *
    * @return Currency.
    */
-  public String getCurrency() {
+  @ChildAggregate ( order = 50 )
+  public Currency getCurrency() {
     return currency;
   }
 
@@ -138,7 +139,7 @@ public class BalanceRecord {
    *
    * @param currency Currency.
    */
-  public void setCurrency(String currency) {
+  public void setCurrency(Currency currency) {
     this.currency = currency;
   }
 }

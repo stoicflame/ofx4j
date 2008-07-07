@@ -33,7 +33,7 @@ public class SignonInfo {
    *
    * @return The name of the sign-on realm.
    */
-  @Element ( value = "SIGNONREALM", required = true, order=0 )
+  @Element ( value = "SIGNONREALM", required = true, order = 0 )
   public String getRealm() {
     return realm;
   }
@@ -52,7 +52,7 @@ public class SignonInfo {
    *
    * @return The minimum number of password characters.
    */
-  @Element ( value = "MIN", required = true, order=10 )
+  @Element ( value = "MIN", required = true, order = 10 )
   public Integer getMinPasswordCharacters() {
     return minPasswordCharacters;
   }
@@ -71,7 +71,7 @@ public class SignonInfo {
    *
    * @return The maximum number of password characters.
    */
-  @Element ( value = "MAX", required = true, order=20 )
+  @Element ( value = "MAX", required = true, order = 20 )
   public Integer getMaxPasswordCharacters() {
     return maxPasswordCharacters;
   }
@@ -90,7 +90,7 @@ public class SignonInfo {
    *
    * @return The type of password characters supported.
    */
-  @Element ( value = "CHARTYPE", required = true, order=30 )
+  @Element ( value = "CHARTYPE", required = true, order = 30 )
   public CharacterType getPasswordCharacterType() {
     return passwordCharacterType;
   }
@@ -109,7 +109,7 @@ public class SignonInfo {
    *
    * @return Whether the password is case-sensitive.
    */
-  @Element ( value = "CASESEN", required = true, order=40 )
+  @Element ( value = "CASESEN", required = true, order = 40 )
   public Boolean getPasswordCaseSensitive() {
     return passwordCaseSensitive;
   }
@@ -128,7 +128,7 @@ public class SignonInfo {
    *
    * @return Whether special characters are allowed in the password.
    */
-  @Element ( value = "SPECIAL", required = true, order=50 )
+  @Element ( value = "SPECIAL", required = true, order = 50 )
   public Boolean getPasswordSpecialCharsAllowed() {
     return passwordSpecialCharsAllowed;
   }
@@ -147,7 +147,7 @@ public class SignonInfo {
    *
    * @return Whether spaces are allowed in the password.
    */
-  @Element ( value = "SPACES", required = true, order=60 )
+  @Element ( value = "SPACES", required = true, order = 60 )
   public Boolean getPasswordSpacesAllowed() {
     return passwordSpacesAllowed;
   }
@@ -166,7 +166,7 @@ public class SignonInfo {
    *
    * @return Whether the server can process a password change request for this realm.
    */
-  @Element ( value = "PINCH", required = true, order=70 )
+  @Element ( value = "PINCH", required = true, order = 70 )
   public Boolean getChangePasswordSupported() {
     return changePasswordSupported;
   }
@@ -185,7 +185,7 @@ public class SignonInfo {
    *
    * @return Whether the server requires the user to change their password as part of their first signon.
    */
-  @Element ( value = "CHGPINFIRST", required = true, order=80 )
+  @Element ( value = "CHGPINFIRST", required = true, order = 80 )
   public Boolean getChangePasswordFirstRequired() {
     return changePasswordFirstRequired;
   }
@@ -204,7 +204,7 @@ public class SignonInfo {
    *
    * @return Label for a set of additional credentials that the user must supply.
    */
-  @Element("USERCRED1LABEL", order=90)
+  @Element ( value = "USERCRED1LABEL", order = 90 )
   public String getAdditionalCredientialsLabel1() {
     return additionalCredientialsLabel1;
   }
@@ -223,7 +223,7 @@ public class SignonInfo {
    *
    * @return Label for a set of additional credentials that the user must supply.
    */
-  @Element("USERCRED2LABEL", order=100)
+  @Element ( value = "USERCRED2LABEL", order = 100 )
   public String getAdditionalCredientialsLabel2() {
     return additionalCredientialsLabel2;
   }
@@ -242,7 +242,7 @@ public class SignonInfo {
    *
    * @return Whether a client UID is required for teh sign-on.
    */
-  @Element("CLIENTUIDREQ", order=110)
+  @Element ( value = "CLIENTUIDREQ", order = 110 )
   public Boolean getClientUIDRequired() {
     return clientUIDRequired;
   }
@@ -261,7 +261,7 @@ public class SignonInfo {
    *
    * @return Whether an auth token is required for the sign-on.
    */
-  @Element("AUTHTOKENFIRST", order=120)
+  @Element ( value = "AUTHTOKENFIRST", order = 120 )
   public Boolean getAuthTokenRequiredForFirstSignon() {
     return authTokenRequiredForFirstSignon;
   }
@@ -269,7 +269,8 @@ public class SignonInfo {
   /**
    * Whether an auth token is required for the sign-on.
    *
-   * @param authTokenRequiredForFirstSignon Whether an auth token is required for the sign-on.
+   * @param authTokenRequiredForFirstSignon
+   *         Whether an auth token is required for the sign-on.
    */
   public void setAuthTokenRequiredForFirstSignon(Boolean authTokenRequiredForFirstSignon) {
     this.authTokenRequiredForFirstSignon = authTokenRequiredForFirstSignon;
@@ -280,7 +281,7 @@ public class SignonInfo {
    *
    * @return The label of the auth token.
    */
-  @Element("AUTHTOKENLABEL", order=130)
+  @Element ( value = "AUTHTOKENLABEL", order = 130 )
   public String getAuthTokenLabel() {
     return authTokenLabel;
   }
@@ -299,7 +300,7 @@ public class SignonInfo {
    *
    * @return The URL for the auth token information.
    */
-  @Element("AUTHTOKENINFOURL", order=140)
+  @Element ( value = "AUTHTOKENINFOURL", order = 140 )
   public String getAuthTokenInfoURL() {
     return authTokenInfoURL;
   }
@@ -318,7 +319,7 @@ public class SignonInfo {
    *
    * @return Whether MFA is supported.
    */
-  @Element("MFACHALLENGESUPT", order=150)
+  @Element ( value = "MFACHALLENGESUPT", order = 150 )
   public Boolean getMfaSupported() {
     return mfaSupported;
   }
@@ -337,7 +338,7 @@ public class SignonInfo {
    *
    * @return Whether an MFA challenge request is required for the first sign-on into this realm.
    */
-  @Element("MFACHALLENGEFIRST", order=160)
+  @Element ( value = "MFACHALLENGEFIRST", order = 160 )
   public Boolean getMfaChallengeRequiredForFirstSignon() {
     return mfaChallengeRequiredForFirstSignon;
   }
@@ -345,7 +346,8 @@ public class SignonInfo {
   /**
    * Whether an MFA challenge request is required for the first sign-on into this realm.
    *
-   * @param mfaChallengeRequiredForFirstSignon Whether an MFA challenge request is required for the first sign-on into this realm.
+   * @param mfaChallengeRequiredForFirstSignon
+   *         Whether an MFA challenge request is required for the first sign-on into this realm.
    */
   public void setMfaChallengeRequiredForFirstSignon(Boolean mfaChallengeRequiredForFirstSignon) {
     this.mfaChallengeRequiredForFirstSignon = mfaChallengeRequiredForFirstSignon;

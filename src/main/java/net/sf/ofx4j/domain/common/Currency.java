@@ -7,10 +7,9 @@ import java.util.Locale;
 
 /**
  * @author Ryan Heaton
- *
  * @see "Section 5.2, OFX Spec"
  */
-@Aggregate ("CURRENCY")
+@Aggregate ( "CURRENCY" )
 public class Currency {
 
   private String code = java.util.Currency.getInstance(Locale.US).getCurrencyCode();
@@ -22,7 +21,7 @@ public class Currency {
    * @return The currency code.
    * @see java.util.Currency#getCurrencyCode()
    */
-  @Element ( value = "CURSYM", required = true )
+  @Element ( value = "CURSYM", required = true, order = 0 )
   public String getCode() {
     return code;
   }
@@ -41,7 +40,7 @@ public class Currency {
    *
    * @return The exchange rate.
    */
-  @Element ( value = "CURRATE", required = true )
+  @Element ( value = "CURRATE", required = true, order = 10 )
   public Float getExchangeRate() {
     return exchangeRate;
   }

@@ -6,6 +6,6 @@ import net.sf.ofx4j.meta.Aggregate;
 /**
  * @author Ryan Heaton
  */
-@Aggregate ("SECLISTMSGSET")
+@Aggregate ( "SECLISTMSGSET" )
 public class SecurityListMessageSetInfo extends MessageSetInfo {
 }

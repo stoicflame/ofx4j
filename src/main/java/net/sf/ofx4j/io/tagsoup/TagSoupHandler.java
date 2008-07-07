@@ -76,7 +76,7 @@ public class TagSoupHandler extends DefaultHandler {
    * Process the last characters that were encountered, if any.</br></br>
    *
    * If there was a start element before the last characters, it will be processed as an OFX element (with the characters assigned as its value) and it's name
-   * will be returned. <em>Note that this ENTIRE processing scheme makes a VITAL assumption: that OFX aggregates DO NOT contain any non-whilespace character data.
+   * will be returned. <em>Note that this ENTIRE processing scheme makes a VITAL assumption: that OFX aggregates DO NOT contain any non-whitespace character data.
    * If this ever changes in a future OFX spec, this parser will no longer be valid. This is because the start element of the aggregate will be assigned a value
    * of the character data and processed as an element.</em><br/><br/>
    *

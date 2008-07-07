@@ -1,8 +1,8 @@
 package net.sf.ofx4j.domain;
 
-import net.sf.ofx4j.meta.Header;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
+import net.sf.ofx4j.meta.Header;
 
 import java.util.SortedSet;
 
@@ -12,7 +12,7 @@ import java.util.SortedSet;
  * @author Ryan Heaton
  * @see "Section 2.4.3, OFX Spec"
  */
-@Aggregate ("OFX")
+@Aggregate ( "OFX" )
 public class RequestEnvelope {
 
   //headers
@@ -29,7 +29,7 @@ public class RequestEnvelope {
    * @return The security of this envelope.
    * @see "Section 2.2, OFX spec"
    */
-  @Header ( name = "SECURITY", versions = {"100", "200"} )
+  @Header ( name = "SECURITY" )
   public ApplicationSecurity getSecurity() {
     return security;
   }
@@ -50,7 +50,7 @@ public class RequestEnvelope {
    * @return The UID for the envelope.
    * @see "Section 2.2, OFX spec"
    */
-  @Header ( name = "NEWFILEUID", versions = {"100", "200"} )
+  @Header ( name = "NEWFILEUID" )
   public String getUID() {
     return UID;
   }
@@ -71,7 +71,7 @@ public class RequestEnvelope {
    * @return The UID of the last-processed request/response (used for file-based error recovery).
    * @see "Section 2.2, OFX spec"
    */
-  @Header ( name = "OLDFILEUID", versions = {"100", "200"} )
+  @Header ( name = "OLDFILEUID" )
   public String getLastProcessedUID() {
     return lastProcessedUID;
   }

@@ -19,7 +19,7 @@ public abstract class MessageSetInfo {
    *
    * @return List of information about a message set for each version supported.
    */
-  @ChildAggregate(order=0)
+  @ChildAggregate ( order = 0 )
   protected List<VersionSpecificMessageSetInfo> getVersionSpecificInformationList() {
     return versionSpecificInformationList;
   }

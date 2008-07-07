@@ -1,8 +1,8 @@
 package net.sf.ofx4j.domain.profile;
 
+import net.sf.ofx4j.domain.RequestMessage;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.Element;
-import net.sf.ofx4j.domain.RequestMessage;
 
 import java.util.Date;
 
@@ -10,7 +10,7 @@ import java.util.Date;
  * @author Ryan Heaton
  * @see "Section 7.1.5, OFX Spec"
  */
-@Aggregate("PROFRQ")
+@Aggregate ( "PROFRQ" )
 public class ProfileRequest extends RequestMessage {
 
   private ClientRoutingCapability routingCapability = ClientRoutingCapability.NONE;
@@ -21,7 +21,7 @@ public class ProfileRequest extends RequestMessage {
    *
    * @return The client routing capability.
    */
-  @Element ("CLIENTROUTING", order=0)
+  @Element ( value = "CLIENTROUTING", order = 0 )
   public ClientRoutingCapability getRoutingCapability() {
     return routingCapability;
   }
@@ -40,7 +40,7 @@ public class ProfileRequest extends RequestMessage {
    *
    * @return The date the profile was last updated.
    */
-  @Element("DTPROFUP", order=10)
+  @Element ( value = "DTPROFUP", order = 10 )
   public Date getProfileLastUpdated() {
     return profileLastUpdated;
   }

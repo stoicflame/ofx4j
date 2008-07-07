@@ -6,6 +6,6 @@ import net.sf.ofx4j.meta.Aggregate;
 /**
  * @author Ryan Heaton
  */
-@Aggregate ("SIGNUPMSGSETV1")
+@Aggregate ( "SIGNUPMSGSETV1" )
 public class SignupV1MessageSetInfo extends VersionSpecificMessageSetInfo {
 }

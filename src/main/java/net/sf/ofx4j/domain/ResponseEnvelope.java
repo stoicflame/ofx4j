@@ -28,7 +28,7 @@ public class ResponseEnvelope {
    * @return The security of this envelope.
    * @see "Section 2.2, OFX spec"
    */
-  @Header ( name = "SECURITY", versions = {"100", "200"} )
+  @Header ( name = "SECURITY" )
   public ApplicationSecurity getSecurity() {
     return security;
   }
@@ -49,7 +49,7 @@ public class ResponseEnvelope {
    * @return The UID for the envelope.
    * @see "Section 2.2, OFX spec"
    */
-  @Header ( name = "NEWFILEUID", versions = {"100", "200"} )
+  @Header ( name = "NEWFILEUID" )
   public String getUID() {
     return UID;
   }

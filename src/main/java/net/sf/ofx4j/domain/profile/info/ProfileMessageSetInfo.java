@@ -6,6 +6,6 @@ import net.sf.ofx4j.meta.Aggregate;
 /**
  * @author Ryan Heaton
  */
-@Aggregate ("PROFMSGSET")
+@Aggregate ( "PROFMSGSET" )
 public class ProfileMessageSetInfo extends MessageSetInfo {
 }

@@ -57,7 +57,7 @@ NEWFILEUID:NONE
               <TRNAMT>150.00
               <FITID>980310001
               <NAME>TRANSFER
-              <MEMO>Transfer from checking
+              <MEMO><![CDATA[Transfer from checking]]>
             </STMTTRN>
             <STMTTRN>
               <TRNTYPE>PAYMENT

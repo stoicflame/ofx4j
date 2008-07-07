@@ -6,7 +6,7 @@ import net.sf.ofx4j.meta.Element;
 /**
  * @author Ryan Heaton
  */
-@Aggregate ("FI")
+@Aggregate ( "FI" )
 public class FinancialInstitution {
 
   private String id;
@@ -17,7 +17,7 @@ public class FinancialInstitution {
    *
    * @return Financial institution id.
    */
-  @Element ("FID", order=0)
+  @Element ( value = "FID", order = 0 )
   public String getId() {
     return id;
   }
@@ -36,7 +36,7 @@ public class FinancialInstitution {
    *
    * @return The organization.
    */
-  @Element ( value = "ORG", required = true, order=10 )
+  @Element ( value = "ORG", required = true, order = 10 )
   public String getOrganization() {
     return organization;
   }

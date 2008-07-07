@@ -11,7 +11,7 @@ import java.util.List;
  * @author Ryan Heaton
  * @see "Section 7.2.2, OFX Spec"
  */
-@Aggregate ("SIGNONINFOLIST")
+@Aggregate ( "SIGNONINFOLIST" )
 public class SignonInfoList {
 
   private List<SignonInfo> infoList;
@@ -21,7 +21,7 @@ public class SignonInfoList {
    *
    * @return List of sign-on information.
    */
-  @ChildAggregate(order=0)
+  @ChildAggregate ( order = 0 )
   public List<SignonInfo> getInfoList() {
     return infoList;
   }

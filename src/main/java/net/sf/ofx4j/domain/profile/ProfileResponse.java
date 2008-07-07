@@ -5,15 +5,14 @@ import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
 
-import java.util.Date;
 import java.net.URL;
+import java.util.Date;
 
 /**
  * @author Ryan Heaton
- *
  * @see "Section 7.2 OFX Spec"
  */
-@Aggregate("PROFRS")
+@Aggregate ( "PROFRS" )
 public class ProfileResponse extends ResponseMessage {
 
   private MessageSetInfoList messageSetList;
@@ -57,7 +56,7 @@ public class ProfileResponse extends ResponseMessage {
    *
    * @return List of signon information.
    */
-  @ChildAggregate(order = 10)
+  @ChildAggregate ( order = 10 )
   public SignonInfoList getSignonInfoList() {
     return signonInfoList;
   }
@@ -76,7 +75,7 @@ public class ProfileResponse extends ResponseMessage {
    *
    * @return The timestamp of this profile update.
    */
-  @Element ("DTPROFUP", order = 20)
+  @Element ( value = "DTPROFUP", order = 20 )
   public Date getTimestamp() {
     return timestamp;
   }
@@ -95,7 +94,7 @@ public class ProfileResponse extends ResponseMessage {
    *
    * @return The name of the financial institution.
    */
-  @Element("FINAME", order=30)
+  @Element ( value = "FINAME", order = 30 )
   public String getFinancialInstitutionName() {
     return financialInstitutionName;
   }
@@ -114,7 +113,7 @@ public class ProfileResponse extends ResponseMessage {
    *
    * @return The address of the financial institution.
    */
-  @Element("ADDR1", required=true, order = 40)
+  @Element ( value = "ADDR1", required = true, order = 40 )
   public String getAddress1() {
     return address1;
   }
@@ -133,7 +132,7 @@ public class ProfileResponse extends ResponseMessage {
    *
    * @return The address of the financial institution.
    */
-  @Element("ADDR2", order = 50)
+  @Element ( value = "ADDR2", order = 50 )
   public String getAddress2() {
     return address2;
   }
@@ -152,7 +151,7 @@ public class ProfileResponse extends ResponseMessage {
    *
    * @return The address of the financial institution.
    */
-  @Element("ADDR3", order = 60)
+  @Element ( value = "ADDR3", order = 60 )
   public String getAddress3() {
     return address3;
   }
@@ -171,7 +170,7 @@ public class ProfileResponse extends ResponseMessage {
    *
    * @return The city of the financial institution.
    */
-  @Element("CITY", required = true, order =70)
+  @Element ( value = "CITY", required = true, order = 70 )
   public String getCity() {
     return city;
   }
@@ -190,7 +189,7 @@ public class ProfileResponse extends ResponseMessage {
    *
    * @return The state of this financial institution.
    */
-  @Element("STATE", required = true, order=80)
+  @Element ( value = "STATE", required = true, order = 80 )
   public String getState() {
     return state;
   }
@@ -209,7 +208,7 @@ public class ProfileResponse extends ResponseMessage {
    *
    * @return The postal code of this financial institution.
    */
-  @Element("POSTALCODE", required = true, order=90)
+  @Element ( value = "POSTALCODE", required = true, order = 90 )
   public String getZip() {
     return zip;
   }
@@ -229,7 +228,7 @@ public class ProfileResponse extends ResponseMessage {
    * @return The country code for this financial institution.
    * @see java.util.Locale#getISO3Country()
    */
-  @Element("COUNTRY", required = true, order=100)
+  @Element ( value = "COUNTRY", required = true, order = 100 )
   public String getCountry() {
     return country;
   }
@@ -248,7 +247,7 @@ public class ProfileResponse extends ResponseMessage {
    *
    * @return The phone number to customer service.
    */
-  @Element("CSPHONE", order=110)
+  @Element ( value = "CSPHONE", order = 110 )
   public String getCustomerServicePhone() {
     return customerServicePhone;
   }
@@ -267,7 +266,7 @@ public class ProfileResponse extends ResponseMessage {
    *
    * @return The phone number to tech support.
    */
-  @Element("TSPHONE", order=120)
+  @Element ( value = "TSPHONE", order = 120 )
   public String getTechnicalSupportPhone() {
     return technicalSupportPhone;
   }
@@ -286,7 +285,7 @@ public class ProfileResponse extends ResponseMessage {
    *
    * @return The fax number.
    */
-  @Element("FAXPHONE", order=130)
+  @Element ( value = "FAXPHONE", order = 130 )
   public String getFax() {
     return fax;
   }
@@ -305,7 +304,7 @@ public class ProfileResponse extends ResponseMessage {
    *
    * @return URL for the financial institution.
    */
-  @Element("URL", order=140)
+  @Element ( value = "URL", order = 140 )
   public URL getUrl() {
     return url;
   }
@@ -324,7 +323,7 @@ public class ProfileResponse extends ResponseMessage {
    *
    * @return The email for this FI
    */
-  @Element("EMAIL", order=150)
+  @Element ( value = "EMAIL", order = 150 )
   public String getEmail() {
     return email;
   }

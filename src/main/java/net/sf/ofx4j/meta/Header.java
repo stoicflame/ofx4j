@@ -18,10 +18,4 @@ public @interface Header {
    */
   String name();
 
-  /**
-   * The versions to which this header is applicable (default "100").
-   *
-   * @return The versions to which this headeris applicable.
-   */
-  String[] versions() default {"100"};
 }

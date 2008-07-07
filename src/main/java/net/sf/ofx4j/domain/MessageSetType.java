@@ -29,5 +29,5 @@ public enum MessageSetType {
   investment_security,
 
   profile
-  
+
 }

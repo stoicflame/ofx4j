@@ -74,7 +74,7 @@ public class Status {
    *
    * @return The status code.
    */
-  @Element ( value = "CODE", required = true )
+  @Element ( value = "CODE", required = true, order = 0 )
   public Code getCode() {
     return code;
   }
@@ -96,7 +96,7 @@ public class Status {
    *
    * @return The severity.
    */
-  @Element( value  = "SEVERITY", required = true )
+  @Element ( value = "SEVERITY", required = true, order = 10 )
   public Severity getSeverity() {
     return severity;
   }
@@ -115,7 +115,7 @@ public class Status {
    *
    * @return Server-supplied message.
    */
-  @Element ( "MESSAGE" )
+  @Element ( value = "MESSAGE", order = 20 )
   public String getMessage() {
     return message;
   }

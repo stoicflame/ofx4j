@@ -1,10 +1,10 @@
 package net.sf.ofx4j.domain.signon;
 
+import net.sf.ofx4j.domain.common.Status;
+import net.sf.ofx4j.domain.common.StatusHolder;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
-import net.sf.ofx4j.domain.common.Status;
-import net.sf.ofx4j.domain.common.StatusHolder;
 
 import java.util.Date;
 import java.util.Locale;
@@ -15,7 +15,7 @@ import java.util.Locale;
  * @author Ryan Heaton
  * @see "Section 2.5.1.2, OFX Spec."
  */
-@Aggregate ("SONRS")
+@Aggregate ( "SONRS" )
 public class SignonResponse implements StatusHolder {
 
   private Status status;
@@ -34,7 +34,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The signon response status.
    */
-  @ChildAggregate(required = true, order=0)
+  @ChildAggregate ( required = true, order = 0 )
   public Status getStatus() {
     return status;
   }
@@ -53,7 +53,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The timestamp of this response.
    */
-  @Element ( value = "DTSERVER", required = true, order=10 )
+  @Element ( value = "DTSERVER", required = true, order = 10 )
   public Date getTimestamp() {
     return timestamp;
   }
@@ -72,7 +72,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The userkey that can be used instead of the username/password.
    */
-  @Element("USERKEY", order=20)
+  @Element ( value = "USERKEY", order = 20 )
   public String getUserKey() {
     return userKey;
   }
@@ -91,7 +91,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The date/time of the expiration of the user key.
    */
-  @Element("TSKEYEXPIRE", order=30)
+  @Element ( value = "TSKEYEXPIRE", order = 30 )
   public Date getUserKeyExpiration() {
     return userKeyExpiration;
   }
@@ -111,7 +111,7 @@ public class SignonResponse implements StatusHolder {
    * @return The three-letter langauge code.
    * @see java.util.Locale#getISO3Language()
    */
-  @Element(value="LANGUAGE", required=true, order=40)
+  @Element ( value = "LANGUAGE", required = true, order = 40 )
   public String getLanguage() {
     return language;
   }
@@ -130,7 +130,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The date/time that the FI profile was last updated.
    */
-  @Element("DTPROFUP", order=50)
+  @Element ( value = "DTPROFUP", order = 50 )
   public Date getProfileLastUpdated() {
     return profileLastUpdated;
   }
@@ -149,7 +149,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The date/time that the user's account information was updated.
    */
-  @Element("DTACCTUP", order=60)
+  @Element ( value = "DTACCTUP", order = 60 )
   public Date getAccountLastUpdated() {
     return accountLastUpdated;
   }
@@ -168,7 +168,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The financial instutution identity information.
    */
-  @ChildAggregate(order=70)
+  @ChildAggregate ( order = 70 )
   public FinancialInstitution getFinancialInstitution() {
     return financialInstitution;
   }
@@ -187,7 +187,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The session id for the client.
    */
-  @Element("SESSCOOKIE", order=80)
+  @Element ( value = "SESSCOOKIE", order = 80 )
   public String getSessionId() {
     return sessionId;
   }
@@ -206,7 +206,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The access key that the client should return in the next sign-on requuest.
    */
-  @Element("ACCESSKEY", order=90)
+  @Element ( value = "ACCESSKEY", order = 90 )
   public String getAccessKey() {
     return accessKey;
   }

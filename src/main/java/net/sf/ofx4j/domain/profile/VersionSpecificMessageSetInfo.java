@@ -17,7 +17,7 @@ public abstract class VersionSpecificMessageSetInfo {
    *
    * @return The information core.
    */
-  @ChildAggregate(order =0)
+  @ChildAggregate ( order = 0 )
   public CoreMessageSetInfo getCore() {
     return core;
   }

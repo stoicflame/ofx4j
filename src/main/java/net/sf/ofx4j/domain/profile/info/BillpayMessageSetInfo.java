@@ -6,6 +6,6 @@ import net.sf.ofx4j.meta.Aggregate;
 /**
  * @author Ryan Heaton
  */
-@Aggregate ("BILLPAYMSGSET")
+@Aggregate ( "BILLPAYMSGSET" )
 public class BillpayMessageSetInfo extends MessageSetInfo {
 }

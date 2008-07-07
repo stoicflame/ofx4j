@@ -1,8 +1,8 @@
 package net.sf.ofx4j.domain.signon;
 
-import net.sf.ofx4j.meta.Element;
-import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Aggregate;
+import net.sf.ofx4j.meta.ChildAggregate;
+import net.sf.ofx4j.meta.Element;
 
 import java.util.Date;
 import java.util.Locale;
@@ -13,7 +13,7 @@ import java.util.Locale;
  * @author Ryan Heaton
  * @see "Section 2.5.1.2, OFX Spec."
  */
-@Aggregate ("SONRQ")
+@Aggregate ( "SONRQ" )
 public class SignonRequest {
 
   /**
@@ -42,7 +42,7 @@ public class SignonRequest {
    *
    * @return The date and time of the request.
    */
-  @Element(value="DTCLIENT", required=true, order=0)
+  @Element ( value = "DTCLIENT", required = true, order = 0 )
   public Date getTimestamp() {
     return timestamp;
   }
@@ -61,7 +61,7 @@ public class SignonRequest {
    *
    * @return The user id.
    */
-  @Element("USERID", order=10)
+  @Element ( value = "USERID", order = 10 )
   public String getUserId() {
     return userId;
   }
@@ -80,7 +80,7 @@ public class SignonRequest {
    *
    * @return The password.
    */
-  @Element("USERPASS", order=20)
+  @Element ( value = "USERPASS", order = 20 )
   public String getPassword() {
     return password;
   }
@@ -99,7 +99,7 @@ public class SignonRequest {
    *
    * @return The user key provided by the server so as not to require further username/password authentication.
    */
-  @Element("USERKEY", order=30)
+  @Element ( value = "USERKEY", order = 30 )
   public String getUserKey() {
     return userKey;
   }
@@ -118,7 +118,7 @@ public class SignonRequest {
    *
    * @return Whether to request the server to generate a user key.
    */
-  @Element("GENUSERKEY", order=40)
+  @Element ( value = "GENUSERKEY", order = 40 )
   public Boolean getGenerateUserKey() {
     return generateUserKey;
   }
@@ -138,7 +138,7 @@ public class SignonRequest {
    * @return The three-letter langauge code.
    * @see java.util.Locale#getISO3Language()
    */
-  @Element(value="LANGUAGE", required=true, order=50)
+  @Element ( value = "LANGUAGE", required = true, order = 50 )
   public String getLanguage() {
     return language;
   }
@@ -157,7 +157,7 @@ public class SignonRequest {
    *
    * @return The financial institution.
    */
-  @ChildAggregate(order = 60)
+  @ChildAggregate ( order = 60 )
   public FinancialInstitution getInstitution() {
     return institution;
   }
@@ -176,7 +176,7 @@ public class SignonRequest {
    *
    * @return The server-supplied session id.
    */
-  @Element("SESSCOOKIE", order=70)
+  @Element ( value = "SESSCOOKIE", order = 70 )
   public String getSessionId() {
     return sessionId;
   }
@@ -195,7 +195,7 @@ public class SignonRequest {
    *
    * @return The application id.
    */
-  @Element(value="APPID", required = true, order=80)
+  @Element ( value = "APPID", required = true, order = 80 )
   public String getApplicationId() {
     return applicationId;
   }
@@ -214,7 +214,7 @@ public class SignonRequest {
    *
    * @return The application version.
    */
-  @Element(value="APPVER", required = true, order=90)
+  @Element ( value = "APPVER", required = true, order = 90 )
   public String getApplicationVersion() {
     return applicationVersion;
   }
@@ -233,7 +233,7 @@ public class SignonRequest {
    *
    * @return The client-supplied UID.
    */
-  @Element("CLIENTUID", order=100)
+  @Element ( value = "CLIENTUID", order = 100 )
   public String getClientUID() {
     return clientUID;
   }
@@ -252,7 +252,7 @@ public class SignonRequest {
    *
    * @return Any additional credentials.
    */
-  @Element("USERCRED1", order=110)
+  @Element ( value = "USERCRED1", order = 110 )
   public String getAdditionalCredentials1() {
     return additionalCredentials1;
   }
@@ -271,7 +271,7 @@ public class SignonRequest {
    *
    * @return Any additional credentials.
    */
-  @Element("USERCRED2", order=120)
+  @Element ( value = "USERCRED2", order = 120 )
   public String getAdditionalCredentials2() {
     return additionalCredentials2;
   }
@@ -290,7 +290,7 @@ public class SignonRequest {
    *
    * @return The authentication token.
    */
-  @Element ("AUTHTOKEN", order=130)
+  @Element ( value = "AUTHTOKEN", order = 130 )
   public String getAuthToken() {
     return authToken;
   }
@@ -309,7 +309,7 @@ public class SignonRequest {
    *
    * @return The access key.
    */
-  @Element ("ACCESSKEY", order=140)
+  @Element ( value = "ACCESSKEY", order = 140 )
   public String getAccessKey() {
     return accessKey;
   }

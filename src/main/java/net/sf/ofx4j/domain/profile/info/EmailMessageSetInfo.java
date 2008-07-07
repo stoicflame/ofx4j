@@ -6,6 +6,6 @@ import net.sf.ofx4j.meta.Aggregate;
 /**
  * @author Ryan Heaton
  */
-@Aggregate ("EMAILMSGSET")
+@Aggregate ( "EMAILMSGSET" )
 public class EmailMessageSetInfo extends MessageSetInfo {
 }

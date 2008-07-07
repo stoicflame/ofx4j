@@ -6,6 +6,6 @@ import net.sf.ofx4j.meta.Aggregate;
 /**
  * @author Ryan Heaton
  */
-@Aggregate ("WIREXFERMSGSET")
+@Aggregate ( "WIREXFERMSGSET" )
 public class WireTransferMessageSetInfo extends MessageSetInfo {
 }

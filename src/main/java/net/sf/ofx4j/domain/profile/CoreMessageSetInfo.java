@@ -31,7 +31,7 @@ public class CoreMessageSetInfo {
    *
    * @return The version of the message set.
    */
-  @Element ( value = "VER", required = true, order=0 )
+  @Element ( value = "VER", required = true, order = 0 )
   public String getVersion() {
     return version;
   }
@@ -50,7 +50,7 @@ public class CoreMessageSetInfo {
    *
    * @return The name of the service provider (sometimes the message set processing is outsourced).
    */
-  @Element ( "SPNAME", order=10 )
+  @Element ( value = "SPNAME", order = 10 )
   public String getServiceProviderName() {
     return serviceProviderName;
   }
@@ -69,7 +69,7 @@ public class CoreMessageSetInfo {
    *
    * @return The URL at which the message set is processed.
    */
-  @Element ( value = "URL", required = true, order=20 )
+  @Element ( value = "URL", required = true, order = 20 )
   public URL getUrl() {
     return url;
   }
@@ -88,7 +88,7 @@ public class CoreMessageSetInfo {
    *
    * @return The application-level security required for this message set.
    */
-  @Element ( value = "OFXSEC", required = true, order=30 )
+  @Element ( value = "OFXSEC", required = true, order = 30 )
   public ApplicationSecurity getSecurity() {
     return security;
   }
@@ -107,7 +107,7 @@ public class CoreMessageSetInfo {
    *
    * @return Whether transport-level security is required for this message set.
    */
-  @Element ( value = "TRANSPSEC", required = true, order=40 )
+  @Element ( value = "TRANSPSEC", required = true, order = 40 )
   public Boolean getSslRequired() {
     return sslRequired;
   }
@@ -126,7 +126,7 @@ public class CoreMessageSetInfo {
    *
    * @return The sign-on realm.
    */
-  @Element ( value = "SIGNONREALM", required = true, order=50 )
+  @Element ( value = "SIGNONREALM", required = true, order = 50 )
   public String getRealm() {
     return realm;
   }
@@ -146,7 +146,7 @@ public class CoreMessageSetInfo {
    * @return The language.
    * @see java.util.Locale#getISO3Language()
    */
-  @Element ( value = "LANGUAGE", required = true, order=60 )
+  @Element ( value = "LANGUAGE", required = true, order = 60 )
   public String getLanguage() {
     return language;
   }
@@ -165,7 +165,7 @@ public class CoreMessageSetInfo {
    *
    * @return The synchronization capability for this message set.
    */
-  @Element ( value = "SYNCMODE", required = true, order=70 )
+  @Element ( value = "SYNCMODE", required = true, order = 70 )
   public SynchronizationCapability getSyncCapability() {
     return syncCapability;
   }
@@ -184,7 +184,7 @@ public class CoreMessageSetInfo {
    *
    * @return Whether there exists support for resposne-file based error recovery.
    */
-  @Element ( value = "RESPFILEER", required = true, order=80 )
+  @Element ( value = "RESPFILEER", required = true, order = 80 )
   public Boolean getFileBasedErrorRecoverySupport() {
     return fileBasedErrorRecoverySupport;
   }

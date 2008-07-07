@@ -25,7 +25,7 @@ public class SignonResponseMessageSet extends ResponseMessageSet {
    *
    * @return The message for this message set.
    */
-  @ChildAggregate (order = 0)
+  @ChildAggregate ( order = 0 )
   public SignonResponse getSignonResponse() {
     return signonResponse;
   }
@@ -44,7 +44,7 @@ public class SignonResponseMessageSet extends ResponseMessageSet {
    *
    * @return The password change response.
    */
-  @ChildAggregate (name = "PINCHTRNRQ", order = 10)
+  @ChildAggregate ( name = "PINCHTRNRQ", order = 10 )
   public TransactionWrappedResponseMessage<PasswordChangeResponse> getPasswordChangeResponse() {
     return passwordChangeResponse;
   }

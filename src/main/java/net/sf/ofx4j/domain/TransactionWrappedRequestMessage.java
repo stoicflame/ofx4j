@@ -1,7 +1,7 @@
 package net.sf.ofx4j.domain;
 
-import net.sf.ofx4j.meta.Element;
 import net.sf.ofx4j.meta.ChildAggregate;
+import net.sf.ofx4j.meta.Element;
 
 /**
  * A request message wrapped in a transaction.
@@ -22,7 +22,7 @@ public class TransactionWrappedRequestMessage<M extends RequestMessage> extends 
    *
    * @return UID of this transaction.
    */
-  @Element ( value = "TRNUID", required = true, order = 0)
+  @Element ( value = "TRNUID", required = true, order = 0 )
   public String getUID() {
     return UID;
   }
@@ -41,7 +41,7 @@ public class TransactionWrappedRequestMessage<M extends RequestMessage> extends 
    *
    * @return Client cookie (echoed back by the response).
    */
-  @Element ("CLTCOOKIE", order = 10)
+  @Element ( value = "CLTCOOKIE", order = 10 )
   public String getClientCookie() {
     return clientCookie;
   }
@@ -60,7 +60,7 @@ public class TransactionWrappedRequestMessage<M extends RequestMessage> extends 
    *
    * @return The transaction authorization number.
    */
-  @Element ("TAN", order = 20)
+  @Element ( value = "TAN", order = 20 )
   public String getTransactionAuthorizationNumber() {
     return transactionAuthorizationNumber;
   }
@@ -79,7 +79,7 @@ public class TransactionWrappedRequestMessage<M extends RequestMessage> extends 
    *
    * @return The request message being wrapped in a transaction.
    */
-  @ChildAggregate (required = true, order = 30)
+  @ChildAggregate ( required = true, order = 30 )
   public M getMessage() {
     return message;
   }
