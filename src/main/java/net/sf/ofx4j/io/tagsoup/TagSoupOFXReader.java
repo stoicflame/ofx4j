@@ -14,10 +14,10 @@ import net.sf.ofx4j.io.*;
  * HTML is a descendant of SGML, TagSoup works well for both SGML and XML documents, too.  It's interface allows us to deal with both an OFX 1.0 and an OFX 2.0
  * document in the same way. For these reasons, <tt>TagSoup</tt> has turned out to be a very useful tool for parsing OFX documents.<br/><br/>
  *
- * One day, we might implement our own OFX reader that does the parsing itself without the extra TagSoup overhead. Perhaps look into
- * <a href="http://nanoxml.cyberelf.be/">NanoXML</a>?<br/><br/>
+ * Since TagSoup was designed for HTML parsing, it has been deprecated for the {@link net.sf.ofx4j.io.nanoxml.NanoXMLOFXReader}, but it should still work...<br/><br/>
  *
  * @author Ryan Heaton
+ * @deprecated Use NanoXMLOFXReader
  */
 public class TagSoupOFXReader extends BaseOFXReader {
 

@@ -68,6 +68,10 @@
       <groupId>org.ccil.cowan.tagsoup</groupId>
       <artifactId>tagsoup</artifactId>
       <version>1.2</version>
+
+      <!--we don't use the tagsoup parser by default
+      anymore.  Instead, we use the NanoXML parser.-->
+      <optional>true</optional>
     </dependency>
 
     <dependency>
@@ -82,6 +86,9 @@
       <groupId>net.sf.apt-jelly</groupId>
       <artifactId>apt-jelly</artifactId>
       <version>2.3</version>
+
+      <!--compile-scope.  used only for listing
+      the aggregate classes.-->
       <scope>compile</scope>
     </dependency>
 
@@ -89,6 +96,9 @@
       <groupId>freemarker</groupId>
       <artifactId>freemarker</artifactId>
       <version>2.3.6</version>
+
+      <!--compile-scope.  used only for listing
+      the aggregate classes.-->
       <scope>compile</scope>
     </dependency>
 
