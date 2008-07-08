@@ -48,7 +48,7 @@ public class TestAggregateMetadata extends TestCase {
     assertEquals("evalue2", example.getElement1());
 
     AggregateAttribute childAggregate1 = it.next();
-    assertEquals(null, childAggregate1.getName());
+    assertEquals("EXAMPLE2", childAggregate1.getName());
     assertEquals(AggregateAttribute.Type.CHILD_AGGREGATE, childAggregate1.getType());
     assertEquals(AggregateExample2.class, childAggregate1.getAttributeType());
     assertSame(child1, childAggregate1.get(example));

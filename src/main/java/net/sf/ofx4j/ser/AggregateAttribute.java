@@ -30,6 +30,7 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
   private final boolean required;
   private final Type type;
   private final String toString;
+  private final boolean collection;
 
   AggregateAttribute(PropertyDescriptor property, Element elementInfo) {
     this.readMethod = property.getReadMethod();
@@ -48,7 +49,11 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
     this.order = elementInfo.order();
     this.required = elementInfo.required();
     this.type = Type.ELEMENT;
-    this.toString = String.format("%s '%s' (property '%s' of aggregate %s)", getType().toString().toLowerCase().replace('_', ' '), getName(), property.getName(), getAttributeType().getName());
+    this.toString = String.format("%s '%s' (property '%s' of aggregate %s)",
+                                  getType().toString().toLowerCase().replace('_', ' '),
+                                  getName(), property.getName(),
+                                  property.getReadMethod().getDeclaringClass().getName());
+    this.collection = false;
 
     //todo: validate known/supported element types here?
   }
@@ -66,16 +71,31 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
     }
 
     this.attributeType = this.readMethod.getReturnType();
-    this.name = "##not_specified##".equals(childAggregate.name()) ? null : childAggregate.name();
+    this.collection = Collection.class.isAssignableFrom(this.attributeType);
+    if (this.collection) {
+      this.name = null;
+    }
+    else if ("##not_specified##".equals(childAggregate.name())) {
+      AggregateInfo aggregateInfo = AggregateIntrospector.getAggregateInfo(this.attributeType);
+      if (aggregateInfo == null) {
+        throw new IllegalStateException(String.format("Illegal child aggregate type %s (property %s of aggregate %s): no aggregate information available.",
+                                                      this.attributeType.getName(), property.getName(), property.getReadMethod().getDeclaringClass().getName()));
+      }
+
+      this.name = aggregateInfo.getName();
+    }
+    else {
+      this.name = childAggregate.name();
+    }
+
     this.order = childAggregate.order();
     this.required = childAggregate.required();
     this.type = Type.CHILD_AGGREGATE;
-    this.toString = String.format("%s '%s' (property '%s' of aggregate %s)", getType().toString().toLowerCase().replace('_', ' '), getName(), property.getName(), getAttributeType().getName());
-
-    //validation
-    if ((this.name != null) && (Collection.class.isAssignableFrom(this.attributeType))) {
-      throw new IllegalStateException("ERROR: " + this.toString + ": A collection type cannot have a specific child aggregate name.");
-    }
+    this.toString = String.format("%s '%s' (property '%s' of aggregate %s)",
+                                  getType().toString().toLowerCase().replace('_', ' '),
+                                  getName(),
+                                  property.getName(),
+                                  property.getReadMethod().getDeclaringClass().getName());
   }
 
   public Object get(Object instance) {
@@ -146,12 +166,20 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
     return required;
   }
 
+  public int getOrder() {
+    return order;
+  }
+
   public Type getType() {
     return type;
   }
 
   public int compareTo(AggregateAttribute other) {
     return this.order - other.order;
+  }
+
+  public boolean isCollection() {
+    return collection;
   }
 
   @Override

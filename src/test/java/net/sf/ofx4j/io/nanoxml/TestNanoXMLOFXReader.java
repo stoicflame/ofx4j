@@ -1,24 +1,19 @@
-package net.sf.ofx4j.io.tagsoup;
+package net.sf.ofx4j.io.nanoxml;
 
 import junit.framework.TestCase;
 import net.sf.ofx4j.io.DefaultHandler;
-import net.sf.ofx4j.io.OFXParseException;
-
-import java.util.*;
-import java.util.regex.Matcher;
-import java.io.StringReader;
-import java.io.Reader;
-import java.io.IOException;
-
+import net.sf.ofx4j.io.tagsoup.TagSoupOFXReader;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-/**
- * Unit test for simple App.
- */
-public class TestTagSoupOFXReader extends TestCase {
+import java.util.*;
 
-  private static final Log LOG = LogFactory.getLog(TestTagSoupOFXReader.class);
+/**
+ * @author Ryan Heaton
+ */
+public class TestNanoXMLOFXReader extends TestCase {
+
+  private static final Log LOG = LogFactory.getLog(TestNanoXMLOFXReader.class);
 
   /**
    * tests using sax to parse an OFX doc.
@@ -67,7 +62,7 @@ public class TestTagSoupOFXReader extends TestCase {
         LOG.debug(new String(tabs) + "}");
       }
     });
-    reader.parse(TestTagSoupOFXReader.class.getResourceAsStream("example-response.ofx"));
+    reader.parse(TestNanoXMLOFXReader.class.getResourceAsStream("example-response.ofx"));
     assertEquals(9, headers.size());
     assertEquals(1, aggregateStack.size());
     assertSame(root, aggregateStack.pop());
@@ -120,10 +115,9 @@ public class TestTagSoupOFXReader extends TestCase {
         LOG.debug(new String(tabs) + "}");
       }
     });
-    reader.parse(TestTagSoupOFXReader.class.getResourceAsStream("simple.ofx"));
+    reader.parse(TestNanoXMLOFXReader.class.getResourceAsStream("simple.ofx"));
     assertEquals(9, headers.size());
     assertEquals(1, aggregateStack.size());
     assertSame(root, aggregateStack.pop());
   }
-
 }

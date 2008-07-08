@@ -90,16 +90,23 @@ public class AggregateInfo {
    * Get the attribute by the specified name.
    *
    * @param name The name of the attribute.
+   * @param order The order at which the attribute must come after.
    * @return The attribute.
    */
-  public AggregateAttribute getAttribute(String name) {
+  public AggregateAttribute getAttribute(String name, int order) {
+    AggregateAttribute collectionBucket = null;
     for (AggregateAttribute attribute : attributes) {
-      if (attribute.getName().equals(name)) {
-        return attribute;
+      if (attribute.getOrder() >= order) {
+        if (name.equals(attribute.getName())) {
+          return attribute;
+        }
+        else if (collectionBucket == null && attribute.isCollection()) {
+          collectionBucket = attribute;
+        }
       }
     }
 
-    return null;
+    return collectionBucket;
   }
 
   /**

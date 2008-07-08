@@ -53,6 +53,7 @@ public class OFXV1Writer implements OFXWriter {
       olduid = "NONE";
     }
     this.writer.println(olduid);
+    this.writer.print("NEWFILEUID:");
     String uid = headers.get("NEWFILEUID");
     if (uid == null) {
       uid = "NONE";
@@ -72,6 +73,19 @@ public class OFXV1Writer implements OFXWriter {
   public void writeElement(String name, String value) throws IOException {
     if ((value == null) || ("".equals(value))) {
       throw new IllegalArgumentException("Illegal element value for element '" + name + "' (value must not be null or empty).");
+    }
+
+    //todo: optimize performance of the character escaping
+    if (value.indexOf('&') >= 0) {
+      value = value.replaceAll("\\&", "&amp;");
+    }
+
+    if (value.indexOf('<') >= 0) {
+      value = value.replaceAll("<", "&lt;");
+    }
+
+    if (value.indexOf('>') >= 0) {
+      value = value.replaceAll(">", "&gt;");
     }
     
     this.writer.print('<');

@@ -2,14 +2,24 @@ package net.sf.ofx4j.ser;
 
 import junit.framework.TestCase;
 import net.sf.ofx4j.io.OFXWriter;
+import net.sf.ofx4j.io.OFXReader;
+import net.sf.ofx4j.io.tagsoup.TagSoupOFXReader;
+import net.sf.ofx4j.io.v1.OFXV1Writer;
 
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.StringReader;
 import java.util.*;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Ryan Heaton
  */
 public class TestAggregateMarshaller extends TestCase {
+
+  private static final Log LOG = LogFactory.getLog(TestAggregateMarshaller.class);
 
   /**
    * test marshal
@@ -87,10 +97,57 @@ public class TestAggregateMarshaller extends TestCase {
   }
 
   /**
-   * tests the full marshal/unmarshal round-trip...
+   * tests a simple marshal/unmarshal round-trip...
    */
-  public void testMarshalAndUnmarshal() throws Exception {
+  public void testSimpleMarshalAndUnmarshal() throws Exception {
+    AggregateIntrospector.AGGREGATE_CLASSES_BY_NAME.put("EXAMPLE3", AggregateExample3.class);
+    AggregateIntrospector.AGGREGATE_CLASSES_BY_NAME.put("EXAMPLE2", AggregateExample2.class);
 
+    AggregateExample example = new AggregateExample();
+    example.setHeader1("header1");
+    example.setHeader2("header2");
+    example.setElement1("root-element1");
+    AggregateExample2 child1 = new AggregateExample2();
+    child1.setElement("child1-element1");
+    example.setAggregate1(child1);
+    AggregateExample2 child2 = new AggregateExample2();
+    child2.setElement("child2-element1");
+    example.setAggregate2(child2);
+    AggregateExample2 child3 = new AggregateExample2();
+    child3.setElement("child3-element1");
+    AggregateExample3 child4 = new AggregateExample3();
+    child4.setElement("child4-element1");
+    example.setAggregateList(Arrays.asList(child4, child3));
+    StringWriter marshalled = new StringWriter();
+    OFXV1Writer writer = new OFXV1Writer(marshalled);
+    new AggregateMarshaller().marshal(example, writer);
+    writer.close();
+    AggregateUnmarshaller<AggregateExample> unmarshaller = new AggregateUnmarshaller<AggregateExample>(AggregateExample.class) {
+      @Override
+      protected OFXReader newReader() {
+        return new TagSoupOFXReader() {
+          @Override
+          protected char[] getFirstElementStart() {
+            return new char[]{'<', 'E', 'X', 'A'};
+          }
+        };
+      }
+    };
+    String marshalledValue = marshalled.toString();
+    LOG.info(marshalledValue);
+    example = unmarshaller.unmarshal(new StringReader(marshalledValue));
+
+    assertEquals("OFX writer shouldn't support custom headers.", null, example.getHeader1());
+    assertEquals("OFX writer shouldn't support custom headers.", null, example.getHeader2());
+    assertEquals("root-element1", example.getElement1());
+    assertNotNull(example.getAggregate1());
+    assertEquals("child1-element1", example.getAggregate1().getElement());
+    assertNotNull(example.getAggregate2());
+    assertEquals("child2-element1", example.getAggregate2().getElement());
+    assertNotNull(example.getAggregateList());
+    assertEquals(2, example.getAggregateList().size());
+    assertEquals("child4-element1", ((AggregateExample3) example.getAggregateList().get(0)).getElement());
+    assertEquals("child3-element1", ((AggregateExample2) example.getAggregateList().get(1)).getElement());
   }
 
 }

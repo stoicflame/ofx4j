@@ -2,6 +2,7 @@ package net.sf.ofx4j.ser;
 
 import net.sf.ofx4j.io.tagsoup.TagSoupOFXReader;
 import net.sf.ofx4j.io.OFXParseException;
+import net.sf.ofx4j.io.OFXReader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,7 +25,7 @@ public class AggregateUnmarshaller<A> {
   public A unmarshal(InputStream stream) throws IOException, OFXParseException {
     try {
       A aggregate = clazz.newInstance();
-      TagSoupOFXReader reader = new TagSoupOFXReader();
+      OFXReader reader = newReader();
       reader.setContentHandler(new AggregateStackContentHandler<A>(aggregate, getConversion()));
       reader.parse(stream);
       return aggregate;
@@ -40,7 +41,7 @@ public class AggregateUnmarshaller<A> {
   public A unmarshal(Reader reader) throws IOException, OFXParseException {
     try {
       A aggregate = clazz.newInstance();
-      TagSoupOFXReader ofxReader = new TagSoupOFXReader();
+      OFXReader ofxReader = newReader();
       ofxReader.setContentHandler(new AggregateStackContentHandler<A>(aggregate, getConversion()));
       ofxReader.parse(reader);
       return aggregate;
@@ -51,6 +52,15 @@ public class AggregateUnmarshaller<A> {
     catch (Exception e) {
       throw new IllegalStateException(e);
     }
+  }
+
+  /**
+   * New OFX reader.
+   *
+   * @return new OFX reader.
+   */
+  protected OFXReader newReader() {
+    return new TagSoupOFXReader();
   }
 
   /**

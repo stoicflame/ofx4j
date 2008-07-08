@@ -28,7 +28,7 @@ public class OFXV2Writer extends OFXV1Writer {
     }
 
     //write out the XML PI
-    this.writer.print("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
+    this.writer.print("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
     String security = headers.get("SECURITY");
     if (security == null) {
       security = "NONE";
