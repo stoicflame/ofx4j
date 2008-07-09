@@ -83,6 +83,10 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
       }
 
       this.name = aggregateInfo.getName();
+      if ("##not_specified##".equals(this.name)) {
+        throw new IllegalStateException(String.format("Illegal child aggregate type %s (property %s of aggregate %s): a child aggregate name must be specified.",
+                                                      this.attributeType.getName(), property.getName(), property.getReadMethod().getDeclaringClass().getName()));
+      }
     }
     else {
       this.name = childAggregate.name();

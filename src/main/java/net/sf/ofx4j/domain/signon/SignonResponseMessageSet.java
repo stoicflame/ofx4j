@@ -4,6 +4,7 @@ import net.sf.ofx4j.domain.MessageSetType;
 import net.sf.ofx4j.domain.ResponseMessageSet;
 import net.sf.ofx4j.domain.TransactionWrappedResponseMessage;
 import net.sf.ofx4j.meta.ChildAggregate;
+import net.sf.ofx4j.meta.Aggregate;
 
 /**
  * The sign-on response message set.
@@ -11,10 +12,11 @@ import net.sf.ofx4j.meta.ChildAggregate;
  * @author Ryan Heaton
  * @see "Section 2.5, OFX Spec."
  */
+@Aggregate ("SIGNONMSGSRSV1")
 public class SignonResponseMessageSet extends ResponseMessageSet {
 
   private SignonResponse signonResponse;
-  private TransactionWrappedResponseMessage<PasswordChangeResponse> passwordChangeResponse;
+  private PasswordChangeResponseTransaction passwordChangeResponse;
 
   public MessageSetType getType() {
     return MessageSetType.signon;
@@ -44,8 +46,8 @@ public class SignonResponseMessageSet extends ResponseMessageSet {
    *
    * @return The password change response.
    */
-  @ChildAggregate ( name = "PINCHTRNRQ", order = 10 )
-  public TransactionWrappedResponseMessage<PasswordChangeResponse> getPasswordChangeResponse() {
+  @ChildAggregate ( order = 10 )
+  public PasswordChangeResponseTransaction getPasswordChangeResponse() {
     return passwordChangeResponse;
   }
 
@@ -54,7 +56,7 @@ public class SignonResponseMessageSet extends ResponseMessageSet {
    *
    * @param passwordChangeResponse The password change response.
    */
-  public void setPasswordChangeResponse(TransactionWrappedResponseMessage<PasswordChangeResponse> passwordChangeResponse) {
+  public void setPasswordChangeResponse(PasswordChangeResponseTransaction passwordChangeResponse) {
     this.passwordChangeResponse = passwordChangeResponse;
   }
 

@@ -1,7 +1,8 @@
 package net.sf.ofx4j.domain;
 
-import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
+
+import java.util.UUID;
 
 /**
  * A request message wrapped in a transaction.
@@ -9,13 +10,19 @@ import net.sf.ofx4j.meta.Element;
  * @author Ryan Heaton
  * @see "Section 2.4.6, OFX Spec"
  */
-public class TransactionWrappedRequestMessage<M extends RequestMessage> extends RequestMessage {
+public abstract class TransactionWrappedRequestMessage extends RequestMessage {
 
   private String UID;
   private String clientCookie;
   private String transactionAuthorizationNumber;
 
-  private M message;
+  public TransactionWrappedRequestMessage() {
+    this.UID = UUID.randomUUID().toString();
+  }
+
+  public TransactionWrappedRequestMessage(String UID) {
+    this.UID = UID;
+  }
 
   /**
    * UID of this transaction.
@@ -74,22 +81,4 @@ public class TransactionWrappedRequestMessage<M extends RequestMessage> extends 
     this.transactionAuthorizationNumber = transactionAuthorizationNumber;
   }
 
-  /**
-   * The request message being wrapped in a transaction.
-   *
-   * @return The request message being wrapped in a transaction.
-   */
-  @ChildAggregate ( required = true, order = 30 )
-  public M getMessage() {
-    return message;
-  }
-
-  /**
-   * The request message being wrapped in a transaction.
-   *
-   * @param message The request message being wrapped in a transaction.
-   */
-  public void setMessage(M message) {
-    this.message = message;
-  }
 }

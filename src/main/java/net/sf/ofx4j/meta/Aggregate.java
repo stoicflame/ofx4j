@@ -16,5 +16,5 @@ public @interface Aggregate {
    *
    * @return The name of the aggregate.
    */
-  String value();
+  String value() default "#NOT_SET#";
 }

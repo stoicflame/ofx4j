@@ -26,8 +26,8 @@ public class SignonRequest {
   private String password;
   private String userKey;
   private Boolean generateUserKey;
-  private String language = Locale.US.getISO3Language();
-  private FinancialInstitution institution;
+  private String language = Locale.US.getISO3Language().toUpperCase();
+  private FinancialInstitution financialInstitution;
   private String sessionId;
   private String applicationId;
   private String applicationVersion;
@@ -158,17 +158,17 @@ public class SignonRequest {
    * @return The financial institution.
    */
   @ChildAggregate ( order = 60 )
-  public FinancialInstitution getInstitution() {
-    return institution;
+  public FinancialInstitution getFinancialInstitution() {
+    return financialInstitution;
   }
 
   /**
    * The financial institution.
    *
-   * @param institution The financial institution.
+   * @param financialInstitution The financial institution.
    */
-  public void setInstitution(FinancialInstitution institution) {
-    this.institution = institution;
+  public void setFinancialInstitution(FinancialInstitution financialInstitution) {
+    this.financialInstitution = financialInstitution;
   }
 
   /**

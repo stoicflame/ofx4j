@@ -1,6 +1,7 @@
 package net.sf.ofx4j.domain.profile;
 
 import net.sf.ofx4j.meta.Element;
+import net.sf.ofx4j.domain.SignonProfile;
 
 /**
  * Sign-on information
@@ -8,7 +9,7 @@ import net.sf.ofx4j.meta.Element;
  * @author Ryan Heaton
  * @see "Section 7.2.2, OFX Spec"
  */
-public class SignonInfo {
+public class SignonInfo implements SignonProfile {
 
   private String realm;
   private Integer minPasswordCharacters;

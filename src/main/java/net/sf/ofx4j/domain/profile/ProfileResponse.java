@@ -1,19 +1,21 @@
 package net.sf.ofx4j.domain.profile;
 
-import net.sf.ofx4j.domain.ResponseMessage;
+import net.sf.ofx4j.domain.*;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
 
 import java.net.URL;
 import java.util.Date;
+import java.util.Collection;
+import java.util.ArrayList;
 
 /**
  * @author Ryan Heaton
  * @see "Section 7.2 OFX Spec"
  */
 @Aggregate ( "PROFRS" )
-public class ProfileResponse extends ResponseMessage {
+public class ProfileResponse extends ResponseMessage implements FinancialInstitutionProfile {
 
   private MessageSetInfoList messageSetList;
   private SignonInfoList signonInfoList;
@@ -29,12 +31,11 @@ public class ProfileResponse extends ResponseMessage {
   private String customerServicePhone;
   private String technicalSupportPhone;
   private String fax;
-  private URL url;
+  private URL siteURL;
   private String email;
 
   /**
    * List of message set information.
-   *
    * @return List of message set information.
    */
   @ChildAggregate ( order = 0 )
@@ -68,6 +69,16 @@ public class ProfileResponse extends ResponseMessage {
    */
   public void setSignonInfoList(SignonInfoList signonInfoList) {
     this.signonInfoList = signonInfoList;
+  }
+
+  // Inherited.
+  public String getResponseMessageName() {
+    return "profile";
+  }
+
+  // Inherited.
+  public Date getLastUpdated() {
+    return getTimestamp();
   }
 
   /**
@@ -305,17 +316,17 @@ public class ProfileResponse extends ResponseMessage {
    * @return URL for the financial institution.
    */
   @Element ( value = "URL", order = 140 )
-  public URL getUrl() {
-    return url;
+  public URL getSiteURL() {
+    return siteURL;
   }
 
   /**
    * URL for the financial institution.
    *
-   * @param url URL for the financial institution.
+   * @param siteURL URL for the financial institution.
    */
-  public void setUrl(URL url) {
-    this.url = url;
+  public void setSiteURL(URL siteURL) {
+    this.siteURL = siteURL;
   }
 
   /**
@@ -335,5 +346,71 @@ public class ProfileResponse extends ResponseMessage {
    */
   public void setEmail(String email) {
     this.email = email;
+  }
+
+  public MessageSetProfile getMessageSetProfile(MessageSetType type) {
+    Collection<MessageSetProfile> profiles = getProfiles(type);
+    if (profiles.size() > 1) {
+      throw new IllegalStateException("More than one profile of type " + type);
+    }
+    else if (profiles.isEmpty()) {
+      return null;
+    }
+    else {
+      return profiles.iterator().next();
+    }
+  }
+
+  /**
+   * Get all the profiles of the specified type.
+   *
+   * @param type The type.
+   * @return The profiles.
+   */
+  protected Collection<MessageSetProfile> getProfiles(MessageSetType type) {
+    Collection<MessageSetProfile> profiles = new ArrayList<MessageSetProfile>();
+    if (getMessageSetList() != null && getMessageSetList().getInformationList() != null) {
+      for (AbstractMessageSetInfo info : getMessageSetList().getInformationList()) {
+        if (info.getVersionSpecificInformationList() != null) {
+          for (VersionSpecificMessageSetInfo versionSpecificInfo : info.getVersionSpecificInformationList()) {
+            if (versionSpecificInfo.getMessageSetType() == type) {
+              profiles.add(versionSpecificInfo);
+            }
+          }
+        }
+      }
+    }
+    return profiles;
+  }
+
+  public MessageSetProfile getMessageSetProfile(MessageSetType type, String version) {
+    for (MessageSetProfile profile : getProfiles(type)) {
+      if (version == null) {
+        if (profile.getVersion() == null) {
+          return profile;
+        }
+      }
+      else if (version.equals(profile.getVersion())) {
+        return profile;
+      }
+    }
+    
+    return null;
+  }
+
+  public SignonProfile getSignonProfile(MessageSetProfile messageSet) {
+    if (getSignonInfoList() != null && getSignonInfoList().getInfoList() != null) {
+      for (SignonInfo signonInfo : getSignonInfoList().getInfoList()) {
+        if (messageSet.getRealm() == null) {
+          if (signonInfo.getRealm() == null) {
+            return signonInfo;
+          }
+        }
+        else if (messageSet.getRealm().equals(signonInfo.getRealm())) {
+          return signonInfo;
+        }
+      }
+    }
+    return null;
   }
 }

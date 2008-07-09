@@ -5,6 +5,7 @@ import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Header;
 
 import java.util.SortedSet;
+import java.util.UUID;
 
 /**
  * Envelope for enclosing an OFX request.
@@ -16,12 +17,20 @@ import java.util.SortedSet;
 public class RequestEnvelope {
 
   //headers
-  private ApplicationSecurity security;
+  private ApplicationSecurity security = ApplicationSecurity.NONE;
   private String UID;
   private String lastProcessedUID;
 
   //content
   private SortedSet<RequestMessageSet> messageSets;
+
+  public RequestEnvelope() {
+    this.UID = UUID.randomUUID().toString();
+  }
+
+  public RequestEnvelope(String UID) {
+    this.UID = UID;
+  }
 
   /**
    * The security of this envelope.

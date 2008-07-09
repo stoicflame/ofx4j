@@ -66,14 +66,14 @@ public class AggregateMarshaller {
             for (Object value : childValues) {
               AggregateInfo aggregateInfo = AggregateIntrospector.getAggregateInfo(value.getClass());
               if (aggregateInfo == null) {
-                throw new IllegalArgumentException(String.format("Unable to marshal object of type %s (no aggregate metadata found).", aggregate.getClass().getName()));
+                throw new IllegalArgumentException(String.format("Unable to marshal object of type %s (no aggregate metadata found).", value.getClass().getName()));
               }
-
 
               String attributeName = aggregateAttribute.getName();
-              if (attributeName == null) {
+              if (aggregateAttribute.isCollection()) {
                 attributeName = aggregateInfo.getName();
               }
+              
               writer.writeStartAggregate(attributeName);
               writeAggregateAttributes(value, writer, aggregateInfo.getAttributes());
               writer.writeEndAggregate(attributeName);

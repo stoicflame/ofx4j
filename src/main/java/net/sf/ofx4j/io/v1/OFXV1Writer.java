@@ -12,12 +12,14 @@ import java.io.*;
  */
 public class OFXV1Writer implements OFXWriter {
 
+  private static final String LINE_SEPARATOR = "\r\n";
   protected boolean headersWritten = false;
-  protected final PrintWriter writer;
+  protected final Writer writer;
+  private boolean writeAttributesOnNewLine;
 
   public OFXV1Writer(OutputStream out) {
     try {
-      this.writer = new PrintWriter(new OutputStreamWriter(out, "UTF-8"));
+      this.writer = new OutputStreamWriter(out, "UTF-8");
     }
     catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
@@ -25,7 +27,7 @@ public class OFXV1Writer implements OFXWriter {
   }
 
   public OFXV1Writer(Writer writer) {
-    this.writer = new PrintWriter(writer);
+    this.writer = writer;
   }
 
   public void writeHeaders(Map<String, String> headers) throws IOException {
@@ -34,40 +36,43 @@ public class OFXV1Writer implements OFXWriter {
     }
 
     //write out the 1.0 headers
-    this.writer.println("OFXHEADER:100");
-    this.writer.println("DATA:OFXSGML");
-    this.writer.println("VERSION:103");
+    println("OFXHEADER:100");
+    println("DATA:OFXSGML");
+    println("VERSION:102");
 
-    this.writer.print("SECURITY:");
+    print("SECURITY:");
     String security = headers.get("SECURITY");
     if (security == null) {
       security = "NONE";
     }
-    this.writer.println(security);
-    this.writer.println("ENCODING:UNICODE");
-    this.writer.println("CHARSET:UTF-8");
-    this.writer.println("COMPRESSION:NONE");
-    this.writer.print("OLDFILEUID:");
+    println(security);
+    println("ENCODING:UNICODE");
+    println("CHARSET:UTF-8");
+    println("COMPRESSION:NONE");
+    print("OLDFILEUID:");
     String olduid = headers.get("OLDFILEUID");
     if (olduid == null) {
       olduid = "NONE";
     }
-    this.writer.println(olduid);
-    this.writer.print("NEWFILEUID:");
+    println(olduid);
+    print("NEWFILEUID:");
     String uid = headers.get("NEWFILEUID");
     if (uid == null) {
       uid = "NONE";
     }
-    this.writer.println(uid);
-    this.writer.println();
+    println(uid);
+    this.writer.write(LINE_SEPARATOR);
 
     this.headersWritten = true;
   }
 
   public void writeStartAggregate(String aggregateName) throws IOException {
-    this.writer.print('<');
-    this.writer.print(aggregateName);
-    this.writer.print('>');
+    print('<');
+    print(aggregateName);
+    print('>');
+    if (isWriteAttributesOnNewLine()) {
+      print(LINE_SEPARATOR);
+    }
   }
 
   public void writeElement(String name, String value) throws IOException {
@@ -88,20 +93,47 @@ public class OFXV1Writer implements OFXWriter {
       value = value.replaceAll(">", "&gt;");
     }
     
-    this.writer.print('<');
-    this.writer.print(name);
-    this.writer.print('>');
-    this.writer.print(value);
+    print('<');
+    print(name);
+    print('>');
+    print(value);
+    if (isWriteAttributesOnNewLine()) {
+      print(LINE_SEPARATOR);
+    }
   }
 
   public void writeEndAggregate(String aggregateName) throws IOException {
-    this.writer.print("</");
-    this.writer.print(aggregateName);
-    this.writer.print('>');
+    print("</");
+    print(aggregateName);
+    print('>');
+    if (isWriteAttributesOnNewLine()) {
+      print(LINE_SEPARATOR);
+    }
+  }
+
+  public boolean isWriteAttributesOnNewLine() {
+    return writeAttributesOnNewLine;
+  }
+
+  public void setWriteAttributesOnNewLine(boolean writeAttributesOnNewLine) {
+    this.writeAttributesOnNewLine = writeAttributesOnNewLine;
   }
 
   public void close() throws IOException {
     this.writer.flush();
     this.writer.close();
+  }
+
+  protected void println(String line) throws IOException {
+    print(line);
+    this.writer.write(LINE_SEPARATOR);
+  }
+
+  protected void print(String line) throws IOException {
+    this.writer.write(line == null ? "null" : line);
+  }
+
+  protected void print(char ch) throws IOException {
+    this.writer.write(ch);
   }
 }

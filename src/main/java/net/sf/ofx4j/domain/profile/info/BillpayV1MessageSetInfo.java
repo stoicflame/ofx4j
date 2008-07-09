@@ -1,6 +1,7 @@
 package net.sf.ofx4j.domain.profile.info;
 
 import net.sf.ofx4j.domain.profile.VersionSpecificMessageSetInfo;
+import net.sf.ofx4j.domain.MessageSetType;
 import net.sf.ofx4j.meta.Aggregate;
 
 /**
@@ -8,4 +9,9 @@ import net.sf.ofx4j.meta.Aggregate;
  */
 @Aggregate ( "BILLPAYMSGSETV1" )
 public class BillpayV1MessageSetInfo extends VersionSpecificMessageSetInfo {
+
+  public MessageSetType getMessageSetType() {
+    return MessageSetType.payments;
+  }
+  
 }

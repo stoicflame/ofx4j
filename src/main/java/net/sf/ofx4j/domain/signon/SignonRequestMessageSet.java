@@ -4,6 +4,7 @@ import net.sf.ofx4j.domain.MessageSetType;
 import net.sf.ofx4j.domain.RequestMessageSet;
 import net.sf.ofx4j.domain.TransactionWrappedRequestMessage;
 import net.sf.ofx4j.meta.ChildAggregate;
+import net.sf.ofx4j.meta.Aggregate;
 
 /**
  * The sign-on request message set.
@@ -11,10 +12,11 @@ import net.sf.ofx4j.meta.ChildAggregate;
  * @author Ryan Heaton
  * @see "Section 2.5, OFX Spec."
  */
+@Aggregate ("SIGNONMSGSRQV1")
 public class SignonRequestMessageSet extends RequestMessageSet {
 
   private SignonRequest signonRequest;
-  private TransactionWrappedRequestMessage<PasswordChangeRequest> passwordChangeRequest;
+  private PasswordChangeRequestTransaction passwordChangeRequest;
 
   public MessageSetType getType() {
     return MessageSetType.signon;
@@ -44,8 +46,8 @@ public class SignonRequestMessageSet extends RequestMessageSet {
    *
    * @return The password change request.
    */
-  @ChildAggregate ( name = "PINCHTRNRQ", order = 10 )
-  public TransactionWrappedRequestMessage<PasswordChangeRequest> getPasswordChangeRequest() {
+  @ChildAggregate ( order = 10 )
+  public PasswordChangeRequestTransaction getPasswordChangeRequest() {
     return passwordChangeRequest;
   }
 
@@ -54,7 +56,7 @@ public class SignonRequestMessageSet extends RequestMessageSet {
    *
    * @param passwordChangeRequest The password change request.
    */
-  public void setPasswordChangeRequest(TransactionWrappedRequestMessage<PasswordChangeRequest> passwordChangeRequest) {
+  public void setPasswordChangeRequest(PasswordChangeRequestTransaction passwordChangeRequest) {
     this.passwordChangeRequest = passwordChangeRequest;
   }
 

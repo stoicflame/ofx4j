@@ -3,6 +3,7 @@ package net.sf.ofx4j.ser;
 import net.sf.ofx4j.io.tagsoup.TagSoupOFXReader;
 import net.sf.ofx4j.io.OFXParseException;
 import net.sf.ofx4j.io.OFXReader;
+import net.sf.ofx4j.io.nanoxml.NanoXMLOFXReader;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -60,7 +61,7 @@ public class AggregateUnmarshaller<A> {
    * @return new OFX reader.
    */
   protected OFXReader newReader() {
-    return new TagSoupOFXReader();
+    return new NanoXMLOFXReader();
   }
 
   /**

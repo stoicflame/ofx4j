@@ -11,7 +11,7 @@ import net.sf.ofx4j.meta.ChildAggregate;
  */
 public class ProfileResponseMessageSet extends ResponseMessageSet {
 
-  private TransactionWrappedResponseMessage<ProfileResponse> profileResponse;
+  private ProfileResponseTransaction profileResponse;
 
   public MessageSetType getType() {
     return MessageSetType.profile;
@@ -22,8 +22,8 @@ public class ProfileResponseMessageSet extends ResponseMessageSet {
    *
    * @return The profile response.
    */
-  @ChildAggregate ( name = "PROFTRNRS", required = true, order = 0 )
-  public TransactionWrappedResponseMessage<ProfileResponse> getProfileResponse() {
+  @ChildAggregate ( required = true, order = 0 )
+  public ProfileResponseTransaction getProfileResponse() {
     return profileResponse;
   }
 
@@ -32,7 +32,7 @@ public class ProfileResponseMessageSet extends ResponseMessageSet {
    *
    * @param profileResponse The profile response.
    */
-  public void setProfileResponse(TransactionWrappedResponseMessage<ProfileResponse> profileResponse) {
+  public void setProfileResponse(ProfileResponseTransaction profileResponse) {
     this.profileResponse = profileResponse;
   }
 }

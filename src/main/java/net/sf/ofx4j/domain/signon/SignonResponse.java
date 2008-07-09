@@ -29,6 +29,10 @@ public class SignonResponse implements StatusHolder {
   private String sessionId;
   private String accessKey;
 
+  public String getStatusHolderName() {
+    return "signon";
+  }
+
   /**
    * The signon response status.
    *

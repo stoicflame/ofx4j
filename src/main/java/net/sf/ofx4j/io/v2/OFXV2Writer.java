@@ -28,7 +28,7 @@ public class OFXV2Writer extends OFXV1Writer {
     }
 
     //write out the XML PI
-    this.writer.print("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+    print("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
     String security = headers.get("SECURITY");
     if (security == null) {
       security = "NONE";
@@ -37,20 +37,20 @@ public class OFXV2Writer extends OFXV1Writer {
     if (olduid == null) {
       olduid = "NONE";
     }
-    this.writer.println(olduid);
+    println(olduid);
     String uid = headers.get("NEWFILEUID");
     if (uid == null) {
       uid = "NONE";
     }
 
-    this.writer.printf("<?OFX OFXHEADER=\"200\" VERSION=\"211\" SECURITY=\"%s\" OLDFILEUID=\"%s\" NEWFILEUID=\"%s\"?>", security, olduid, uid);
+    print(String.format("<?OFX OFXHEADER=\"200\" VERSION=\"211\" SECURITY=\"%s\" OLDFILEUID=\"%s\" NEWFILEUID=\"%s\"?>", security, olduid, uid));
     this.headersWritten = true;
   }
 
   public void writeElement(String name, String value) throws IOException {
     super.writeElement(name, value);
-    this.writer.print("</");
-    this.writer.print(name);
-    this.writer.print('>');
+    print("</");
+    print(name);
+    print('>');
   }
 }

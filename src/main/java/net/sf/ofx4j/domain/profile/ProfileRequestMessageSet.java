@@ -13,7 +13,7 @@ import net.sf.ofx4j.meta.ChildAggregate;
 @Aggregate ( "PROFMSGSRQV1" )
 public class ProfileRequestMessageSet extends RequestMessageSet {
 
-  private TransactionWrappedRequestMessage<ProfileRequest> profileRequest;
+  private ProfileRequestTransaction profileRequest;
 
   public MessageSetType getType() {
     return MessageSetType.profile;
@@ -24,8 +24,8 @@ public class ProfileRequestMessageSet extends RequestMessageSet {
    *
    * @return The profile request.
    */
-  @ChildAggregate ( name = "PROFTRNRQ", required = true, order = 0 )
-  public TransactionWrappedRequestMessage<ProfileRequest> getProfileRequest() {
+  @ChildAggregate ( required = true, order = 0 )
+  public ProfileRequestTransaction getProfileRequest() {
     return profileRequest;
   }
 
@@ -34,7 +34,7 @@ public class ProfileRequestMessageSet extends RequestMessageSet {
    *
    * @param profileRequest The profile request.
    */
-  public void setProfileRequest(TransactionWrappedRequestMessage<ProfileRequest> profileRequest) {
+  public void setProfileRequest(ProfileRequestTransaction profileRequest) {
     this.profileRequest = profileRequest;
   }
 }

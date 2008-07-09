@@ -10,7 +10,7 @@ import java.util.List;
  * @author Ryan Heaton
  * @see "Section 7.2.1, OFX Spec"
  */
-public abstract class MessageSetInfo {
+public abstract class AbstractMessageSetInfo {
 
   private List<VersionSpecificMessageSetInfo> versionSpecificInformationList;
 

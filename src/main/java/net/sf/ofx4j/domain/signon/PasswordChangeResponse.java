@@ -28,6 +28,11 @@ public class PasswordChangeResponse extends ResponseMessage {
     return userId;
   }
 
+  // Inherited.
+  public String getResponseMessageName() {
+    return "password change";
+  }
+
   /**
    * The id of the user changing password.
    *

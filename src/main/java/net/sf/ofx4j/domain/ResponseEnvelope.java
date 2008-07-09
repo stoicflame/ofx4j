@@ -3,6 +3,8 @@ package net.sf.ofx4j.domain;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Header;
+import net.sf.ofx4j.domain.signon.SignonResponseMessageSet;
+import net.sf.ofx4j.domain.signon.SignonResponse;
 
 import java.util.SortedSet;
 
@@ -83,6 +85,42 @@ public class ResponseEnvelope {
    */
   public void setMessageSets(SortedSet<ResponseMessageSet> messageSets) {
     this.messageSets = messageSets;
+  }
+
+  /**
+   * Helper method for looking up the signon response.
+   *
+   * @return The signon response, or null if none found.
+   */
+  public SignonResponse getSignonResponse() {
+    MessageSetType type = MessageSetType.signon;
+    ResponseMessageSet message = getMessageSet(type);
+
+    if (message != null) {
+      return ((SignonResponseMessageSet) message).getSignonResponse();
+    }
+    else {
+      return null;
+    }
+  }
+
+  /**
+   * Get the message set of the specified type.
+   *
+   * @param type The type.
+   * @return The message set, or null.
+   */
+  public ResponseMessageSet getMessageSet(MessageSetType type) {
+    ResponseMessageSet message = null;
+    if (this.messageSets != null) {
+      for (ResponseMessageSet messageSet : this.messageSets) {
+        if (messageSet.getType() == type) {
+          message = messageSet;
+          break;
+        }
+      }
+    }
+    return message;
   }
 
 }

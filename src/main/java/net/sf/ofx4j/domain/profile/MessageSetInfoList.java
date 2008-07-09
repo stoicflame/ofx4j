@@ -12,7 +12,7 @@ import java.util.List;
 @Aggregate ( "MSGSETLIST" )
 public class MessageSetInfoList {
 
-  private List<MessageSetInfo> informationList;
+  private List<AbstractMessageSetInfo> informationList;
 
   /**
    * The list of information for each message set.
@@ -20,7 +20,7 @@ public class MessageSetInfoList {
    * @return The list of information for each message set.
    */
   @ChildAggregate ( order = 0 )
-  public List<MessageSetInfo> getInformationList() {
+  public List<AbstractMessageSetInfo> getInformationList() {
     return informationList;
   }
 
@@ -29,7 +29,7 @@ public class MessageSetInfoList {
    *
    * @param informationList The list of information for each message set.
    */
-  public void setInformationList(List<MessageSetInfo> informationList) {
+  public void setInformationList(List<AbstractMessageSetInfo> informationList) {
     this.informationList = informationList;
   }
 }

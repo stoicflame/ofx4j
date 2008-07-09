@@ -1,8 +1,10 @@
 package net.sf.ofx4j.domain;
 
 import net.sf.ofx4j.domain.common.Status;
+import net.sf.ofx4j.domain.common.StatusHolder;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
+import net.sf.ofx4j.meta.Aggregate;
 
 /**
  * A response message wrapped in a transaction.
@@ -10,13 +12,11 @@ import net.sf.ofx4j.meta.Element;
  * @author Ryan Heaton
  * @see "Section 2.4.6, OFX Spec"
  */
-public class TransactionWrappedResponseMessage<M extends ResponseMessage> extends ResponseMessage {
+public abstract class TransactionWrappedResponseMessage<M extends ResponseMessage> extends ResponseMessage implements StatusHolder {
 
   private String UID;
   private String clientCookie;
   private Status status;
-
-  private M message;
 
   /**
    * UID of this transaction.
@@ -56,6 +56,16 @@ public class TransactionWrappedResponseMessage<M extends ResponseMessage> extend
     this.clientCookie = clientCookie;
   }
 
+  // Inherited.
+  public String getResponseMessageName() {
+    return getMessage() != null ? getMessage().getResponseMessageName() : null;
+  }
+
+  // Inherited.
+  public String getStatusHolderName() {
+    return getResponseMessageName();
+  }
+
   /**
    * Status of the transaction.
    *
@@ -80,18 +90,6 @@ public class TransactionWrappedResponseMessage<M extends ResponseMessage> extend
    *
    * @return The response message being wrapped in a transaction.
    */
-  @ChildAggregate ( required = true, order = 30 )
-  public M getMessage() {
-    return message;
-  }
-
-  /**
-   * The response message being wrapped in a transaction.
-   *
-   * @param message The response message being wrapped in a transaction.
-   */
-  public void setMessage(M message) {
-    this.message = message;
-  }
+  public abstract M getMessage();
 
 }

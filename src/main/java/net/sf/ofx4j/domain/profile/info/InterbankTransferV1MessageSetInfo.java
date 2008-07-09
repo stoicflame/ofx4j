@@ -1,6 +1,7 @@
 package net.sf.ofx4j.domain.profile.info;
 
 import net.sf.ofx4j.domain.profile.VersionSpecificMessageSetInfo;
+import net.sf.ofx4j.domain.MessageSetType;
 import net.sf.ofx4j.meta.Aggregate;
 
 /**
@@ -8,4 +9,8 @@ import net.sf.ofx4j.meta.Aggregate;
  */
 @Aggregate ( "INTERXFERMSGSETV1" )
 public class InterbankTransferV1MessageSetInfo extends VersionSpecificMessageSetInfo {
+
+  public MessageSetType getMessageSetType() {
+    return MessageSetType.interbank_transfer;
+  }
 }
