@@ -2,13 +2,13 @@ package net.sf.ofx4j.services.impl;
 
 import junit.framework.TestCase;
 import net.sf.ofx4j.domain.FinancialInstitutionProfile;
-import net.sf.ofx4j.domain.RequestEnvelope;
-import net.sf.ofx4j.domain.ResponseEnvelope;
-import net.sf.ofx4j.domain.signon.SignonRequest;
+import net.sf.ofx4j.domain.data.RequestEnvelope;
+import net.sf.ofx4j.domain.data.ResponseEnvelope;
+import net.sf.ofx4j.domain.data.signon.SignonRequest;
 import net.sf.ofx4j.io.v1.OFXV1Writer;
 import net.sf.ofx4j.net.OFXConnection;
 import net.sf.ofx4j.net.OFXConnectionException;
-import net.sf.ofx4j.ser.AggregateMarshaller;
+import net.sf.ofx4j.io.AggregateMarshaller;
 import net.sf.ofx4j.services.OFXServiceException;
 
 import java.io.IOException;

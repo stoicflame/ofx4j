@@ -1,13 +1,14 @@
 package net.sf.ofx4j.services.impl;
 
 import net.sf.ofx4j.domain.*;
-import net.sf.ofx4j.domain.common.Status;
-import net.sf.ofx4j.domain.common.StatusHolder;
-import net.sf.ofx4j.domain.profile.*;
-import net.sf.ofx4j.domain.signon.SignonRequest;
-import net.sf.ofx4j.domain.signon.SignonRequestMessageSet;
-import net.sf.ofx4j.domain.signon.SignonResponse;
-import net.sf.ofx4j.domain.signon.FinancialInstitution;
+import net.sf.ofx4j.domain.data.*;
+import net.sf.ofx4j.domain.data.common.Status;
+import net.sf.ofx4j.domain.data.common.StatusHolder;
+import net.sf.ofx4j.domain.data.profile.*;
+import net.sf.ofx4j.domain.data.signon.SignonRequest;
+import net.sf.ofx4j.domain.data.signon.SignonRequestMessageSet;
+import net.sf.ofx4j.domain.data.signon.SignonResponse;
+import net.sf.ofx4j.domain.data.signon.FinancialInstitution;
 import net.sf.ofx4j.net.OFXConnection;
 import net.sf.ofx4j.services.FinancialInstitutionService;
 import net.sf.ofx4j.services.OFXServiceException;

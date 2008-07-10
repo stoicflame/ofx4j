@@ -1,5 +1,9 @@
 package net.sf.ofx4j.domain;
 
+import net.sf.ofx4j.domain.data.MessageSetProfile;
+import net.sf.ofx4j.domain.data.MessageSetType;
+import net.sf.ofx4j.domain.data.SignonProfile;
+
 import java.net.URL;
 import java.util.Date;
 

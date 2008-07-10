@@ -1,12 +1,12 @@
 package net.sf.ofx4j.net;
 
-import net.sf.ofx4j.domain.RequestEnvelope;
-import net.sf.ofx4j.domain.ResponseEnvelope;
+import net.sf.ofx4j.domain.data.RequestEnvelope;
+import net.sf.ofx4j.domain.data.ResponseEnvelope;
 import net.sf.ofx4j.io.OFXParseException;
 import net.sf.ofx4j.io.OFXWriter;
+import net.sf.ofx4j.io.AggregateMarshaller;
 import net.sf.ofx4j.io.v1.OFXV1Writer;
-import net.sf.ofx4j.ser.AggregateMarshaller;
-import net.sf.ofx4j.ser.AggregateUnmarshaller;
+import net.sf.ofx4j.io.AggregateUnmarshaller;
 
 import java.io.IOException;
 import java.io.InputStream;

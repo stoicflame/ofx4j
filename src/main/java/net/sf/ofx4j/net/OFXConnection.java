@@ -1,7 +1,7 @@
 package net.sf.ofx4j.net;
 
-import net.sf.ofx4j.domain.ResponseEnvelope;
-import net.sf.ofx4j.domain.RequestEnvelope;
+import net.sf.ofx4j.domain.data.ResponseEnvelope;
+import net.sf.ofx4j.domain.data.RequestEnvelope;
 
 import java.net.URL;
 import java.io.IOException;
