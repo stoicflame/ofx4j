@@ -34,7 +34,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return The name of the sign-on realm.
    */
-  @Element ( value = "SIGNONREALM", required = true, order = 0 )
+  @Element ( name = "SIGNONREALM", required = true, order = 0 )
   public String getRealm() {
     return realm;
   }
@@ -53,7 +53,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return The minimum number of password characters.
    */
-  @Element ( value = "MIN", required = true, order = 10 )
+  @Element ( name = "MIN", required = true, order = 10 )
   public Integer getMinPasswordCharacters() {
     return minPasswordCharacters;
   }
@@ -72,7 +72,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return The maximum number of password characters.
    */
-  @Element ( value = "MAX", required = true, order = 20 )
+  @Element ( name = "MAX", required = true, order = 20 )
   public Integer getMaxPasswordCharacters() {
     return maxPasswordCharacters;
   }
@@ -91,7 +91,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return The type of password characters supported.
    */
-  @Element ( value = "CHARTYPE", required = true, order = 30 )
+  @Element ( name = "CHARTYPE", required = true, order = 30 )
   public CharacterType getPasswordCharacterType() {
     return passwordCharacterType;
   }
@@ -110,7 +110,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return Whether the password is case-sensitive.
    */
-  @Element ( value = "CASESEN", required = true, order = 40 )
+  @Element ( name = "CASESEN", required = true, order = 40 )
   public Boolean getPasswordCaseSensitive() {
     return passwordCaseSensitive;
   }
@@ -129,7 +129,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return Whether special characters are allowed in the password.
    */
-  @Element ( value = "SPECIAL", required = true, order = 50 )
+  @Element ( name = "SPECIAL", required = true, order = 50 )
   public Boolean getPasswordSpecialCharsAllowed() {
     return passwordSpecialCharsAllowed;
   }
@@ -148,7 +148,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return Whether spaces are allowed in the password.
    */
-  @Element ( value = "SPACES", required = true, order = 60 )
+  @Element ( name = "SPACES", required = true, order = 60 )
   public Boolean getPasswordSpacesAllowed() {
     return passwordSpacesAllowed;
   }
@@ -167,7 +167,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return Whether the server can process a password change request for this realm.
    */
-  @Element ( value = "PINCH", required = true, order = 70 )
+  @Element ( name = "PINCH", required = true, order = 70 )
   public Boolean getChangePasswordSupported() {
     return changePasswordSupported;
   }
@@ -186,7 +186,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return Whether the server requires the user to change their password as part of their first signon.
    */
-  @Element ( value = "CHGPINFIRST", required = true, order = 80 )
+  @Element ( name = "CHGPINFIRST", required = true, order = 80 )
   public Boolean getChangePasswordFirstRequired() {
     return changePasswordFirstRequired;
   }
@@ -205,7 +205,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return Label for a set of additional credentials that the user must supply.
    */
-  @Element ( value = "USERCRED1LABEL", order = 90 )
+  @Element ( name = "USERCRED1LABEL", order = 90 )
   public String getAdditionalCredientialsLabel1() {
     return additionalCredientialsLabel1;
   }
@@ -224,7 +224,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return Label for a set of additional credentials that the user must supply.
    */
-  @Element ( value = "USERCRED2LABEL", order = 100 )
+  @Element ( name = "USERCRED2LABEL", order = 100 )
   public String getAdditionalCredientialsLabel2() {
     return additionalCredientialsLabel2;
   }
@@ -243,7 +243,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return Whether a client UID is required for teh sign-on.
    */
-  @Element ( value = "CLIENTUIDREQ", order = 110 )
+  @Element ( name = "CLIENTUIDREQ", order = 110 )
   public Boolean getClientUIDRequired() {
     return clientUIDRequired;
   }
@@ -262,7 +262,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return Whether an auth token is required for the sign-on.
    */
-  @Element ( value = "AUTHTOKENFIRST", order = 120 )
+  @Element ( name = "AUTHTOKENFIRST", order = 120 )
   public Boolean getAuthTokenRequiredForFirstSignon() {
     return authTokenRequiredForFirstSignon;
   }
@@ -282,7 +282,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return The label of the auth token.
    */
-  @Element ( value = "AUTHTOKENLABEL", order = 130 )
+  @Element ( name = "AUTHTOKENLABEL", order = 130 )
   public String getAuthTokenLabel() {
     return authTokenLabel;
   }
@@ -301,7 +301,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return The URL for the auth token information.
    */
-  @Element ( value = "AUTHTOKENINFOURL", order = 140 )
+  @Element ( name = "AUTHTOKENINFOURL", order = 140 )
   public String getAuthTokenInfoURL() {
     return authTokenInfoURL;
   }
@@ -320,7 +320,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return Whether MFA is supported.
    */
-  @Element ( value = "MFACHALLENGESUPT", order = 150 )
+  @Element ( name = "MFACHALLENGESUPT", order = 150 )
   public Boolean getMfaSupported() {
     return mfaSupported;
   }
@@ -339,7 +339,7 @@ public class SignonInfo implements SignonProfile {
    *
    * @return Whether an MFA challenge request is required for the first sign-on into this realm.
    */
-  @Element ( value = "MFACHALLENGEFIRST", order = 160 )
+  @Element ( name = "MFACHALLENGEFIRST", order = 160 )
   public Boolean getMfaChallengeRequiredForFirstSignon() {
     return mfaChallengeRequiredForFirstSignon;
   }

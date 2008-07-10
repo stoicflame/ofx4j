@@ -19,7 +19,7 @@ public @interface Element {
    *
    * @return The name of the element.
    */
-  String value();
+  String name();
 
   /**
    * Whether this element is required.

@@ -29,7 +29,7 @@ public abstract class TransactionWrappedRequestMessage extends RequestMessage {
    *
    * @return UID of this transaction.
    */
-  @Element ( value = "TRNUID", required = true, order = 0 )
+  @Element ( name = "TRNUID", required = true, order = 0 )
   public String getUID() {
     return UID;
   }
@@ -48,7 +48,7 @@ public abstract class TransactionWrappedRequestMessage extends RequestMessage {
    *
    * @return Client cookie (echoed back by the response).
    */
-  @Element ( value = "CLTCOOKIE", order = 10 )
+  @Element ( name = "CLTCOOKIE", order = 10 )
   public String getClientCookie() {
     return clientCookie;
   }
@@ -67,7 +67,7 @@ public abstract class TransactionWrappedRequestMessage extends RequestMessage {
    *
    * @return The transaction authorization number.
    */
-  @Element ( value = "TAN", order = 20 )
+  @Element ( name = "TAN", order = 20 )
   public String getTransactionAuthorizationNumber() {
     return transactionAuthorizationNumber;
   }

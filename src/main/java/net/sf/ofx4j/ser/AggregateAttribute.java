@@ -45,7 +45,7 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
     }
 
     this.attributeType = this.readMethod.getReturnType();
-    this.name = elementInfo.value();
+    this.name = elementInfo.name();
     this.order = elementInfo.order();
     this.required = elementInfo.required();
     this.type = Type.ELEMENT;

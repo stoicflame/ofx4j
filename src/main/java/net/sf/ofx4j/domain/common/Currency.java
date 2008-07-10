@@ -12,7 +12,7 @@ import java.util.Locale;
 @Aggregate ( "CURRENCY" )
 public class Currency {
 
-  private String code = java.util.Currency.getInstance(Locale.US).getCurrencyCode();
+  private String code = java.util.Currency.getInstance(Locale.US).getCurrencyCode().toUpperCase();
   private Float exchangeRate;
 
   /**
@@ -21,7 +21,7 @@ public class Currency {
    * @return The currency code.
    * @see java.util.Currency#getCurrencyCode()
    */
-  @Element ( value = "CURSYM", required = true, order = 0 )
+  @Element ( name = "CURSYM", required = true, order = 0 )
   public String getCode() {
     return code;
   }
@@ -40,7 +40,7 @@ public class Currency {
    *
    * @return The exchange rate.
    */
-  @Element ( value = "CURRATE", required = true, order = 10 )
+  @Element ( name = "CURRATE", required = true, order = 10 )
   public Float getExchangeRate() {
     return exchangeRate;
   }

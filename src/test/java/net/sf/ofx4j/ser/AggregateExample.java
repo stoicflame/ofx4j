@@ -38,7 +38,7 @@ public class AggregateExample {
     this.header2 = header2;
   }
 
-  @Element ( value = "SOMEELEMENT", order = 0 )
+  @Element ( name = "SOMEELEMENT", order = 0 )
   public String getElement1() {
     return element1;
   }

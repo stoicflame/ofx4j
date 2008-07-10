@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 import net.sf.ofx4j.domain.FinancialInstitutionProfile;
 import net.sf.ofx4j.domain.RequestEnvelope;
 import net.sf.ofx4j.domain.ResponseEnvelope;
+import net.sf.ofx4j.domain.signon.SignonRequest;
 import net.sf.ofx4j.io.v1.OFXV1Writer;
 import net.sf.ofx4j.net.OFXConnection;
 import net.sf.ofx4j.net.OFXConnectionException;
@@ -11,6 +12,7 @@ import net.sf.ofx4j.ser.AggregateMarshaller;
 import net.sf.ofx4j.services.OFXServiceException;
 
 import java.io.IOException;
+import java.io.FileOutputStream;
 import java.net.URL;
 
 /**
@@ -28,13 +30,18 @@ public class TestFinancialInstitutionServiceImpl extends TestCase {
       protected FinancialInstitutionProfile getProfile(String requestId, ResponseEnvelope response) throws OFXServiceException {
         return null;
       }
+
+      @Override
+      protected SignonRequest createProfileSignonRequest() {
+        SignonRequest signonRequest = super.createProfileSignonRequest();
+        signonRequest.getFinancialInstitution().setOrganization("Chase Bank of Texas");
+        return signonRequest;
+      }
     };
-    service.setAppId("TESTAPP");
-    service.setAppVersion("0100");
 
     service.setConnection(new OFXConnection() {
       public ResponseEnvelope sendRequest(RequestEnvelope request, URL url) throws IOException, OFXConnectionException {
-        OFXV1Writer writer = new OFXV1Writer(System.out);
+        OFXV1Writer writer = new OFXV1Writer(new FileOutputStream("/tmp/profile-request.ofx"));
         writer.setWriteAttributesOnNewLine(true);
         new AggregateMarshaller().marshal(request, writer);
         writer.close();

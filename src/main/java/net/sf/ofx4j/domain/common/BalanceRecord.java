@@ -34,7 +34,7 @@ public class BalanceRecord {
    *
    * @return Name of the balance.
    */
-  @Element ( value = "NAME", required = true, order = 0 )
+  @Element ( name = "NAME", required = true, order = 0 )
   public String getName() {
     return name;
   }
@@ -53,7 +53,7 @@ public class BalanceRecord {
    *
    * @return Description of the balance.
    */
-  @Element ( value = "DESC", required = true, order = 10 )
+  @Element ( name = "DESC", required = true, order = 10 )
   public String getDescription() {
     return description;
   }
@@ -72,7 +72,7 @@ public class BalanceRecord {
    *
    * @return Type of the balance.
    */
-  @Element ( value = "BALTYPE", required = true, order = 20 )
+  @Element ( name = "BALTYPE", required = true, order = 20 )
   public Type getType() {
     return type;
   }
@@ -91,7 +91,7 @@ public class BalanceRecord {
    *
    * @return The value of the balance.
    */
-  @Element ( value = "VALUE", required = true, order = 30 )
+  @Element ( name = "VALUE", required = true, order = 30 )
   public String getValue() {
     return value;
   }
@@ -110,7 +110,7 @@ public class BalanceRecord {
    *
    * @return Timestamp of the balance.
    */
-  @Element ( value = "DTASOF", order = 40 )
+  @Element ( name = "DTASOF", order = 40 )
   public Date getTimestamp() {
     return timestamp;
   }

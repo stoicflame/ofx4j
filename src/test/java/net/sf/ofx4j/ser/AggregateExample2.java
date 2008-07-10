@@ -11,7 +11,7 @@ public class AggregateExample2 {
 
   private String element;
 
-  @Element (value="EXAMPLE2EL1", order=0)
+  @Element ( name ="EXAMPLE2EL1", order=0)
   public String getElement() {
     return element;
   }

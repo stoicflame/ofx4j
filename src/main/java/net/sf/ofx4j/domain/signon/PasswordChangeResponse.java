@@ -23,7 +23,7 @@ public class PasswordChangeResponse extends ResponseMessage {
    *
    * @return The id of the user changing password.
    */
-  @Element ( value = "USERID", required = true, order = 0 )
+  @Element ( name = "USERID", required = true, order = 0 )
   public String getUserId() {
     return userId;
   }
@@ -47,7 +47,7 @@ public class PasswordChangeResponse extends ResponseMessage {
    *
    * @return The timestamp of the password change.
    */
-  @Element ( value = "DTCHANGED", order = 10 )
+  @Element ( name = "DTCHANGED", order = 10 )
   public Date getChangeTimestamp() {
     return changeTimestamp;
   }

@@ -29,6 +29,11 @@ public class Status {
     SUCCESS(0, "Success", Severity.INFO),
     CLIENT_UP_TO_DATE(1, "Client is up-to-date", Severity.INFO),
     GENERAL_ERROR(2000, "General error.", Severity.ERROR),
+    GENERAL_ACCOUNT_ERROR(2002, "General account error.", Severity.ERROR),
+    ACCOUNT_NOT_FOUND(2003, "Account not found.", Severity.ERROR),
+    ACCOUNT_CLOSED(2004, "Account closed.", Severity.ERROR),
+    ACCOUNT_NOT_AUTHORIZED(2005, "Account not authorized.", Severity.ERROR),
+    DUPLICATE_REQUEST(2019, "Duplicate request.", Severity.ERROR),
     UNSUPPORTED_VERSION(2021, "Unsupported version", Severity.ERROR),
     INVALID_TAN(2022, "Invalid transaction authorization number.", Severity.ERROR),
     MFA_CHALLENGE_REQUIRED(3000, "Further authentication required.", Severity.ERROR),
@@ -63,6 +68,15 @@ public class Status {
     public Severity getDefaultSeverity() {
       return defaultSeverity;
     }
+
+    public static Code fromCode(int code) {
+      for (Code value : values()) {
+        if (value.getCode() == code) {
+          return value;
+        }
+      }
+      return GENERAL_ERROR;
+    }
   }
 
   private Code code = Code.SUCCESS;
@@ -74,7 +88,7 @@ public class Status {
    *
    * @return The status code.
    */
-  @Element ( value = "CODE", required = true, order = 0 )
+  @Element ( name = "CODE", required = true, order = 0 )
   public Code getCode() {
     return code;
   }
@@ -96,7 +110,7 @@ public class Status {
    *
    * @return The severity.
    */
-  @Element ( value = "SEVERITY", required = true, order = 10 )
+  @Element ( name = "SEVERITY", required = true, order = 10 )
   public Severity getSeverity() {
     return severity;
   }
@@ -115,7 +129,7 @@ public class Status {
    *
    * @return Server-supplied message.
    */
-  @Element ( value = "MESSAGE", order = 20 )
+  @Element ( name = "MESSAGE", order = 20 )
   public String getMessage() {
     return message;
   }

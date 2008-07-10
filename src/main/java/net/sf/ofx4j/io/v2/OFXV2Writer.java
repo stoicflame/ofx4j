@@ -2,9 +2,7 @@ package net.sf.ofx4j.io.v2;
 
 import net.sf.ofx4j.io.v1.OFXV1Writer;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
+import java.io.*;
 import java.util.Map;
 
 /**
@@ -20,6 +18,11 @@ public class OFXV2Writer extends OFXV1Writer {
 
   public OFXV2Writer(Writer writer) {
     super(writer);
+  }
+
+  @Override
+  protected OutputStreamWriter newWriter(OutputStream out) throws UnsupportedEncodingException {
+    return new OutputStreamWriter(out, "UTF-8");
   }
 
   public void writeHeaders(Map<String, String> headers) throws IOException {
@@ -52,5 +55,10 @@ public class OFXV2Writer extends OFXV1Writer {
     print("</");
     print(name);
     print('>');
+  }
+
+  @Override
+  public boolean isWriteAttributesOnNewLine() {
+    return false;
   }
 }

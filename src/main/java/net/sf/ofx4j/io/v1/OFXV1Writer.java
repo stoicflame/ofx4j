@@ -19,11 +19,15 @@ public class OFXV1Writer implements OFXWriter {
 
   public OFXV1Writer(OutputStream out) {
     try {
-      this.writer = new OutputStreamWriter(out, "UTF-8");
+      this.writer = newWriter(out);
     }
     catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
+  }
+
+  protected OutputStreamWriter newWriter(OutputStream out) throws UnsupportedEncodingException {
+    return new OutputStreamWriter(out, "ISO-8859-1");
   }
 
   public OFXV1Writer(Writer writer) {
@@ -46,8 +50,8 @@ public class OFXV1Writer implements OFXWriter {
       security = "NONE";
     }
     println(security);
-    println("ENCODING:UNICODE");
-    println("CHARSET:UTF-8");
+    println("ENCODING:USASCII"); //too many ofx v1 servers don't read unicode...
+    println("CHARSET:1252"); //windows-compatible.
     println("COMPRESSION:NONE");
     print("OLDFILEUID:");
     String olduid = headers.get("OLDFILEUID");
@@ -61,7 +65,7 @@ public class OFXV1Writer implements OFXWriter {
       uid = "NONE";
     }
     println(uid);
-    this.writer.write(LINE_SEPARATOR);
+    println();
 
     this.headersWritten = true;
   }
@@ -71,7 +75,7 @@ public class OFXV1Writer implements OFXWriter {
     print(aggregateName);
     print('>');
     if (isWriteAttributesOnNewLine()) {
-      print(LINE_SEPARATOR);
+      println();
     }
   }
 
@@ -98,7 +102,7 @@ public class OFXV1Writer implements OFXWriter {
     print('>');
     print(value);
     if (isWriteAttributesOnNewLine()) {
-      print(LINE_SEPARATOR);
+      println();
     }
   }
 
@@ -107,7 +111,7 @@ public class OFXV1Writer implements OFXWriter {
     print(aggregateName);
     print('>');
     if (isWriteAttributesOnNewLine()) {
-      print(LINE_SEPARATOR);
+      println();
     }
   }
 
@@ -126,6 +130,10 @@ public class OFXV1Writer implements OFXWriter {
 
   protected void println(String line) throws IOException {
     print(line);
+    println();
+  }
+
+  protected void println() throws IOException {
     this.writer.write(LINE_SEPARATOR);
   }
 

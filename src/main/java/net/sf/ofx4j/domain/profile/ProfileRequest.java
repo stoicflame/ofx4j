@@ -21,7 +21,7 @@ public class ProfileRequest extends RequestMessage {
    *
    * @return The client routing capability.
    */
-  @Element ( value = "CLIENTROUTING", order = 0 )
+  @Element ( name = "CLIENTROUTING", order = 0 )
   public ClientRoutingCapability getRoutingCapability() {
     return routingCapability;
   }
@@ -40,7 +40,7 @@ public class ProfileRequest extends RequestMessage {
    *
    * @return The date the profile was last updated.
    */
-  @Element ( value = "DTPROFUP", order = 10 )
+  @Element ( name = "DTPROFUP", order = 10 )
   public Date getProfileLastUpdated() {
     return profileLastUpdated;
   }

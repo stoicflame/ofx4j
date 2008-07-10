@@ -1,5 +1,7 @@
 package net.sf.ofx4j.ser;
 
+import net.sf.ofx4j.domain.common.Status;
+
 import java.sql.Time;
 import java.util.*;
 
@@ -24,6 +26,9 @@ public class DefaultStringConversion implements StringConversion {
     else if (Date.class.isInstance(value)) {
       return formatDate((Date) value);
     }
+    if (Boolean.class.isInstance(value)) {
+      return ((Boolean) value) ? "Y" : "N";
+    }
     else {
       return String.valueOf(value);
     }
@@ -36,8 +41,22 @@ public class DefaultStringConversion implements StringConversion {
     else if (String.class.isAssignableFrom(clazz)) {
       return (E) value;
     }
+    else if (Status.Code.class.isAssignableFrom(clazz)) {
+      int code = 2000;
+      try {
+        code = Integer.parseInt(value);
+      }
+      catch (NumberFormatException e) {
+        //fall through...
+      }
+      
+      return (E) Status.Code.fromCode(code);
+    }
     else if (Enum.class.isAssignableFrom(clazz)) {
       return (E) Enum.valueOf((Class<? extends Enum>) clazz, value);
+    }
+    else if ((Boolean.class.isAssignableFrom(clazz)) || (Boolean.TYPE == clazz)) {
+      return (E) (Boolean) "Y".equals(value.toUpperCase());
     }
     else if ((Integer.class.isAssignableFrom(clazz)) || (Integer.TYPE == clazz)) {
       return (E) new Integer(Integer.parseInt(value));

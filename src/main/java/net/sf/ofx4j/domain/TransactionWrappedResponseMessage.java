@@ -4,7 +4,6 @@ import net.sf.ofx4j.domain.common.Status;
 import net.sf.ofx4j.domain.common.StatusHolder;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
-import net.sf.ofx4j.meta.Aggregate;
 
 /**
  * A response message wrapped in a transaction.
@@ -23,7 +22,7 @@ public abstract class TransactionWrappedResponseMessage<M extends ResponseMessag
    *
    * @return UID of this transaction.
    */
-  @Element ( value = "TRNUID", required = true, order = 0 )
+  @Element ( name = "TRNUID", required = true, order = 0 )
   public String getUID() {
     return UID;
   }
@@ -42,7 +41,7 @@ public abstract class TransactionWrappedResponseMessage<M extends ResponseMessag
    *
    * @return Client cookie (echoed back by the response).
    */
-  @Element ( value = "CLTCOOKIE", order = 20 )
+  @Element ( name = "CLTCOOKIE", order = 20 )
   public String getClientCookie() {
     return clientCookie;
   }

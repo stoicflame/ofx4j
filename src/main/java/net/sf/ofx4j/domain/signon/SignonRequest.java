@@ -29,8 +29,8 @@ public class SignonRequest {
   private String language = Locale.US.getISO3Language().toUpperCase();
   private FinancialInstitution financialInstitution;
   private String sessionId;
-  private String applicationId;
-  private String applicationVersion;
+  private String applicationId = "Money"; //many institutions just won't work with an unrecognized app id...
+  private String applicationVersion = "1600"; //many institutions just won't work with an unrecognized app id...
   private String clientUID;
   private String additionalCredentials1;
   private String additionalCredentials2;
@@ -42,7 +42,7 @@ public class SignonRequest {
    *
    * @return The date and time of the request.
    */
-  @Element ( value = "DTCLIENT", required = true, order = 0 )
+  @Element ( name = "DTCLIENT", required = true, order = 0 )
   public Date getTimestamp() {
     return timestamp;
   }
@@ -61,7 +61,7 @@ public class SignonRequest {
    *
    * @return The user id.
    */
-  @Element ( value = "USERID", order = 10 )
+  @Element ( name = "USERID", order = 10 )
   public String getUserId() {
     return userId;
   }
@@ -80,7 +80,7 @@ public class SignonRequest {
    *
    * @return The password.
    */
-  @Element ( value = "USERPASS", order = 20 )
+  @Element ( name = "USERPASS", order = 20 )
   public String getPassword() {
     return password;
   }
@@ -99,7 +99,7 @@ public class SignonRequest {
    *
    * @return The user key provided by the server so as not to require further username/password authentication.
    */
-  @Element ( value = "USERKEY", order = 30 )
+  @Element ( name = "USERKEY", order = 30 )
   public String getUserKey() {
     return userKey;
   }
@@ -118,7 +118,7 @@ public class SignonRequest {
    *
    * @return Whether to request the server to generate a user key.
    */
-  @Element ( value = "GENUSERKEY", order = 40 )
+  @Element ( name = "GENUSERKEY", order = 40 )
   public Boolean getGenerateUserKey() {
     return generateUserKey;
   }
@@ -138,7 +138,7 @@ public class SignonRequest {
    * @return The three-letter langauge code.
    * @see java.util.Locale#getISO3Language()
    */
-  @Element ( value = "LANGUAGE", required = true, order = 50 )
+  @Element ( name = "LANGUAGE", required = true, order = 50 )
   public String getLanguage() {
     return language;
   }
@@ -176,7 +176,7 @@ public class SignonRequest {
    *
    * @return The server-supplied session id.
    */
-  @Element ( value = "SESSCOOKIE", order = 70 )
+  @Element ( name = "SESSCOOKIE", order = 70 )
   public String getSessionId() {
     return sessionId;
   }
@@ -195,7 +195,7 @@ public class SignonRequest {
    *
    * @return The application id.
    */
-  @Element ( value = "APPID", required = true, order = 80 )
+  @Element ( name = "APPID", required = true, order = 80 )
   public String getApplicationId() {
     return applicationId;
   }
@@ -214,7 +214,7 @@ public class SignonRequest {
    *
    * @return The application version.
    */
-  @Element ( value = "APPVER", required = true, order = 90 )
+  @Element ( name = "APPVER", required = true, order = 90 )
   public String getApplicationVersion() {
     return applicationVersion;
   }
@@ -233,7 +233,7 @@ public class SignonRequest {
    *
    * @return The client-supplied UID.
    */
-  @Element ( value = "CLIENTUID", order = 100 )
+  @Element ( name = "CLIENTUID", order = 100 )
   public String getClientUID() {
     return clientUID;
   }
@@ -252,7 +252,7 @@ public class SignonRequest {
    *
    * @return Any additional credentials.
    */
-  @Element ( value = "USERCRED1", order = 110 )
+  @Element ( name = "USERCRED1", order = 110 )
   public String getAdditionalCredentials1() {
     return additionalCredentials1;
   }
@@ -271,7 +271,7 @@ public class SignonRequest {
    *
    * @return Any additional credentials.
    */
-  @Element ( value = "USERCRED2", order = 120 )
+  @Element ( name = "USERCRED2", order = 120 )
   public String getAdditionalCredentials2() {
     return additionalCredentials2;
   }
@@ -290,7 +290,7 @@ public class SignonRequest {
    *
    * @return The authentication token.
    */
-  @Element ( value = "AUTHTOKEN", order = 130 )
+  @Element ( name = "AUTHTOKEN", order = 130 )
   public String getAuthToken() {
     return authToken;
   }
@@ -309,7 +309,7 @@ public class SignonRequest {
    *
    * @return The access key.
    */
-  @Element ( value = "ACCESSKEY", order = 140 )
+  @Element ( name = "ACCESSKEY", order = 140 )
   public String getAccessKey() {
     return accessKey;
   }

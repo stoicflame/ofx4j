@@ -57,7 +57,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The timestamp of this response.
    */
-  @Element ( value = "DTSERVER", required = true, order = 10 )
+  @Element ( name = "DTSERVER", required = true, order = 10 )
   public Date getTimestamp() {
     return timestamp;
   }
@@ -76,7 +76,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The userkey that can be used instead of the username/password.
    */
-  @Element ( value = "USERKEY", order = 20 )
+  @Element ( name = "USERKEY", order = 20 )
   public String getUserKey() {
     return userKey;
   }
@@ -95,7 +95,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The date/time of the expiration of the user key.
    */
-  @Element ( value = "TSKEYEXPIRE", order = 30 )
+  @Element ( name = "TSKEYEXPIRE", order = 30 )
   public Date getUserKeyExpiration() {
     return userKeyExpiration;
   }
@@ -115,7 +115,7 @@ public class SignonResponse implements StatusHolder {
    * @return The three-letter langauge code.
    * @see java.util.Locale#getISO3Language()
    */
-  @Element ( value = "LANGUAGE", required = true, order = 40 )
+  @Element ( name = "LANGUAGE", required = true, order = 40 )
   public String getLanguage() {
     return language;
   }
@@ -134,7 +134,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The date/time that the FI profile was last updated.
    */
-  @Element ( value = "DTPROFUP", order = 50 )
+  @Element ( name = "DTPROFUP", order = 50 )
   public Date getProfileLastUpdated() {
     return profileLastUpdated;
   }
@@ -153,7 +153,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The date/time that the user's account information was updated.
    */
-  @Element ( value = "DTACCTUP", order = 60 )
+  @Element ( name = "DTACCTUP", order = 60 )
   public Date getAccountLastUpdated() {
     return accountLastUpdated;
   }
@@ -191,7 +191,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The session id for the client.
    */
-  @Element ( value = "SESSCOOKIE", order = 80 )
+  @Element ( name = "SESSCOOKIE", order = 80 )
   public String getSessionId() {
     return sessionId;
   }
@@ -210,7 +210,7 @@ public class SignonResponse implements StatusHolder {
    *
    * @return The access key that the client should return in the next sign-on requuest.
    */
-  @Element ( value = "ACCESSKEY", order = 90 )
+  @Element ( name = "ACCESSKEY", order = 90 )
   public String getAccessKey() {
     return accessKey;
   }

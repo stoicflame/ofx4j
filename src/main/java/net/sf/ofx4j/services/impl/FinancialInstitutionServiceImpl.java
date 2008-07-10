@@ -21,8 +21,8 @@ import java.util.TreeSet;
  */
 public class FinancialInstitutionServiceImpl implements FinancialInstitutionService {
 
-  private String appId = "OFX4J";
-  private String appVersion = "0100";
+  private String appId = "Money";
+  private String appVersion = "1600";
   private OFXConnection connection;
 
   public FinancialInstitutionProfile readProfile(URL profileURL) throws OFXServiceException {

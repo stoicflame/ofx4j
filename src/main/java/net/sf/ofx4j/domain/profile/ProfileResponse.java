@@ -86,7 +86,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    *
    * @return The timestamp of this profile update.
    */
-  @Element ( value = "DTPROFUP", order = 20 )
+  @Element ( name = "DTPROFUP", order = 20 )
   public Date getTimestamp() {
     return timestamp;
   }
@@ -105,7 +105,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    *
    * @return The name of the financial institution.
    */
-  @Element ( value = "FINAME", order = 30 )
+  @Element ( name = "FINAME", order = 30 )
   public String getFinancialInstitutionName() {
     return financialInstitutionName;
   }
@@ -124,7 +124,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    *
    * @return The address of the financial institution.
    */
-  @Element ( value = "ADDR1", required = true, order = 40 )
+  @Element ( name = "ADDR1", required = true, order = 40 )
   public String getAddress1() {
     return address1;
   }
@@ -143,7 +143,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    *
    * @return The address of the financial institution.
    */
-  @Element ( value = "ADDR2", order = 50 )
+  @Element ( name = "ADDR2", order = 50 )
   public String getAddress2() {
     return address2;
   }
@@ -162,7 +162,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    *
    * @return The address of the financial institution.
    */
-  @Element ( value = "ADDR3", order = 60 )
+  @Element ( name = "ADDR3", order = 60 )
   public String getAddress3() {
     return address3;
   }
@@ -181,7 +181,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    *
    * @return The city of the financial institution.
    */
-  @Element ( value = "CITY", required = true, order = 70 )
+  @Element ( name = "CITY", required = true, order = 70 )
   public String getCity() {
     return city;
   }
@@ -200,7 +200,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    *
    * @return The state of this financial institution.
    */
-  @Element ( value = "STATE", required = true, order = 80 )
+  @Element ( name = "STATE", required = true, order = 80 )
   public String getState() {
     return state;
   }
@@ -219,7 +219,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    *
    * @return The postal code of this financial institution.
    */
-  @Element ( value = "POSTALCODE", required = true, order = 90 )
+  @Element ( name = "POSTALCODE", required = true, order = 90 )
   public String getZip() {
     return zip;
   }
@@ -239,7 +239,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    * @return The country code for this financial institution.
    * @see java.util.Locale#getISO3Country()
    */
-  @Element ( value = "COUNTRY", required = true, order = 100 )
+  @Element ( name = "COUNTRY", required = true, order = 100 )
   public String getCountry() {
     return country;
   }
@@ -258,7 +258,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    *
    * @return The phone number to customer service.
    */
-  @Element ( value = "CSPHONE", order = 110 )
+  @Element ( name = "CSPHONE", order = 110 )
   public String getCustomerServicePhone() {
     return customerServicePhone;
   }
@@ -277,7 +277,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    *
    * @return The phone number to tech support.
    */
-  @Element ( value = "TSPHONE", order = 120 )
+  @Element ( name = "TSPHONE", order = 120 )
   public String getTechnicalSupportPhone() {
     return technicalSupportPhone;
   }
@@ -296,7 +296,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    *
    * @return The fax number.
    */
-  @Element ( value = "FAXPHONE", order = 130 )
+  @Element ( name = "FAXPHONE", order = 130 )
   public String getFax() {
     return fax;
   }
@@ -315,7 +315,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    *
    * @return URL for the financial institution.
    */
-  @Element ( value = "URL", order = 140 )
+  @Element ( name = "URL", order = 140 )
   public URL getSiteURL() {
     return siteURL;
   }
@@ -334,7 +334,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    *
    * @return The email for this FI
    */
-  @Element ( value = "EMAIL", order = 150 )
+  @Element ( name = "EMAIL", order = 150 )
   public String getEmail() {
     return email;
   }
