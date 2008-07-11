@@ -8,11 +8,12 @@ import net.sf.ofx4j.io.AggregateMarshaller;
 import net.sf.ofx4j.io.v1.OFXV1Writer;
 import net.sf.ofx4j.io.AggregateUnmarshaller;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Base implementation for an OFX connection.
@@ -21,22 +22,50 @@ import java.net.URL;
  */
 public class OFXV1Connection implements OFXConnection {
 
+  private static final Log LOG = LogFactory.getLog(OFXV1Connection.class);
+
   private AggregateMarshaller marshaller = new AggregateMarshaller();
   private AggregateUnmarshaller<ResponseEnvelope> unmarshaller = new AggregateUnmarshaller<ResponseEnvelope>(ResponseEnvelope.class);
 
-  public ResponseEnvelope sendRequest(RequestEnvelope request, URL url) throws IOException, OFXConnectionException {
-    if (!url.getProtocol().toLowerCase().startsWith("http")) {
-      throw new IllegalArgumentException("Invalid URL: " + url + " only http(s) is supported.");
+  public ResponseEnvelope sendRequest(RequestEnvelope request, URL url) throws OFXConnectionException {
+    try {
+      if (!url.getProtocol().toLowerCase().startsWith("http")) {
+        throw new IllegalArgumentException("Invalid URL: " + url + " only http(s) is supported.");
+      }
+
+      //marshal to memory so we can determine the size...
+      ByteArrayOutputStream outBuffer = new ByteArrayOutputStream();
+      OFXWriter ofxWriter = newOFXWriter(outBuffer);
+      getMarshaller().marshal(request, ofxWriter);
+      ofxWriter.close();
+      logRequest(outBuffer);
+      return sendBuffer(url, outBuffer);
     }
+    catch (IOException e) {
+      throw new OFXConnectionException(e);
+    }
+  }
+
+  protected void logRequest(ByteArrayOutputStream outBuffer) throws UnsupportedEncodingException {
+    if (LOG.isInfoEnabled()) {
+      LOG.info("Marshalling " + outBuffer.size() + " bytes of the OFX request.");
+      if (LOG.isDebugEnabled()) {
+        LOG.debug(outBuffer.toString("utf-8"));
+      }
+    }
+  }
+
+  protected ResponseEnvelope sendBuffer(URL url, ByteArrayOutputStream outBuffer) throws IOException, OFXConnectionException {
     HttpURLConnection connection = openConnection(url);
     connection.setRequestMethod("POST");
-    connection.setRequestProperty("Content-Type", "application/x-ofx;charset=utf-8");
+    connection.setRequestProperty("Content-Type", "application/x-ofx");
+    connection.setRequestProperty("Content-Length", String.valueOf(outBuffer.size()));
+    connection.setRequestProperty("Accept", "*/*, application/x-ofx");
     connection.setDoOutput(true);
     connection.connect();
 
     OutputStream out  = connection.getOutputStream();
-    OFXWriter ofxWriter = newOFXWriter(out);
-    getMarshaller().marshal(request, ofxWriter);
+    out.write(outBuffer.toByteArray());
 
     InputStream in;
     int responseCode = connection.getResponseCode();
@@ -44,10 +73,10 @@ public class OFXV1Connection implements OFXConnection {
       in = connection.getInputStream();
     }
     else if (responseCode >= 400 && responseCode < 500) {
-      in = connection.getErrorStream();
+      throw new OFXServerException("Error with client request: " + connection.getResponseMessage(), responseCode);
     }
     else {
-      throw new OFXConnectionException("Invalid response code from OFX server: " + responseCode + " " + connection.getResponseMessage());
+      throw new OFXServerException("Invalid response code from OFX server: " + connection.getResponseMessage(), responseCode);
     }
 
     try {

@@ -1,4 +1,4 @@
-package net.sf.ofx4j.domain;
+package net.sf.ofx4j.client;
 
 import net.sf.ofx4j.domain.data.MessageSetProfile;
 import net.sf.ofx4j.domain.data.MessageSetType;
@@ -102,7 +102,7 @@ public interface FinancialInstitutionProfile {
    *
    * @return URL for the financial institution.
    */
-  URL getSiteURL();
+  String getSiteURL();
 
   /**
    * The email for this FI

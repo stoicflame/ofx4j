@@ -19,7 +19,7 @@ NEWFILEUID:NONE
       <LANGUAGE>ENG
       <DTACCTUP>19900101000000
       <FI>
-        <ORG>MYBANK
+        <ORG>Bank&amp;Cd
         <FID>01234
       </FI>
     </SONRS>
@@ -43,30 +43,12 @@ NEWFILEUID:NONE
             <DTEND>20071015
             <STMTTRN>
               <TRNTYPE>CREDIT
-              <DTPOSTED>20070315
-              <DTUSER>20070315
-              <TRNAMT>200.00
-              <FITID>980315001
-              <NAME>DEPOSIT
-              <MEMO>automatic deposit
-            </STMTTRN>
-            <STMTTRN>
-              <TRNTYPE>CREDIT
               <DTPOSTED>20070329
               <DTUSER>20070329
               <TRNAMT>150.00
               <FITID>980310001
               <NAME>TRANSFER
-              <MEMO><![CDATA[Transfer from checking]]>
-            </STMTTRN>
-            <STMTTRN>
-              <TRNTYPE>PAYMENT
-              <DTPOSTED>20070709
-              <DTUSER>20070709
-              <TRNAMT>-100.00
-              <FITID>980309001
-                <CHECKNUM>1025
-              <NAME>John Hancock
+              <MEMO><![CDATA[Transfer from checking &<> etc.]]>
             </STMTTRN>
           </BANKTRANLIST>
           <LEDGERBAL>

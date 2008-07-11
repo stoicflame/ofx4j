@@ -4,6 +4,11 @@ import net.sf.ofx4j.domain.data.common.Status;
 
 import java.sql.Time;
 import java.util.*;
+import java.net.URL;
+import java.net.MalformedURLException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * Utility class for conversion to/from OFX strings.
@@ -20,21 +25,21 @@ public class DefaultStringConversion implements StringConversion {
     if (value == null) {
       return null;
     }
+    else if (Boolean.class.isInstance(value)) {
+      return ((Boolean) value) ? "Y" : "N";
+    }
     else if (Time.class.isInstance(value)) {
       return formatTime((Time) value);
     }
     else if (Date.class.isInstance(value)) {
       return formatDate((Date) value);
     }
-    if (Boolean.class.isInstance(value)) {
-      return ((Boolean) value) ? "Y" : "N";
-    }
     else {
       return String.valueOf(value);
     }
   }
 
-  public <E> E fromString(Class<E> clazz, String value) {
+  public <E> E fromString(Class<E> clazz, String value) throws OFXSyntaxException {
     if (value == null) {
       return null;
     }
@@ -47,7 +52,7 @@ public class DefaultStringConversion implements StringConversion {
         code = Integer.parseInt(value);
       }
       catch (NumberFormatException e) {
-        //fall through...
+        throw new OFXSyntaxException(e);
       }
       
       return (E) Status.Code.fromCode(code);
@@ -76,7 +81,14 @@ public class DefaultStringConversion implements StringConversion {
     else if (Date.class.isAssignableFrom(clazz)) {
       return (E) parseDate(value);
     }
-    //todo: really convert.
+    else if (URL.class.isAssignableFrom(clazz)) {
+      try {
+        return (E) new URL(value);
+      }
+      catch (MalformedURLException e) {
+        throw new OFXSyntaxException(e);
+      }
+    }
     return (E) value;
   }
 

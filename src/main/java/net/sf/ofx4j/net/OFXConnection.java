@@ -20,6 +20,6 @@ public interface OFXConnection {
    * @param url The URL to which to send the request.
    * @return The response.
    */
-  ResponseEnvelope sendRequest(RequestEnvelope request, URL url) throws IOException, OFXConnectionException;
+  ResponseEnvelope sendRequest(RequestEnvelope request, URL url) throws OFXConnectionException;
 
 }

@@ -29,4 +29,8 @@ public class XMLUtilBackdoor extends XMLUtil {
     return XMLUtil.processCharLiteral(entity);
   }
 
+  public static boolean checkLiteral(IXMLReader reader, String literal) throws IOException, XMLParseException {
+    return XMLUtil.checkLiteral(reader, literal);
+  }
+
 }

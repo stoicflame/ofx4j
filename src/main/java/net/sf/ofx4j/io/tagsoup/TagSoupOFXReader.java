@@ -35,6 +35,10 @@ public class TagSoupOFXReader extends BaseOFXReader {
       parser.parse(new InputSource(reader));
     }
     catch (SAXException e) {
+      if (e.getCause() instanceof OFXParseException) {
+        throw (OFXParseException) e.getCause();
+      }
+      
       throw new OFXParseException("Error parsing OFX document.", e);
     }
   }

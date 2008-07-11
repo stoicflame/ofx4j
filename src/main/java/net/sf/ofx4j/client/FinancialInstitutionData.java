@@ -1,4 +1,4 @@
-package net.sf.ofx4j.domain;
+package net.sf.ofx4j.client;
 
 import java.net.URL;
 
@@ -11,18 +11,25 @@ import java.net.URL;
 public interface FinancialInstitutionData {
 
   /**
-   * The name of the FI.
+   * A unique id for this FI.
    *
-   * @return The name of the FI.
+   * @return A unique id for this FI.
    */
-  String getName();
+  String getId();
 
   /**
    * The id of the FI.
    *
    * @return The id of the FI.
    */
-  String getId();
+  String getFinancialInstitutionId();
+
+  /**
+   * The name of the FI.
+   *
+   * @return The name of the FI.
+   */
+  String getName();
 
   /**
    * The OFX organization name.

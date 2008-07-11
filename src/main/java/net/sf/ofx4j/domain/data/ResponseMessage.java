@@ -7,11 +7,4 @@ package net.sf.ofx4j.domain.data;
  */
 public abstract class ResponseMessage {
 
-  /**
-   * The name of the response message.
-   *
-   * @return The name of the response message.
-   */
-  public abstract String getResponseMessageName();
-
 }

@@ -1,6 +1,5 @@
 package net.sf.ofx4j.io;
 
-import net.sf.ofx4j.io.tagsoup.TagSoupOFXReader;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.xml.sax.InputSource;
@@ -21,7 +20,7 @@ import java.util.regex.Pattern;
  */
 public abstract class BaseOFXReader implements OFXReader {
 
-  private static final Log LOG = LogFactory.getLog(TagSoupOFXReader.class);
+  private static final Log LOG = LogFactory.getLog(BaseOFXReader.class);
   public static final Pattern OFX_2_PROCESSING_INSTRUCTION_PATTERN = Pattern.compile("<\\?OFX ([^\\?]+)\\?>");
   private OFXHandler contentHandler = new DefaultHandler();
 
@@ -154,6 +153,10 @@ public abstract class BaseOFXReader implements OFXReader {
       xmlReader.parse(new InputSource(reader));
     }
     catch (SAXException e) {
+      if (e.getCause() instanceof OFXParseException) {
+        throw (OFXParseException) e.getCause();
+      }
+      
       throw new OFXParseException(e);
     }
   }
@@ -163,7 +166,7 @@ public abstract class BaseOFXReader implements OFXReader {
    *
    * @param chars The characters to process.
    */
-  protected void processOFXv1Headers(String chars) throws IOException {
+  protected void processOFXv1Headers(String chars) throws IOException, OFXParseException {
     BufferedReader reader = new BufferedReader(new StringReader(chars));
     String line = reader.readLine();
     while (line != null) {
@@ -182,7 +185,7 @@ public abstract class BaseOFXReader implements OFXReader {
    *
    * @param chars The characters to process.
    */
-  protected void processOFXv2Headers(String chars) {
+  protected void processOFXv2Headers(String chars) throws OFXParseException {
     String[] nameValuePairs = chars.split("\\s+");
     for (String nameValuePair : nameValuePairs) {
       int equalsIndex = nameValuePair.indexOf('=');

@@ -41,7 +41,13 @@ public class OFXV2ContentHandler extends org.xml.sax.helpers.DefaultHandler {
       }
 
       //the last element started was not ended; we are assuming we've started a new aggregate.
-      this.ofxHandler.startAggregate(eventValue);
+      try {
+        this.ofxHandler.startAggregate(eventValue);
+      }
+      catch (OFXParseException e) {
+        throw new SAXException(e);
+      }
+
       this.startedEvents.add(eventStack.peek());
     }
 
@@ -81,7 +87,12 @@ public class OFXV2ContentHandler extends org.xml.sax.helpers.DefaultHandler {
           if (LOG.isDebugEnabled()) {
             LOG.debug("Element " + value + " processed with value " + chars);
           }
-          this.ofxHandler.onElement(value, chars);
+          try {
+            this.ofxHandler.onElement(value, chars);
+          }
+          catch (OFXParseException e) {
+            throw new SAXException(e);
+          }
         }
       }
     }
@@ -93,7 +104,13 @@ public class OFXV2ContentHandler extends org.xml.sax.helpers.DefaultHandler {
         if (LOG.isDebugEnabled()) {
           LOG.debug("Ending aggregate " + value);
         }
-        this.ofxHandler.endAggregate(value);
+        try {
+          this.ofxHandler.endAggregate(value);
+        }
+        catch (OFXParseException e) {
+          throw new SAXException(e);
+        }
+
         this.startedEvents.remove(eventToFinish);
       }
       else {

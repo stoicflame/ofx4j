@@ -1,6 +1,6 @@
 package net.sf.ofx4j.domain.data.fi;
 
-import net.sf.ofx4j.domain.FinancialInstitutionData;
+import net.sf.ofx4j.client.FinancialInstitutionData;
 
 import java.net.URL;
 
@@ -12,10 +12,18 @@ import java.net.URL;
 public class BaseFinancialInstitutionData implements FinancialInstitutionData {
 
   private String id;
+  private String fid;
   private String name;
   private String organization;
   private URL ofxUrl;
   private String brokerId;
+
+  public BaseFinancialInstitutionData() {
+  }
+
+  public BaseFinancialInstitutionData(String id) {
+    this.id = id;
+  }
 
   public String getId() {
     return id;
@@ -23,6 +31,14 @@ public class BaseFinancialInstitutionData implements FinancialInstitutionData {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public String getFinancialInstitutionId() {
+    return fid;
+  }
+
+  public void setFinancialInstitutionId(String id) {
+    this.fid = id;
   }
 
   public String getName() {

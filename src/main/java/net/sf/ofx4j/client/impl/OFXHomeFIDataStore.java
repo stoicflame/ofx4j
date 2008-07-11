@@ -1,8 +1,8 @@
-package net.sf.ofx4j.services.impl;
+package net.sf.ofx4j.client.impl;
 
-import net.sf.ofx4j.domain.FinancialInstitutionData;
+import net.sf.ofx4j.client.FinancialInstitutionData;
+import net.sf.ofx4j.client.FinancialInstitutionDataStore;
 import net.sf.ofx4j.domain.data.fi.BaseFinancialInstitutionData;
-import net.sf.ofx4j.services.FinancialInstitutionDataStore;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -144,7 +144,7 @@ public class OFXHomeFIDataStore implements FinancialInstitutionDataStore {
 
     @Override
     public void startDocument() throws SAXException {
-      this.data = new BaseFinancialInstitutionData();
+      this.data = new BaseFinancialInstitutionData(UUID.randomUUID().toString());
     }
 
     @Override
@@ -191,7 +191,7 @@ public class OFXHomeFIDataStore implements FinancialInstitutionDataStore {
 
           switch (currentField) {
             case ID:
-              this.data.setId(fieldValue);
+              this.data.setFinancialInstitutionId(fieldValue);
               break;
             case BROKERID:
               this.data.setBrokerId(fieldValue);

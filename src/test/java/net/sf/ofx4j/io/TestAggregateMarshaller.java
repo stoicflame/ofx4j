@@ -98,6 +98,7 @@ public class TestAggregateMarshaller extends TestCase {
    * tests a simple marshal/unmarshal round-trip...
    */
   public void testSimpleMarshalAndUnmarshal() throws Exception {
+    AggregateIntrospector.AGGREGATE_CLASSES_BY_NAME.put("EXAMPLE4", AggregateExample4.class);
     AggregateIntrospector.AGGREGATE_CLASSES_BY_NAME.put("EXAMPLE3", AggregateExample3.class);
     AggregateIntrospector.AGGREGATE_CLASSES_BY_NAME.put("EXAMPLE2", AggregateExample2.class);
 
@@ -111,7 +112,7 @@ public class TestAggregateMarshaller extends TestCase {
     AggregateExample2 child2 = new AggregateExample2();
     child2.setElement("child2-element1");
     example.setAggregate2(child2);
-    AggregateExample2 child3 = new AggregateExample2();
+    AggregateExample4 child3 = new AggregateExample4();
     child3.setElement("child3-element1");
     AggregateExample3 child4 = new AggregateExample3();
     child4.setElement("child4-element1");
@@ -145,7 +146,7 @@ public class TestAggregateMarshaller extends TestCase {
     assertNotNull(example.getAggregateList());
     assertEquals(2, example.getAggregateList().size());
     assertEquals("child4-element1", ((AggregateExample3) example.getAggregateList().get(0)).getElement());
-    assertEquals("child3-element1", ((AggregateExample2) example.getAggregateList().get(1)).getElement());
+    assertEquals("child3-element1", ((AggregateExample4) example.getAggregateList().get(1)).getElement());
   }
 
 }

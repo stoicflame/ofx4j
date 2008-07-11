@@ -27,7 +27,7 @@ public interface MessageSetProfile {
    *
    * @return The URL at which the message set is processed.
    */
-  URL getUrl();
+  String getUrl();
 
   /**
    * The application-level security required for this message set.

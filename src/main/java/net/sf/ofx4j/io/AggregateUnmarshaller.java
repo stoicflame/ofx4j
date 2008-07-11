@@ -1,7 +1,5 @@
 package net.sf.ofx4j.io;
 
-import net.sf.ofx4j.io.OFXParseException;
-import net.sf.ofx4j.io.OFXReader;
 import net.sf.ofx4j.io.nanoxml.NanoXMLOFXReader;
 
 import java.io.IOException;
@@ -31,6 +29,9 @@ public class AggregateUnmarshaller<A> {
       return aggregate;
     }
     catch (OFXParseException e) {
+      throw e;
+    }
+    catch (RuntimeException e) {
       throw e;
     }
     catch (Exception e) {

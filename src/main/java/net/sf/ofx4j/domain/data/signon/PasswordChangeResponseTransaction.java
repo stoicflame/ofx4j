@@ -8,9 +8,13 @@ import net.sf.ofx4j.meta.Aggregate;
  * @author Ryan Heaton
  */
 @Aggregate ("PINCHTRNRS")
-public class PasswordChangeResponseTransaction extends TransactionWrappedResponseMessage<PasswordChangeResponse> {
+public class PasswordChangeResponseTransaction extends TransactionWrappedResponseMessage {
 
   private PasswordChangeResponse message;
+
+  public PasswordChangeResponseTransaction() {
+    super("password change");
+  }
 
   @ChildAggregate ( required = true, order = 30 )
   public PasswordChangeResponse getMessage() {

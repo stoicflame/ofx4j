@@ -2,14 +2,17 @@ package net.sf.ofx4j.io.tagsoup;
 
 import net.sf.ofx4j.io.OFXHandler;
 import net.sf.ofx4j.io.OFXParseEvent;
+import net.sf.ofx4j.io.OFXParseException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
 /**
  * Handler for TagSoup-created parse events. <em>Note that this handler makes a VITAL assumption: that OFX aggregates DO NOT contain any non-whitespace
@@ -56,7 +59,13 @@ public class TagSoupHandler extends DefaultHandler {
         LOG.debug("Element " + qName + " is starting aggregate " + eventValue);
       }
       //no last element was ended; we are assuming we've started a new aggregate.
-      this.ofxHandler.startAggregate(eventValue);
+      try {
+        this.ofxHandler.startAggregate(eventValue);
+      }
+      catch (OFXParseException e) {
+        throw new SAXException(e);
+      }
+
       this.startedEvents.add(eventStack.peek());
     }
 
@@ -85,7 +94,7 @@ public class TagSoupHandler extends DefaultHandler {
    *
    * @return The name of the OFX element that was processed, or null if no OFX element was processed.
    */
-  protected String processLastCharactersIfNecessary() throws IOException {
+  protected String processLastCharactersIfNecessary() throws IOException, SAXException {
     if (!eventStack.isEmpty() && eventStack.peek().getEventType() == OFXParseEvent.Type.CHARACTERS) {
       String chars = eventStack.pop().getEventValue().trim();
 
@@ -102,7 +111,13 @@ public class TagSoupHandler extends DefaultHandler {
           if (LOG.isDebugEnabled()) {
             LOG.debug("Element " + value + " processed with value " + chars);
           }
-          this.ofxHandler.onElement(value, chars);
+          try {
+            this.ofxHandler.onElement(value, chars);
+          }
+          catch (OFXParseException e) {
+            throw new SAXException(e);
+          }
+
           return value;
         }
       }
@@ -144,7 +159,12 @@ public class TagSoupHandler extends DefaultHandler {
             if (LOG.isDebugEnabled()) {
               LOG.debug("Ending aggregate " + value);
             }
-            this.ofxHandler.endAggregate(value);
+            try {
+              this.ofxHandler.endAggregate(value);
+            }
+            catch (OFXParseException e) {
+              throw new SAXException(e);
+            }
             this.startedEvents.remove(event);
             break;
           }

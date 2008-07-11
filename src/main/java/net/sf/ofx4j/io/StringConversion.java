@@ -21,6 +21,7 @@ public interface StringConversion {
    * @param clazz The class.
    * @param value The value.
    * @return The converted value.
+   * @throws OFXSyntaxException If there was something wrong with the syntax of the string.
    */
-  <E> E fromString(Class<E> clazz, String value);
+  <E> E fromString(Class<E> clazz, String value) throws OFXSyntaxException;
 }

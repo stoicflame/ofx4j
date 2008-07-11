@@ -15,7 +15,7 @@ public class OFXV1Writer implements OFXWriter {
   private static final String LINE_SEPARATOR = "\r\n";
   protected boolean headersWritten = false;
   protected final Writer writer;
-  private boolean writeAttributesOnNewLine;
+  private boolean writeAttributesOnNewLine = true;
 
   public OFXV1Writer(OutputStream out) {
     try {

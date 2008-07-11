@@ -5,8 +5,6 @@ import net.sf.ofx4j.domain.data.MessageSetProfile;
 import net.sf.ofx4j.domain.data.ApplicationSecurity;
 import net.sf.ofx4j.domain.data.MessageSetType;
 
-import java.net.URL;
-
 /**
  * Information specific to a version of a message set.
  *
@@ -51,7 +49,7 @@ public abstract class VersionSpecificMessageSetInfo implements MessageSetProfile
     return core != null ? core.getServiceProviderName() : null;
   }
 
-  public URL getUrl() {
+  public String getUrl() {
     return core != null ? core.getUrl() : null;
   }
 

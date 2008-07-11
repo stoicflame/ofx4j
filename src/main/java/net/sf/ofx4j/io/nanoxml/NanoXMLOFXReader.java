@@ -19,10 +19,17 @@ public class NanoXMLOFXReader extends BaseOFXReader {
 
   protected void parseV1FromFirstElement(Reader reader) throws IOException, OFXParseException {
     try {
-      processOFXTag(new StdXMLReader(reader), new XMLEntityResolver());
+      StdXMLReader xmlReader = new StdXMLReader(reader);
+      XMLUtilBackdoor.skipWhitespace(xmlReader, null);
+      char ch = xmlReader.read();
+      if (ch != '<') {
+        throw new OFXParseException("Unexpected content before root <OFX> tag: " + ch);
+      }
+      
+      processOFXTag(xmlReader, new XMLEntityResolver());
     }
     catch (XMLParseException e) {
-      throw new OFXParseException(e);
+      throw new OFXParseException(e.getMessage(), e);
     }
   }
 
@@ -32,18 +39,13 @@ public class NanoXMLOFXReader extends BaseOFXReader {
    * @param reader The reader.
    * @param entityResolver The entity resolver.
    */
-  protected void processOFXTag(IXMLReader reader, IXMLEntityResolver entityResolver) throws IOException, XMLParseException {
-    String fullName = XMLUtilBackdoor.scanIdentifier(reader);
-    XMLUtilBackdoor.skipWhitespace(reader, null);
-    char ch = reader.read();
-    if (ch != '>') {
-      throw new IllegalStateException("Unexpected character '" + ch + "' after element name " + fullName + " on line " + reader.getLineNr() + ".");
-    }
-
+  protected void processOFXTag(IXMLReader reader, IXMLEntityResolver entityResolver) throws IOException, XMLParseException, OFXParseException {
+    String tagName = readTagName(reader);
     StringBuffer buffer = new StringBuffer(16);
-    String tagContent = null;
-    
-    while (true) {
+    boolean aggregateStarted = false;
+    StringBuilder tagContent = null;
+
+    while (!reader.atEOF()) {
       String str;
 
       while (true) {
@@ -63,54 +65,106 @@ public class NanoXMLOFXReader extends BaseOFXReader {
 
         if (str.charAt(0) == '/') {
           XMLUtilBackdoor.skipWhitespace(reader, null);
-          XMLUtilBackdoor.scanIdentifier(reader);
+          String endAggregate = XMLUtilBackdoor.scanIdentifier(reader);
           XMLUtilBackdoor.skipWhitespace(reader, null);
 
-          //ending an aggregate...
+          //we could be ending an element...
+          if (tagContent != null) {
+            getContentHandler().onElement(tagName, tagContent.toString());
+          }
 
           if (reader.read() != '>') {
             throw new XMLParseException(reader.getSystemID(), reader.getLineNr(), "Non-empty closing tag.");
           }
 
+          getContentHandler().endAggregate(endAggregate);
           break;
         }
-        else { // <[^/]
-          //a new tag encountered. if character data was processed, it's an element.  Otherwise, its the start of a new aggregate.
-          if (tagContent == null) {
-            getContentHandler().startAggregate(fullName);
-          }
-          else {
-            getContentHandler().onElement(fullName, tagContent);
+        else if (str.charAt(0) == '!') {
+          //CDATA
+          str = XMLUtilBackdoor.read(reader, '&');
+          char ch = str.charAt(0);
+
+          switch(ch) {
+            case '&':
+              throw new XMLParseException(reader.getSystemID(), reader.getLineNr(), "Unexpected entity: " + str);
+            case '[':
+              if (!XMLUtilBackdoor.checkLiteral(reader, "CDATA[")) {
+                throw new XMLParseException(reader.getSystemID(), reader.getLineNr(), "Expected <![CDATA[");
+              }
+              String cdata = readCharacters(new CDATAReaderBackdoor(reader));
+              if (tagContent == null) {
+                tagContent = new StringBuilder(cdata);
+              }
+              else {
+                tagContent.append(cdata);
+              }
+              break;
+            default:
+              throw new XMLParseException(reader.getSystemID(), reader.getLineNr(), "Unexpected special tag: " + str);
           }
 
+        }
+        else {
+          //a new tag encountered. if character data was processed, it's an element.  Otherwise, its the start of a new aggregate.
           reader.unread(str.charAt(0));
-          processOFXTag(reader, entityResolver);
+          if (tagContent == null) {
+            if (!aggregateStarted) {
+              getContentHandler().startAggregate(tagName);
+              aggregateStarted = true;
+            }
+            processOFXTag(reader, entityResolver);
+          }
+          else {
+            getContentHandler().onElement(tagName, tagContent.toString());
+            tagContent = null;
+            tagName = readTagName(reader);
+          }
         }
       }
       else { // [^<]
         if (str.charAt(0) == '&') {
-          ch = XMLUtilBackdoor.processCharLiteral(str);
+          char ch = XMLUtilBackdoor.processCharLiteral(str);
           buffer.append(ch);
         }
         else {
           reader.unread(str.charAt(0));
         }
 
-        StringWriter contentWriter = new StringWriter();
-        ContentReaderBackdoor contentReader = new ContentReaderBackdoor(reader, entityResolver, buffer.toString());
-        char[] contentBuffer = new char[200]; //200 characters should be adequate for OFX...
-        int charsRead = contentReader.read(contentBuffer);
-        while (charsRead != -1) {
-          contentWriter.write(contentBuffer, 0, charsRead);
-          charsRead = contentReader.read(contentBuffer);
+        String chars = readCharacters(new ContentReaderBackdoor(reader, entityResolver, buffer.toString()));
+        if (tagContent == null) {
+          tagContent = new StringBuilder(chars);
         }
-        contentReader.close();
-        contentWriter.close();
-        tagContent = contentWriter.toString();
+        else {
+          tagContent.append(chars);
+        }
       }
     }
+  }
 
-    getContentHandler().endAggregate(fullName);
+  protected String readTagName(IXMLReader reader) throws IOException, XMLParseException {
+    String fullName = XMLUtilBackdoor.scanIdentifier(reader);
+    XMLUtilBackdoor.skipWhitespace(reader, null);
+    char ch = reader.read();
+    if (ch != '>') {
+      throw new IllegalStateException("Unexpected character '" + ch + "' after element name " + fullName + " on line " + reader.getLineNr() + ".");
+    }
+    return fullName;
+  }
+
+  protected String readCharacters(Reader contentReader) throws IOException {
+    String tagContent;
+    StringWriter contentWriter = new StringWriter();
+    char[] contentBuffer = new char[200]; //200 characters should be adequate for OFX...
+    int charsRead = contentReader.read(contentBuffer);
+    while (charsRead != -1) {
+      contentWriter.write(contentBuffer, 0, charsRead);
+      charsRead = contentReader.read(contentBuffer);
+    }
+    contentReader.close();
+    contentWriter.close();
+    tagContent = contentWriter.toString();
+    return tagContent;
   }
 
 }

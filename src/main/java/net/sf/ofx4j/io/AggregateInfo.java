@@ -90,18 +90,38 @@ public class AggregateInfo {
    * Get the attribute by the specified name.
    *
    * @param name The name of the attribute.
-   * @param order The order at which the attribute must come after.
-   * @return The attribute.
+   * @param orderHint The order at which the attribute should come after in case there are more than one candidates.
+   * @return The attribute by the specified name,
+   * or if there are more than one by that name,
+   * the first one after the specified order,
+   * or if there are none then the first collection that
+   * comes after the order hint, or the latest if there
+   * are none that come after the order hint, or null.
    */
-  public AggregateAttribute getAttribute(String name, int order) {
+  public AggregateAttribute getAttribute(String name, int orderHint) {
+    List<AggregateAttribute> candidates = new ArrayList<AggregateAttribute>();
     AggregateAttribute collectionBucket = null;
     for (AggregateAttribute attribute : attributes) {
-      if (attribute.getOrder() >= order) {
-        if (name.equals(attribute.getName())) {
-          return attribute;
-        }
-        else if (collectionBucket == null && attribute.isCollection()) {
+      if (name.equals(attribute.getName())) {
+        candidates.add(attribute);
+      }
+      else if (attribute.isCollection()) {
+        if (collectionBucket == null || collectionBucket.getOrder() < orderHint) {
+          //the default is the first collection that comes after the order hint, or the latest if there are none that come after the order hint.
           collectionBucket = attribute;
+        }
+      }
+    }
+
+    if (!candidates.isEmpty()) {
+      if (candidates.size() == 1) {
+        return candidates.get(0);
+      }
+      else {
+        for (AggregateAttribute candidate : candidates) {
+          if (candidate.getOrder() >= orderHint) {
+            return candidate;
+          }
         }
       }
     }

@@ -8,9 +8,13 @@ import net.sf.ofx4j.meta.Aggregate;
  * @author Ryan Heaton
  */
 @Aggregate ("PROFTRNRS")
-public class ProfileResponseTransaction extends TransactionWrappedResponseMessage<ProfileResponse> {
+public class ProfileResponseTransaction extends TransactionWrappedResponseMessage {
 
   private ProfileResponse message;
+
+  public ProfileResponseTransaction() {
+    super("profile");
+  }
 
   @ChildAggregate ( required = true, order = 30 )
   public ProfileResponse getMessage() {

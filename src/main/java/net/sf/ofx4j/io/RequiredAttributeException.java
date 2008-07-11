@@ -1,11 +1,13 @@
 package net.sf.ofx4j.io;
 
+import net.sf.ofx4j.OFXRuntimeException;
+
 /**
  * Thrown when a required attribute of an aggregate is null or empty.
  *
  * @author Ryan Heaton
  */
-public class RequiredAttributeException extends RuntimeException {
+public class RequiredAttributeException extends OFXRuntimeException {
 
   public RequiredAttributeException() {
   }

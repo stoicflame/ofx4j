@@ -11,11 +11,16 @@ import net.sf.ofx4j.meta.Element;
  * @author Ryan Heaton
  * @see "Section 2.4.6, OFX Spec"
  */
-public abstract class TransactionWrappedResponseMessage<M extends ResponseMessage> extends ResponseMessage implements StatusHolder {
+public abstract class TransactionWrappedResponseMessage extends ResponseMessage implements StatusHolder {
 
   private String UID;
   private String clientCookie;
   private Status status;
+  private final String messageName;
+
+  protected TransactionWrappedResponseMessage(String messageName) {
+    this.messageName = messageName;
+  }
 
   /**
    * UID of this transaction.
@@ -56,13 +61,8 @@ public abstract class TransactionWrappedResponseMessage<M extends ResponseMessag
   }
 
   // Inherited.
-  public String getResponseMessageName() {
-    return getMessage() != null ? getMessage().getResponseMessageName() : null;
-  }
-
-  // Inherited.
   public String getStatusHolderName() {
-    return getResponseMessageName();
+    return this.messageName;
   }
 
   /**
@@ -83,12 +83,5 @@ public abstract class TransactionWrappedResponseMessage<M extends ResponseMessag
   public void setStatus(Status status) {
     this.status = status;
   }
-
-  /**
-   * The response message being wrapped in a transaction.
-   *
-   * @return The response message being wrapped in a transaction.
-   */
-  public abstract M getMessage();
 
 }

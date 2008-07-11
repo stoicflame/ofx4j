@@ -18,7 +18,7 @@ public class CoreMessageSetInfo {
 
   private String version = "1";
   private String serviceProviderName;
-  private URL url;
+  private String url;
   private ApplicationSecurity security;
   private Boolean sslRequired;
   private String realm;
@@ -70,7 +70,7 @@ public class CoreMessageSetInfo {
    * @return The URL at which the message set is processed.
    */
   @Element ( name = "URL", required = true, order = 20 )
-  public URL getUrl() {
+  public String getUrl() {
     return url;
   }
 
@@ -79,7 +79,7 @@ public class CoreMessageSetInfo {
    *
    * @param url The URL at which the message set is processed.
    */
-  public void setUrl(URL url) {
+  public void setUrl(String url) {
     this.url = url;
   }
 

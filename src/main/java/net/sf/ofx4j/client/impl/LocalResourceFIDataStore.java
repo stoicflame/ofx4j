@@ -1,7 +1,7 @@
-package net.sf.ofx4j.services.impl;
+package net.sf.ofx4j.client.impl;
 
-import net.sf.ofx4j.services.FinancialInstitutionDataStore;
-import net.sf.ofx4j.domain.FinancialInstitutionData;
+import net.sf.ofx4j.client.FinancialInstitutionDataStore;
+import net.sf.ofx4j.client.FinancialInstitutionData;
 import net.sf.ofx4j.domain.data.fi.BaseFinancialInstitutionData;
 
 import javax.xml.bind.JAXBContext;
@@ -89,7 +89,7 @@ public class LocalResourceFIDataStore implements FinancialInstitutionDataStore {
    * @param data The data to add.
    */
   public void add(BaseFinancialInstitutionData data) {
-    this.fiData.put(data.getId(), data);
+    this.fiData.put(data.getFinancialInstitutionId(), data);
   }
 
   /**

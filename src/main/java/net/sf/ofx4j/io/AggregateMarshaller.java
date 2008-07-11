@@ -1,6 +1,7 @@
 package net.sf.ofx4j.io;
 
-import net.sf.ofx4j.io.OFXWriter;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.io.IOException;
 import java.util.*;
@@ -11,6 +12,8 @@ import java.util.*;
  * @author Ryan Heaton
  */
 public class AggregateMarshaller {
+
+  private static final Log LOG = LogFactory.getLog(AggregateMarshaller.class);
 
   private StringConversion conversion = new DefaultStringConversion();
 
@@ -50,8 +53,14 @@ public class AggregateMarshaller {
    */
   protected void writeAggregateAttributes(Object aggregate, OFXWriter writer, SortedSet<AggregateAttribute> aggregateAttributes) throws IOException {
     for (AggregateAttribute aggregateAttribute : aggregateAttributes) {
-      Object childValue = aggregateAttribute.get(aggregate);
-      
+      Object childValue = null;
+      try {
+        childValue = aggregateAttribute.get(aggregate);
+      }
+      catch (Exception e) {
+        LOG.error(String.format("Unable to get %s", aggregateAttribute.toString()), e);
+      }
+
       if (childValue != null) {
         switch (aggregateAttribute.getType()) {
           case CHILD_AGGREGATE:

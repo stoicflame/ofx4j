@@ -1,6 +1,5 @@
 package net.sf.ofx4j.io;
 
-import net.sf.ofx4j.io.OFXHandler;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
@@ -25,31 +24,40 @@ public class AggregateStackContentHandler<A> implements OFXHandler {
       throw new IllegalArgumentException(String.format("Unable to marshal object of type %s (no aggregate metadata found).", root.getClass().getName()));
     }
 
-    this.stack.push(new AggregateInfoHolder(root, aggregateInfo));
+    this.stack.push(new AggregateInfoHolder(root, aggregateInfo, aggregateInfo.getName()));
     this.conversion = conversion;
   }
 
-  public void onHeader(String name, String value) {
+  public void onHeader(String name, String value) throws OFXSyntaxException {
     Class headerType = this.stack.peek().info.getHeaderType(name);
     if (headerType != null) {
       this.stack.peek().info.setHeader(this.stack.peek().aggregate, name, this.conversion.fromString(headerType, value));
     }
   }
 
-  public void onElement(String name, String value) {
+  public void onElement(String name, String value) throws OFXSyntaxException {
     if (!this.stack.peek().isBeingSkipped()) {
       AggregateAttribute attribute = this.stack.peek().info.getAttribute(name, this.stack.peek().currentAttributeIndex);
       if (attribute != null && attribute.getType() == AggregateAttribute.Type.ELEMENT) {
-        attribute.set(this.conversion.fromString(attribute.getAttributeType(), value), this.stack.peek().aggregate);
+        try {
+          attribute.set(this.conversion.fromString(attribute.getAttributeType(), value), this.stack.peek().aggregate);
+        }
+        catch (Exception e) {
+          LOG.error("Unable to set " + attribute.toString(), e);
+        }
         this.stack.peek().currentAttributeIndex = attribute.getOrder();
       }
       else if (LOG.isInfoEnabled()) {
-        LOG.info(String.format("Element %s is not supported on aggregate %s (class %s).", name, this.stack.peek().info.getName(), this.stack.peek().aggregate.getClass().getName()));
+        LOG.info(String.format("Element %s is not supported on aggregate %s (class %s) at index %s.",
+                               name,
+                               this.stack.peek().info.getName(),
+                               this.stack.peek().aggregate.getClass().getName(),
+                               this.stack.peek().currentAttributeIndex));
       }
     }
   }
 
-  public void startAggregate(String aggregateName) {
+  public void startAggregate(String aggregateName) throws OFXSyntaxException {
     if (this.stack.peek().isBeingSkipped()) {
       this.stack.push(new AggregateInfoHolder(aggregateName));
     }
@@ -91,7 +99,7 @@ public class AggregateStackContentHandler<A> implements OFXHandler {
               throw new IllegalStateException(e);
             }
 
-            infoHolder = new AggregateInfoHolder(aggregate, aggregateInfo);
+            infoHolder = new AggregateInfoHolder(aggregate, aggregateInfo, aggregateName);
           }
           else {
             if (LOG.isInfoEnabled()) {
@@ -121,10 +129,11 @@ public class AggregateStackContentHandler<A> implements OFXHandler {
       }
       else {
         if (LOG.isInfoEnabled()) {
-          LOG.info(String.format("Child aggregate %s is not supported on aggregate %s (class %s): no attributes found by that name.",
+          LOG.info(String.format("Child aggregate %s is not supported on aggregate %s (class %s): no attributes found by that name after index %s.",
                                  aggregateName,
                                  this.stack.peek().info.getName(),
-                                 this.stack.peek().aggregate.getClass().getName()));
+                                 this.stack.peek().aggregate.getClass().getName(),
+                                 this.stack.peek().currentAttributeIndex));
         }
 
         //child aggregate not supported.  push a skipping aggregate on the stack.
@@ -135,13 +144,23 @@ public class AggregateStackContentHandler<A> implements OFXHandler {
     }
   }
 
-  public void endAggregate(String aggregateName) {
+  public void endAggregate(String aggregateName) throws OFXSyntaxException {
     AggregateInfoHolder infoHolder = this.stack.pop();
+    if (!aggregateName.equals(infoHolder.aggregateName)) {
+      throw new OFXSyntaxException("Unexpected end aggregate " + aggregateName + ". (Perhaps " +
+        infoHolder.aggregateName + " is an element with an empty value, making it impossible to parse.)");
+    }
+    
     if (!this.stack.isEmpty()) {
       if (!infoHolder.isSkipping(aggregateName)) {
         //we're not skipping the top aggregate, so process it.
         AggregateAttribute attribute = this.stack.peek().info.getAttribute(aggregateName, this.stack.peek().currentAttributeIndex);
-        attribute.set(infoHolder.aggregate, this.stack.peek().aggregate);
+        try {
+          attribute.set(infoHolder.aggregate, this.stack.peek().aggregate);
+        }
+        catch (Exception e) {
+          LOG.error("Unable to set " + attribute.toString(), e);
+        }
         this.stack.peek().currentAttributeIndex = attribute.getOrder();
       }
     }
@@ -154,24 +173,27 @@ public class AggregateStackContentHandler<A> implements OFXHandler {
 
     private final Object aggregate;
     private final AggregateInfo info;
+    private final String aggregateName;
     private int currentAttributeIndex = 0;
 
     private AggregateInfoHolder(String ignoredAggregateName) {
-      this.aggregate = ignoredAggregateName;
+      this.aggregate = null;
       this.info = null;
+      this.aggregateName = ignoredAggregateName;
     }
 
-    private AggregateInfoHolder(Object aggregate, AggregateInfo info) {
+    private AggregateInfoHolder(Object aggregate, AggregateInfo info, String aggregateName) {
+      this.aggregateName = aggregateName;
       this.aggregate = aggregate;
       this.info = info;
     }
 
     public boolean isBeingSkipped() {
-      return this.aggregate instanceof String;
+      return this.aggregate == null || this.info == null;
     }
 
     public boolean isSkipping(String aggregateName) {
-      return aggregateName.equals(this.aggregate);
+      return isBeingSkipped() && aggregateName.equals(this.aggregateName);
     }
   }
 }

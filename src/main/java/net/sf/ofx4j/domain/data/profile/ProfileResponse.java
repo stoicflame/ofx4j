@@ -1,6 +1,5 @@
 package net.sf.ofx4j.domain.data.profile;
 
-import net.sf.ofx4j.domain.*;
 import net.sf.ofx4j.domain.data.MessageSetProfile;
 import net.sf.ofx4j.domain.data.MessageSetType;
 import net.sf.ofx4j.domain.data.ResponseMessage;
@@ -8,6 +7,7 @@ import net.sf.ofx4j.domain.data.SignonProfile;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
+import net.sf.ofx4j.client.FinancialInstitutionProfile;
 
 import java.net.URL;
 import java.util.Date;
@@ -35,7 +35,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
   private String customerServicePhone;
   private String technicalSupportPhone;
   private String fax;
-  private URL siteURL;
+  private String siteURL;
   private String email;
 
   /**
@@ -320,7 +320,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    * @return URL for the financial institution.
    */
   @Element ( name = "URL", order = 140 )
-  public URL getSiteURL() {
+  public String getSiteURL() {
     return siteURL;
   }
 
@@ -329,7 +329,7 @@ public class ProfileResponse extends ResponseMessage implements FinancialInstitu
    *
    * @param siteURL URL for the financial institution.
    */
-  public void setSiteURL(URL siteURL) {
+  public void setSiteURL(String siteURL) {
     this.siteURL = siteURL;
   }
 

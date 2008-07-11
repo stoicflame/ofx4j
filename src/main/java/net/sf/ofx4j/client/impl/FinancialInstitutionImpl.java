@@ -1,6 +1,10 @@
-package net.sf.ofx4j.services.impl;
+package net.sf.ofx4j.client.impl;
 
-import net.sf.ofx4j.domain.*;
+import net.sf.ofx4j.OFXException;
+import net.sf.ofx4j.client.FinancialInstitution;
+import net.sf.ofx4j.client.FinancialInstitutionData;
+import net.sf.ofx4j.client.FinancialInstitutionProfile;
+import net.sf.ofx4j.client.context.OFXApplicationContextHolder;
 import net.sf.ofx4j.domain.data.*;
 import net.sf.ofx4j.domain.data.common.Status;
 import net.sf.ofx4j.domain.data.common.StatusHolder;
@@ -8,25 +12,36 @@ import net.sf.ofx4j.domain.data.profile.*;
 import net.sf.ofx4j.domain.data.signon.SignonRequest;
 import net.sf.ofx4j.domain.data.signon.SignonRequestMessageSet;
 import net.sf.ofx4j.domain.data.signon.SignonResponse;
-import net.sf.ofx4j.domain.data.signon.FinancialInstitution;
 import net.sf.ofx4j.net.OFXConnection;
-import net.sf.ofx4j.services.FinancialInstitutionService;
-import net.sf.ofx4j.services.OFXServiceException;
+import net.sf.ofx4j.net.OFXConnectionException;
 
 import java.net.URL;
 import java.util.Date;
 import java.util.TreeSet;
 
 /**
+ * Base implementation for the financial instutiton.
+ *
  * @author Ryan Heaton
  */
-public class FinancialInstitutionServiceImpl implements FinancialInstitutionService {
+public class FinancialInstitutionImpl implements FinancialInstitution {
 
-  private String appId = "Money";
-  private String appVersion = "1600";
-  private OFXConnection connection;
+  private final OFXConnection connection;
+  private final FinancialInstitutionData data;
 
-  public FinancialInstitutionProfile readProfile(URL profileURL) throws OFXServiceException {
+  public FinancialInstitutionImpl(FinancialInstitutionData data, OFXConnection connection) {
+    if (data == null) {
+      throw new IllegalArgumentException("Data cannot be null");
+    }
+    if (connection == null) {
+      throw new IllegalArgumentException("An OFX connection must be supplied");
+    }
+
+    this.data = data;
+    this.connection = connection;
+  }
+
+  public FinancialInstitutionProfile readProfile() throws OFXException {
     RequestEnvelope request = new RequestEnvelope();
     TreeSet<RequestMessageSet> messageSets = new TreeSet<RequestMessageSet>();
     SignonRequestMessageSet signonRequest = new SignonRequestMessageSet();
@@ -37,7 +52,7 @@ public class FinancialInstitutionServiceImpl implements FinancialInstitutionServ
     messageSets.add(profileRequestMS);
     request.setMessageSets(messageSets);
     String requestId = request.getUID();
-    ResponseEnvelope response = sendRequest(request, profileURL);
+    ResponseEnvelope response = sendRequest(request, getData().getOFXURL());
     return getProfile(requestId, response);
   }
 
@@ -48,15 +63,8 @@ public class FinancialInstitutionServiceImpl implements FinancialInstitutionServ
    * @param profileURL The profile url.
    * @return The request.
    */
-  protected ResponseEnvelope sendRequest(RequestEnvelope request, URL profileURL) throws OFXServiceException {
-    ResponseEnvelope response;
-    try {
-      response = connection.sendRequest(request, profileURL);
-    }
-    catch (Exception e) {
-      throw new OFXServiceException("Problem making OFX request.", e);
-    }
-    return response;
+  protected ResponseEnvelope sendRequest(RequestEnvelope request, URL profileURL) throws OFXConnectionException {
+    return getConnection().sendRequest(request, profileURL);
   }
 
   /**
@@ -66,18 +74,18 @@ public class FinancialInstitutionServiceImpl implements FinancialInstitutionServ
    * @param response The response envelope.
    * @return The profile.
    */
-  protected FinancialInstitutionProfile getProfile(String requestId, ResponseEnvelope response) throws OFXServiceException {
+  protected FinancialInstitutionProfile getProfile(String requestId, ResponseEnvelope response) throws OFXException {
     if (response.getSecurity() != ApplicationSecurity.NONE) {
-      throw new OFXServiceException(String.format("Unable to participate in %s security.", response.getSecurity()));
+      throw new OFXException(String.format("Unable to participate in %s security.", response.getSecurity()));
     }
 
     if (!requestId.equals(response.getUID())) {
-      throw new OFXServiceException(String.format("Invalid transaction ID '%s' in response.  Expected: %s", response.getUID(), requestId));
+      throw new OFXException(String.format("Invalid transaction ID '%s' in response.  Expected: %s", response.getUID(), requestId));
     }
 
     SignonResponse signonResponse = response.getSignonResponse();
     if (signonResponse == null) {
-      throw new OFXServiceException("No response to the signon request.");
+      throw new OFXException("No response to the signon request.");
     }
 
     validateStatus(signonResponse);
@@ -92,10 +100,10 @@ public class FinancialInstitutionServiceImpl implements FinancialInstitutionServ
    *
    * @param statusHolder The status holder.
    */
-  protected void validateStatus(StatusHolder statusHolder) throws OFXServiceException {
+  protected void validateStatus(StatusHolder statusHolder) throws OFXException {
     Status status = statusHolder.getStatus();
     if (status == null) {
-      throw new OFXServiceException("Invalid OFX response: no status returned in the " + statusHolder.getStatusHolderName() + " response.");
+      throw new OFXException("Invalid OFX response: no status returned in the " + statusHolder.getStatusHolderName() + " response.");
     }
 
     if (!Status.Code.SUCCESS.equals(status.getCode())) {
@@ -108,7 +116,7 @@ public class FinancialInstitutionServiceImpl implements FinancialInstitutionServ
         }
       }
 
-      throw new OFXServiceException("Invalid " + statusHolder.getStatusHolderName() + ":" + message);
+      throw new OFXException("Invalid " + statusHolder.getStatusHolderName() + ":" + message);
     }
   }
 
@@ -142,13 +150,13 @@ public class FinancialInstitutionServiceImpl implements FinancialInstitutionServ
   protected SignonRequest createProfileSignonRequest() {
     SignonRequest signonRequest = new SignonRequest();
     signonRequest.setTimestamp(new Date());
-    FinancialInstitution fi = new FinancialInstitution();
-    fi.setOrganization("AMEX");
+    net.sf.ofx4j.domain.data.signon.FinancialInstitution fi = new net.sf.ofx4j.domain.data.signon.FinancialInstitution();
+    fi.setOrganization(getData().getOrganization());
     signonRequest.setFinancialInstitution(fi);
     signonRequest.setUserId(SignonRequest.ANONYMOUS_USER);
     signonRequest.setPassword(SignonRequest.ANONYMOUS_USER);
-    signonRequest.setApplicationId(getAppId());
-    signonRequest.setApplicationVersion(getAppVersion());
+    signonRequest.setApplicationId(OFXApplicationContextHolder.getCurrentContext().getAppId());
+    signonRequest.setApplicationVersion(OFXApplicationContextHolder.getCurrentContext().getAppVersion());
     return signonRequest;
   }
 
@@ -156,23 +164,7 @@ public class FinancialInstitutionServiceImpl implements FinancialInstitutionServ
     return connection;
   }
 
-  public void setConnection(OFXConnection connection) {
-    this.connection = connection;
-  }
-
-  public String getAppId() {
-    return appId;
-  }
-
-  public void setAppId(String appId) {
-    this.appId = appId;
-  }
-
-  public String getAppVersion() {
-    return appVersion;
-  }
-
-  public void setAppVersion(String appVersion) {
-    this.appVersion = appVersion;
+  public FinancialInstitutionData getData() {
+    return data;
   }
 }

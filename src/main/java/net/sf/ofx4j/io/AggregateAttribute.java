@@ -7,6 +7,9 @@ import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
 import java.util.*;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * A generic descriptor for an attribute of an OFX aggregate.
  *
@@ -102,19 +105,11 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
                                   property.getReadMethod().getDeclaringClass().getName());
   }
 
-  public Object get(Object instance) {
-    try {
-      return this.readMethod.invoke(instance);
-    }
-    catch (RuntimeException e) {
-      throw e;
-    }
-    catch (Exception e) {
-      throw new IllegalStateException(e);
-    }
+  public Object get(Object instance) throws Exception {
+    return this.readMethod.invoke(instance);
   }
 
-  public void set(Object value, Object instance) {
+  public void set(Object value, Object instance) throws Exception {
     if (Collection.class.isAssignableFrom(getAttributeType())) {
       Collection collection = (Collection) get(instance);
       if (collection == null) {
@@ -124,15 +119,7 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
       value = collection;
     }
 
-    try {
-      this.writeMethod.invoke(instance, value);
-    }
-    catch (RuntimeException e) {
-      throw e;
-    }
-    catch (Exception e) {
-      throw new IllegalStateException(e);
-    }
+    this.writeMethod.invoke(instance, value);
   }
 
   protected Collection newCollectionInstance() {
