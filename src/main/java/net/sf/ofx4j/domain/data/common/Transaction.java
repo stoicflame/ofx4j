@@ -154,7 +154,7 @@ public class Transaction {
    *
    * @return The id of the transaction that this is correcting.
    */
-  @Element ( name = "CORRECTFITID", required = true, order = 60 )
+  @Element ( name = "CORRECTFITID", order = 60 )
   public String getCorrectionId() {
     return correctionId;
   }
@@ -173,7 +173,7 @@ public class Transaction {
    *
    * @return The action to take on the {@link #getCorrectionId() corrected transaction}.
    */
-  @Element ( name = "CORRECTACTION", required = true, order = 70 )
+  @Element ( name = "CORRECTACTION", order = 70 )
   public CorrectionAction getCorrectionAction() {
     return correctionAction;
   }

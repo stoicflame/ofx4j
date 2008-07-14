@@ -83,6 +83,14 @@
     </dependency>
 
     <dependency>
+      <groupId>args4j</groupId>
+      <artifactId>args4j</artifactId>
+      <version>2.0.9</version>
+
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
       <groupId>net.sf.apt-jelly</groupId>
       <artifactId>apt-jelly</artifactId>
       <version>2.3</version>
@@ -109,5 +117,13 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>java.net</id>
+      <url>http://download.java.net/maven/1</url>
+      <layout>legacy</layout>
+    </repository>
+  </repositories>
 
 </project>

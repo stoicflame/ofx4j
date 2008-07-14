@@ -124,8 +124,12 @@ public class OFXV1Writer implements OFXWriter {
   }
 
   public void close() throws IOException {
-    this.writer.flush();
+    flush();
     this.writer.close();
+  }
+
+  public void flush() throws IOException {
+    this.writer.flush();
   }
 
   protected void println(String line) throws IOException {
