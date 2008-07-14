@@ -17,7 +17,7 @@ public class TestOFXV1Writer extends TestCase {
     OFXV1Writer writer = new OFXV1Writer(value);
     writer.writeElement("NAME", "&<>");
     writer.close();
-    assertEquals("<NAME>&amp;&lt;&gt;\r\n", value.toString());
+    assertEquals("<NAME>&amp;&lt;&gt;", value.toString());
 
   }
 

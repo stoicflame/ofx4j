@@ -15,7 +15,7 @@ public class OFXV1Writer implements OFXWriter {
   private static final String LINE_SEPARATOR = "\r\n";
   protected boolean headersWritten = false;
   protected final Writer writer;
-  private boolean writeAttributesOnNewLine = true;
+  private boolean writeAttributesOnNewLine = false;
 
   public OFXV1Writer(OutputStream out) {
     try {
@@ -26,12 +26,12 @@ public class OFXV1Writer implements OFXWriter {
     }
   }
 
-  protected OutputStreamWriter newWriter(OutputStream out) throws UnsupportedEncodingException {
-    return new OutputStreamWriter(out, "ISO-8859-1");
-  }
-
   public OFXV1Writer(Writer writer) {
     this.writer = writer;
+  }
+
+  protected OutputStreamWriter newWriter(OutputStream out) throws UnsupportedEncodingException {
+    return new OutputStreamWriter(out, "ISO-8859-1");
   }
 
   public void writeHeaders(Map<String, String> headers) throws IOException {
