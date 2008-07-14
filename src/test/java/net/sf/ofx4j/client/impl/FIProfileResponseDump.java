@@ -1,19 +1,15 @@
 package net.sf.ofx4j.client.impl;
 
 import net.sf.ofx4j.OFXException;
-import net.sf.ofx4j.client.FinancialInstitution;
 import net.sf.ofx4j.client.FinancialInstitutionData;
 import net.sf.ofx4j.client.FinancialInstitutionDataStore;
 import net.sf.ofx4j.client.FinancialInstitutionProfile;
 import net.sf.ofx4j.domain.data.ResponseEnvelope;
-import net.sf.ofx4j.net.OFXConnectionException;
+import net.sf.ofx4j.io.AggregateUnmarshaller;
+import net.sf.ofx4j.io.OFXParseException;
 import net.sf.ofx4j.net.OFXV1Connection;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.URL;
+import java.io.*;
 
 /**
  * @author Ryan Heaton
@@ -29,21 +25,32 @@ public class FIProfileResponseDump {
     final FinancialInstitutionData fiData = dataStore.getInstitutionData(args[0]);
     OFXV1Connection connection = new OFXV1Connection() {
       @Override
-      protected ResponseEnvelope sendBuffer(URL url, ByteArrayOutputStream outBuffer) throws IOException, OFXConnectionException {
-        File file = new File(args[1]);
-        System.out.println("Writing " + outBuffer.size() + " bytes to " + file.getAbsolutePath() + " for request to " + fiData.getOFXURL() + "...");
-        FileOutputStream outFile = new FileOutputStream(file);
-        outFile.write(outBuffer.toByteArray());
-        return null;
+      protected void logRequest(ByteArrayOutputStream outBuffer) throws UnsupportedEncodingException {
       }
     };
 
-    FinancialInstitution fi = new FinancialInstitutionImpl(fiData, connection) {
+    connection.setUnmarshaller(new AggregateUnmarshaller<ResponseEnvelope>(ResponseEnvelope.class) {
+      @Override
+      public ResponseEnvelope unmarshal(InputStream stream) throws IOException, OFXParseException {
+        FileOutputStream out = new FileOutputStream(args[1]);
+        int ch = stream.read();
+        while (ch != -1) {
+          out.write(ch);
+          ch = stream.read();
+        }
+        out.flush();
+        out.close();
+        return null;
+      }
+    });
+
+    FinancialInstitutionImpl fi = new FinancialInstitutionImpl(fiData, connection) {
       @Override
       protected FinancialInstitutionProfile getProfile(String requestId, ResponseEnvelope response) throws OFXException {
         return null;
       }
     };
+
     fi.readProfile();
   }
 }

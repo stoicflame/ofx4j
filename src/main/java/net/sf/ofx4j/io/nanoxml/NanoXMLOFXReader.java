@@ -38,9 +38,10 @@ public class NanoXMLOFXReader extends BaseOFXReader {
    *
    * @param reader The reader.
    * @param entityResolver The entity resolver.
+   * @return the name of the end tag that finished the processing.
    */
-  protected void processOFXTag(IXMLReader reader, IXMLEntityResolver entityResolver) throws IOException, XMLParseException, OFXParseException {
-    String tagName = readTagName(reader);
+  protected String processOFXTag(IXMLReader reader, IXMLEntityResolver entityResolver) throws IOException, XMLParseException, OFXParseException {
+    String startTag = readTagName(reader);
     StringBuffer buffer = new StringBuffer(16);
     boolean aggregateStarted = false;
     StringBuilder tagContent = null;
@@ -65,20 +66,20 @@ public class NanoXMLOFXReader extends BaseOFXReader {
 
         if (str.charAt(0) == '/') {
           XMLUtilBackdoor.skipWhitespace(reader, null);
-          String endAggregate = XMLUtilBackdoor.scanIdentifier(reader);
+          String endTag = XMLUtilBackdoor.scanIdentifier(reader);
           XMLUtilBackdoor.skipWhitespace(reader, null);
 
-          //we could be ending an element...
-          if (tagContent != null) {
-            getContentHandler().onElement(tagName, tagContent.toString());
+          //we could be ending an element as well as an aggregate...
+          if (tagContent != null && tagContent.toString().trim().length() > 0) {
+            getContentHandler().onElement(startTag, tagContent.toString().trim());
           }
 
           if (reader.read() != '>') {
             throw new XMLParseException(reader.getSystemID(), reader.getLineNr(), "Non-empty closing tag.");
           }
 
-          getContentHandler().endAggregate(endAggregate);
-          break;
+          getContentHandler().endAggregate(endTag);
+          return endTag;
         }
         else if (str.charAt(0) == '!') {
           //CDATA
@@ -108,17 +109,22 @@ public class NanoXMLOFXReader extends BaseOFXReader {
         else {
           //a new tag encountered. if character data was processed, it's an element.  Otherwise, its the start of a new aggregate.
           reader.unread(str.charAt(0));
-          if (tagContent == null) {
+          if (tagContent == null || tagContent.toString().trim().length() == 0) {
             if (!aggregateStarted) {
-              getContentHandler().startAggregate(tagName);
+              getContentHandler().startAggregate(startTag);
               aggregateStarted = true;
             }
-            processOFXTag(reader, entityResolver);
+            String endTag = processOFXTag(reader, entityResolver);
+            if (endTag.equals(startTag)) {
+              //we could have processed our own end tag.  If so, we're done.
+              //otherwise, we processed the end tag of a child aggregate, so continue.
+              return endTag;
+            }
           }
           else {
-            getContentHandler().onElement(tagName, tagContent.toString());
+            getContentHandler().onElement(startTag, tagContent.toString().trim());
             tagContent = null;
-            tagName = readTagName(reader);
+            startTag = readTagName(reader);
           }
         }
       }
@@ -140,6 +146,8 @@ public class NanoXMLOFXReader extends BaseOFXReader {
         }
       }
     }
+
+    throw new OFXParseException("Unexpected EOF. We never finished parsing the " + startTag + " tag.");
   }
 
   protected String readTagName(IXMLReader reader) throws IOException, XMLParseException {

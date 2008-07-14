@@ -26,14 +26,7 @@ public class TestUnmarshalling extends TestCase {
       //fall through...
     }
 
-    try {
-      unmarshaller.unmarshal(TestUnmarshalling.class.getResourceAsStream("fremont-bank-profile.ofx"));
-      fail("Shouldn't have been able to parse a document with an empty element value.");
-    }
-    catch (OFXParseException e) {
-      //fall through...
-    }
-
+    unmarshaller.unmarshal(TestUnmarshalling.class.getResourceAsStream("fremont-bank-profile.ofx"));
   }
 
 }
