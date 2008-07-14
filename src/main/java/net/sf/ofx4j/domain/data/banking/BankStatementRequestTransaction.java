@@ -8,7 +8,7 @@ import net.sf.ofx4j.meta.ChildAggregate;
  * @author Ryan Heaton
  */
 @Aggregate ("STMTTRNRQ")
-public class BankStatementRequestTransaction extends TransactionWrappedRequestMessage {
+public class BankStatementRequestTransaction extends TransactionWrappedRequestMessage<BankStatementRequest> {
 
   private BankStatementRequest message;
 
@@ -30,5 +30,10 @@ public class BankStatementRequestTransaction extends TransactionWrappedRequestMe
    */
   public void setMessage(BankStatementRequest message) {
     this.message = message;
+  }
+
+  // Inherited.
+  public void setWrappedMessage(BankStatementRequest message) {
+    setMessage(message);
   }
 }

@@ -2,8 +2,12 @@ package net.sf.ofx4j.domain.data.creditcard;
 
 import net.sf.ofx4j.domain.data.MessageSetType;
 import net.sf.ofx4j.domain.data.ResponseMessageSet;
+import net.sf.ofx4j.domain.data.ResponseMessage;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
+
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author Ryan Heaton
@@ -34,5 +38,17 @@ public class CreditCardResponseMessageSet extends ResponseMessageSet {
    */
   public void setStatementResponse(CreditCardStatementResponseTransaction statementResponse) {
     this.statementResponse = statementResponse;
+  }
+
+
+  // Inherited.
+  public List<ResponseMessage> getResponseMessages() {
+    ArrayList<ResponseMessage> messages = new ArrayList<ResponseMessage>();
+
+    if (getStatementResponse() != null) {
+      messages.add(getStatementResponse());
+    }
+
+    return messages;
   }
 }

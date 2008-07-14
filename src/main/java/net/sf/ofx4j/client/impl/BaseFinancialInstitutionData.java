@@ -1,4 +1,4 @@
-package net.sf.ofx4j.domain.data.fi;
+package net.sf.ofx4j.client.impl;
 
 import net.sf.ofx4j.client.FinancialInstitutionData;
 

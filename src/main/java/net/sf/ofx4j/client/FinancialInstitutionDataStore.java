@@ -1,7 +1,5 @@
 package net.sf.ofx4j.client;
 
-import net.sf.ofx4j.client.FinancialInstitutionData;
-
 import java.util.List;
 
 /**

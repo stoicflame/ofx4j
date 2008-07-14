@@ -2,6 +2,7 @@ package net.sf.ofx4j.domain.data.signon;
 
 import net.sf.ofx4j.domain.data.common.Status;
 import net.sf.ofx4j.domain.data.common.StatusHolder;
+import net.sf.ofx4j.domain.data.ResponseMessage;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
@@ -16,7 +17,7 @@ import java.util.Locale;
  * @see "Section 2.5.1.2, OFX Spec."
  */
 @Aggregate ( "SONRS" )
-public class SignonResponse implements StatusHolder {
+public class SignonResponse extends ResponseMessage implements StatusHolder {
 
   private Status status;
   private Date timestamp;
@@ -29,8 +30,12 @@ public class SignonResponse implements StatusHolder {
   private String sessionId;
   private String accessKey;
 
-  public String getStatusHolderName() {
+  public String getResponseMessageName() {
     return "signon";
+  }
+
+  public String getStatusHolderName() {
+    return getResponseMessageName();
   }
 
   /**

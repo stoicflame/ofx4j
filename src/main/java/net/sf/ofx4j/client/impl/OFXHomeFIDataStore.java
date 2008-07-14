@@ -2,19 +2,18 @@ package net.sf.ofx4j.client.impl;
 
 import net.sf.ofx4j.client.FinancialInstitutionData;
 import net.sf.ofx4j.client.FinancialInstitutionDataStore;
-import net.sf.ofx4j.domain.data.fi.BaseFinancialInstitutionData;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.ccil.cowan.tagsoup.Parser;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.ccil.cowan.tagsoup.Parser;
 
 import java.io.IOException;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

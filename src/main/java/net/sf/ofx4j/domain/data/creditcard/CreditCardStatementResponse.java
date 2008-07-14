@@ -12,6 +12,10 @@ public class CreditCardStatementResponse extends StatementResponse {
 
   private CreditCardAccountDetails account;
 
+  public String getResponseMessageName() {
+    return "credit card statement";
+  }
+
   /**
    * The account for the statement.
    *

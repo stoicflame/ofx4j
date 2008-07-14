@@ -2,8 +2,12 @@ package net.sf.ofx4j.domain.data.signon;
 
 import net.sf.ofx4j.domain.data.MessageSetType;
 import net.sf.ofx4j.domain.data.RequestMessageSet;
+import net.sf.ofx4j.domain.data.RequestMessage;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Aggregate;
+
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * The sign-on request message set.
@@ -61,4 +65,19 @@ public class SignonRequestMessageSet extends RequestMessageSet {
 
   //todo: challenge request/response
 
+
+  // Inherited.
+  public List<RequestMessage> getRequestMessages() {
+    ArrayList<RequestMessage> requestMessages = new ArrayList<RequestMessage>();
+
+    if (getSignonRequest() != null) {
+      requestMessages.add(getSignonRequest());
+    }
+
+    if (getPasswordChangeRequest() != null) {
+      requestMessages.add(getPasswordChangeRequest());
+    }
+
+    return requestMessages;
+  }
 }

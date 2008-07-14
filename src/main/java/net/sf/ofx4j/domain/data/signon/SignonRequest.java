@@ -3,6 +3,7 @@ package net.sf.ofx4j.domain.data.signon;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
+import net.sf.ofx4j.domain.data.RequestMessage;
 
 import java.util.Date;
 import java.util.Locale;
@@ -14,7 +15,7 @@ import java.util.Locale;
  * @see "Section 2.5.1.2, OFX Spec."
  */
 @Aggregate ( "SONRQ" )
-public class SignonRequest {
+public class SignonRequest extends RequestMessage {
 
   /**
    * @see "Section 2.5.1"

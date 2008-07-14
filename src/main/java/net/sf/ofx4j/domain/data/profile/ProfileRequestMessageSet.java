@@ -2,8 +2,12 @@ package net.sf.ofx4j.domain.data.profile;
 
 import net.sf.ofx4j.domain.data.MessageSetType;
 import net.sf.ofx4j.domain.data.RequestMessageSet;
+import net.sf.ofx4j.domain.data.RequestMessage;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
+
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author Ryan Heaton
@@ -35,5 +39,15 @@ public class ProfileRequestMessageSet extends RequestMessageSet {
    */
   public void setProfileRequest(ProfileRequestTransaction profileRequest) {
     this.profileRequest = profileRequest;
+  }
+
+
+  // Inherited.
+  public List<RequestMessage> getRequestMessages() {
+    ArrayList<RequestMessage> requestMessages = new ArrayList<RequestMessage>();
+    if (getProfileRequest() != null) {
+      requestMessages.add(getProfileRequest());
+    }
+    return requestMessages;
   }
 }

@@ -46,7 +46,7 @@ public class FIProfileResponseDump {
 
     FinancialInstitutionImpl fi = new FinancialInstitutionImpl(fiData, connection) {
       @Override
-      protected FinancialInstitutionProfile getProfile(String requestId, ResponseEnvelope response) throws OFXException {
+      protected FinancialInstitutionProfile getProfile(ResponseEnvelope response) throws OFXException {
         return null;
       }
     };

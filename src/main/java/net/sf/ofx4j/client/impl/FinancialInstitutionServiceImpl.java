@@ -1,9 +1,9 @@
 package net.sf.ofx4j.client.impl;
 
-import net.sf.ofx4j.client.FinancialInstitutionService;
 import net.sf.ofx4j.client.FinancialInstitution;
 import net.sf.ofx4j.client.FinancialInstitutionData;
 import net.sf.ofx4j.client.FinancialInstitutionDataStore;
+import net.sf.ofx4j.client.FinancialInstitutionService;
 import net.sf.ofx4j.net.OFXConnection;
 import net.sf.ofx4j.net.OFXV1Connection;
 

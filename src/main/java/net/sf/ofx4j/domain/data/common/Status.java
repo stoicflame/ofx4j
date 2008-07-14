@@ -22,9 +22,9 @@ public class Status {
   }
 
   /**
-   * Status code.
+   * Known status codes.
    */
-  public enum Code {
+  public enum KnownCode implements StatusCode {
 
     SUCCESS(0, "Success", Severity.INFO),
     CLIENT_UP_TO_DATE(1, "Client is up-to-date", Severity.INFO),
@@ -51,7 +51,7 @@ public class Status {
     private final String message;
     private final Severity defaultSeverity;
 
-    Code(int code, String message, Severity defaultSeverity) {
+    KnownCode(int code, String message, Severity defaultSeverity) {
       this.code = code;
       this.message = message;
       this.defaultSeverity = defaultSeverity;
@@ -69,17 +69,17 @@ public class Status {
       return defaultSeverity;
     }
 
-    public static Code fromCode(int code) {
-      for (Code value : values()) {
+    public static KnownCode fromCode(int code) {
+      for (KnownCode value : values()) {
         if (value.getCode() == code) {
           return value;
         }
       }
-      return GENERAL_ERROR;
+      return null;
     }
   }
 
-  private Code code = Code.SUCCESS;
+  private StatusCode code = KnownCode.SUCCESS;
   private Severity severity;
   private String message;
 
@@ -89,7 +89,7 @@ public class Status {
    * @return The status code.
    */
   @Element ( name = "CODE", required = true, order = 0 )
-  public Code getCode() {
+  public StatusCode getCode() {
     return code;
   }
 
@@ -98,7 +98,7 @@ public class Status {
    *
    * @param code Status code.
    */
-  public void setCode(Code code) {
+  public void setCode(StatusCode code) {
     this.code = code;
     if (this.severity == null) {
       this.severity = code.getDefaultSeverity();

@@ -8,13 +8,9 @@ import net.sf.ofx4j.meta.ChildAggregate;
  * @author Ryan Heaton
  */
 @Aggregate ( "CCSTMTTRNRS")
-public class CreditCardStatementResponseTransaction extends TransactionWrappedResponseMessage {
+public class CreditCardStatementResponseTransaction extends TransactionWrappedResponseMessage<CreditCardStatementResponse> {
 
-  private CreditCardStatementResponse response;
-
-  public CreditCardStatementResponseTransaction() {
-    super("credit card statement");
-  }
+  private CreditCardStatementResponse message;
 
   /**
    * The message.
@@ -22,16 +18,21 @@ public class CreditCardStatementResponseTransaction extends TransactionWrappedRe
    * @return The message.
    */
   @ChildAggregate( required = true, order = 30 )
-  public CreditCardStatementResponse getResponse() {
-    return response;
+  public CreditCardStatementResponse getMessage() {
+    return message;
   }
 
   /**
    * The message.
    *
-   * @param response The message.
+   * @param message The message.
    */
-  public void setResponse(CreditCardStatementResponse response) {
-    this.response = response;
+  public void setMessage(CreditCardStatementResponse message) {
+    this.message = message;
+  }
+
+  // Inherited.
+  public CreditCardStatementResponse getWrappedMessage() {
+    return getMessage();
   }
 }

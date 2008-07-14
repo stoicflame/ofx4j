@@ -1,10 +1,9 @@
 package net.sf.ofx4j.net;
 
-import net.sf.ofx4j.domain.data.ResponseEnvelope;
 import net.sf.ofx4j.domain.data.RequestEnvelope;
+import net.sf.ofx4j.domain.data.ResponseEnvelope;
 
 import java.net.URL;
-import java.io.IOException;
 
 /**
  * Connection to an OFX interface.

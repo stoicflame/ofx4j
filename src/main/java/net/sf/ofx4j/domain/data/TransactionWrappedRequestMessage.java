@@ -10,7 +10,7 @@ import java.util.UUID;
  * @author Ryan Heaton
  * @see "Section 2.4.6, OFX Spec"
  */
-public abstract class TransactionWrappedRequestMessage extends RequestMessage {
+public abstract class TransactionWrappedRequestMessage<M extends RequestMessage> extends RequestMessage {
 
   private String UID;
   private String clientCookie;
@@ -80,5 +80,12 @@ public abstract class TransactionWrappedRequestMessage extends RequestMessage {
   public void setTransactionAuthorizationNumber(String transactionAuthorizationNumber) {
     this.transactionAuthorizationNumber = transactionAuthorizationNumber;
   }
+
+  /**
+   * Set the wrapped message.
+   *
+   * @param message The wrapped message.
+   */
+  public abstract void setWrappedMessage(M message);
 
 }

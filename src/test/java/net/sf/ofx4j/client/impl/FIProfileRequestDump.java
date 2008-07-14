@@ -9,10 +9,7 @@ import net.sf.ofx4j.domain.data.ResponseEnvelope;
 import net.sf.ofx4j.net.OFXConnectionException;
 import net.sf.ofx4j.net.OFXV1Connection;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URL;
 
 /**
@@ -29,18 +26,23 @@ public class FIProfileRequestDump {
     final FinancialInstitutionData fiData = dataStore.getInstitutionData(args[0]);
     OFXV1Connection connection = new OFXV1Connection() {
       @Override
-      protected ResponseEnvelope sendBuffer(URL url, ByteArrayOutputStream outBuffer) throws IOException, OFXConnectionException {
+      protected InputStream sendBuffer(URL url, ByteArrayOutputStream outBuffer) throws IOException, OFXConnectionException {
         File file = new File(args[1]);
         System.out.println("Writing " + outBuffer.size() + " bytes to " + file.getAbsolutePath() + " for request to " + fiData.getOFXURL() + "...");
         FileOutputStream outFile = new FileOutputStream(file);
         outFile.write(outBuffer.toByteArray());
         return null;
       }
+
+      @Override
+      protected ResponseEnvelope unmarshal(InputStream in) throws IOException, OFXConnectionException {
+        return null;
+      }
     };
 
     FinancialInstitution fi = new FinancialInstitutionImpl(fiData, connection) {
       @Override
-      protected FinancialInstitutionProfile getProfile(String requestId, ResponseEnvelope response) throws OFXException {
+      protected FinancialInstitutionProfile getProfile(ResponseEnvelope response) throws OFXException {
         return null;
       }
     };

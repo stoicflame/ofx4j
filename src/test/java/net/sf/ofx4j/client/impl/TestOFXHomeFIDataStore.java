@@ -2,7 +2,7 @@ package net.sf.ofx4j.client.impl;
 
 import junit.framework.TestCase;
 import net.sf.ofx4j.client.FinancialInstitutionData;
-import net.sf.ofx4j.domain.data.fi.BaseFinancialInstitutionData;
+import net.sf.ofx4j.client.impl.BaseFinancialInstitutionData;
 
 import java.io.InputStream;
 import java.util.List;

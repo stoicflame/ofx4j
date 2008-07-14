@@ -8,13 +8,9 @@ import net.sf.ofx4j.meta.ChildAggregate;
  * @author Ryan Heaton
  */
 @Aggregate ( "STMTTRNRS")
-public class BankStatementResponseTransaction extends TransactionWrappedResponseMessage {
+public class BankStatementResponseTransaction extends TransactionWrappedResponseMessage<BankStatementResponse> {
 
-  private BankStatementResponse response;
-
-  public BankStatementResponseTransaction() {
-    super("bank statement");
-  }
+  private BankStatementResponse message;
 
   /**
    * The message.
@@ -22,17 +18,21 @@ public class BankStatementResponseTransaction extends TransactionWrappedResponse
    * @return The message.
    */
   @ChildAggregate( required = true, order = 30 )
-  public BankStatementResponse getResponse() {
-    return response;
+  public BankStatementResponse getMessage() {
+    return message;
   }
 
   /**
    * The message.
    *
-   * @param response The message.
+   * @param message The message.
    */
-  public void setResponse(BankStatementResponse response) {
-    this.response = response;
+  public void setMessage(BankStatementResponse message) {
+    this.message = message;
   }
 
+  // Inherited.
+  public BankStatementResponse getWrappedMessage() {
+    return getMessage();
+  }
 }

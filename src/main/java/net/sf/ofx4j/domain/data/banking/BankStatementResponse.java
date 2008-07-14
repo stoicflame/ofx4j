@@ -12,6 +12,10 @@ public class BankStatementResponse extends StatementResponse {
 
   private BankAccountDetails account;
 
+  public String getResponseMessageName() {
+    return "bank statement";
+  }
+
   /**
    * The account for the statement.
    *

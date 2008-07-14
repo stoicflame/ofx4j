@@ -8,7 +8,7 @@ import net.sf.ofx4j.meta.ChildAggregate;
  * @author Ryan Heaton
  */
 @Aggregate ("CCSTMTTRNRQ")
-public class CreditCardStatementRequestTransaction extends TransactionWrappedRequestMessage {
+public class CreditCardStatementRequestTransaction extends TransactionWrappedRequestMessage<CreditCardStatementRequest> {
 
   private CreditCardStatementRequest message;
 
@@ -30,5 +30,10 @@ public class CreditCardStatementRequestTransaction extends TransactionWrappedReq
    */
   public void setMessage(CreditCardStatementRequest message) {
     this.message = message;
+  }
+
+  // Inherited.
+  public void setWrappedMessage(CreditCardStatementRequest message) {
+    setMessage(message);
   }
 }

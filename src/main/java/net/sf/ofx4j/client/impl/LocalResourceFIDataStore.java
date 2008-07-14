@@ -1,19 +1,17 @@
 package net.sf.ofx4j.client.impl;
 
-import net.sf.ofx4j.client.FinancialInstitutionDataStore;
 import net.sf.ofx4j.client.FinancialInstitutionData;
-import net.sf.ofx4j.domain.data.fi.BaseFinancialInstitutionData;
+import net.sf.ofx4j.client.FinancialInstitutionDataStore;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
-import java.util.Map;
-import java.util.List;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.io.*;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Implementation of a FI data store that loads its FI data from a local resource.

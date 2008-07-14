@@ -4,7 +4,7 @@ import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.Element;
 
 /**
- * Base account details.  (Credit card, savings, checking, money market.)
+ * Base bank account details.
  *
  * @author Ryan Heaton
  * @see "OFX Spec, Section 11.3.1"

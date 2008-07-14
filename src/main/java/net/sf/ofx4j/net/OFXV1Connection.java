@@ -27,6 +27,7 @@ public class OFXV1Connection implements OFXConnection {
   private AggregateMarshaller marshaller = new AggregateMarshaller();
   private AggregateUnmarshaller<ResponseEnvelope> unmarshaller = new AggregateUnmarshaller<ResponseEnvelope>(ResponseEnvelope.class);
 
+  // Inherited.
   public ResponseEnvelope sendRequest(RequestEnvelope request, URL url) throws OFXConnectionException {
     try {
       if (!url.getProtocol().toLowerCase().startsWith("http")) {
@@ -39,13 +40,19 @@ public class OFXV1Connection implements OFXConnection {
       getMarshaller().marshal(request, ofxWriter);
       ofxWriter.close();
       logRequest(outBuffer);
-      return sendBuffer(url, outBuffer);
+      InputStream in = sendBuffer(url, outBuffer);
+      return unmarshal(in);
     }
     catch (IOException e) {
       throw new OFXConnectionException(e);
     }
   }
 
+  /**
+   * Log a request buffer.
+   *
+   * @param outBuffer The buffer to log.
+   */
   protected void logRequest(ByteArrayOutputStream outBuffer) throws UnsupportedEncodingException {
     if (LOG.isInfoEnabled()) {
       LOG.info("Marshalling " + outBuffer.size() + " bytes of the OFX request.");
@@ -55,7 +62,14 @@ public class OFXV1Connection implements OFXConnection {
     }
   }
 
-  protected ResponseEnvelope sendBuffer(URL url, ByteArrayOutputStream outBuffer) throws IOException, OFXConnectionException {
+  /**
+   * Send the specified buffer to the specified URL.
+   *
+   * @param url The URL.
+   * @param outBuffer The buffer.
+   * @return The response.
+   */
+  protected InputStream sendBuffer(URL url, ByteArrayOutputStream outBuffer) throws IOException, OFXConnectionException {
     HttpURLConnection connection = openConnection(url);
     connection.setRequestMethod("POST");
     connection.setRequestProperty("Content-Type", "application/x-ofx");
@@ -79,6 +93,16 @@ public class OFXV1Connection implements OFXConnection {
       throw new OFXServerException("Invalid response code from OFX server: " + connection.getResponseMessage(), responseCode);
     }
 
+    return in;
+  }
+
+  /**
+   * Unmarshal the input stream.
+   *
+   * @param in The input stream.
+   * @return The response envelope.
+   */
+  protected ResponseEnvelope unmarshal(InputStream in) throws IOException, OFXConnectionException {
     try {
       return getUnmarshaller().unmarshal(in);
     }
@@ -87,26 +111,58 @@ public class OFXV1Connection implements OFXConnection {
     }
   }
 
+  /**
+   * Open a connection to the specified URL.
+   *
+   * @param url The URL.
+   * @return The connection.
+   */
   protected HttpURLConnection openConnection(URL url) throws IOException {
     return (HttpURLConnection) url.openConnection();
   }
 
+  /**
+   * Create a new OFX writer.
+   *
+   * @param out The output stream for the writer.
+   * @return The OFX writer.
+   */
   protected OFXWriter newOFXWriter(OutputStream out) {
     return new OFXV1Writer(out);
   }
 
+  /**
+   * The marshaller.
+   *
+   * @return The marshaller.
+   */
   public AggregateMarshaller getMarshaller() {
     return marshaller;
   }
 
+  /**
+   * The marshaller.
+   *
+   * @param marshaller The marshaller.
+   */
   public void setMarshaller(AggregateMarshaller marshaller) {
     this.marshaller = marshaller;
   }
 
+  /**
+   * The unmarshaller.
+   *
+   * @return The unmarshaller.
+   */
   public AggregateUnmarshaller<ResponseEnvelope> getUnmarshaller() {
     return unmarshaller;
   }
 
+  /**
+   * The unmarshaller.
+   *
+   * @param unmarshaller The unmarshaller.
+   */
   public void setUnmarshaller(AggregateUnmarshaller<ResponseEnvelope> unmarshaller) {
     this.unmarshaller = unmarshaller;
   }

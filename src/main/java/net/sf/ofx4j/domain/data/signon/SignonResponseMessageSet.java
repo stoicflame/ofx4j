@@ -2,8 +2,12 @@ package net.sf.ofx4j.domain.data.signon;
 
 import net.sf.ofx4j.domain.data.MessageSetType;
 import net.sf.ofx4j.domain.data.ResponseMessageSet;
+import net.sf.ofx4j.domain.data.ResponseMessage;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Aggregate;
+
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * The sign-on response message set.
@@ -61,4 +65,14 @@ public class SignonResponseMessageSet extends ResponseMessageSet {
 
   //todo: challenge request/response
 
+  // Inherited.
+  public List<ResponseMessage> getResponseMessages() {
+    ArrayList<ResponseMessage> messages = new ArrayList<ResponseMessage>();
+
+    if (getSignonResponse() != null) {
+      messages.add(getSignonResponse());
+    }
+
+    return messages;
+  }
 }

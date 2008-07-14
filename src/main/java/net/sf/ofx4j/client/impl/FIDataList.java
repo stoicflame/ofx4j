@@ -1,9 +1,7 @@
 package net.sf.ofx4j.client.impl;
 
-import net.sf.ofx4j.domain.data.fi.BaseFinancialInstitutionData;
-
-import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.Collection;
 
 /**

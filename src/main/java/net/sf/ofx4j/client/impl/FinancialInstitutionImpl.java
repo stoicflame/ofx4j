@@ -1,23 +1,27 @@
 package net.sf.ofx4j.client.impl;
 
 import net.sf.ofx4j.OFXException;
-import net.sf.ofx4j.client.FinancialInstitution;
-import net.sf.ofx4j.client.FinancialInstitutionData;
-import net.sf.ofx4j.client.FinancialInstitutionProfile;
+import net.sf.ofx4j.UnsupportedOFXSecurityTypeException;
+import net.sf.ofx4j.OFXTransactionException;
+import net.sf.ofx4j.client.*;
 import net.sf.ofx4j.client.context.OFXApplicationContextHolder;
 import net.sf.ofx4j.domain.data.*;
+import net.sf.ofx4j.domain.data.creditcard.CreditCardAccountDetails;
+import net.sf.ofx4j.domain.data.banking.BankAccountDetails;
 import net.sf.ofx4j.domain.data.common.Status;
 import net.sf.ofx4j.domain.data.common.StatusHolder;
 import net.sf.ofx4j.domain.data.profile.*;
 import net.sf.ofx4j.domain.data.signon.SignonRequest;
 import net.sf.ofx4j.domain.data.signon.SignonRequestMessageSet;
 import net.sf.ofx4j.domain.data.signon.SignonResponse;
+import net.sf.ofx4j.domain.data.signon.SignonResponseMessageSet;
 import net.sf.ofx4j.net.OFXConnection;
 import net.sf.ofx4j.net.OFXConnectionException;
 
 import java.net.URL;
 import java.util.Date;
 import java.util.TreeSet;
+import java.util.Set;
 
 /**
  * Base implementation for the financial instutiton.
@@ -41,58 +45,147 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
     this.connection = connection;
   }
 
+  // Inherited.
   public FinancialInstitutionProfile readProfile() throws OFXException {
+    RequestEnvelope request = createAuthenticatedRequest(SignonRequest.ANONYMOUS_USER, SignonRequest.ANONYMOUS_USER);
+    ProfileRequestMessageSet profileRequest = new ProfileRequestMessageSet();
+    profileRequest.setProfileRequest(createProfileTransaction());
+    request.getMessageSets().add(profileRequest);
+    ResponseEnvelope response = sendRequest(request, getData().getOFXURL());
+    doGeneralValidationChecks(request, response);
+    return getProfile(response);
+  }
+
+  // Inherited.
+  public BankAccount loadBankAccount(BankAccountDetails details, String username, String password) {
+    return new BankingAccountImpl(details, username, password, this);
+  }
+
+  // Inherited.
+  public CreditCardAccount loadCreditCardAccount(CreditCardAccountDetails details, String username, String password) {
+    return new CreditCardAccountImpl(details, username, password, this);
+  }
+
+  /**
+   * Create an authenticated request envelope.
+   *
+   * @param username The username.
+   * @param password The password.
+   * @return The request envelope.
+   */
+  protected RequestEnvelope createAuthenticatedRequest(String username, String password) {
     RequestEnvelope request = new RequestEnvelope();
     TreeSet<RequestMessageSet> messageSets = new TreeSet<RequestMessageSet>();
     SignonRequestMessageSet signonRequest = new SignonRequestMessageSet();
-    signonRequest.setSignonRequest(createProfileSignonRequest());
+    signonRequest.setSignonRequest(createSignonRequest(username, password));
     messageSets.add(signonRequest);
-    ProfileRequestMessageSet profileRequestMS = new ProfileRequestMessageSet();
-    profileRequestMS.setProfileRequest(createProfileTransaction());
-    messageSets.add(profileRequestMS);
     request.setMessageSets(messageSets);
-    String requestId = request.getUID();
-    ResponseEnvelope response = sendRequest(request, getData().getOFXURL());
-    return getProfile(requestId, response);
+    return request;
   }
 
   /**
    * Send a request.
    *
    * @param request The request.
-   * @param profileURL The profile url.
    * @return The request.
    */
-  protected ResponseEnvelope sendRequest(RequestEnvelope request, URL profileURL) throws OFXConnectionException {
-    return getConnection().sendRequest(request, profileURL);
+  protected ResponseEnvelope sendRequest(RequestEnvelope request) throws OFXConnectionException {
+    return getConnection().sendRequest(request, getData().getOFXURL());
+  }
+
+  /**
+   * Send a request to a specific URL.
+   *
+   * @param request The request.
+   * @param url The url.
+   * @return The request.
+   */
+  protected ResponseEnvelope sendRequest(RequestEnvelope request, URL url) throws OFXConnectionException {
+    return getConnection().sendRequest(request, url);
   }
 
   /**
    * Open the specified response envelope and look for the profile.
    *
-   * @param requestId The request id.
    * @param response The response envelope.
    * @return The profile.
    */
-  protected FinancialInstitutionProfile getProfile(String requestId, ResponseEnvelope response) throws OFXException {
+  protected FinancialInstitutionProfile getProfile(ResponseEnvelope response) throws OFXException {
+
+    ProfileResponseMessageSet profileSet = (ProfileResponseMessageSet) response.getMessageSet(MessageSetType.profile);
+    if (profileSet == null) {
+      throw new OFXException("No profile response set.");
+    }
+
+    ProfileResponseTransaction transactionResponse = profileSet.getProfileResponse();
+    if (transactionResponse == null) {
+      throw new OFXException("No profile transaction wrapper.");
+    }
+
+    ProfileResponse message = transactionResponse.getMessage();
+    if (message == null) {
+      throw new OFXException("No profile message.");
+    }
+    return message;
+  }
+
+  /**
+   * General validation checks on the specified response.
+   *
+   * @param request The request.
+   * @param response Ther response.
+   * @throws OFXException Upon invalid response.
+   */
+  protected void doGeneralValidationChecks(RequestEnvelope request, ResponseEnvelope response) throws OFXException {
     if (response.getSecurity() != ApplicationSecurity.NONE) {
-      throw new OFXException(String.format("Unable to participate in %s security.", response.getSecurity()));
+      throw new UnsupportedOFXSecurityTypeException(String.format("Unable to participate in %s security.", response.getSecurity()));
     }
 
-    if (!requestId.equals(response.getUID())) {
-      throw new OFXException(String.format("Invalid transaction ID '%s' in response.  Expected: %s", response.getUID(), requestId));
+    if (!request.getUID().equals(response.getUID())) {
+      throw new OFXException(String.format("Invalid transaction ID '%s' in response.  Expected: %s", response.getUID(), request));
     }
 
-    SignonResponse signonResponse = response.getSignonResponse();
-    if (signonResponse == null) {
-      throw new OFXException("No response to the signon request.");
+    for (RequestMessageSet requestSet : request.getMessageSets()) {
+      ResponseMessageSet responseSet = response.getMessageSet(requestSet.getType());
+      if (responseSet == null) {
+        throw new NoOFXResponseException("No response for the " + requestSet.getType() + " request.");
+      }
+
+      if (responseSet.getType() == MessageSetType.signon) {
+        SignonResponse signonResponse = ((SignonResponseMessageSet) responseSet).getSignonResponse();
+
+        if (signonResponse == null) {
+          throw new NoOFXResponseException("No signon response.");
+        }
+      }
+
+      Set<String> transactionIds = new TreeSet<String>();
+      for (RequestMessage requestMessage : requestSet.getRequestMessages()) {
+        if (requestMessage instanceof TransactionWrappedRequestMessage) {
+          transactionIds.add(((TransactionWrappedRequestMessage) requestMessage).getUID());
+        }
+      }
+
+      for (ResponseMessage responseMessage : responseSet.getResponseMessages()) {
+        if (responseMessage instanceof StatusHolder) {
+          validateStatus((StatusHolder) responseMessage);
+        }
+
+        if (responseMessage instanceof TransactionWrappedResponseMessage) {
+          String uid = ((TransactionWrappedResponseMessage) responseMessage).getUID();
+          if (uid == null) {
+            throw new OFXTransactionException("Invalid response transaction: no UID.");
+          }
+          else if (!transactionIds.remove(uid)) {
+            throw new OFXTransactionException("Response to an unknown transaction: " + uid + ".");
+          }
+        }
+      }
+
+      if (!transactionIds.isEmpty()) {
+        throw new OFXTransactionException("No response to the following transactions: " + transactionIds);
+      }
     }
-
-    validateStatus(signonResponse);
-
-    ProfileResponseTransaction transactionResponse = ((ProfileResponseMessageSet) response.getMessageSet(MessageSetType.profile)).getProfileResponse();
-    validateStatus(transactionResponse);
-    return transactionResponse.getMessage();
   }
 
   /**
@@ -106,7 +199,7 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
       throw new OFXException("Invalid OFX response: no status returned in the " + statusHolder.getStatusHolderName() + " response.");
     }
 
-    if (!Status.Code.SUCCESS.equals(status.getCode())) {
+    if (!Status.KnownCode.SUCCESS.equals(status.getCode())) {
       String message = status.getMessage();
       if (message == null) {
         message = "No response status code.";
@@ -143,27 +236,40 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
   }
 
   /**
-   * The signon request.
+   * Create a sign-on request for the specified user.
    *
+   * @param username The username.
+   * @param password The password.
    * @return The signon request.
    */
-  protected SignonRequest createProfileSignonRequest() {
+  protected SignonRequest createSignonRequest(String username, String password) {
     SignonRequest signonRequest = new SignonRequest();
     signonRequest.setTimestamp(new Date());
     net.sf.ofx4j.domain.data.signon.FinancialInstitution fi = new net.sf.ofx4j.domain.data.signon.FinancialInstitution();
+    fi.setId(getData().getFinancialInstitutionId());
     fi.setOrganization(getData().getOrganization());
     signonRequest.setFinancialInstitution(fi);
-    signonRequest.setUserId(SignonRequest.ANONYMOUS_USER);
-    signonRequest.setPassword(SignonRequest.ANONYMOUS_USER);
+    signonRequest.setUserId(username);
+    signonRequest.setPassword(password);
     signonRequest.setApplicationId(OFXApplicationContextHolder.getCurrentContext().getAppId());
     signonRequest.setApplicationVersion(OFXApplicationContextHolder.getCurrentContext().getAppVersion());
     return signonRequest;
   }
 
+  /**
+   * The connection used by this implementation.
+   *
+   * @return The connection used by this implementation.
+   */
   public OFXConnection getConnection() {
     return connection;
   }
 
+  /**
+   * The financial institution data.
+   *
+   * @return The financial institution data.
+   */
   public FinancialInstitutionData getData() {
     return data;
   }

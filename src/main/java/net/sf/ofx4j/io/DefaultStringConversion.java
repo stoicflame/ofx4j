@@ -1,14 +1,13 @@
 package net.sf.ofx4j.io;
 
 import net.sf.ofx4j.domain.data.common.Status;
+import net.sf.ofx4j.domain.data.common.StatusCode;
+import net.sf.ofx4j.domain.data.common.UnknownStatusCode;
 
 import java.sql.Time;
 import java.util.*;
 import java.net.URL;
 import java.net.MalformedURLException;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 /**
  * Utility class for conversion to/from OFX strings.
@@ -46,7 +45,7 @@ public class DefaultStringConversion implements StringConversion {
     else if (String.class.isAssignableFrom(clazz)) {
       return (E) value;
     }
-    else if (Status.Code.class.isAssignableFrom(clazz)) {
+    else if (StatusCode.class.isAssignableFrom(clazz)) {
       int code = 2000;
       try {
         code = Integer.parseInt(value);
@@ -54,8 +53,13 @@ public class DefaultStringConversion implements StringConversion {
       catch (NumberFormatException e) {
         throw new OFXSyntaxException(e);
       }
+
+      StatusCode statusCode = Status.KnownCode.fromCode(code);
+      if (statusCode == null) {
+        statusCode = new UnknownStatusCode(code, "Unknown status code.", Status.Severity.ERROR);
+      }
       
-      return (E) Status.Code.fromCode(code);
+      return (E) statusCode;
     }
     else if (Enum.class.isAssignableFrom(clazz)) {
       return (E) Enum.valueOf((Class<? extends Enum>) clazz, value);

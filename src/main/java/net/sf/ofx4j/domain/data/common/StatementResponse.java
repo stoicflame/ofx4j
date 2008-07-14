@@ -3,23 +3,20 @@ package net.sf.ofx4j.domain.data.common;
 import net.sf.ofx4j.domain.data.ResponseMessage;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
+import net.sf.ofx4j.client.AccountStatement;
 
 import java.util.Locale;
 
 /**
  * @author Ryan Heaton
  */
-public class StatementResponse extends ResponseMessage {
+public abstract class StatementResponse extends ResponseMessage implements AccountStatement {
 
   private String currencyCode = java.util.Currency.getInstance(Locale.US).getCurrencyCode().toUpperCase();
   private TransactionList transactionList;
   private BalanceInfo ledgerBalance;
   private BalanceInfo availableBalance;
   private String marketingInfo;
-
-  public String getResponseMessageName() {
-    return "bank statement";
-  }
 
   /**
    * The currency code.
