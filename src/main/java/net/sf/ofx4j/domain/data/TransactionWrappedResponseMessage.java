@@ -4,6 +4,7 @@ import net.sf.ofx4j.domain.data.common.Status;
 import net.sf.ofx4j.domain.data.common.StatusHolder;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
+import net.sf.ofx4j.meta.Aggregate;
 
 /**
  * A response message wrapped in a transaction.
@@ -62,7 +63,15 @@ public abstract class TransactionWrappedResponseMessage<M extends ResponseMessag
 
   // Inherited.
   public String getResponseMessageName() {
-    return getWrappedMessage().getResponseMessageName();
+    String name = "transaction response";
+    if (getWrappedMessage() != null) {
+      name = getWrappedMessage().getResponseMessageName() + " transaction";
+    }
+    else if (getClass().isAnnotationPresent(Aggregate.class)) {
+      name = getClass().getAnnotation(Aggregate.class).value() + " transaction";
+    }
+
+    return name;
   }
 
   /**

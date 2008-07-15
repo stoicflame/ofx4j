@@ -17,7 +17,7 @@ public class CreditCardStatementRequest extends StatementRequest {
    *
    * @return The account details.
    */
-  @ChildAggregate ( name = "BANKACCTFROM", required = true, order = 0 )
+  @ChildAggregate ( name = "CCACCTFROM", required = true, order = 0 )
   public CreditCardAccountDetails getAccount() {
     return account;
   }

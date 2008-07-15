@@ -3,6 +3,7 @@ package net.sf.ofx4j.client.main;
 import net.sf.ofx4j.client.*;
 import net.sf.ofx4j.client.impl.LocalResourceFIDataStore;
 import net.sf.ofx4j.client.impl.FinancialInstitutionImpl;
+import net.sf.ofx4j.client.impl.BaseFinancialInstitutionData;
 import net.sf.ofx4j.domain.data.banking.AccountType;
 import net.sf.ofx4j.domain.data.banking.BankAccountDetails;
 import net.sf.ofx4j.domain.data.creditcard.CreditCardAccountDetails;
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 
 /**
@@ -79,7 +81,8 @@ public class DownloadStatement {
         exit("Unknown financial institution: " + fid);
       }
 
-      FinancialInstitution fi = new FinancialInstitutionImpl(data, new OFXV1Connection());
+      OFXV1Connection connection = new OFXV1Connection();
+      FinancialInstitution fi = new FinancialInstitutionImpl(data, connection);
       FinancialInstitutionAccount account;
 
       switch (accountType) {
@@ -101,6 +104,7 @@ public class DownloadStatement {
           CreditCardAccountDetails ccDetails = new CreditCardAccountDetails();
           ccDetails.setAccountNumber(accountNumber);
           account = fi.loadCreditCardAccount(ccDetails, username, password);
+          break;
         default:
           throw new CmdLineException("Invalid institution account type: " + accountType);
       }
@@ -159,7 +163,7 @@ public class DownloadStatement {
 
   private void exit(String message) {
     System.out.println(message);
-
+    System.exit(1);
   }
 
   public static void main(String[] args) throws Exception {

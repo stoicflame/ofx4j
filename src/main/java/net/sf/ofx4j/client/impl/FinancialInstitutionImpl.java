@@ -209,7 +209,7 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
         }
       }
 
-      throw new OFXException("Invalid " + statusHolder.getStatusHolderName() + ":" + message);
+      throw new OFXException("Invalid " + statusHolder.getStatusHolderName() + ": " + message);
     }
   }
 

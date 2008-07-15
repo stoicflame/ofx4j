@@ -87,7 +87,7 @@ public class LocalResourceFIDataStore implements FinancialInstitutionDataStore {
    * @param data The data to add.
    */
   public void add(BaseFinancialInstitutionData data) {
-    this.fiData.put(data.getFinancialInstitutionId(), data);
+    this.fiData.put(data.getId(), data);
   }
 
   /**

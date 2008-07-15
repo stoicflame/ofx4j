@@ -70,6 +70,18 @@ public class TestDefaultStringConversion extends TestCase {
     assertEquals(0, calendar.get(GregorianCalendar.SECOND));
     assertEquals(0, calendar.get(GregorianCalendar.MILLISECOND));
     assertEquals("20061005000000.000", conversion.toString(date));
+
+    date = conversion.parseDate("20060624120000[0:GMT]");
+    calendar = new GregorianCalendar();
+    calendar.setTime(date);
+    calendar.setTimeZone(DefaultStringConversion.GMT_TIME_ZONE);
+    assertEquals(2006, calendar.get(GregorianCalendar.YEAR));
+    assertEquals(GregorianCalendar.JUNE, calendar.get(GregorianCalendar.MONTH));
+    assertEquals(24, calendar.get(GregorianCalendar.DAY_OF_MONTH));
+    assertEquals(12, calendar.get(GregorianCalendar.HOUR_OF_DAY));
+    assertEquals(0, calendar.get(GregorianCalendar.MINUTE));
+    assertEquals(0, calendar.get(GregorianCalendar.SECOND));
+    assertEquals(0, calendar.get(GregorianCalendar.MILLISECOND));
   }
 
   /**

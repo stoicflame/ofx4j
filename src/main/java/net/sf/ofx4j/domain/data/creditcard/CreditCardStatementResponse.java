@@ -21,7 +21,7 @@ public class CreditCardStatementResponse extends StatementResponse {
    *
    * @return The account for the statement.
    */
-  @ChildAggregate ( name ="BANKACCTFROM", order = 10)
+  @ChildAggregate ( name ="CCACCTFROM", order = 10)
   public CreditCardAccountDetails getAccount() {
     return account;
   }

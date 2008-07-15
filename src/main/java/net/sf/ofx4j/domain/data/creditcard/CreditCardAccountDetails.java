@@ -1,12 +1,14 @@
 package net.sf.ofx4j.domain.data.creditcard;
 
 import net.sf.ofx4j.meta.Element;
+import net.sf.ofx4j.meta.Aggregate;
 
 /**
  * @author Ryan Heaton
  * 
  * @see "OFX Spec, Section 11.3.2"
  */
+@Aggregate
 public class CreditCardAccountDetails {
 
   private String accountNumber;

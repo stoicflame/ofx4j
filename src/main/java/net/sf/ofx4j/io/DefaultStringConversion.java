@@ -106,7 +106,15 @@ public class DefaultStringConversion implements StringConversion {
     char[] parseableDate = new char[DATE_FORMAT_LENGTH];
     Arrays.fill(parseableDate, '0');
     parseableDate[parseableDate.length - 4] = '.';
-    value.getChars(0, Math.min(parseableDate.length, value.length()), parseableDate, 0);
+    char[] valueChars = value.toCharArray();
+    int index = 0;
+    while (index < valueChars.length && valueChars[index] != '[') {
+      if (index < DATE_FORMAT_LENGTH) {
+        parseableDate[index] = valueChars[index];
+      }
+      
+      index++;
+    }
 
     int year = Integer.parseInt(new String(parseableDate, 0, 4));
     int month = Integer.parseInt(new String(parseableDate, 4, 2)) - 1; //java month numberss are zero-based
@@ -118,8 +126,8 @@ public class DefaultStringConversion implements StringConversion {
 
     //set up a new calendar at zero, then set all the fields.
     GregorianCalendar calendar = new GregorianCalendar(year, month, day, hour, minute, second);
-    if (value.length() > parseableDate.length) {
-      String tzoffset = value.substring(parseableDate.length);
+    if (index < valueChars.length && valueChars[index] == '[') {
+      String tzoffset = value.substring(index);
       calendar.setTimeZone(parseTimeZone(tzoffset));
     }
     else {

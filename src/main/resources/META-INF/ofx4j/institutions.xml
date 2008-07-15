@@ -1,0 +1,1363 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<institutions>
+  <institution>
+    <financialInstitutionId>5012</financialInstitutionId>
+    <id>7987972</id>
+    <name>IronStone Bank</name>
+    <OFXURL>https://www.oasis.cfree.com/5012.ofxgp</OFXURL>
+    <organization>Atlantic States Bank</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>3701</financialInstitutionId>
+    <id>2569862</id>
+    <name>Huntington National Bank</name>
+    <OFXURL>https://onlinebanking.huntington.com/scripts/serverext.dll</OFXURL>
+    <organization>Huntington</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>323383349</financialInstitutionId>
+    <id>7122710</id>
+    <name>Columbia Credit Union</name>
+    <OFXURL>https://ofx.columbiacu.org/scripts/isaofx.dll</OFXURL>
+    <organization>Columbia Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>254074345</financialInstitutionId>
+    <id>22730182</id>
+    <name>Wright Patman Congressional FCU</name>
+    <OFXURL>https://www.congressionalonline.org/scripts/isaofx.dll</OFXURL>
+    <organization>Wright Patman Congressional FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>325182344</financialInstitutionId>
+    <id>8970973</id>
+    <name>Peninsula Community Federal Credit Union</name>
+    <OFXURL>https://mas.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Peninsula Credit Union</organization>
+  </institution>
+  <institution>
+    <brokerId>regions.com</brokerId>
+    <financialInstitutionId>243</financialInstitutionId>
+    <id>15091334</id>
+    <name>Regions Bank</name>
+    <OFXURL>https://ofx.morgankeegan.com/begasp/directtocore.asp</OFXURL>
+    <organization>regions.com</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>253177832</financialInstitutionId>
+    <id>2112561</id>
+    <name>Truliant FCU</name>
+    <OFXURL>https://ofxdi.diginsite.com/cmr/cmr.ofx</OFXURL>
+    <organization>DI</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>325183796</financialInstitutionId>
+    <id>5226838</id>
+    <name>Yakima Valley Credit Union</name>
+    <OFXURL>https://secure1.yvcu.org/scripts/isaofx.dll</OFXURL>
+    <organization>Yakima Valley Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>5575</financialInstitutionId>
+    <id>1977511</id>
+    <name>ShareBuilder</name>
+    <OFXURL>https://ofx.sharebuilder.com</OFXURL>
+    <organization>ShareBuilder</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>261271500</financialInstitutionId>
+    <id>17153368</id>
+    <name>Southeastern CU</name>
+    <OFXURL>https://moo.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Southeastern FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>311090673</financialInstitutionId>
+    <id>30533424</id>
+    <name>Southwest Airlines FCU</name>
+    <OFXURL>https://www.swacuflashbp.org/scripts/isaofx.dll</OFXURL>
+    <organization>Southwest Airlines EFCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>061400152</financialInstitutionId>
+    <id>27334345</id>
+    <name>ING DIRECT (Canada)</name>
+    <OFXURL>https://ofx.ingdirect.ca</OFXURL>
+    <organization>INGDirectCanada</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>90001</financialInstitutionId>
+    <id>14620722</id>
+    <name>Schools Financial Credit Union</name>
+    <OFXURL>https://ofx.schools.org/TekPortalOFX/servlet/TP_OFX_Controller</OFXURL>
+    <organization>Teknowledge</organization>
+  </institution>
+  <institution>
+    <brokerId>nbofx.fidelity.com</brokerId>
+    <financialInstitutionId>8288</financialInstitutionId>
+    <id>11372121</id>
+    <name>Fidelity NetBenefits</name>
+    <OFXURL>https://nbofx.fidelity.com/netbenefits/ofx/download</OFXURL>
+    <organization>nbofx.fidelity.com</organization>
+  </institution>
+  <institution>
+    <brokerId>fidelity.com</brokerId>
+    <financialInstitutionId>7776</financialInstitutionId>
+    <id>5195164</id>
+    <name>Fidelity Investments</name>
+    <OFXURL>https://ofx.fidelity.com/ftgw/OFX/clients/download</OFXURL>
+    <organization>fidelity.com</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>265473333</financialInstitutionId>
+    <id>6504030</id>
+    <name>Baton Rouge City Parish Emp FCU</name>
+    <OFXURL>https://bat.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Baton Rouge City Parish EFCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>322281963</financialInstitutionId>
+    <id>26460367</id>
+    <name>Patriots Federal Credit Union</name>
+    <OFXURL>https://pat.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>PAT FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>221275216</financialInstitutionId>
+    <id>22507120</id>
+    <name>Picatinny Federal Credit Union</name>
+    <OFXURL>https://banking.picacreditunion.com/scripts/isaofx.dll</OFXURL>
+    <organization>Picatinny Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>321378660</financialInstitutionId>
+    <id>18055655</id>
+    <name>HFS Federal Credit Union</name>
+    <OFXURL>https://hfs.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>HFS Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>5013</financialInstitutionId>
+    <id>28678543</id>
+    <name>First Citizens Bank - NC, VA, WV</name>
+    <OFXURL>https://www.oasis.cfree.com/5013.ofxgp</OFXURL>
+    <organization>First Citizens Bank NC, VA, WV</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>053285173</financialInstitutionId>
+    <id>24417480</id>
+    <name>MTC Federal Credit Union</name>
+    <OFXURL>https://mic.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>MTC Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>5901</financialInstitutionId>
+    <id>13884241</id>
+    <name>KeyBank</name>
+    <OFXURL>https://www.oasis.cfree.com/KeyBank.ofxgp</OFXURL>
+    <organization>KeyBank</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>314977405</financialInstitutionId>
+    <id>14927396</id>
+    <name>University Federal Credit Union</name>
+    <OFXURL>https://OnDemand.ufcu.org/scripts/isaofx.dll</OFXURL>
+    <organization>Univerisity FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>466</financialInstitutionId>
+    <id>31817359</id>
+    <name>Nantucket Bank</name>
+    <OFXURL>https://ofx.onlinencr.com/scripts/serverext.dll</OFXURL>
+    <organization>Nantucket</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>5811</financialInstitutionId>
+    <id>30931963</id>
+    <name>Bank One</name>
+    <OFXURL>https://onlineofx.chase.com/chase.ofx</OFXURL>
+    <organization>B1</organization>
+  </institution>
+  <institution>
+    <brokerId>mercbrokerage.com</brokerId>
+    <financialInstitutionId>011</financialInstitutionId>
+    <id>14688457</id>
+    <name>Mercantile Brokerage Services</name>
+    <OFXURL>https://ofx.netxclient.com/cgi/OFXNetx</OFXURL>
+    <organization>Mercantile Brokerage</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>2000</financialInstitutionId>
+    <id>8949356</id>
+    <name>Patelco CU</name>
+    <OFXURL>https://ofx.patelco.org</OFXURL>
+    <organization>Patelco Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>6510</financialInstitutionId>
+    <id>20863188</id>
+    <name>Spectrum Connect/Reich&amp;Tang</name>
+    <OFXURL>https://www.oasis.cfree.com/6510.ofxgp</OFXURL>
+    <organization>SpectrumConnect</organization>
+  </institution>
+  <institution>
+    <brokerId>https://fswofx.automat</brokerId>
+    <financialInstitutionId>7048</financialInstitutionId>
+    <id>3794357</id>
+    <name>First Southwest Company</name>
+    <OFXURL>https://fswofx.automatedfinancial.com</OFXURL>
+    <organization>AFS</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>321172594</financialInstitutionId>
+    <id>18346782</id>
+    <name>Educational Employees CU Fresno</name>
+    <OFXURL>https://www.eecuonline.org/scripts/isaofx.dll</OFXURL>
+    <organization>Educational Employees C U</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>242277808</financialInstitutionId>
+    <id>22700073</id>
+    <name>Day Air Credit Union</name>
+    <OFXURL>https://pcu.dayair.org/scripts/isaofx.dll</OFXURL>
+    <organization>Day Air Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>241075056</financialInstitutionId>
+    <id>6251267</id>
+    <name>Century Federal Credit Union</name>
+    <OFXURL>https://pcu.cenfedcu.org/scripts/isaofx.dll</OFXURL>
+    <organization>CenturyFederalCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>3901</financialInstitutionId>
+    <id>6131844</id>
+    <name>Bank of Stockton</name>
+    <OFXURL>https://internetbanking.bankofstockton.com/scripts/serverext.dll</OFXURL>
+    <organization>BOS</organization>
+  </institution>
+  <institution>
+    <brokerId>wellsfargo.com</brokerId>
+    <financialInstitutionId>10762</financialInstitutionId>
+    <id>12245160</id>
+    <name>Wells Fargo Investments, LLC</name>
+    <OFXURL>https://invmnt.wellsfargo.com/inv/directConnect</OFXURL>
+    <organization>wellsfargo.com</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>304982235</financialInstitutionId>
+    <id>15081425</id>
+    <name>Siouxland Federal Credit Union</name>
+    <OFXURL>https://sio.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>SIOUXLAND FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>321076289</financialInstitutionId>
+    <id>3346521</id>
+    <name>U.S. First FCU</name>
+    <OFXURL>https://uff.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>US First FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>321177803</financialInstitutionId>
+    <id>7760420</id>
+    <name>Financial Center CU</name>
+    <OFXURL>https://fin.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Fincancial Center Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>221278556</financialInstitutionId>
+    <id>3307594</id>
+    <name>Novartis Federal Credit Union</name>
+    <OFXURL>https://cib.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Novartis FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>2243</financialInstitutionId>
+    <id>24595355</id>
+    <name>First Tech Credit Union</name>
+    <OFXURL>https://ofx.firsttechcu.com</OFXURL>
+    <organization>First Tech Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>5006</financialInstitutionId>
+    <id>17089909</id>
+    <name>California Bank&amp;Trust</name>
+    <OFXURL>https://pfm.metavante.com/ofx/OFXServlet</OFXURL>
+    <organization>401</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>263079014</financialInstitutionId>
+    <id>4171180</id>
+    <name>First Florida Credit Union</name>
+    <OFXURL>https://pcu2.gecuf.org/scripts/isaofx.dll</OFXURL>
+    <organization>First Llorida Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>273973456</financialInstitutionId>
+    <id>9818046</id>
+    <name>Ascentra Credit Union</name>
+    <OFXURL>https://alc.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Alcoa Employees&amp;Community CU</organization>
+  </institution>
+  <institution>
+    <brokerId>ubs.com</brokerId>
+    <financialInstitutionId>7772</financialInstitutionId>
+    <id>24763620</id>
+    <name>UBS Financial Services Inc.</name>
+    <OFXURL>https://ofx1.ubs.com/eftxweb/access.ofx</OFXURL>
+    <organization>Intuit</organization>
+  </institution>
+  <institution>
+    <brokerId>prudential.com</brokerId>
+    <financialInstitutionId>1271</financialInstitutionId>
+    <id>26542488</id>
+    <name>Prudential Retirement</name>
+    <OFXURL>https://ofx.prudential.com/eftxweb/EFTXWebRedirector</OFXURL>
+    <organization>Prudential Retirement Services</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>252076468</financialInstitutionId>
+    <id>26980954</id>
+    <name>Municipal Employees Credit Union of Baltimore, Inc.</name>
+    <OFXURL>https://mec.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Municipal ECU of Baltimore,Inc.</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>6301</financialInstitutionId>
+    <id>14314484</id>
+    <name>National Penn Bank</name>
+    <OFXURL>https://www.oasis.cfree.com/6301.ofxgp</OFXURL>
+    <organization>National Penn Bank</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>1255</financialInstitutionId>
+    <id>31820984</id>
+    <name>Firstar</name>
+    <OFXURL>https://www.oasis.cfree.com/1255.ofxgp</OFXURL>
+    <organization>Firstar</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>323076575</financialInstitutionId>
+    <id>24744797</id>
+    <name>NW Preferred Federal Credit Union</name>
+    <OFXURL>https://nwf.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>NW Preferred FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>313187571</financialInstitutionId>
+    <id>12182618</id>
+    <name>FivePoint Credit Union</name>
+    <OFXURL>https://tfcu-nfuse01.texacocommunity.org/internetconnector/isaofx.dll</OFXURL>
+    <organization>FivePoint Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>314986292</financialInstitutionId>
+    <id>4126736</id>
+    <name>Security 1st FCU</name>
+    <OFXURL>https://sec.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Security 1st FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>121107882</financialInstitutionId>
+    <id>1049443</id>
+    <name>Fremont Bank</name>
+    <OFXURL>https://ofx.fremontbank.com/OFXServer/FBOFXSrvr.dll</OFXURL>
+    <organization>Fremont Bank</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>263178478</financialInstitutionId>
+    <id>21925102</id>
+    <name>Campus USA Credit Union</name>
+    <OFXURL>https://que.campuscu.com/scripts/isaofx.dll</OFXURL>
+    <organization>Campus USA Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>251481627</financialInstitutionId>
+    <id>421988</id>
+    <name>ABNB Federal Credit Union</name>
+    <OFXURL>https://cuathome.abnbfcu.org/scripts/isaofx.dll</OFXURL>
+    <organization>ABNB Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <brokerId>JPMORGAN</brokerId>
+    <financialInstitutionId>6313</financialInstitutionId>
+    <id>12376621</id>
+    <name>JPMorgan Retirement Plan Services</name>
+    <OFXURL>https://ofx.retireonline.com/eftxweb/access.ofx</OFXURL>
+    <organization>JPMORGAN</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>1121</financialInstitutionId>
+    <id>9949215</id>
+    <name>Nevada State Bank - New</name>
+    <OFXURL>https://quicken.metavante.com/ofx/OFXServlet</OFXURL>
+    <organization>295-3</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>5860</financialInstitutionId>
+    <id>14721926</id>
+    <name>National City</name>
+    <OFXURL>https://ofx.nationalcity.com/ofx/OFXConsumer.aspx</OFXURL>
+    <organization>NATIONAL CITY</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>4301</financialInstitutionId>
+    <id>1043272</id>
+    <name>zWachovia</name>
+    <OFXURL>https://www.oasis.cfree.com/4301.ofxgp</OFXURL>
+    <organization>Wachovia</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>321171757</financialInstitutionId>
+    <id>18871350</id>
+    <name>SafeAmerica Credit Union</name>
+    <OFXURL>https://saf.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>SafeAmerica Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>3101</financialInstitutionId>
+    <id>14301726</id>
+    <name>American Express Card</name>
+    <OFXURL>https://www99.americanexpress.com/myca/ofxdl/us/download?request_type=nl_desktopdownload</OFXURL>
+    <organization>AMEX</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>291975465</financialInstitutionId>
+    <id>18725445</id>
+    <name>Think Federal Credit Union</name>
+    <OFXURL>https://ofx.ibmcu.com</OFXURL>
+    <organization>IBMCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>313185515</financialInstitutionId>
+    <id>11549664</id>
+    <name>Texas Dow Employees Credit Union</name>
+    <OFXURL>https://allthetime.tdecu.org/scripts/isaofx.dll</OFXURL>
+    <organization>TexasDow</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>271979193</financialInstitutionId>
+    <id>2814081</id>
+    <name>Hawthorne Credit Union</name>
+    <OFXURL>https://hwt.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Hawthorne Credit Union</organization>
+  </institution>
+  <institution>
+    <brokerId>hewitt.com</brokerId>
+    <financialInstitutionId>242</financialInstitutionId>
+    <id>18064701</id>
+    <name>Hewitt Associates LLC</name>
+    <OFXURL>https://seven.was.hewitt.com/eftxweb/access.ofx</OFXURL>
+    <organization>hewitt.com</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>4639</financialInstitutionId>
+    <id>12929374</id>
+    <name>Citizens Bank - Business</name>
+    <OFXURL>https://www.oasis.cfree.com/04639.ofxgp</OFXURL>
+    <organization>CheckFree OFX</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>271078146</financialInstitutionId>
+    <id>5503831</id>
+    <name>Chicago Patrolmens FCU</name>
+    <OFXURL>https://chp.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Chicago Patrolmens CU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>121102036</financialInstitutionId>
+    <id>26882784</id>
+    <name>The Mechanics Bank</name>
+    <OFXURL>https://ofx.mechbank.com/OFXServer/ofxsrvr.dll</OFXURL>
+    <organization>TMB</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>24909</financialInstitutionId>
+    <id>8534260</id>
+    <name>AT&amp;T Universal Card</name>
+    <OFXURL>https://secureofx2.bankhost.com/citi/cgi-forte/ofx_rt?servicename=ofx_rt&amp;pagename=ofx</OFXURL>
+    <organization>Citigroup</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>283978425</financialInstitutionId>
+    <id>23668144</id>
+    <name>Fort Knox Federal Credit Union</name>
+    <OFXURL>https://fcs1.fkfcu.org/scripts/isaofx.dll</OFXURL>
+    <organization>Fort Knox Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>291975478</financialInstitutionId>
+    <id>2719739</id>
+    <name>Mayo Employees Federal Credit Union</name>
+    <OFXURL>https://homebank.mayocreditunion.org/ofx/ofx.dll</OFXURL>
+    <organization>Mayo Employees FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>4751</financialInstitutionId>
+    <id>9523050</id>
+    <name>Bank of the Cascades</name>
+    <OFXURL>https://directline.netteller.com</OFXURL>
+    <organization>JackHenry</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>274073876</financialInstitutionId>
+    <id>32820206</id>
+    <name>Finance Center FCU (IN)</name>
+    <OFXURL>https://sec.fcfcu.com/scripts/isaofx.dll</OFXURL>
+    <organization>Finance Center FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>1601</financialInstitutionId>
+    <id>7896426</id>
+    <name>JPMorgan Chase Bank</name>
+    <OFXURL>https://www.oasis.cfree.com/1601.ofxgp</OFXURL>
+    <organization>Chase Bank</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>11288</financialInstitutionId>
+    <id>7461949</id>
+    <name>Addison Avenue Federal Credit Union</name>
+    <OFXURL>https://ofx.addisonavenue.com</OFXURL>
+    <organization>hpcu</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>255074988</financialInstitutionId>
+    <id>20079748</id>
+    <name>COMSTAR FCU</name>
+    <OFXURL>https://pcu.comstarfcu.org/scripts/isaofx.dll</OFXURL>
+    <organization>Comstar Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>291270050</financialInstitutionId>
+    <id>23414511</id>
+    <name>Home Federal Savings Bank(MN/IA)</name>
+    <OFXURL>https://ofx1.evault.ws/ofxserver/ofxsrvr.dll</OFXURL>
+    <organization>VOneTwentySevenG</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>221982130</financialInstitutionId>
+    <id>1321194</id>
+    <name>NorthEast Alliance FCU</name>
+    <OFXURL>https://nea.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>NorthEast Alliance FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>54324</financialInstitutionId>
+    <id>25840096</id>
+    <name>America First Credit Union</name>
+    <OFXURL>https://ofx.americafirst.com</OFXURL>
+    <organization>America First Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>231277440</financialInstitutionId>
+    <id>33040770</id>
+    <name>FAA Technical Center FCU</name>
+    <OFXURL>https://ftc.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>FAA Technical Center FCU</organization>
+  </institution>
+  <institution>
+    <brokerId>www.edwardjones.com</brokerId>
+    <financialInstitutionId>823</financialInstitutionId>
+    <id>23930419</id>
+    <name>Edward Jones</name>
+    <OFXURL>https://ofx.edwardjones.com</OFXURL>
+    <organization>Edward Jones</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>291975481</financialInstitutionId>
+    <id>15142448</id>
+    <name>First Alliance Credit Union</name>
+    <OFXURL>https://fia.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>First Alliance Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>114909013</financialInstitutionId>
+    <id>22316618</id>
+    <name>Texas State Bank - McAllen</name>
+    <OFXURL>https://www.tsb-a.com/OFXServer/ofxsrvr.dll</OFXURL>
+    <organization>Texas State Bank</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>289</financialInstitutionId>
+    <id>3969559</id>
+    <name>66 Federal Credit Union</name>
+    <OFXURL>https://ofx.cuonlineaccounts.org</OFXURL>
+    <organization>SixySix</organization>
+  </institution>
+  <institution>
+    <brokerId>Wells Fargo Trust</brokerId>
+    <financialInstitutionId>6955</financialInstitutionId>
+    <id>10175206</id>
+    <name>Wells Fargo Trust-Investment Mgt</name>
+    <OFXURL>https://trust.wellsfargo.com/trust/directConnect</OFXURL>
+    <organization>Wells Fargo Trust</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>303986148</financialInstitutionId>
+    <id>21307627</id>
+    <name>Red Crown Federal Credit Union</name>
+    <OFXURL>https://cre.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Red Crown FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>251480563</financialInstitutionId>
+    <id>24389376</id>
+    <name>1st Advantage FCU</name>
+    <OFXURL>https://members.1stadvantage.org/scripts/isaofx.dll</OFXURL>
+    <organization>1st Advantage FCU</organization>
+  </institution>
+  <institution>
+    <brokerId>northerntrust.com</brokerId>
+    <financialInstitutionId>6028</financialInstitutionId>
+    <id>11317592</id>
+    <name>Northern Trust - Investments</name>
+    <OFXURL>https://www3883.ntrs.com/nta/ofxservlet?accounttypegroup=INV</OFXURL>
+    <organization>Northern Trust Investments</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>10942</financialInstitutionId>
+    <id>28259286</id>
+    <name>VISA Information Source</name>
+    <OFXURL>https://vis.informationmanagement.visa.com/eftxweb/access.ofx</OFXURL>
+    <organization>VISA</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>35GFA</financialInstitutionId>
+    <id>24392121</id>
+    <name>Collegedale Credit Union</name>
+    <OFXURL>https://www.netit.financial-net.com/ofx</OFXURL>
+    <organization>CollegedaleCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>FTCU</financialInstitutionId>
+    <id>23886295</id>
+    <name>Florida Telco CU</name>
+    <OFXURL>https://ppc.floridatelco.org/scripts/isaofx.dll</OFXURL>
+    <organization>FloridaTelcoCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>091917160</financialInstitutionId>
+    <id>11746570</id>
+    <name>Community Resource Bank</name>
+    <OFXURL>https://www.cnbinternet.com/OFXServer/ofxsrvr.dll</OFXURL>
+    <organization>CNB</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>5829</financialInstitutionId>
+    <id>23894119</id>
+    <name>Fifth Third Bancorp</name>
+    <OFXURL>https://banking.53.com/ofx/OFXServlet</OFXURL>
+    <organization>Fifth Third Bank</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>6201</financialInstitutionId>
+    <id>9030750</id>
+    <name>Eastern Bank</name>
+    <OFXURL>https://www.oasis.cfree.com/6201.ofxgp</OFXURL>
+    <organization>Eastern Bank</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>1101</financialInstitutionId>
+    <id>13121485</id>
+    <name>LaSalle Bank Midwest</name>
+    <OFXURL>https://www.oasis.cfree.com/1101.ofxgp</OFXURL>
+    <organization>LaSalleBankMidwest</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>251480327</financialInstitutionId>
+    <id>13080585</id>
+    <name>Chesterfield Federal Credit Union</name>
+    <OFXURL>https://chf.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Chesterfield Employees FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>1226</financialInstitutionId>
+    <id>30308427</id>
+    <name>Mellon Bank</name>
+    <OFXURL>https://www.oasis.cfree.com/1226.ofxgp</OFXURL>
+    <organization>Mellon Bank</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>263179956</financialInstitutionId>
+    <id>3916915</id>
+    <name>McCoy Federal Credit Union</name>
+    <OFXURL>https://www.mccoydirect.org/scripts/isaofx.dll</OFXURL>
+    <organization>McCoy Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>17600</financialInstitutionId>
+    <id>31365828</id>
+    <name>OCTFCU</name>
+    <OFXURL>https://ofx.octfcu.org</OFXURL>
+    <organization>OCTFCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>271188081</financialInstitutionId>
+    <id>25345246</id>
+    <name>Credit Union 1 - IL</name>
+    <OFXURL>https://pcu.creditunion1.org/scripts/isaofx.dll</OFXURL>
+    <organization>Credit Union 1</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>322484265</financialInstitutionId>
+    <id>4047035</id>
+    <name>Silver State Schools CU</name>
+    <OFXURL>https://www.silverstatecu.com/OFXServer/ofxsrvr.dll</OFXURL>
+    <organization>SSSCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>063108680</financialInstitutionId>
+    <id>3686501</id>
+    <name>Bank of Tampa, The</name>
+    <OFXURL>https://OFX.Bankoftampa.com/OFXServer/ofxsrvr.dll</OFXURL>
+    <organization>BOT</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>321379070</financialInstitutionId>
+    <id>17547166</id>
+    <name>Hawaiian Tel Federal Credit Union</name>
+    <OFXURL>https://htl.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Hawaiian Tel FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>307070050</financialInstitutionId>
+    <id>5324129</id>
+    <name>Kirtland Federal Credit Union</name>
+    <OFXURL>https://pcu.kirtlandfcu.org/scripts/isaofx.dll</OFXURL>
+    <organization>Kirtland Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <brokerId>msdw.com</brokerId>
+    <financialInstitutionId>1235</financialInstitutionId>
+    <id>26530674</id>
+    <name>Morgan Stanley ClientServ</name>
+    <OFXURL>https://ofx.morganstanleyclientserv.com/ofx/ProfileMSMoney.ofx</OFXURL>
+    <organization>msdw.com</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>11638</financialInstitutionId>
+    <id>29752800</id>
+    <name>Old National Bank</name>
+    <OFXURL>https://www.ofx.oldnational.com/ofxpreprocess.asp</OFXURL>
+    <organization>ONB</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>221276011</financialInstitutionId>
+    <id>27165481</id>
+    <name>United Teletech Financial</name>
+    <OFXURL>https://ofxcore.digitalinsight.com:443/servlet/OFXCoreServlet</OFXURL>
+    <organization>DI</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>281081479</financialInstitutionId>
+    <id>28652556</id>
+    <name>Vantage Credit Union</name>
+    <OFXURL>https://secure2.eecu.com/scripts/isaofx.dll</OFXURL>
+    <organization>EECU-St. Louis</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>CTZBK</financialInstitutionId>
+    <id>23860799</id>
+    <name>Citizens Bank - Consumer</name>
+    <OFXURL>https://www.oasis.cfree.com/0CTZBK.ofxgp</OFXURL>
+    <organization>CheckFree OFX</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>251483311</financialInstitutionId>
+    <id>19432672</id>
+    <name>DuPont Community Credit Union</name>
+    <OFXURL>https://pcu.mydccu.com/scripts/isaofx.dll</OFXURL>
+    <organization>DuPont Community Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>325181028</financialInstitutionId>
+    <id>19647819</id>
+    <name>WSECU</name>
+    <OFXURL>https://ssl3.wsecu.org/ofxserver/ofxsrvr.dll</OFXURL>
+    <organization>WSECU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>255075495</financialInstitutionId>
+    <id>11732976</id>
+    <name>Signal Financial Federal Credit Union</name>
+    <OFXURL>https://webpb.sfonline.org/scripts/isaofx.dll</OFXURL>
+    <organization>Washington Telephone FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>211287926</financialInstitutionId>
+    <id>30293957</id>
+    <name>Central Maine FCU</name>
+    <OFXURL>https://cro.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Central Maine FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>3201</financialInstitutionId>
+    <id>29154294</id>
+    <name>Smith Barney - Transactions</name>
+    <OFXURL>https://www.oasis.cfree.com/3201.ofxgp</OFXURL>
+    <organization>SmithBarney</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>324377820</financialInstitutionId>
+    <id>849515</id>
+    <name>Utah Community Credit Union</name>
+    <OFXURL>https://ofx.uccu.com/scripts/isaofx.dll</OFXURL>
+    <organization>Utah Community Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>322274462</financialInstitutionId>
+    <id>17171576</id>
+    <name>AltaOne Federal Credit Union</name>
+    <OFXURL>https://pcu.altaone.org/scripts/isaofx.dll</OFXURL>
+    <organization>AltaOneFCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>BBT</financialInstitutionId>
+    <id>1023040</id>
+    <name>BB&amp;T</name>
+    <OFXURL>https://olb.bbandt.com/ofxsecurity/ofx_security_server.dll</OFXURL>
+    <organization>BBT</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>324079186</financialInstitutionId>
+    <id>14372770</id>
+    <name>Salt Lake City Credit Union</name>
+    <OFXURL>https://slc.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Salt Lake City Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>321380315</financialInstitutionId>
+    <id>4791372</id>
+    <name>Windward Community FCU</name>
+    <OFXURL>https://wwc.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Windward Community FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>590678236</financialInstitutionId>
+    <id>31519478</id>
+    <name>Central Florida Educators FCU</name>
+    <OFXURL>https://www.mattweb.cfefcu.com/scripts/isaofx.dll</OFXURL>
+    <organization>CentralFloridaEduc</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>281076853</financialInstitutionId>
+    <id>24061351</id>
+    <name>GCS Federal Credit Union</name>
+    <OFXURL>https://pcu.mygcscu.com/scripts/isaofx.dll</OFXURL>
+    <organization>Granite City Steel cu</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>1401</financialInstitutionId>
+    <id>1117233</id>
+    <name>US Bank</name>
+    <OFXURL>https://www.oasis.cfree.com/1401.ofxgp</OFXURL>
+    <organization>US Bank</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>4801</financialInstitutionId>
+    <id>20415955</id>
+    <name>Commercial Federal Bank</name>
+    <OFXURL>https://www.oasis.cfree.com/4801.ofxgp</OFXURL>
+    <organization>CommercialFederalBank</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>6501</financialInstitutionId>
+    <id>3338151</id>
+    <name>LaSalle Bank NA</name>
+    <OFXURL>https://www.oasis.cfree.com/6501.ofxgp</OFXURL>
+    <organization>LaSalle Bank NA</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>3001</financialInstitutionId>
+    <id>1309073</id>
+    <name>Wells Fargo</name>
+    <OFXURL>https://www.oasis.cfree.com/3001.ofxgp</OFXURL>
+    <organization>Wells Fargo</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>5301</financialInstitutionId>
+    <id>23438274</id>
+    <name>JPMorgan Chase Bank (Texas)</name>
+    <OFXURL>https://www.oasis.cfree.com/5301.ofxgp</OFXURL>
+    <organization>Chase Bank of Texas</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>321379504</financialInstitutionId>
+    <id>31598780</id>
+    <name>The Queen's Federal Credit Union</name>
+    <OFXURL>https://que.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>The Queens Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>255077736</financialInstitutionId>
+    <id>14707008</id>
+    <name>Cedar Point Federal Credit Union</name>
+    <OFXURL>https://pcu.cpfcu.com/scripts/isaofx.dll</OFXURL>
+    <organization>Cedar Point Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>263182558</financialInstitutionId>
+    <id>18746387</id>
+    <name>Envision Credit Union</name>
+    <OFXURL>https://pcu.envisioncu.com/scripts/isaofx.dll</OFXURL>
+    <organization>Envision Credit Union</organization>
+  </institution>
+  <institution>
+    <brokerId>SCHWAB.COM</brokerId>
+    <financialInstitutionId>101</financialInstitutionId>
+    <id>27978063</id>
+    <name>Charles Schwab Bank, N.A.</name>
+    <OFXURL>https://ofx.schwab.com/bankcgi_dev/ofx_server</OFXURL>
+    <organization>ISC</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>10888</financialInstitutionId>
+    <id>29056009</id>
+    <name>Nevada Federal Credit Union</name>
+    <OFXURL>https://ssl4.nevadafederal.org/ofxdirect/ofxrqst.aspx</OFXURL>
+    <organization>PSI</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>267077850</financialInstitutionId>
+    <id>26697745</id>
+    <name>University Credit Union</name>
+    <OFXURL>https://umc.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>University Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>263179532</financialInstitutionId>
+    <id>19147537</id>
+    <name>Kennedy Space Center FCU</name>
+    <OFXURL>https://www.pcu.kscfcu.org/scripts/isaofx.dll</OFXURL>
+    <organization>Kennedy Space Center FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>321173742</financialInstitutionId>
+    <id>25657668</id>
+    <name>Safe Credit Union - OFX Beta</name>
+    <OFXURL>https://ofxcert.diginsite.com/cmr/cmr.ofx</OFXURL>
+    <organization>DI</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>274972883</financialInstitutionId>
+    <id>20435088</id>
+    <name>Centra Credit Union</name>
+    <OFXURL>https://centralink.org/scripts/isaofx.dll</OFXURL>
+    <organization>Centra CU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>231386645</financialInstitutionId>
+    <id>22917908</id>
+    <name>Merck Sharp&amp;Dohme FCU</name>
+    <OFXURL>https://msd.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>MERCK, SHARPE&amp;DOHME FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>303085230</financialInstitutionId>
+    <id>9956845</id>
+    <name>Allegiance Credit Union</name>
+    <OFXURL>https://fed.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Federal Employees CU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>6217</financialInstitutionId>
+    <id>8752113</id>
+    <name>Billings Federal Credit Union</name>
+    <OFXURL>https://bfcuonline.billingsfcu.org/ofx/ofx.dll</OFXURL>
+    <organization>Billings Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>243382747</financialInstitutionId>
+    <id>27692793</id>
+    <name>Tri Boro Federal Credit Union</name>
+    <OFXURL>https://tri.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Tri Boro Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>272483633</financialInstitutionId>
+    <id>32801378</id>
+    <name>First Community FCU</name>
+    <OFXURL>https://pcu.1stcomm.org/scripts/isaofx.dll</OFXURL>
+    <organization>FirstCommunityFCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>251082644</financialInstitutionId>
+    <id>26999600</id>
+    <name>Dominion Credit Union</name>
+    <OFXURL>https://dom.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Dominion Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>321379041</financialInstitutionId>
+    <id>25706868</id>
+    <name>Hawaii State FCU</name>
+    <OFXURL>https://hse.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Hawaii State FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>243083237</financialInstitutionId>
+    <id>8470547</id>
+    <name>Clearview Federal Credit Union</name>
+    <OFXURL>https://www.pcu.clearviewfcu.org/scripts/isaofx.dll</OFXURL>
+    <organization>Clearview Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>231379199</financialInstitutionId>
+    <id>26596606</id>
+    <name>First Commonwealth FCU</name>
+    <OFXURL>https://pcu.firstcomcu.org/scripts/isaofx.dll</OFXURL>
+    <organization>FirstCommonwealthFCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>311080573</financialInstitutionId>
+    <id>30584859</id>
+    <name>Las Colinas FCU</name>
+    <OFXURL>https://las.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Las Colinas Federal CU</organization>
+  </institution>
+  <institution>
+    <brokerId>1234</brokerId>
+    <financialInstitutionId>7784</financialInstitutionId>
+    <id>19397138</id>
+    <name>myStreetscape</name>
+    <OFXURL>https://ofx.ibgstreetscape.com:443</OFXURL>
+    <organization>Fidelity</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>2</financialInstitutionId>
+    <id>26396889</id>
+    <name>Bank-Fund Staff FCU</name>
+    <OFXURL>https://secure.bfsfcu.org/ofx/ofx.dll</OFXURL>
+    <organization>Bank Fund Staff FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>271984311</financialInstitutionId>
+    <id>29384701</id>
+    <name>Motorola Employees Credit Union</name>
+    <OFXURL>https://mecuofx.mecunet.org/scripts/isaofx.dll</OFXURL>
+    <organization>Motorola Employees CU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>251481355</financialInstitutionId>
+    <id>14556042</id>
+    <name>Virginia Educators Credit Union</name>
+    <OFXURL>https://www.vecumoneylink.org/scripts/isaofx.dll</OFXURL>
+    <organization>Virginia Educators CU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>275982801</financialInstitutionId>
+    <id>31601333</id>
+    <name>Community First Credit Union</name>
+    <OFXURL>https://pcu.communityfirstcu.org/scripts/isaofx.dll</OFXURL>
+    <organization>Community First Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>1046</financialInstitutionId>
+    <id>24056908</id>
+    <name>Colonial Bank</name>
+    <OFXURL>https://www.oasis.cfree.com/1046.ofxgp</OFXURL>
+    <organization>Colonial Banc Group</organization>
+  </institution>
+  <institution>
+    <brokerId>agedwards.com</brokerId>
+    <financialInstitutionId>43-0895447</financialInstitutionId>
+    <id>27108604</id>
+    <name>A. G. Edwards and Sons, Inc.</name>
+    <OFXURL>https://ofx.agedwards.com</OFXURL>
+    <organization>A.G. Edwards</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>7101</financialInstitutionId>
+    <id>12231782</id>
+    <name>Discover Card</name>
+    <OFXURL>https://ofx.discovercard.com</OFXURL>
+    <organization>Discover Financial Services</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>322279975</financialInstitutionId>
+    <id>25116828</id>
+    <name>Camino FCU</name>
+    <OFXURL>https://homebanking.caminofcu.org/isaofx/isaofx.dll</OFXURL>
+    <organization>Camino FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>5601</financialInstitutionId>
+    <id>23776721</id>
+    <name>Comerica Bank</name>
+    <OFXURL>https://www.oasis.cfree.com/5601.ofxgp</OFXURL>
+    <organization>Comerica</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>54354</financialInstitutionId>
+    <id>15623809</id>
+    <name>PSECU</name>
+    <OFXURL>https://ofx.psecu.com/servlet/OFXServlet</OFXURL>
+    <organization>Teknowledge</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>1001</financialInstitutionId>
+    <id>25934938</id>
+    <name>Commerce Bank NJ, PA, NY&amp;DE</name>
+    <OFXURL>https://www.commerceonlinebanking.com/scripts/serverext.dll</OFXURL>
+    <organization>CommerceBank</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>275979034</financialInstitutionId>
+    <id>16437003</id>
+    <name>Summit Credit Union (WI)</name>
+    <OFXURL>https://branch.summitcreditunion.com/scripts/isaofx.dll</OFXURL>
+    <organization>Summit Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>2801</financialInstitutionId>
+    <id>3083761</id>
+    <name>SunTrust</name>
+    <OFXURL>https://www.oasis.cfree.com/2801.ofxgp</OFXURL>
+    <organization>SunTrust PC Banking</organization>
+  </institution>
+  <institution>
+    <brokerId>etrade.com</brokerId>
+    <financialInstitutionId>fldProv_mProvBankId</financialInstitutionId>
+    <id>20736546</id>
+    <name>E*TRADE</name>
+    <OFXURL>https://ofx.etrade.com/cgi-ofx/etradeofx</OFXURL>
+    <organization>fldProv_mId</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>311079474</financialInstitutionId>
+    <id>22808536</id>
+    <name>EDS Credit Union</name>
+    <OFXURL>https://eds.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>EDS CU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>4309</financialInstitutionId>
+    <id>17244592</id>
+    <name>Wachovia Bank</name>
+    <OFXURL>https://pfmpw.wachovia.com/cgi-forte/fortecgi?servicename=ofx&amp;pagename=PFM</OFXURL>
+    <organization>Wachovia</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>5804</financialInstitutionId>
+    <id>20230270</id>
+    <name>Northern Trust - Banking</name>
+    <OFXURL>https://www3883.ntrs.com/nta/ofxservlet</OFXURL>
+    <organization>ORG</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>citadel</financialInstitutionId>
+    <id>3098834</id>
+    <name>Citadel FCU</name>
+    <OFXURL>https://pcu.citadelfcu.org/scripts/isaofx.dll</OFXURL>
+    <organization>CitadelFCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>14412</financialInstitutionId>
+    <id>5626173</id>
+    <name>Credit Union ONE</name>
+    <OFXURL>https://cuhome.cuone.org/ofx/ofx.dll</OFXURL>
+    <organization>Credit Union ONE</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>0</financialInstitutionId>
+    <id>2715510</id>
+    <name>UMB Bank</name>
+    <OFXURL>https://pcbanking.umb.com/hs_ofx/hsofx.dll</OFXURL>
+    <organization>UMB</organization>
+  </institution>
+  <institution>
+    <brokerId>penson.com</brokerId>
+    <financialInstitutionId>10780</financialInstitutionId>
+    <id>5555373</id>
+    <name>Penson Financial Services</name>
+    <OFXURL>https://ofx.penson.com</OFXURL>
+    <organization>Penson Financial Services Inc</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>107001012</financialInstitutionId>
+    <id>20738936</id>
+    <name>Los Alamos National Bank</name>
+    <OFXURL>https://www.lanb.com/ofx/ofxrelay.dll</OFXURL>
+    <organization>LANB</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>111904503</financialInstitutionId>
+    <id>29422309</id>
+    <name>Navy Army Federal Credit Union</name>
+    <OFXURL>https://mybranch.navyarmyfcu.com/scripts/isaofx.dll</OFXURL>
+    <organization>Navy Army Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>222382438</financialInstitutionId>
+    <id>9090824</id>
+    <name>Reliant Community Credit Union</name>
+    <OFXURL>https://wct.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>W.C.T.A Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>1901</financialInstitutionId>
+    <id>16165899</id>
+    <name>Centura Bank</name>
+    <OFXURL>https://www.oasis.cfree.com/1901.ofxgp</OFXURL>
+    <organization>Centura Bank</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>1</financialInstitutionId>
+    <id>10040532</id>
+    <name>Denali Alaskan FCU</name>
+    <OFXURL>https://remotebanking.denalifcu.com/ofx/ofx.dll</OFXURL>
+    <organization>Denali Alaskan FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>24591</financialInstitutionId>
+    <id>5998631</id>
+    <name>USAA Federal Savings Bank</name>
+    <OFXURL>https://service2.usaa.com/ofx/OFXServlet</OFXURL>
+    <organization>USAA</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>211382591</financialInstitutionId>
+    <id>21479899</id>
+    <name>Fall River Municipal CU</name>
+    <OFXURL>https://fal.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Fall River Municipal CU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>261271364</financialInstitutionId>
+    <id>535863</id>
+    <name>Fort Stewart GeorgiaFCU</name>
+    <OFXURL>https://fsg.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Fort Stewart FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>311175129</financialInstitutionId>
+    <id>13671123</id>
+    <name>Bossier Federal Credit Union</name>
+    <OFXURL>https://bos.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Bossier Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>321174770</financialInstitutionId>
+    <id>23370564</id>
+    <name>Sierra Central Credit Union</name>
+    <OFXURL>https://www.sierracpu.com/scripts/isaofx.dll</OFXURL>
+    <organization>Sierra Central Credit Union</organization>
+  </institution>
+  <institution>
+    <brokerId>www.dreyfus.com</brokerId>
+    <id>902782</id>
+    <name>Dreyfus</name>
+    <OFXURL>https://ofx3.financialtrans.com/tf/OFXServer?tx=OFXController&amp;cz=702110804131918&amp;cl=703170424052018</OFXURL>
+    <organization>DST</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>091901480</financialInstitutionId>
+    <id>6460907</id>
+    <name>SAC FEDERAL CREDIT UNION</name>
+    <OFXURL>https://pcu.sacfcu.com/scripts/isaofx.dll</OFXURL>
+    <organization>SAC Federal CU</organization>
+  </institution>
+  <institution>
+    <brokerId>scottsave.com</brokerId>
+    <financialInstitutionId>777</financialInstitutionId>
+    <id>6330713</id>
+    <name>Scottrade, Inc.</name>
+    <OFXURL>https://ofxstl.scottsave.com</OFXURL>
+    <organization>Scottrade</organization>
+  </institution>
+  <institution>
+    <brokerId>ameriprise.com</brokerId>
+    <financialInstitutionId>3102</financialInstitutionId>
+    <id>32755292</id>
+    <name>Ameriprise Financial Services, Inc.</name>
+    <OFXURL>https://www25.ameriprise.com/AMPFWeb/ofxdl/us/download?request_type=nl_desktopdownload</OFXURL>
+    <organization>AMPF</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>3328</financialInstitutionId>
+    <id>24193850</id>
+    <name>Delta Community Credit Union</name>
+    <OFXURL>https://appweb.deltacommunitycu.com/ofxroot/directtocore.asp</OFXURL>
+    <organization>decu.org</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>4001</financialInstitutionId>
+    <id>13446707</id>
+    <name>Commerce Bank, NA</name>
+    <OFXURL>https://www.oasis.cfree.com/4001.ofxgp</OFXURL>
+    <organization>Commerce Bank NA</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>FirstBank</financialInstitutionId>
+    <id>9717476</id>
+    <name>FirstBank of Colorado</name>
+    <OFXURL>https://www.efirstbankpfm.com/ofx/OFXServlet</OFXURL>
+    <organization>FBDC</organization>
+  </institution>
+  <institution>
+    <brokerId>weitz.com</brokerId>
+    <financialInstitutionId>weitz.com</financialInstitutionId>
+    <id>12213370</id>
+    <name>Weitz Funds</name>
+    <OFXURL>https://www3.financialtrans.com/tf/OFXServer?tx=OFXController&amp;cz=702110804131918&amp;cl=52204081925</OFXURL>
+    <organization>weitz.com</organization>
+  </institution>
+  <institution>
+    <brokerId>strong.com</brokerId>
+    <financialInstitutionId>1030</financialInstitutionId>
+    <id>17652030</id>
+    <name>Wells Fargo Advisor</name>
+    <OFXURL>https://ofx.wellsfargoadvantagefunds.com/eftxWeb/Access.ofx</OFXURL>
+    <organization>strong.com</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>221277007</financialInstitutionId>
+    <id>22939763</id>
+    <name>B-M S Federal Credit Union</name>
+    <OFXURL>https://bms.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>B-M S Federal Credit Union</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>2901</financialInstitutionId>
+    <id>8175078</id>
+    <name>Union Bank of California</name>
+    <OFXURL>https://www.oasis.cfree.com/2901.ofxgp</OFXURL>
+    <organization>Union Bank of California</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>11257</financialInstitutionId>
+    <id>26704795</id>
+    <name>Technology Credit Union - CA</name>
+    <OFXURL>https://webbranchofx.techcu.com/TekPortalOFX/servlet/TP_OFX_Controller</OFXURL>
+    <organization>Tech CU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>322077559</financialInstitutionId>
+    <id>3408129</id>
+    <name>Continental Federal Credit Union</name>
+    <OFXURL>https://cnt.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>Continenetal FCU</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>5550</financialInstitutionId>
+    <id>3022623</id>
+    <name>Merrill Lynch&amp;Co., Inc.</name>
+    <OFXURL>https://taxcert.mlol.ml.com/eftxweb/access.ofx</OFXURL>
+    <organization>Merrill Lynch&amp;Co., Inc.</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>6812</financialInstitutionId>
+    <id>33385450</id>
+    <name>Bank of America (All except CA, WA,&amp;ID)</name>
+    <OFXURL>https://ofx.bankofamerica.com/cgi-forte/fortecgi?servicename=ofx_2-3&amp;pagename=ofx</OFXURL>
+    <organization>HAN</organization>
+  </institution>
+  <institution>
+    <financialInstitutionId>262087609</financialInstitutionId>
+    <id>12053597</id>
+    <name>APCO EMPLOYEES CREDIT UNION</name>
+    <OFXURL>https://apc.usersonlnet.com/scripts/isaofx.dll</OFXURL>
+    <organization>APCO Employees Credit Union</organization>
+  </institution>
+</institutions>
