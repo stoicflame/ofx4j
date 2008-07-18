@@ -3,11 +3,10 @@ package net.sf.ofx4j.client.main;
 import net.sf.ofx4j.client.*;
 import net.sf.ofx4j.client.impl.LocalResourceFIDataStore;
 import net.sf.ofx4j.client.impl.FinancialInstitutionImpl;
-import net.sf.ofx4j.client.impl.BaseFinancialInstitutionData;
 import net.sf.ofx4j.domain.data.banking.AccountType;
 import net.sf.ofx4j.domain.data.banking.BankAccountDetails;
 import net.sf.ofx4j.domain.data.creditcard.CreditCardAccountDetails;
-import net.sf.ofx4j.net.OFXV1Connection;
+import net.sf.ofx4j.client.net.OFXV1Connection;
 import net.sf.ofx4j.io.v1.OFXV1Writer;
 import net.sf.ofx4j.io.AggregateMarshaller;
 import net.sf.ofx4j.io.OFXWriter;
@@ -21,7 +20,6 @@ import java.util.Date;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 
 /**

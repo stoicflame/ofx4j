@@ -6,8 +6,10 @@
   <artifactId>ofx4j</artifactId>
   <packaging>jar</packaging>
 
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0</version>
   <name>ofx4j</name>
+  <description>OFX4J is a Java implementation of Open Financial Exchange, which defines web service
+    APIs for interfacing with financial institutions.</description>
   <url>http://ofx4j.sf.net</url>
 
   <build>
@@ -48,8 +50,30 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>package</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </reporting>
 
   <dependencies>
     <dependency>
@@ -83,10 +107,19 @@
     </dependency>
 
     <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.3</version>
+
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
       <groupId>args4j</groupId>
       <artifactId>args4j</artifactId>
       <version>2.0.9</version>
 
+      <!--optional (only for the command-line utilities-->
       <optional>true</optional>
     </dependency>
 
@@ -125,5 +158,14 @@
       <layout>legacy</layout>
     </repository>
   </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>sourceforge</id>
+      <name>OFX4J M2 Repository</name>
+      <url>scp://shell.sf.net/home/groups/o/of/ofx4j/m2</url>
+    </repository>
+  </distributionManagement>
+
 
 </project>

@@ -6,8 +6,8 @@ import net.sf.ofx4j.client.FinancialInstitutionData;
 import net.sf.ofx4j.client.FinancialInstitutionDataStore;
 import net.sf.ofx4j.client.FinancialInstitutionProfile;
 import net.sf.ofx4j.domain.data.ResponseEnvelope;
-import net.sf.ofx4j.net.OFXConnectionException;
-import net.sf.ofx4j.net.OFXV1Connection;
+import net.sf.ofx4j.client.net.OFXConnectionException;
+import net.sf.ofx4j.client.net.OFXV1Connection;
 
 import java.io.*;
 import java.net.URL;

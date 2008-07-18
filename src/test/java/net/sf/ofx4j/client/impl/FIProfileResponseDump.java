@@ -7,7 +7,7 @@ import net.sf.ofx4j.client.FinancialInstitutionProfile;
 import net.sf.ofx4j.domain.data.ResponseEnvelope;
 import net.sf.ofx4j.io.AggregateUnmarshaller;
 import net.sf.ofx4j.io.OFXParseException;
-import net.sf.ofx4j.net.OFXV1Connection;
+import net.sf.ofx4j.client.net.OFXV1Connection;
 
 import java.io.*;
 

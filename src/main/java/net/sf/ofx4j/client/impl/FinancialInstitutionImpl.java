@@ -15,8 +15,8 @@ import net.sf.ofx4j.domain.data.signon.SignonRequest;
 import net.sf.ofx4j.domain.data.signon.SignonRequestMessageSet;
 import net.sf.ofx4j.domain.data.signon.SignonResponse;
 import net.sf.ofx4j.domain.data.signon.SignonResponseMessageSet;
-import net.sf.ofx4j.net.OFXConnection;
-import net.sf.ofx4j.net.OFXConnectionException;
+import net.sf.ofx4j.client.net.OFXConnection;
+import net.sf.ofx4j.client.net.OFXConnectionException;
 
 import java.net.URL;
 import java.util.Date;

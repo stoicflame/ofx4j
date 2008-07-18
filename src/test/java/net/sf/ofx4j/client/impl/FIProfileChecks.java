@@ -4,8 +4,8 @@ import net.sf.ofx4j.OFXException;
 import net.sf.ofx4j.client.FinancialInstitution;
 import net.sf.ofx4j.client.FinancialInstitutionData;
 import net.sf.ofx4j.client.FinancialInstitutionDataStore;
-import net.sf.ofx4j.net.OFXServerException;
-import net.sf.ofx4j.net.OFXV1Connection;
+import net.sf.ofx4j.client.net.OFXServerException;
+import net.sf.ofx4j.client.net.OFXV1Connection;
 
 import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;

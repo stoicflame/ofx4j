@@ -1,0 +1,16 @@
+  ---
+  Home
+  ---
+  Ryan Heaton
+  ---
+
+Welcome
+
+  Welcome to OFX4J!
+
+  The purpose of this project is to provide an implementaion of {{{http://ofx.net/}OFX}} for Java. This project targets Java
+  developers, so the primary means of getting started is diving right into the code.  You could skim the {{{./userguide.html}user guide}} for an idea
+  of how to use this library, but once you get started, you'll probably find the {{{./apidocs/index.html}JavaDocs}} most useful.
+
+  If you run into problems or have other questions, use the {{{https://sourceforge.net/mail/?group_id=232500}mailing list}}.  Keep in mind that
+  {{{http://webcohesion.com/}commercial support}} is also available.

@@ -1,4 +1,4 @@
-package net.sf.ofx4j.net;
+package net.sf.ofx4j.client.net;
 
 /**
  * @author Ryan Heaton
