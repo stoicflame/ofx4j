@@ -20,12 +20,13 @@ import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.domain.data.common.AccountStatus;
+import net.sf.ofx4j.domain.data.common.AccountInfo;
 
 /**
  * @author Ryan Heaton
  */
 @Aggregate ( "BANKACCTINFO" )
-public class BankAccountInfo {
+public class BankAccountInfo implements AccountInfo {
 
   private BankAccountDetails bankAccount;
   private Boolean supportsTransactionDetailOperations;

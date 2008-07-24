@@ -22,6 +22,7 @@ import net.sf.ofx4j.OFXTransactionException;
 import net.sf.ofx4j.client.*;
 import net.sf.ofx4j.client.context.OFXApplicationContextHolder;
 import net.sf.ofx4j.domain.data.*;
+import net.sf.ofx4j.domain.data.signup.*;
 import net.sf.ofx4j.domain.data.creditcard.CreditCardAccountDetails;
 import net.sf.ofx4j.domain.data.banking.BankAccountDetails;
 import net.sf.ofx4j.domain.data.common.Status;
@@ -38,6 +39,7 @@ import java.net.URL;
 import java.util.Date;
 import java.util.TreeSet;
 import java.util.Set;
+import java.util.Collection;
 
 /**
  * Base implementation for the financial instutiton.
@@ -70,6 +72,17 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
     ResponseEnvelope response = sendRequest(request, getData().getOFXURL());
     doGeneralValidationChecks(request, response);
     return getProfile(response);
+  }
+
+  // Inherited.
+  public Collection<AccountProfile> readAccountProfiles(String username, String password) throws OFXException {
+    RequestEnvelope request = createAuthenticatedRequest(username, password);
+    SignupRequestMessageSet signupRequest = new SignupRequestMessageSet();
+    signupRequest.setAccountInfoRequest(createAccountInfoTransaction());
+    request.getMessageSets().add(signupRequest);
+    ResponseEnvelope response = sendRequest(request, getData().getOFXURL());
+    doGeneralValidationChecks(request, response);
+    return getAccountProfiles(response);
   }
 
   // Inherited.
@@ -270,6 +283,51 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
     signonRequest.setApplicationId(OFXApplicationContextHolder.getCurrentContext().getAppId());
     signonRequest.setApplicationVersion(OFXApplicationContextHolder.getCurrentContext().getAppVersion());
     return signonRequest;
+  }
+
+  /**
+   * Create a transaction for an account info request.
+   *
+   * @return The transaction.
+   */
+  protected AccountInfoRequestTransaction createAccountInfoTransaction() {
+    AccountInfoRequestTransaction transaction = new AccountInfoRequestTransaction();
+    transaction.setMessage(createAccountInfoRequest());
+    return transaction;
+  }
+
+  /**
+   * Create an account info request.
+   *
+   * @return The account info request.
+   */
+  protected AccountInfoRequest createAccountInfoRequest() {
+    return new AccountInfoRequest();
+  }
+
+  /**
+   * Get the account profiles for the specified response envelope.
+   *
+   * @param response The response envelope.
+   * @return The account profiles.
+   */
+  protected Collection<AccountProfile> getAccountProfiles(ResponseEnvelope response) throws OFXException {
+    SignupResponseMessageSet messageSet = (SignupResponseMessageSet) response.getMessageSet(MessageSetType.signup);
+    if (messageSet == null) {
+      throw new OFXException("No signup response message set.");
+    }
+
+    AccountInfoResponseTransaction transaction = messageSet.getAccountInfoResponse();
+    if (transaction == null) {
+      throw new OFXException("No account info transaction in the signup response.");
+    }
+
+    AccountInfoResponse infoResponse = transaction.getMessage();
+    if (infoResponse == null) {
+      throw new OFXException("No account info response in the transaction.");
+    }
+
+    return infoResponse.getAccounts();
   }
 
   /**

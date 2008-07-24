@@ -17,6 +17,7 @@
 package net.sf.ofx4j.domain.data.creditcard;
 
 import net.sf.ofx4j.domain.data.common.AccountStatus;
+import net.sf.ofx4j.domain.data.common.AccountInfo;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
@@ -25,7 +26,7 @@ import net.sf.ofx4j.meta.Element;
  * @author Ryan Heaton
  */
 @Aggregate ( "CCACCTINFO" )
-public class CreditCardAccountInfo {
+public class CreditCardAccountInfo implements AccountInfo {
 
   private CreditCardAccountDetails creditCardAccount;
   private Boolean supportsTransactionDetailOperations;

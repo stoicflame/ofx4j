@@ -56,10 +56,19 @@ public class BankAccountDetails {
   /**
    * The routing and transit number.
    *
+   * @return The routing and transit number.
+   */
+  public String getRoutingNumber() {
+    return getBankId();
+  }
+
+  /**
+   * The routing and transit number.
+   *
    * @param routingNumber The routing and transit number.
    */
   public void setRoutingNumber(String routingNumber) {
-    this.bankId = routingNumber;
+    setBankId(routingNumber);
   }
 
   /**

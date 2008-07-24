@@ -19,6 +19,9 @@ package net.sf.ofx4j.client;
 import net.sf.ofx4j.OFXException;
 import net.sf.ofx4j.domain.data.banking.BankAccountDetails;
 import net.sf.ofx4j.domain.data.creditcard.CreditCardAccountDetails;
+import net.sf.ofx4j.domain.data.signup.AccountProfile;
+
+import java.util.Collection;
 
 /**
  * @author Ryan Heaton
@@ -39,6 +42,15 @@ public interface FinancialInstitution {
    * @throws OFXException if something goes awry.
    */
   FinancialInstitutionProfile readProfile() throws OFXException;
+
+  /**
+   * Read the account profiles of the specified user.
+   *
+   * @param username The username.
+   * @param password The password.
+   * @return The profiles.
+   */
+  Collection<AccountProfile> readAccountProfiles(String username, String password) throws OFXException;
 
   /**
    * Load a bank account.
