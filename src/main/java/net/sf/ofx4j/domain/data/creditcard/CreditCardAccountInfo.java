@@ -18,6 +18,7 @@ package net.sf.ofx4j.domain.data.creditcard;
 
 import net.sf.ofx4j.domain.data.common.AccountStatus;
 import net.sf.ofx4j.domain.data.common.AccountInfo;
+import net.sf.ofx4j.domain.data.common.AccountDetails;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
@@ -51,6 +52,11 @@ public class CreditCardAccountInfo implements AccountInfo {
    */
   public void setCreditCardAccount(CreditCardAccountDetails creditCardAccount) {
     this.creditCardAccount = creditCardAccount;
+  }
+
+  // Inherited.
+  public AccountDetails getAccountDetails() {
+    return getCreditCardAccount();
   }
 
   /**

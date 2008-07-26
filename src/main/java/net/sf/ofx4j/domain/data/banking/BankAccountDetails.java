@@ -18,6 +18,7 @@ package net.sf.ofx4j.domain.data.banking;
 
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.Element;
+import net.sf.ofx4j.domain.data.common.AccountDetails;
 
 /**
  * Base bank account details.
@@ -26,7 +27,7 @@ import net.sf.ofx4j.meta.Element;
  * @see "OFX Spec, Section 11.3.1"
  */
 @Aggregate
-public class BankAccountDetails {
+public class BankAccountDetails implements AccountDetails {
 
   private String bankId;
   private String branchId;

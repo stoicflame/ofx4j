@@ -17,17 +17,24 @@
 package net.sf.ofx4j.domain.data.common;
 
 /**
- * Marker interface for account information.
+ * Common details about an account.
  *
  * @author Ryan Heaton
  */
-public interface AccountInfo {
+public interface AccountDetails {
 
   /**
-   * The account details.
+   * The account number.
    *
-   * @return The account details.
+   * @return The account number.
    */
-  AccountDetails getAccountDetails();
+  String getAccountNumber();
+
+  /**
+   * The account key.
+   *
+   * @return The account key.
+   */
+  String getAccountKey();
 
 }

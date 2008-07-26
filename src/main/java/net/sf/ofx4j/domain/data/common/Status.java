@@ -57,7 +57,7 @@ public class Status {
     PASSWORD_CHANGE_REQUIRED(15000, "Password change required.", Severity.INFO),
     SIGNON_INVALID(15500, "Invalid signon", Severity.ERROR),
     CUSTOMER_ACCOUNT_IN_USE(15501, "Customer account in use.", Severity.ERROR),
-    PASSWORD_LOCKED(15502, "Passoword locked.", Severity.ERROR),
+    PASSWORD_LOCKED(15502, "Password locked.", Severity.ERROR),
     INVALID_CLIENT_UID(15510, "Invalid client UID.", Severity.ERROR),
     CONTACT_FI(15511, "User must contact FI.", Severity.ERROR),
     AUTHTOKEN_REQUIRED(15512, "Auth token required.", Severity.ERROR),

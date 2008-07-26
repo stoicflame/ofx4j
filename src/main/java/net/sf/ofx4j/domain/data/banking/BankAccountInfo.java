@@ -21,6 +21,7 @@ import net.sf.ofx4j.meta.Element;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.domain.data.common.AccountStatus;
 import net.sf.ofx4j.domain.data.common.AccountInfo;
+import net.sf.ofx4j.domain.data.common.AccountDetails;
 
 /**
  * @author Ryan Heaton
@@ -51,6 +52,11 @@ public class BankAccountInfo implements AccountInfo {
    */
   public void setBankAccount(BankAccountDetails bankAccount) {
     this.bankAccount = bankAccount;
+  }
+
+  // Inherited.
+  public AccountDetails getAccountDetails() {
+    return getBankAccount();
   }
 
   /**
