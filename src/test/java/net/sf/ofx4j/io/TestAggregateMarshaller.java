@@ -19,10 +19,10 @@ package net.sf.ofx4j.io;
 import junit.framework.TestCase;
 import net.sf.ofx4j.io.tagsoup.TagSoupOFXReader;
 import net.sf.ofx4j.io.v1.OFXV1Writer;
+import net.sf.ofx4j.domain.data.ResponseEnvelope;
+import net.sf.ofx4j.domain.data.signon.SignonResponse;
 
-import java.io.IOException;
-import java.io.StringWriter;
-import java.io.StringReader;
+import java.io.*;
 import java.util.*;
 
 import org.apache.commons.logging.Log;
@@ -163,6 +163,19 @@ public class TestAggregateMarshaller extends TestCase {
     assertEquals(2, example.getAggregateList().size());
     assertEquals("child4-element1", ((AggregateExample3) example.getAggregateList().get(0)).getElement());
     assertEquals("child3-element1", ((AggregateExample4) example.getAggregateList().get(1)).getElement());
+  }
+
+  /**
+   * tests that the aggregate list was generated correctly.
+   */
+  public void testAggregateListGenerated() throws Exception {
+    InputStream aggregateList = AggregateIntrospector.class.getResourceAsStream("/META-INF/ofx4j/ofx-aggregate.list");
+    assertNotNull("No aggregate list", aggregateList);
+    BufferedReader reader = new BufferedReader(new InputStreamReader(aggregateList));
+
+    assertNotNull("empty aggregate list.", reader.readLine());
+    assertNotNull("only one line in aggregate list.", reader.readLine());
+    assertNotNull("Looks like the aggregate list wasn't generated correctly.", AggregateIntrospector.AGGREGATE_CLASSES_BY_NAME.values().contains(SignonResponse.class));
   }
 
 }

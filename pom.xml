@@ -38,11 +38,15 @@
           <execution>
             <phase>generate-sources</phase>
             <configuration>
+              <force>true</force>
               <generated>target/classes/META-INF</generated>
               <factory>net.sf.jelly.apt.freemarker.FreemarkerProcessorFactory</factory>
               <aptOptions>template=${basedir}/src/main/templates/ofx-aggregate.list.fmt</aptOptions>
               <nocompile>true</nocompile>
               <showWarnings>true</showWarnings>
+              <excludes>
+                <exclude>**/package-info*</exclude>
+              </excludes>
             </configuration>
             <goals>
               <goal>execute</goal>
