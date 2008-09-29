@@ -52,6 +52,26 @@
               <goal>execute</goal>
             </goals>
           </execution>
+          <execution>
+            <id>enforce-ofx4j-m2</id>
+            <phase>deploy</phase>
+            <goals>
+              <goal>enforce-once</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireProperty>
+                  <property>ofx4j.m2.url</property>
+                  <message>
+The m2 repository for OFX4J is at sourceforge.net.  Ever since sourceforge quit
+supporting an ssh login shell, the deployment via scp hasn't worked.  So, you have
+to mount a local sftp directory (e.g. username@web.sourceforge.net:/home/groups/o/of/ofx4j/m2)
+and indicate that directory with an "ofx4j.m2.url" property.
+                  </message>
+                </requireProperty>
+              </rules>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
       <plugin>
@@ -167,7 +187,7 @@
     <repository>
       <id>sourceforge</id>
       <name>OFX4J M2 Repository</name>
-      <url>scp://shell.sf.net/home/groups/o/of/ofx4j/m2</url>
+      <url>${ofx4j.m2.url}</url>
     </repository>
   </distributionManagement>
 
