@@ -36,7 +36,6 @@ import java.util.Stack;
  * will be assigned a value of the character data and processed as an OFX element.</em>
  *
  * @author Ryan Heaton
- * @deprecated since NanoXMLOFXReader
  */
 public class TagSoupHandler extends DefaultHandler {
 

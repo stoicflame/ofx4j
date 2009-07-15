@@ -33,7 +33,6 @@ import net.sf.ofx4j.io.*;
  * Since TagSoup was designed for HTML parsing, it has been deprecated for the {@link net.sf.ofx4j.io.nanoxml.NanoXMLOFXReader}, but it should still work...<br/><br/>
  *
  * @author Ryan Heaton
- * @deprecated Use NanoXMLOFXReader
  */
 public class TagSoupOFXReader extends BaseOFXReader {
 
