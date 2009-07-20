@@ -76,7 +76,7 @@ public class LocalResourceFIDataStore implements FinancialInstitutionDataStore {
         }
       }
       catch (JAXBException e) {
-        throw new IOException(e);
+        throw new IOException(e.getMessage());
       }
 
       if (LOG.isInfoEnabled()) {
@@ -125,7 +125,7 @@ public class LocalResourceFIDataStore implements FinancialInstitutionDataStore {
       JAXBContext.newInstance(FIDataList.class).createMarshaller().marshal(dataList, out);
     }
     catch (JAXBException e) {
-      throw new IOException(e);
+      throw new IOException(e.getMessage());
     }
   }
 

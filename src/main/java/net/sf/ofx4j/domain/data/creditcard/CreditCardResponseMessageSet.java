@@ -16,14 +16,15 @@
 
 package net.sf.ofx4j.domain.data.creditcard;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import net.sf.ofx4j.domain.data.MessageSetType;
-import net.sf.ofx4j.domain.data.ResponseMessageSet;
 import net.sf.ofx4j.domain.data.ResponseMessage;
+import net.sf.ofx4j.domain.data.ResponseMessageSet;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
-
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * @author Ryan Heaton
@@ -31,20 +32,45 @@ import java.util.ArrayList;
 @Aggregate ( "CREDITCARDMSGSRSV1" )
 public class CreditCardResponseMessageSet extends ResponseMessageSet {
 
-  private CreditCardStatementResponseTransaction statementResponse;
+  private List<CreditCardStatementResponseTransaction> statementResponses;
 
   public MessageSetType getType() {
     return MessageSetType.creditcard;
   }
 
   /**
-   * The statement response.
+   * The statement response list.
    *
-   * @return The statement response.
+   * Most OFX files have a single statement response, except MT2OFX
+   * which outputs OFX with multiple statement responses
+   * in a single banking response message set.
+   *
+   * @return The statement response list.
    */
-  @ChildAggregate( order = 0 )
+  @ChildAggregate ( order = 0 )
+  public List<CreditCardStatementResponseTransaction> getStatementResponses() {
+    return statementResponses;
+  }
+
+
+  /**
+   * The statement reponse list.
+   *
+   * @param statementResponses The statement response list.
+   */
+  public void setStatementResponses(List<CreditCardStatementResponseTransaction> statementResponses) {
+    this.statementResponses = statementResponses;
+  }
+
+
+  /**
+   * The first statement response.
+   *
+   * @return the first bank statement response.
+   * @deprecated Use getStatementResponses() because sometimes there are multiple responses
+   */
   public CreditCardStatementResponseTransaction getStatementResponse() {
-    return statementResponse;
+    return statementResponses == null || statementResponses.isEmpty() ? null : statementResponses.get(0);
   }
 
   /**
@@ -53,18 +79,12 @@ public class CreditCardResponseMessageSet extends ResponseMessageSet {
    * @param statementResponse The statement response.
    */
   public void setStatementResponse(CreditCardStatementResponseTransaction statementResponse) {
-    this.statementResponse = statementResponse;
+    this.statementResponses = Collections.singletonList(statementResponse);
   }
 
 
   // Inherited.
   public List<ResponseMessage> getResponseMessages() {
-    ArrayList<ResponseMessage> messages = new ArrayList<ResponseMessage>();
-
-    if (getStatementResponse() != null) {
-      messages.add(getStatementResponse());
-    }
-
-    return messages;
+    return new ArrayList<ResponseMessage>(statementResponses);
   }
 }

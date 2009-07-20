@@ -14,4 +14,4 @@ Downloads
 
   []
 
-  Or, you can {{{https://sourceforge.net/project/showfiles.php?group_id=232500}download the latest release directly}}.
+  Even if you're not using Maven, you can {{{http://repo1.maven.org/maven2/net/sf/ofx4j/ofx4j/}download the jars from the Maven repository}}.

@@ -16,14 +16,15 @@
 
 package net.sf.ofx4j.domain.data.banking;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import net.sf.ofx4j.domain.data.MessageSetType;
-import net.sf.ofx4j.domain.data.ResponseMessageSet;
 import net.sf.ofx4j.domain.data.ResponseMessage;
+import net.sf.ofx4j.domain.data.ResponseMessageSet;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
-
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  * @author Ryan Heaton
@@ -31,39 +32,52 @@ import java.util.ArrayList;
 @Aggregate ( "BANKMSGSRSV1" )
 public class BankingResponseMessageSet extends ResponseMessageSet {
 
-  private BankStatementResponseTransaction statementResponse;
+  private List<BankStatementResponseTransaction> statementResponses;
 
   public MessageSetType getType() {
     return MessageSetType.banking;
   }
 
   /**
-   * The statement response.
+   * The statement response list.
    *
-   * @return The statement response.
+   * Most OFX files have a single statement response, except MT2OFX
+   * which outputs OFX with multiple statement responses
+   * in a single banking response message set.
+   *
+   * @return The statement response list.
    */
   @ChildAggregate ( order = 0 )
-  public BankStatementResponseTransaction getStatementResponse() {
-    return statementResponse;
+  public List<BankStatementResponseTransaction> getStatementResponses() {
+    return statementResponses;
   }
 
   /**
    * The statement response.
    *
-   * @param statementResponse The statement response.
+   * @param statementResponses The statement responses.
    */
-  public void setStatementResponse(BankStatementResponseTransaction statementResponse) {
-    this.statementResponse = statementResponse;
+  public void setStatementResponses(List<BankStatementResponseTransaction> statementResponses) {
+    this.statementResponses = statementResponses;
   }
 
   // Inherited.
   public List<ResponseMessage> getResponseMessages() {
-    ArrayList<ResponseMessage> messages = new ArrayList<ResponseMessage>();
-
-    if (getStatementResponse() != null) {
-      messages.add(getStatementResponse());
-    }
-    
-    return messages;
+    return new ArrayList<ResponseMessage>(statementResponses);
   }
+
+  /**
+   * The first statement response.
+   *
+   * @return the first bank statement response.
+   * @deprecated Use getStatementResponses() because sometimes there are multiple responses
+   */
+  public BankStatementResponseTransaction getStatementResponse() {
+    return statementResponses == null || statementResponses.isEmpty() ? null : statementResponses.get(0);
+  }
+
+  public void setStatementResponse(BankStatementResponseTransaction statementResponse) {
+    this.statementResponses = Collections.singletonList(statementResponse);
+  }
+
 }
