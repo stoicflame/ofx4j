@@ -21,6 +21,9 @@ import net.sf.ofx4j.meta.Element;
 
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.lang.reflect.TypeVariable;
 import java.util.*;
 
 import org.apache.commons.logging.Log;
@@ -44,6 +47,7 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
   private final Method readMethod;
   private final Method writeMethod;
   private final Class attributeType;
+  private final Class collectionEntryType;
   private final String name;
   private final int order;
   private final boolean required;
@@ -64,6 +68,7 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
     }
 
     this.attributeType = this.readMethod.getReturnType();
+    this.collectionEntryType = null;
     this.name = elementInfo.name();
     this.order = elementInfo.order();
     this.required = elementInfo.required();
@@ -89,10 +94,12 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
                                                     property.getName(), property.getReadMethod().getDeclaringClass().getName()));
     }
 
+    this.readMethod.getGenericReturnType();
     this.attributeType = this.readMethod.getReturnType();
     this.collection = Collection.class.isAssignableFrom(this.attributeType);
     if (this.collection) {
       this.name = null;
+      this.collectionEntryType = getGenericCollectionType(this.readMethod.getGenericReturnType());
     }
     else if ("##not_specified##".equals(childAggregate.name())) {
       AggregateInfo aggregateInfo = AggregateIntrospector.getAggregateInfo(this.attributeType);
@@ -106,9 +113,11 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
         throw new IllegalStateException(String.format("Illegal child aggregate type %s (property %s of aggregate %s): a child aggregate name must be specified.",
                                                       this.attributeType.getName(), property.getName(), property.getReadMethod().getDeclaringClass().getName()));
       }
+      this.collectionEntryType = null;
     }
     else {
       this.name = childAggregate.name();
+      this.collectionEntryType = null;
     }
 
     this.order = childAggregate.order();
@@ -119,6 +128,30 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
                                   getName(),
                                   property.getName(),
                                   property.getReadMethod().getDeclaringClass().getName());
+  }
+
+  private Class getGenericCollectionType(java.lang.reflect.Type collectionType) {
+    if (!(collectionType instanceof ParameterizedType)) {
+      return null;
+    }
+    ParameterizedType parameterizedCollectionType = (ParameterizedType) collectionType;
+    Class collectionClass = (Class) parameterizedCollectionType.getRawType();
+    Method addMethod;
+    try {
+      addMethod = collectionClass.getMethod("add", Object.class);
+    } catch (NoSuchMethodException e) {
+      throw new RuntimeException("Collection doesn't implement add?");
+    }
+    java.lang.reflect.Type[] actualTypeArgs = parameterizedCollectionType.getActualTypeArguments();
+    TypeVariable[] typeVariables = collectionClass.getTypeParameters();
+    TypeVariable addParamType = (TypeVariable) addMethod.getGenericParameterTypes()[0];
+    for (int i = 0; i < typeVariables.length; i++) {
+      TypeVariable typeVariable = typeVariables[i];
+      if (typeVariable.getName().equals(addParamType.getName())) {
+        return (Class) actualTypeArgs[i];
+      }
+    }
+    return null;
   }
 
   public Object get(Object instance) throws Exception {
@@ -163,6 +196,10 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
 
   public Class getAttributeType() {
     return attributeType;
+  }
+
+  public Class getCollectionEntryType() {
+    return collectionEntryType;
   }
 
   public String getName() {

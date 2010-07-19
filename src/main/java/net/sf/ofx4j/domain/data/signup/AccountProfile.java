@@ -3,7 +3,7 @@
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at 
+ * You may obtain a copy of the License at
  *
  *   http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -16,6 +16,7 @@
 
 package net.sf.ofx4j.domain.data.signup;
 
+import net.sf.ofx4j.domain.data.investment.accounts.InvestmentAccountInfo;
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.Element;
 import net.sf.ofx4j.meta.ChildAggregate;
@@ -32,6 +33,7 @@ public class AccountProfile {
   private String phone;
   private BankAccountInfo bankSpecifics;
   private CreditCardAccountInfo creditCardSpecifics;
+  private InvestmentAccountInfo investSpecifics;
 
   /**
    * Description of the account.
@@ -82,6 +84,8 @@ public class AccountProfile {
     }
     else if (getBankSpecifics() != null) {
       return getBankSpecifics();
+    } else if (getInvestmentSpecifics() != null) {
+      return getInvestmentSpecifics();
     }
     else {
       return getCreditCardSpecifics();
@@ -99,6 +103,8 @@ public class AccountProfile {
     }
     else if (specifics instanceof CreditCardAccountInfo) {
       setCreditCardSpecifics((CreditCardAccountInfo) specifics);
+    } else if (specifics instanceof InvestmentAccountInfo) {
+      setInvestmentSpecifics((InvestmentAccountInfo) specifics);
     }
     else {
       throw new IllegalArgumentException("Unknown specifics type: " + specifics);
@@ -122,6 +128,7 @@ public class AccountProfile {
    */
   public void setBankSpecifics(BankAccountInfo bankSpecifics) {
     this.creditCardSpecifics = null;
+    this.investSpecifics = null;
     this.bankSpecifics = bankSpecifics;
   }
 
@@ -142,6 +149,28 @@ public class AccountProfile {
    */
   public void setCreditCardSpecifics(CreditCardAccountInfo creditCardSpecifics) {
     this.bankSpecifics = null;
+    this.investSpecifics = null;
     this.creditCardSpecifics = creditCardSpecifics;
+  }
+
+  /**
+   * Investment account info.
+   *
+   * @return Investment account info.
+   */
+  @ChildAggregate ( order = 40 )
+  public InvestmentAccountInfo getInvestmentSpecifics() {
+    return investSpecifics;
+  }
+
+  /**
+   * Investment account info.
+   *
+   * @param investSpecifics Investment account info.
+   */
+  public void setInvestmentSpecifics(InvestmentAccountInfo investSpecifics) {
+    this.bankSpecifics = null;
+    this.creditCardSpecifics = null;
+    this.investSpecifics = investSpecifics;
   }
 }

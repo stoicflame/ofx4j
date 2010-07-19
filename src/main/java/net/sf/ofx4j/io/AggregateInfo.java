@@ -24,6 +24,8 @@ import net.sf.ofx4j.meta.Header;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.*;
 
 /**
@@ -115,6 +117,23 @@ public class AggregateInfo {
    * are none that come after the order hint, or null.
    */
   public AggregateAttribute getAttribute(String name, int orderHint) {
+    return getAttribute(name, orderHint, null);
+  }
+
+  /**
+   * Get the attribute by the specified name.
+   *
+   * @param name The name of the attribute.
+   * @param orderHint The order at which the attribute should come after in case there are more than one candidates.
+   * @param assignableTo The class this attribute must be assignable to
+   * @return The attribute by the specified name,
+   * or if there are more than one by that name,
+   * the first one after the specified order,
+   * or if there are none then the first collection that
+   * comes after the order hint, or the latest if there
+   * are none that come after the order hint, or null.
+   */
+  public AggregateAttribute getAttribute(String name, int orderHint, Class assignableTo) {
     List<AggregateAttribute> candidates = new ArrayList<AggregateAttribute>();
     AggregateAttribute collectionBucket = null;
     for (AggregateAttribute attribute : attributes) {
@@ -122,6 +141,14 @@ public class AggregateInfo {
         candidates.add(attribute);
       }
       else if (attribute.isCollection()) {
+        if (assignableTo != null) {
+          // Verify it's the right generic type.
+          Class entryType = attribute.getCollectionEntryType();
+          if (entryType != null && !entryType.isAssignableFrom(assignableTo)) {
+            // Collection is of wrong type.
+            continue;
+          }
+        }
         if (collectionBucket == null || collectionBucket.getOrder() < orderHint) {
           //the default is the first collection that comes after the order hint, or the latest if there are none that come after the order hint.
           collectionBucket = attribute;

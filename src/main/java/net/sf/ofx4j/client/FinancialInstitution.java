@@ -19,6 +19,7 @@ package net.sf.ofx4j.client;
 import net.sf.ofx4j.OFXException;
 import net.sf.ofx4j.domain.data.banking.BankAccountDetails;
 import net.sf.ofx4j.domain.data.creditcard.CreditCardAccountDetails;
+import net.sf.ofx4j.domain.data.investment.accounts.InvestmentAccountDetails;
 import net.sf.ofx4j.domain.data.signup.AccountProfile;
 
 import java.util.Collection;
@@ -71,4 +72,15 @@ public interface FinancialInstitution {
    * @return The credit card account.
    */
   CreditCardAccount loadCreditCardAccount(CreditCardAccountDetails details, String username, String password);
+
+
+  /**
+   * Load an investment account.
+   *
+   * @param details The investment account details.
+   * @param username The username.
+   * @param password The password.
+   * @return The investment account.
+   */
+  InvestmentAccount loadInvestmentAccount(InvestmentAccountDetails details, String username, String password);
 }

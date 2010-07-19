@@ -41,6 +41,7 @@ public class CoreMessageSetInfo {
   private String language = Locale.US.getISO3Language();
   private SynchronizationCapability syncCapability;
   private Boolean fileBasedErrorRecoverySupport;
+  private Integer timeout;
 
   /**
    * Version of the message set.
@@ -213,4 +214,27 @@ public class CoreMessageSetInfo {
   public void setFileBasedErrorRecoverySupport(Boolean fileBasedErrorRecoverySupport) {
     this.fileBasedErrorRecoverySupport = fileBasedErrorRecoverySupport;
   }
+
+  /**
+   * Gets the "INTU.TIMEOUT" field. There's no public documentation of this field but E*TRADE sends
+   * it. It likely is some type of timeout in seconds.
+   *
+   * @return the "INTU.TIMEOUT" property
+   */
+  @Element ( name = "INTU.TIMEOUT", order = 90 )
+  public Integer getIntuTimeout() {
+    return timeout;
+  }
+
+  /**
+   * Sets the "INTU.TIMEOUT" field. There's no public documentation of this field but E*TRADE sends
+   * it. It likely is some type of timeout in seconds.
+   *
+   * @param timeout the "INTU.TIMEOUT" property
+   */
+  public void setIntuTimeout(Integer timeout) {
+    this.timeout = timeout;
+  }
+
+
 }

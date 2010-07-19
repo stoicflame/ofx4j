@@ -22,6 +22,8 @@ import net.sf.ofx4j.OFXTransactionException;
 import net.sf.ofx4j.client.*;
 import net.sf.ofx4j.client.context.OFXApplicationContextHolder;
 import net.sf.ofx4j.domain.data.*;
+import net.sf.ofx4j.client.InvestmentAccount;
+import net.sf.ofx4j.domain.data.investment.accounts.InvestmentAccountDetails;
 import net.sf.ofx4j.domain.data.signup.*;
 import net.sf.ofx4j.domain.data.creditcard.CreditCardAccountDetails;
 import net.sf.ofx4j.domain.data.banking.BankAccountDetails;
@@ -93,6 +95,11 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
   // Inherited.
   public CreditCardAccount loadCreditCardAccount(CreditCardAccountDetails details, String username, String password) {
     return new CreditCardAccountImpl(details, username, password, this);
+  }
+
+  // Inherited
+  public InvestmentAccount loadInvestmentAccount(InvestmentAccountDetails details, String username, String password) {
+    return new InvestmentAccountImpl(details, username, password, this);
   }
 
   /**

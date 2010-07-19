@@ -25,6 +25,7 @@ import net.sf.ofx4j.domain.data.common.StatementRange;
 import net.sf.ofx4j.domain.data.common.StatementRequest;
 import net.sf.ofx4j.domain.data.common.StatementResponse;
 import net.sf.ofx4j.domain.data.creditcard.CreditCardAccountDetails;
+import net.sf.ofx4j.domain.data.investment.accounts.InvestmentAccountDetails;
 
 import java.util.Date;
 
@@ -62,6 +63,9 @@ public abstract class BaseAccountImpl<D> implements FinancialInstitutionAccount 
     }
     else if (getDetails() instanceof CreditCardAccountDetails) {
       messageType = MessageSetType.creditcard;
+    }
+    else if (getDetails() instanceof InvestmentAccountDetails) {
+      messageType = MessageSetType.investment;
     }
     else {
       throw new IllegalStateException("Illegal details: " + this.details.getClass().getName());

@@ -166,13 +166,24 @@ public class AggregateStackContentHandler<A> implements OFXHandler {
       throw new OFXSyntaxException("Unexpected end aggregate " + aggregateName + ". (Perhaps " +
         infoHolder.aggregateName + " is an element with an empty value, making it impossible to parse.)");
     }
-    
+
     if (!this.stack.isEmpty()) {
       if (!infoHolder.isSkipping(aggregateName)) {
         //we're not skipping the top aggregate, so process it.
-        AggregateAttribute attribute = this.stack.peek().info.getAttribute(aggregateName, this.stack.peek().currentAttributeIndex);
+        AggregateAttribute attribute = this.stack.peek().info.getAttribute(
+            aggregateName, this.stack.peek().currentAttributeIndex, infoHolder.aggregate.getClass());
         try {
-          attribute.set(infoHolder.aggregate, this.stack.peek().aggregate);
+          if (attribute != null) {
+            attribute.set(infoHolder.aggregate, this.stack.peek().aggregate);
+          } else {
+            if (LOG.isInfoEnabled()) {
+              LOG.info(String.format("Child aggregate %s is not supported on aggregate %s (class %s): no attributes found by that name after index %s.",
+                                     aggregateName,
+                                     this.stack.peek().info.getName(),
+                                     this.stack.peek().aggregate.getClass().getName(),
+                                     this.stack.peek().currentAttributeIndex));
+            }
+          }
         }
         catch (Exception e) {
           LOG.error("Unable to set " + attribute.toString(), e);

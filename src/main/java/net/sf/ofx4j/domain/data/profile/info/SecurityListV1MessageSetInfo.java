@@ -19,14 +19,29 @@ package net.sf.ofx4j.domain.data.profile.info;
 import net.sf.ofx4j.domain.data.profile.VersionSpecificMessageSetInfo;
 import net.sf.ofx4j.domain.data.MessageSetType;
 import net.sf.ofx4j.meta.Aggregate;
+import net.sf.ofx4j.meta.Element;
 
 /**
+ * @see "Section 13.7.2.1, OFX Spec"
+ *
+ * @author Jon Perlow
  * @author Ryan Heaton
  */
 @Aggregate ( "SECLISTMSGSETV1" )
 public class SecurityListV1MessageSetInfo extends VersionSpecificMessageSetInfo {
 
+  private Boolean supportsSecurityListDownload;
+
   public MessageSetType getMessageSetType() {
     return MessageSetType.investment_security;
+  }
+
+  @Element( name = "SECLISTRQDNLD", required=true, order = 10)
+  public Boolean getSupportsSecurityListDownload() {
+    return supportsSecurityListDownload;
+  }
+
+  public void setSupportsSecurityListDownload(Boolean supportsSecurityListDownload) {
+    this.supportsSecurityListDownload = supportsSecurityListDownload;
   }
 }
