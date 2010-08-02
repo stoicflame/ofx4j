@@ -17,6 +17,7 @@
 package net.sf.ofx4j.client.impl;
 
 import net.sf.ofx4j.OFXException;
+import net.sf.ofx4j.OFXStatusException;
 import net.sf.ofx4j.UnsupportedOFXSecurityTypeException;
 import net.sf.ofx4j.OFXTransactionException;
 import net.sf.ofx4j.client.*;
@@ -245,7 +246,7 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
         }
       }
 
-      throw new OFXException("Invalid " + statusHolder.getStatusHolderName() + ": " + message);
+      throw new OFXStatusException(status, "Invalid " + statusHolder.getStatusHolderName() + ": " + message);
     }
   }
 
