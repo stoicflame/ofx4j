@@ -93,8 +93,11 @@ public class NanoXMLOFXReader extends BaseOFXReader {
           if (reader.read() != '>') {
             throw new XMLParseException(reader.getSystemID(), reader.getLineNr(), "Non-empty closing tag.");
           }
-
-          getContentHandler().endAggregate(endTag);
+          
+          if(!startTag.equals(endTag) || aggregateStarted) {
+            getContentHandler().endAggregate(endTag);
+          }
+          
           return endTag;
         }
         else if (str.charAt(0) == '!') {

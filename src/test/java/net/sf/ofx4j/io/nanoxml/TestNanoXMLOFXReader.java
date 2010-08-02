@@ -40,43 +40,7 @@ public class TestNanoXMLOFXReader extends TestCase {
     TreeMap<String, Object> root = new TreeMap<String, Object>();
     aggregateStack.push(root);
 
-    reader.setContentHandler(new DefaultHandler() {
-
-      @Override
-      public void onHeader(String name, String value) {
-        LOG.debug(name + ":" + value);
-        headers.put(name, value);
-      }
-
-      @Override
-      public void onElement(String name, String value) {
-        char[] tabs = new char[aggregateStack.size() * 2];
-        Arrays.fill(tabs, ' ');
-        LOG.debug(new String(tabs) + name + "=" + value);
-
-        aggregateStack.peek().put(name, value);
-      }
-
-      @Override
-      public void startAggregate(String aggregateName) {
-        char[] tabs = new char[aggregateStack.size() * 2];
-        Arrays.fill(tabs, ' ');
-        LOG.debug(new String(tabs) + aggregateName + " {");
-
-        TreeMap<String, Object> aggregate = new TreeMap<String, Object>();
-        aggregateStack.peek().put(aggregateName, aggregate);
-        aggregateStack.push(aggregate);
-      }
-
-      @Override
-      public void endAggregate(String aggregateName) {
-        aggregateStack.pop();
-
-        char[] tabs = new char[aggregateStack.size() * 2];
-        Arrays.fill(tabs, ' ');
-        LOG.debug(new String(tabs) + "}");
-      }
-    });
+    reader.setContentHandler(getNewDefaultHandler(headers, aggregateStack));
     reader.parse(TestNanoXMLOFXReader.class.getResourceAsStream("example-response.ofx"));
     assertEquals(9, headers.size());
     assertEquals(1, aggregateStack.size());
@@ -160,43 +124,7 @@ public class TestNanoXMLOFXReader extends TestCase {
     TreeMap<String, Object> root = new TreeMap<String, Object>();
     aggregateStack.push(root);
 
-    reader.setContentHandler(new DefaultHandler() {
-
-      @Override
-      public void onHeader(String name, String value) {
-        LOG.debug(name + ":" + value);
-        headers.put(name, value);
-      }
-
-      @Override
-      public void onElement(String name, String value) {
-        char[] tabs = new char[aggregateStack.size() * 2];
-        Arrays.fill(tabs, ' ');
-        LOG.debug(new String(tabs) + name + "=" + value);
-
-        aggregateStack.peek().put(name, value);
-      }
-
-      @Override
-      public void startAggregate(String aggregateName) {
-        char[] tabs = new char[aggregateStack.size() * 2];
-        Arrays.fill(tabs, ' ');
-        LOG.debug(new String(tabs) + aggregateName + " {");
-
-        TreeMap<String, Object> aggregate = new TreeMap<String, Object>();
-        aggregateStack.peek().put(aggregateName, aggregate);
-        aggregateStack.push(aggregate);
-      }
-
-      @Override
-      public void endAggregate(String aggregateName) {
-        aggregateStack.pop();
-
-        char[] tabs = new char[aggregateStack.size() * 2];
-        Arrays.fill(tabs, ' ');
-        LOG.debug(new String(tabs) + "}");
-      }
-    });
+    reader.setContentHandler(getNewDefaultHandler(headers, aggregateStack));
     reader.parse(TestNanoXMLOFXReader.class.getResourceAsStream("simple.ofx"));
     assertEquals(9, headers.size());
     assertEquals(1, aggregateStack.size());
@@ -232,8 +160,59 @@ public class TestNanoXMLOFXReader extends TestCase {
     TreeMap<String, Object> root = new TreeMap<String, Object>();
     aggregateStack.push(root);
 
-    reader.setContentHandler(new DefaultHandler() {
+    reader.setContentHandler(getNewDefaultHandler(headers, aggregateStack));
+    reader.parse(TestNanoXMLOFXReader.class.getResourceAsStream("whitespace-example.ofx"));
+    assertEquals(9, headers.size());
+    assertEquals(1, aggregateStack.size());
+    assertSame(root, aggregateStack.pop());
 
+    TreeMap<String, Object> OFX = (TreeMap<String, Object>) root.remove("OFX");
+    assertNotNull(OFX);
+    assertEquals("E", OFX.remove("S"));
+    assertTrue(OFX.isEmpty());
+    assertTrue(root.isEmpty());
+  }
+  
+  /**
+   * tests for closing tags in v1
+   */
+  public void testClosingTagsVersion1() throws Exception {
+    NanoXMLOFXReader reader = new NanoXMLOFXReader();
+    final Map<String, String> headers = new HashMap<String, String>();
+    final Stack<Map<String, Object>> aggregateStack = new Stack<Map<String, Object>>();
+    TreeMap<String, Object> root = new TreeMap<String, Object>();
+    aggregateStack.push(root);
+
+    reader.setContentHandler(getNewDefaultHandler(headers, aggregateStack));
+    reader.parse(TestNanoXMLOFXReader.class.getResourceAsStream("closing-tags.ofx"));
+    assertEquals(9, headers.size());
+    assertEquals(1, aggregateStack.size());
+    assertSame(root, aggregateStack.pop());
+
+    TreeMap<String, Object> OFX = (TreeMap<String, Object>) root.remove("OFX");
+    assertNotNull(OFX);
+    TreeMap<String, Object> SIGNONMSGSRSV1 = (TreeMap<String, Object>) OFX.remove("SIGNONMSGSRSV1");
+    assertNotNull(SIGNONMSGSRSV1);
+    TreeMap<String, Object> SONRS = (TreeMap<String, Object>) SIGNONMSGSRSV1.remove("SONRS");
+    assertNotNull(SONRS);
+    TreeMap<String, Object> STATUS = (TreeMap<String, Object>) SONRS.remove("STATUS");
+    assertNotNull(STATUS);
+    TreeMap<String, Object> FI = (TreeMap<String, Object>) SONRS.remove("FI");
+    assertNotNull(FI);
+    assertEquals("0", STATUS.remove("CODE").toString().trim());
+    assertEquals("INFO", STATUS.remove("SEVERITY").toString().trim());
+    assertTrue(STATUS.isEmpty());
+    assertEquals("20100717152132", SONRS.remove("DTSERVER").toString().trim());
+    assertEquals("ENG", SONRS.remove("LANGUAGE").toString().trim());
+    assertEquals("ameritrade.com", FI.remove("ORG").toString().trim());
+    assertTrue(SONRS.isEmpty());
+    assertTrue(SIGNONMSGSRSV1.isEmpty());
+    assertTrue(OFX.isEmpty());
+    assertTrue(root.isEmpty());
+  }
+  
+  private DefaultHandler getNewDefaultHandler(final Map<String, String> headers, final Stack<Map<String, Object>> aggregateStack) {
+  	return new DefaultHandler() {
       @Override
       public void onHeader(String name, String value) {
         LOG.debug(name + ":" + value);
@@ -242,6 +221,7 @@ public class TestNanoXMLOFXReader extends TestCase {
 
       @Override
       public void onElement(String name, String value) {
+      	LOG.debug("onElement " + aggregateStack.size());
         char[] tabs = new char[aggregateStack.size() * 2];
         Arrays.fill(tabs, ' ');
         LOG.debug(new String(tabs) + name + "=" + value);
@@ -251,6 +231,7 @@ public class TestNanoXMLOFXReader extends TestCase {
 
       @Override
       public void startAggregate(String aggregateName) {
+	      LOG.debug("startAggregate " +aggregateName + " " + aggregateStack.size());
         char[] tabs = new char[aggregateStack.size() * 2];
         Arrays.fill(tabs, ' ');
         LOG.debug(new String(tabs) + aggregateName + " {");
@@ -262,22 +243,13 @@ public class TestNanoXMLOFXReader extends TestCase {
 
       @Override
       public void endAggregate(String aggregateName) {
+      	LOG.debug("endAggregate " +aggregateName + " " + aggregateStack.size());
         aggregateStack.pop();
 
         char[] tabs = new char[aggregateStack.size() * 2];
         Arrays.fill(tabs, ' ');
         LOG.debug(new String(tabs) + "}");
       }
-    });
-    reader.parse(TestNanoXMLOFXReader.class.getResourceAsStream("whitespace-example.ofx"));
-    assertEquals(9, headers.size());
-    assertEquals(1, aggregateStack.size());
-    assertSame(root, aggregateStack.pop());
-
-    TreeMap<String, Object> OFX = (TreeMap<String, Object>) root.remove("OFX");
-    assertNotNull(OFX);
-    assertEquals("E", OFX.remove("S"));
-    assertTrue(OFX.isEmpty());
-    assertTrue(root.isEmpty());
+    };
   }
 }
