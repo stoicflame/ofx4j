@@ -22,6 +22,7 @@ import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.domain.data.banking.BankAccountDetails;
 import net.sf.ofx4j.domain.data.creditcard.CreditCardAccountDetails;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -34,7 +35,7 @@ public class Transaction {
   private Date datePosted;
   private Date dateInitiated;
   private Date dateAvailable;
-  private Double amount;
+  private BigDecimal amount;
   private String id;
   private String correctionId;
   private CorrectionAction correctionAction;
@@ -132,9 +133,8 @@ public class Transaction {
    *
    * @return The transaction amount.
    */
-  @Element ( name = "TRNAMT", required = true, order = 40 )
   public Double getAmount() {
-    return amount;
+    return amount == null ? null : amount.doubleValue();
   }
 
   /**
@@ -143,6 +143,25 @@ public class Transaction {
    * @param amount The transaction amount.
    */
   public void setAmount(Double amount) {
+    this.amount = amount == null ? null : new BigDecimal(amount);
+  }
+
+  /**
+   * The transaction amount.
+   *
+   * @return The transaction amount.
+   */
+  @Element ( name = "TRNAMT", required = true, order = 40 )
+  public BigDecimal getBigDecimalAmount() {
+    return amount;
+  }
+
+  /**
+   * The transaction amount.
+   *
+   * @param amount The transaction amount.
+   */
+  public void setBigDecimalAmount(BigDecimal amount) {
     this.amount = amount;
   }
 

@@ -24,6 +24,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.math.BigDecimal;
 import java.util.*;
 
 import org.apache.commons.logging.Log;
@@ -139,7 +140,8 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
     Method addMethod;
     try {
       addMethod = collectionClass.getMethod("add", Object.class);
-    } catch (NoSuchMethodException e) {
+    }
+    catch (NoSuchMethodException e) {
       throw new RuntimeException("Collection doesn't implement add?");
     }
     java.lang.reflect.Type[] actualTypeArgs = parameterizedCollectionType.getActualTypeArguments();
@@ -166,6 +168,11 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
       }
       collection.add(value);
       value = collection;
+    }
+    else if (BigDecimal.class.isAssignableFrom(getAttributeType())) {
+      if (value != null) {
+        value = new BigDecimal(value.toString());
+      }
     }
 
     this.writeMethod.invoke(instance, value);

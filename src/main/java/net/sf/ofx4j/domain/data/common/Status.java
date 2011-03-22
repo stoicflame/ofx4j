@@ -49,6 +49,7 @@ public class Status {
     ACCOUNT_NOT_FOUND(2003, "Account not found.", Severity.ERROR),
     ACCOUNT_CLOSED(2004, "Account closed.", Severity.ERROR),
     ACCOUNT_NOT_AUTHORIZED(2005, "Account not authorized.", Severity.ERROR),
+    DATE_TOO_SOON(2014, "Date too soon", Severity.ERROR),
     DUPLICATE_REQUEST(2019, "Duplicate request.", Severity.ERROR),
     UNSUPPORTED_VERSION(2021, "Unsupported version", Severity.ERROR),
     INVALID_TAN(2022, "Invalid transaction authorization number.", Severity.ERROR),

@@ -56,7 +56,7 @@ public class OFXV2Writer extends OFXV1Writer {
     if (olduid == null) {
       olduid = "NONE";
     }
-    println(olduid);
+    // println(olduid);
     String uid = headers.get("NEWFILEUID");
     if (uid == null) {
       uid = "NONE";
