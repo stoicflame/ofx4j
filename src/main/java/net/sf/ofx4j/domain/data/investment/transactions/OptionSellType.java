@@ -28,9 +28,9 @@ public enum OptionSellType {
 
   public static OptionSellType fromOfx(String ofxVal) {
     if ("SELLTOOPEN".equals(ofxVal)) {
-      return SELL_TO_CLOSE;
-    } else if ("SELLTOCLOSE".equals(ofxVal)) {
       return SELL_TO_OPEN;
+    } else if ("SELLTOCLOSE".equals(ofxVal)) {
+      return SELL_TO_CLOSE;
     } else {
       return null;
     }

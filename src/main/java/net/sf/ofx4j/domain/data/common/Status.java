@@ -94,6 +94,12 @@ public class Status {
       }
       return null;
     }
+
+
+    @Override
+    public String toString() {
+      return String.valueOf(code);
+    }
   }
 
   private StatusCode code = KnownCode.SUCCESS;
