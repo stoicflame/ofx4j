@@ -16,6 +16,7 @@
 
 package net.sf.ofx4j.domain.data.profile;
 
+import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.Element;
 import net.sf.ofx4j.domain.data.SignonProfile;
 
@@ -25,6 +26,7 @@ import net.sf.ofx4j.domain.data.SignonProfile;
  * @author Ryan Heaton
  * @see "Section 7.2.2, OFX Spec"
  */
+@Aggregate( "SIGNONINFO" )
 public class SignonInfo implements SignonProfile {
 
   private String realm;

@@ -18,14 +18,20 @@ package net.sf.ofx4j.io;
 
 import junit.framework.TestCase;
 import net.sf.ofx4j.domain.data.ResponseEnvelope;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Ryan Heaton
+ * @author Scott Priddy
  */
 public class TestUnmarshalling extends TestCase {
 
+  private static final Log LOG = LogFactory.getLog(TestBaseOFXReader.class);
+
   public void testKnownData() throws Exception {
     AggregateUnmarshaller<ResponseEnvelope> unmarshaller = new AggregateUnmarshaller<ResponseEnvelope>(ResponseEnvelope.class);
+
     try {
       unmarshaller.unmarshal(TestUnmarshalling.class.getResourceAsStream("mercantile-brokerage-services-profile.ofx"));
       fail("Shouldn't have been able to parse a document with an empty element value.");
@@ -43,6 +49,12 @@ public class TestUnmarshalling extends TestCase {
     }
 
     unmarshaller.unmarshal(TestUnmarshalling.class.getResourceAsStream("fremont-bank-profile.ofx"));
+  }
+
+  public void testProfileUnmarshalling() throws Exception {
+    AggregateUnmarshaller<ResponseEnvelope> unmarshaller = new AggregateUnmarshaller<ResponseEnvelope>(ResponseEnvelope.class);
+    LOG.debug("parsing Bank of America Profile Response");
+    unmarshaller.unmarshal(TestUnmarshalling.class.getResourceAsStream("bank-of-america-profile.ofx"));
   }
 
 }

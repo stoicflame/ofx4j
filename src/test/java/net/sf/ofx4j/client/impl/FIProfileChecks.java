@@ -27,6 +27,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 
 /**
+ * Fetch profile for provided fid, otherwise run through the list of institutions in the DataStore
+ *
  * @author Ryan Heaton
  */
 public class FIProfileChecks {

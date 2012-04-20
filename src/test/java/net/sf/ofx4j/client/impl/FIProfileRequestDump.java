@@ -21,6 +21,7 @@ import net.sf.ofx4j.client.FinancialInstitution;
 import net.sf.ofx4j.client.FinancialInstitutionData;
 import net.sf.ofx4j.client.FinancialInstitutionDataStore;
 import net.sf.ofx4j.client.FinancialInstitutionProfile;
+import net.sf.ofx4j.domain.data.RequestEnvelope;
 import net.sf.ofx4j.domain.data.ResponseEnvelope;
 import net.sf.ofx4j.client.net.OFXConnectionException;
 import net.sf.ofx4j.client.net.OFXV1Connection;
@@ -30,12 +31,13 @@ import java.net.URL;
 
 /**
  * @author Ryan Heaton
+ * @author Scott Priddy
  */
 public class FIProfileRequestDump {
 
   public static void main(final String[] args) throws Exception {
     if (args.length < 2) {
-      System.out.println("Usage: FIProfileDump <fid> <outFile>");
+      System.out.println("Usage: FIProfileRequestDump <fid> <outFile>");
       System.exit(1);
     }
     FinancialInstitutionDataStore dataStore = new LocalResourceFIDataStore();
@@ -60,6 +62,11 @@ public class FIProfileRequestDump {
       @Override
       protected FinancialInstitutionProfile getProfile(ResponseEnvelope response) throws OFXException {
         return null;
+      }
+
+      @Override
+      protected void doGeneralValidationChecks(RequestEnvelope request, ResponseEnvelope response) throws OFXException {
+        // overriding the validation checking, since we're passing null response objects around.
       }
     };
     fi.readProfile();

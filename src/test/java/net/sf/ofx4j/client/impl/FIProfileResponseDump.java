@@ -20,6 +20,7 @@ import net.sf.ofx4j.OFXException;
 import net.sf.ofx4j.client.FinancialInstitutionData;
 import net.sf.ofx4j.client.FinancialInstitutionDataStore;
 import net.sf.ofx4j.client.FinancialInstitutionProfile;
+import net.sf.ofx4j.domain.data.RequestEnvelope;
 import net.sf.ofx4j.domain.data.ResponseEnvelope;
 import net.sf.ofx4j.io.AggregateUnmarshaller;
 import net.sf.ofx4j.io.OFXParseException;
@@ -28,13 +29,16 @@ import net.sf.ofx4j.client.net.OFXV1Connection;
 import java.io.*;
 
 /**
+ * Writes FinancialInstitutionProfile response xml to file.
+ *
  * @author Ryan Heaton
+ * @author Scott Priddy
  */
 public class FIProfileResponseDump {
 
   public static void main(final String[] args) throws Exception {
     if (args.length < 2) {
-      System.out.println("Usage: FIProfileDump <fid> <outFile>");
+      System.out.println("Usage: FIProfileResponseDump <fid> <outFile>");
       System.exit(1);
     }
     FinancialInstitutionDataStore dataStore = new LocalResourceFIDataStore();
@@ -48,7 +52,9 @@ public class FIProfileResponseDump {
     connection.setUnmarshaller(new AggregateUnmarshaller<ResponseEnvelope>(ResponseEnvelope.class) {
       @Override
       public ResponseEnvelope unmarshal(InputStream stream) throws IOException, OFXParseException {
-        FileOutputStream out = new FileOutputStream(args[1]);
+        File file = new File(args[1]);
+        System.out.println("Writing " + stream.available() + " bytes to " + file.getAbsolutePath() + " for response to " + fiData.getOFXURL() + "...");
+        FileOutputStream out = new FileOutputStream(file);
         int ch = stream.read();
         while (ch != -1) {
           out.write(ch);
@@ -64,6 +70,11 @@ public class FIProfileResponseDump {
       @Override
       protected FinancialInstitutionProfile getProfile(ResponseEnvelope response) throws OFXException {
         return null;
+      }
+
+      @Override
+      protected void doGeneralValidationChecks(RequestEnvelope request, ResponseEnvelope response) throws OFXException {
+        // overriding the validation checking, since we're passing null response objects around.
       }
     };
 

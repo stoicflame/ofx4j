@@ -45,7 +45,7 @@ import java.util.Set;
 import java.util.Collection;
 
 /**
- * Base implementation for the financial instutiton.
+ * Base implementation for the financial institution.
  *
  * @author Ryan Heaton
  */
@@ -170,7 +170,7 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
    * General validation checks on the specified response.
    *
    * @param request The request.
-   * @param response Ther response.
+   * @param response Their response.
    * @throws OFXException Upon invalid response.
    */
   protected void doGeneralValidationChecks(RequestEnvelope request, ResponseEnvelope response) throws OFXException {
