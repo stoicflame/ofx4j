@@ -14,38 +14,18 @@
  * limitations under the License.
  */
 
-package net.sf.ofx4j.domain.data;
+package net.sf.ofx4j.domain.data.common;
+
+import net.sf.ofx4j.domain.data.RequestMessage;
+import net.sf.ofx4j.meta.Aggregate;
+import net.sf.ofx4j.meta.ChildAggregate;
 
 /**
- * The message set type, used to define message set order in the envelope.
- *
- * @author Ryan Heaton
- * @see "Section 2.4.5.2, OFX spec"
+ * @author Aparna Gawali
+ * aparna.gawali@sungard.com
  */
-public enum MessageSetType {
+@Aggregate ( "STMTRQ" )
+public class T1099Request extends RequestMessage {
 
-  signon,
-
-  signup,
-
-  banking,
-
-  creditcard,
-
-  investment,
-
-  interbank_transfer,
-
-  wire_transfer,
-
-  payments,
-
-  email,
-
-  investment_security,
-
-  profile,
-
-  tax1099
-
+  
 }

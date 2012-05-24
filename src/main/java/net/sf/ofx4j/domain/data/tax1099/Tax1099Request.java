@@ -13,39 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package net.sf.ofx4j.domain.data.tax1099;
 
-package net.sf.ofx4j.domain.data;
+
+import net.sf.ofx4j.domain.data.common.T1099Request;
+import net.sf.ofx4j.meta.Aggregate;
+import net.sf.ofx4j.meta.Element;
 
 /**
- * The message set type, used to define message set order in the envelope.
- *
- * @author Ryan Heaton
- * @see "Section 2.4.5.2, OFX spec"
+ * @author Aparna Gawali
+ * aparna.gawali@sungard.com
  */
-public enum MessageSetType {
+@Aggregate("TAX1099RQ")
+public class Tax1099Request extends T1099Request {
 
-  signon,
+  @Element ( name = "TAXYEAR", required = true, order = 0 )	
+  public String getTaxYear() {
+		return taxYear;
+	}
 
-  signup,
+	public void setTaxYear(String taxYear) {
+		this.taxYear = taxYear;
+	}
 
-  banking,
+private String taxYear;
 
-  creditcard,
-
-  investment,
-
-  interbank_transfer,
-
-  wire_transfer,
-
-  payments,
-
-  email,
-
-  investment_security,
-
-  profile,
-
-  tax1099
+  
 
 }

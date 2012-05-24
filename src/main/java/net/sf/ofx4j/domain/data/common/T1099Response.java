@@ -14,38 +14,20 @@
  * limitations under the License.
  */
 
-package net.sf.ofx4j.domain.data;
+package net.sf.ofx4j.domain.data.common;
+
+import net.sf.ofx4j.domain.data.ResponseMessage;
+import net.sf.ofx4j.meta.ChildAggregate;
+import net.sf.ofx4j.meta.Element;
+import net.sf.ofx4j.client.AccountStatement;
+
+import java.util.Locale;
 
 /**
- * The message set type, used to define message set order in the envelope.
- *
- * @author Ryan Heaton
- * @see "Section 2.4.5.2, OFX spec"
+ * @author Aparna Gawali
+ * aparna.gawali@sungard.com
  */
-public enum MessageSetType {
+public abstract class T1099Response extends ResponseMessage {
 
-  signon,
-
-  signup,
-
-  banking,
-
-  creditcard,
-
-  investment,
-
-  interbank_transfer,
-
-  wire_transfer,
-
-  payments,
-
-  email,
-
-  investment_security,
-
-  profile,
-
-  tax1099
-
+ 
 }
