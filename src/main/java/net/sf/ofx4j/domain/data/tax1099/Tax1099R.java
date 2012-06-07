@@ -96,7 +96,7 @@ public class Tax1099R  {
 		/**
 		 * @return the taxAmt
 		 */
-		@Element ( name = "TAXAMT", required = true, order = 3 )
+		@Element ( name = "TAXAMT", required = false, order = 3 )
 		public String getTaxAmt() {
 			return taxAmt;
 		}
@@ -113,7 +113,7 @@ public class Tax1099R  {
 		/**
 		 * @return the taxAmtNd
 		 */
-		@Element ( name = "TAXAMTND", required = true, order = 4 )
+		@Element ( name = "TAXAMTND", required = false, order = 4 )
 		public String getTaxAmtNd() {
 			return taxAmtNd;
 		}
@@ -130,7 +130,7 @@ public class Tax1099R  {
 		/**
 		 * @return the capGain
 		 */
-		@Element ( name = "CAPGAIN", required = true, order = 5 )
+		@Element ( name = "CAPGAIN", required = false, order = 5 )
 		public String getCapGain() {
 			return capGain;
 		}
@@ -149,7 +149,7 @@ public class Tax1099R  {
 	/**
 	 * @return the fedTaxWh
 	 */
-	@Element ( name = "FEDTAXWH", required = true, order = 6 )
+	@Element ( name = "FEDTAXWH", required = false, order = 6 )
 	public String getFedTaxWh() {
 		return fedTaxWh;
 	}
@@ -165,7 +165,7 @@ public class Tax1099R  {
 	/**
 	 * @return the empContins
 	 */
-	@Element ( name = "EMPCONTINS", required = true, order = 7 )
+	@Element ( name = "EMPCONTINS", required = false, order = 7 )
 	public String getEmpContins() {
 		return empContins;
 	}
@@ -182,7 +182,7 @@ public class Tax1099R  {
 	/**
 	 * @return the netUnapEmp
 	 */
-	@Element ( name = "NETUNAPEMP", required = true, order = 8 )
+	@Element ( name = "NETUNAPEMP", required = false, order = 8 )
 	public String getNetUnapEmp() {
 		return netUnapEmp;
 	}
@@ -233,7 +233,7 @@ public class Tax1099R  {
 	/**
 	 * @return the annCtrctDist
 	 */
-	@Element ( name = "ANNCTRCTDIST", required = true, order = 11 )
+	@Element ( name = "ANNCTRCTDIST", required = false, order = 11 )
 	public String getAnnCtrctDist() {
 		return annCtrctDist;
 	}
@@ -250,7 +250,7 @@ public class Tax1099R  {
 	/**
 	 * @return the totEmpCount
 	 */
-	@Element ( name = "TOTEMPCONT", required = true, order = 12 )
+	@Element ( name = "TOTEMPCONT", required = false, order = 12 )
 	public String getTotEmpCount() {
 		return totEmpCount;
 	}

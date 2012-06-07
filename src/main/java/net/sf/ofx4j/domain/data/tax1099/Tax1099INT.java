@@ -75,7 +75,7 @@ public class Tax1099INT  {
 	/**
 	 * @return the intIncome
 	 */
-	@Element ( name = "INTINCOME",required = true , order = 2 )
+	@Element ( name = "INTINCOME",required = false , order = 2 )
 	public String getIntIncome() {
 		return intIncome;
 	}
@@ -92,7 +92,7 @@ public class Tax1099INT  {
 	/**
 	 * @return the erlWithPen
 	 */
-	@Element ( name = "ERLWITHPEN",required = true , order = 3 )
+	@Element ( name = "ERLWITHPEN",required = false , order = 3 )
 	public String getErlWithPen() {
 		return erlWithPen;
 	}
@@ -109,7 +109,7 @@ public class Tax1099INT  {
 	/**
 	 * @return the intUsbndtrs
 	 */
-	@Element ( name = "INTUSBNDTRS",required = true , order = 4 )
+	@Element ( name = "INTUSBNDTRS",required = false , order = 4 )
 	public String getIntUsbndtrs() {
 		return intUsbndtrs;
 	}
@@ -126,7 +126,7 @@ public class Tax1099INT  {
 	/**
 	 * @return the fedTaxWh
 	 */
-	@Element ( name = "FEDTAXWH", required = true, order = 5 )
+	@Element ( name = "FEDTAXWH", required = false, order = 5 )
 	public String getFedTaxWh() {
 		return fedTaxWh;
 	}
@@ -143,7 +143,7 @@ public class Tax1099INT  {
 	/**
 	 * @return the investExp
 	 */
-	@Element ( name = "INVESTEXP", required = true, order = 6 )
+	@Element ( name = "INVESTEXP", required = false, order = 6 )
 	public String getInvestExp() {
 		return investExp;
 	}
@@ -160,7 +160,7 @@ public class Tax1099INT  {
 	/**
 	 * @return the forTaxPd
 	 */
-	@Element ( name = "FORTAXPD", required = true, order = 7 )
+	@Element ( name = "FORTAXPD", required = false, order = 7 )
 	public String getForTaxPd() {
 		return forTaxPd;
 	}
@@ -260,7 +260,7 @@ public class Tax1099INT  {
 	/**
 	 * @return the taxExemptInt
 	 */
-	@Element ( name = "TAXEXEMPTINT", required = true, order = 13 )
+	@Element ( name = "TAXEXEMPTINT", required = false, order = 13 )
 	public String getTaxExemptInt() {
 		return taxExemptInt;
 	}
@@ -277,7 +277,7 @@ public class Tax1099INT  {
 	/**
 	 * @return the specifiedPabInt
 	 */
-	@Element ( name = "SPECIFIEDPABINT", required = true, order = 14 )
+	@Element ( name = "SPECIFIEDPABINT", required = false, order = 14 )
 	public String getSpecifiedPabInt() {
 		return specifiedPabInt;
 	}

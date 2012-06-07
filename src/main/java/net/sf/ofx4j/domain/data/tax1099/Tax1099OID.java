@@ -74,7 +74,7 @@ public class Tax1099OID  {
 	/**
 	 * @return the originalDisc
 	 */
-	@Element ( name = "ORIGISDISC", required = true, order = 2)
+	@Element ( name = "ORIGISDISC", required = false, order = 2)
 	public String getOriginalDisc() {
 		return originalDisc;
 	}
@@ -91,7 +91,7 @@ public class Tax1099OID  {
 	/**
 	 * @return the otherPerInt
 	 */
-	@Element ( name = "OTHERPERINT", required = true, order = 3)
+	@Element ( name = "OTHERPERINT", required = false, order = 3)
 	public String getOtherPerInt() {
 		return otherPerInt;
 	}
@@ -108,7 +108,7 @@ public class Tax1099OID  {
 	/**
 	 * @return the erlWithPen
 	 */
-	@Element ( name = "ERLWITHPEN", required = true, order = 4)
+	@Element ( name = "ERLWITHPEN", required = false, order = 4)
 	public String getErlWithPen() {
 		return erlWithPen;
 	}
@@ -125,7 +125,7 @@ public class Tax1099OID  {
 	/**
 	 * @return the fedTaxWh
 	 */
-	@Element ( name = "FEDTAXWH", required = true, order = 5)
+	@Element ( name = "FEDTAXWH", required = false, order = 5)
 	public String getFedTaxWh() {
 		return fedTaxWh;
 	}
@@ -159,7 +159,7 @@ public class Tax1099OID  {
 	/**
 	 * @return the oidOnUstres
 	 */
-	@Element ( name = "OIDONUSTRES", required = true, order = 7)
+	@Element ( name = "OIDONUSTRES", required = false, order = 7)
 	public String getOidOnUstres() {
 		return oidOnUstres;
 	}
@@ -176,7 +176,7 @@ public class Tax1099OID  {
 	/**
 	 * @return the investExp
 	 */
-	@Element ( name = "INVESTEXP", required = true, order = 8)
+	@Element ( name = "INVESTEXP", required = false, order = 8)
 	public String getInvestExp() {
 		return investExp;
 	}

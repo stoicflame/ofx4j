@@ -15,6 +15,8 @@
  */
 package net.sf.ofx4j.domain.data.tax1099;
 
+import java.util.List;
+
 import net.sf.ofx4j.meta.Aggregate;
 import net.sf.ofx4j.meta.ChildAggregate;
 import net.sf.ofx4j.meta.Element;
@@ -29,7 +31,7 @@ import net.sf.ofx4j.meta.Element;
 @Aggregate ( "EXTDBINFO_V100")
 public class ExtDBInfo {
 
-	private ProcDet procDet;
+	private List<ProcDet> procDet;
 	private String teInterest;
 	private String pabInterest;
 	private String teIntDividend;
@@ -39,14 +41,14 @@ public class ExtDBInfo {
 	 * @return the procDet
 	 */
 	@ChildAggregate(required=false, order = 0)
-	public ProcDet getProcDet() {
+	public List<ProcDet> getProcDet() {
 		return procDet;
 	}
 
 	/**
 	 * @param procDet the procDet to set
 	 */
-	public void setProcDet(ProcDet procDet) {
+	public void setProcDet(List<ProcDet> procDet) {
 		this.procDet = procDet;
 	}
 

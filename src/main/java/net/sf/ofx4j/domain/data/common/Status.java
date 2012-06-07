@@ -62,8 +62,10 @@ public class Status {
     INVALID_CLIENT_UID(15510, "Invalid client UID.", Severity.ERROR),
     CONTACT_FI(15511, "User must contact FI.", Severity.ERROR),
     AUTHTOKEN_REQUIRED(15512, "Auth token required.", Severity.ERROR),
-    INVALID_AUTHTOKEN(15513, "Invalid auth token.", Severity.ERROR);
-
+    INVALID_AUTHTOKEN(15513, "Invalid auth token.", Severity.ERROR),
+    NO_DATA(14701, "No Tax Data for Account.", Severity.ERROR),
+    DB_EXCEPTION(14702,"Database error has occured.",Severity.ERROR),
+    NO_TAXSUPPORT(14703,"This Tax Year is not supported.",Severity.ERROR);
     private final int code;
     private final String message;
     private final Severity defaultSeverity;

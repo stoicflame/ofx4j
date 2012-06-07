@@ -39,7 +39,7 @@ public class ProcDet {
 	/**
 	 * @return the dtAqd
 	 */
-	@Element ( name = "DTAQD", required = true, order = 0 )
+	@Element ( name = "DTAQD", required = false, order = 0 )
 	public String getDtAqd() {
 		return dtAqd;
 	}
@@ -52,7 +52,7 @@ public class ProcDet {
 	/**
 	 * @return the dtSale
 	 */
-	@Element ( name = "DTSALE", required = true, order = 2 )
+	@Element ( name = "DTSALE", required = false, order = 2 )
 	public String getDtSale() {
 		return dtSale;
 	}
@@ -65,7 +65,7 @@ public class ProcDet {
 	/**
 	 * @return the secName
 	 */
-	@Element ( name = "SECNAME", required = true, order = 3 )
+	@Element ( name = "SECNAME", required = false, order = 3 )
 	public String getSecName() {
 		return secName;
 	}
@@ -78,7 +78,7 @@ public class ProcDet {
 	/**
 	 * @return the costBasis
 	 */
-	@Element ( name = "COSTBASIS", required = true, order = 4 )
+	@Element ( name = "COSTBASIS", required = false, order = 4 )
 	public String getCostBasis() {
 		return costBasis;
 	}
@@ -91,7 +91,7 @@ public class ProcDet {
 	/**
 	 * @return the saleSpr
 	 */
-	@Element ( name = "SALESPR", required = true, order = 5 )
+	@Element ( name = "SALESPR", required = false, order = 5 )
 	public String getSaleSpr() {
 		return saleSpr;
 	}
@@ -104,7 +104,7 @@ public class ProcDet {
 	/**
 	 * @return the longShort
 	 */
-	@Element ( name = "LONGSHORT", required = true, order = 6 )
+	@Element ( name = "LONGSHORT", required = false, order = 6 )
 	public String getLongShort() {
 		return longShort;
 	}
@@ -117,7 +117,7 @@ public class ProcDet {
 	/**
 	 * @return the wasDisAllowed
 	 */
-	@Element ( name = "WASHSALELOSSDISALLOWED", required = true, order = 7 )
+	@Element ( name = "WASHSALELOSSDISALLOWED", required = false, order = 7 )
 	public String getWasDisAllowed() {
 		return wasDisAllowed;
 	}
@@ -130,7 +130,7 @@ public class ProcDet {
 	/**
 	 * @return the noncoveredSec
 	 */
-	@Element ( name = "NONCOVEREDSECURITY", required = true, order = 8 )
+	@Element ( name = "NONCOVEREDSECURITY", required = false, order = 8 )
 	public String getNoncoveredSec() {
 		return noncoveredSec;
 	}
@@ -143,7 +143,7 @@ public class ProcDet {
 	/**
 	 * @return the basisNotshown
 	 */
-	@Element ( name = "BASISNOTSHOWN", required = true, order = 9 )
+	@Element ( name = "BASISNOTSHOWN", required = false, order = 9 )
 	public String getBasisNotshown() {
 		return basisNotshown;
 	}

@@ -71,7 +71,7 @@ public class Tax1099MISC  {
 	/**
 	 * @return the royalties
 	 */
-	@Element ( name = "ROYALTIES",required = true , order = 2 )
+	@Element ( name = "ROYALTIES",required = false , order = 2 )
 	public String getRoyalties() {
 		return royalties;
 	}
@@ -88,7 +88,7 @@ public class Tax1099MISC  {
 	/**
 	 * @return the otherIncome
 	 */
-	@Element ( name = "OTHERINCOME",required = true , order = 3 )
+	@Element ( name = "OTHERINCOME",required = false , order = 3 )
 	public String getOtherIncome() {
 		return otherIncome;
 	}
@@ -105,7 +105,7 @@ public class Tax1099MISC  {
 	/**
 	 * @return the fedTaxWh
 	 */
-	@Element ( name = "FEDTAXWH",required = true , order = 4 )
+	@Element ( name = "FEDTAXWH",required = false , order = 4 )
 	public String getFedTaxWh() {
 		return fedTaxWh;
 	}
@@ -122,7 +122,7 @@ public class Tax1099MISC  {
 	/**
 	 * @return the subPmts
 	 */
-	@Element ( name = "SUBPMTS",required = true , order = 5 )
+	@Element ( name = "SUBPMTS",required = false , order = 5 )
 	public String getSubPmts() {
 		return subPmts;
 	}

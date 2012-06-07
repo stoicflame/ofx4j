@@ -54,7 +54,7 @@ public class Tax1099DIV  {
 	private String recAcct;
 	
 	 
-	  @Element ( name = "SRVRTID",required = true , order = 0 )
+	  @Element ( name = "SRVRTID",required = false , order = 0 )
 	  public String getSrvrtId() {
 	    return srvrtId;
 	  }
@@ -65,7 +65,7 @@ public class Tax1099DIV  {
 	  }
 
 	 
-	  @Element ( name = "TAXYEAR", required = true, order = 1 )
+	  @Element ( name = "TAXYEAR", required = false, order = 1 )
 	  public String getTaxYear() {
 	    return taxYear;
 	  }
@@ -79,7 +79,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the ordDiv
 	 */
-	 @Element ( name = "ORDDIV", required = true, order = 2 )
+	 @Element ( name = "ORDDIV", required = false, order = 2 )
 	public String getOrdDiv() {
 		return ordDiv;
 	}
@@ -96,7 +96,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the qualifiedDiv
 	 */
-	@Element ( name = "QUALIFIEDDIV", required = true, order = 3 )
+	@Element ( name = "QUALIFIEDDIV", required = false, order = 3 )
 	public String getQualifiedDiv() {
 		return qualifiedDiv;
 	}
@@ -113,7 +113,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the totCapGain
 	 */
-	@Element ( name = "TOTCAPGAIN", required = true, order = 4 )
+	@Element ( name = "TOTCAPGAIN", required = false, order = 4 )
 	public String getTotCapGain() {
 		return totCapGain;
 	}
@@ -130,7 +130,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the p28Gain
 	 */
-	@Element ( name = "P28GAIN", required = true, order = 5 )
+	@Element ( name = "P28GAIN", required = false, order = 5 )
 	public String getP28Gain() {
 		return p28Gain;
 	}
@@ -147,7 +147,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the unrecSec1250
 	 */
-	@Element ( name = "UNRECSEC1250", required = true, order = 6 )
+	@Element ( name = "UNRECSEC1250", required = false, order = 6 )
 	public String getUnrecSec1250() {
 		return unrecSec1250;
 	}
@@ -164,7 +164,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the sec1202
 	 */
-	@Element ( name = "SEC1202", required = true, order = 7 )
+	@Element ( name = "SEC1202", required = false, order = 7 )
 	public String getSec1202() {
 		return sec1202;
 	}
@@ -181,7 +181,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the nonTaxDist
 	 */
-	@Element ( name = "NONTAXDIST", required = true, order = 8 )
+	@Element ( name = "NONTAXDIST", required = false, order = 8 )
 	public String getNonTaxDist() {
 		return nonTaxDist;
 	}
@@ -198,7 +198,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the fedTaxWh
 	 */
-	@Element ( name = "FEDTAXWH", required = true, order = 9 )
+	@Element ( name = "FEDTAXWH", required = false, order = 9 )
 	public String getFedTaxWh() {
 		return fedTaxWh;
 	}
@@ -215,7 +215,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the investExp
 	 */
-	@Element ( name = "INVESTEXP", required = true, order = 10 )
+	@Element ( name = "INVESTEXP", required = false, order = 10 )
 	public String getInvestExp() {
 		return investExp;
 	}
@@ -232,7 +232,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the forTaxPd
 	 */
-	@Element ( name = "FORTAXPD", required = true, order = 11 )
+	@Element ( name = "FORTAXPD", required = false, order = 11 )
 	public String getForTaxPd() {
 		return forTaxPd;
 	}
@@ -249,7 +249,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the cashLiq
 	 */
-	@Element ( name = "CASHLIQ", required = true, order = 12 )
+	@Element ( name = "CASHLIQ", required = false, order = 12 )
 	public String getCashLiq() {
 		return cashLiq;
 	}
@@ -266,7 +266,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the nonCashLiq
 	 */
-	@Element ( name = "NONCASHLIQ", required = true, order = 13 )
+	@Element ( name = "NONCASHLIQ", required = false, order = 13 )
 	public String getNonCashLiq() {
 		return nonCashLiq;
 	}

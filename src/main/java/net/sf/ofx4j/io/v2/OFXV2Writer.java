@@ -62,7 +62,7 @@ public class OFXV2Writer extends OFXV1Writer {
       uid = "NONE";
     }
 
-    print(String.format("<?OFX OFXHEADER=\"200\" VERSION=\"211\" SECURITY=\"%s\" OLDFILEUID=\"%s\" NEWFILEUID=\"%s\"?>", security, olduid, uid));
+    print(String.format("<?OFX OFXHEADER=\"200\" VERSION=\"202\" SECURITY=\"%s\" OLDFILEUID=\"%s\" NEWFILEUID=\"%s\"?>", security, olduid, uid));
     this.headersWritten = true;
   }
 
