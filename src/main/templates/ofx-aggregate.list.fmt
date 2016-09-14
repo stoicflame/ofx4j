@@ -1,0 +1,5 @@
+<@file name="ofx-aggregate.list" package="ofx4j">
+  <@forAllTypes var="type" annotation="net.sf.ofx4j.meta.Aggregate">
+${type.qualifiedName}
+  </@forAllTypes>
+</@file>

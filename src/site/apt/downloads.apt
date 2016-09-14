@@ -1,0 +1,17 @@
+  ---
+  Downloads
+  ---
+  Ryan Heaton
+  ---
+
+Downloads
+
+  OFX4J is a Maven-based project.
+
+  *groupId: <<<net.sf.ofx4j>>>
+
+  *artifactId: <<<ofx4j>>>
+
+  []
+
+  Even if you're not using Maven, you can {{{http://repo1.maven.org/maven2/net/sf/ofx4j/ofx4j/}download the jars from the Maven repository}}.
