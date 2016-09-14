@@ -17,18 +17,11 @@
 package net.sf.ofx4j.io;
 
 import net.sf.ofx4j.meta.Aggregate;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
-import java.util.Collections;
-import java.io.InputStream;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.reflections.Reflections;
+
+import java.util.*;
 
 /**
  * Introspector for aggregate information.
@@ -42,29 +35,11 @@ public class AggregateIntrospector {
   static final Map<String, Class> AGGREGATE_CLASSES_BY_NAME;
   static {
     AGGREGATE_CLASSES_BY_NAME = Collections.synchronizedMap(new TreeMap<String, Class>());
-    InputStream aggregateList = AggregateIntrospector.class.getResourceAsStream("/META-INF/ofx4j/ofx-aggregate.list");
-    if (aggregateList != null) {
-      BufferedReader reader = new BufferedReader(new InputStreamReader(aggregateList));
-      try {
-        String classname = reader.readLine();
-        while (classname != null) {
-          try {
-            Class<?> clazz = Class.forName(classname);
-            AggregateInfo info = getAggregateInfo(clazz);
-            AGGREGATE_CLASSES_BY_NAME.put(info.getName(), clazz);
-          }
-          catch (ClassNotFoundException e) {
-            LOG.error("Aggregate class " + classname + " listed at classpath:/META-INF/ofx4j/ofx-aggregate.list not found.", e);
-          }
-          classname = reader.readLine();
-        }
-      }
-      catch (IOException e) {
-        LOG.error("Error while reading the aggregate class list at classpath:/META-INF/ofx4j/ofx-aggregate.list", e);
-      }
-    }
-    else {
-      LOG.warn("No aggregate class list found at classpath:/META-INF/ofx4j/ofx-aggregate.list");
+    Reflections reflections = new Reflections("net.sf.ofx4j");
+    Set<Class<?>> aggregateClasses = reflections.getTypesAnnotatedWith(Aggregate.class);
+    for (Class<?> clazz : aggregateClasses) {
+      AggregateInfo info = getAggregateInfo(clazz);
+      AGGREGATE_CLASSES_BY_NAME.put(info.getName(), clazz);
     }
   }
 

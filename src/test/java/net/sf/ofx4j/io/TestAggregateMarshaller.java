@@ -169,13 +169,7 @@ public class TestAggregateMarshaller extends TestCase {
    * tests that the aggregate list was generated correctly.
    */
   public void testAggregateListGenerated() throws Exception {
-    InputStream aggregateList = AggregateIntrospector.class.getResourceAsStream("/META-INF/ofx4j/ofx-aggregate.list");
-    assertNotNull("No aggregate list", aggregateList);
-    BufferedReader reader = new BufferedReader(new InputStreamReader(aggregateList));
-
-    assertNotNull("empty aggregate list.", reader.readLine());
-    assertNotNull("only one line in aggregate list.", reader.readLine());
-    assertNotNull("Looks like the aggregate list wasn't generated correctly.", AggregateIntrospector.AGGREGATE_CLASSES_BY_NAME.values().contains(SignonResponse.class));
+    assertTrue("Looks like the aggregate list wasn't generated correctly.", AggregateIntrospector.AGGREGATE_CLASSES_BY_NAME.values().contains(SignonResponse.class));
   }
 
 }
