@@ -7,11 +7,11 @@
     <layout class="org.apache.log4j.SimpleLayout"/>
   </appender>
 
-  <logger name="net.sf.ofx4j">
+  <logger name="com.webcohesion.ofx4j">
     <level value="debug"/>
   </logger>
 
-  <logger name="net.sf.ofx4j.io.tagsoup.TagSoupHandler">
+  <logger name="com.webcohesion.ofx4j.io.tagsoup.TagSoupHandler">
     <level value="info"/>
   </logger>
 
