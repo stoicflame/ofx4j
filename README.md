@@ -2,6 +2,8 @@ Welcome to OFX4J!
 
 This project provides an implementaion of [OFX](http://ofx.net/) for Java.
 
+[![Build Status](https://travis-ci.org/stoicflame/ofx4j.svg?branch=master)](https://travis-ci.org/stoicflame/ofx4j)
+
 # Coordinates
 
 ### Maven
