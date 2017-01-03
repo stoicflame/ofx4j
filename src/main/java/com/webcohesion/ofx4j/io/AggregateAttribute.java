@@ -167,7 +167,7 @@ public class AggregateAttribute implements Comparable<AggregateAttribute> {
     }
     else if (BigDecimal.class.isAssignableFrom(getAttributeType())) {
       if (value != null) {
-        value = new BigDecimal(value.toString());
+        value = new BigDecimal(value.toString().replace(",", "."));
       }
     }
 
