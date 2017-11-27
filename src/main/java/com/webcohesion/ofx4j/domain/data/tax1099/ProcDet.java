@@ -27,19 +27,46 @@ import com.webcohesion.ofx4j.meta.Element;
 @Aggregate ( "PROCDET_V100")
 public class ProcDet {
 
+	private String form8959Code;
 	private String dtAqd;
+	private String dtVar;
 	private String dtSale;
 	private String secName;
+	private String saleDescription;
+	private String numShrs;
 	private String costBasis;
 	private String saleSpr;
+	private String accruedMktDiscount;
 	private String longShort;
-	private String wasDisAllowed;
+	private String ordinary;
+	private String washSale;
+	private String fedTaxWh;
+	private String washDisAllowed;
 	private String noncoveredSec;
 	private String basisNotshown;
+	private String form1099BNotRec;
+	private String collectible;
+	private String stateCode;
+	private String stateIdNum;
+	private String stateTaxWh;
+	private String fatca;
+	/**
+	 * @return the form8959Code
+	 */
+	@Element(name = "FORM8949CODE", order = 0)
+	public String getForm8959Code() {
+		return form8959Code;
+	}
+	/**
+	 * @param form8959Code the form8959Code to set
+	 */
+	public void setForm8959Code(String form8959Code) {
+		this.form8959Code = form8959Code;
+	}
 	/**
 	 * @return the dtAqd
 	 */
-	@Element ( name = "DTAQD", required = false, order = 0 )
+	@Element ( name = "DTAQD", required = false, order = 1 )
 	public String getDtAqd() {
 		return dtAqd;
 	}
@@ -50,9 +77,22 @@ public class ProcDet {
 		this.dtAqd = dtAqd;
 	}
 	/**
+	 * @return the dtVar
+	 */
+	@Element(name = "DTVAR", order = 2)
+	public String getDtVar() {
+		return dtVar;
+	}
+	/**
+	 * @param dtVar the dtVar to set
+	 */
+	public void setDtVar(String dtVar) {
+		this.dtVar = dtVar;
+	}
+	/**
 	 * @return the dtSale
 	 */
-	@Element ( name = "DTSALE", required = false, order = 2 )
+	@Element ( name = "DTSALE", order = 3 )
 	public String getDtSale() {
 		return dtSale;
 	}
@@ -65,7 +105,7 @@ public class ProcDet {
 	/**
 	 * @return the secName
 	 */
-	@Element ( name = "SECNAME", required = false, order = 3 )
+	@Element ( name = "SECNAME", order = 4 )
 	public String getSecName() {
 		return secName;
 	}
@@ -76,9 +116,35 @@ public class ProcDet {
 		this.secName = secName;
 	}
 	/**
+	 * @return the saleDescription
+	 */
+	@Element ( name = "SALEDESCRIPTION", order = 5 )
+	public String getSaleDescription() {
+		return saleDescription;
+	}
+	/**
+	 * @param saleDescription the saleDescription to set
+	 */
+	public void setSaleDescription(String saleDescription) {
+		this.saleDescription = saleDescription;
+	}
+	/**
+	 * @return the numShrs
+	 */
+	@Element ( name = "NUMSHRS", order = 6 )
+	public String getNumShrs() {
+		return numShrs;
+	}
+	/**
+	 * @param numShrs the numShrs to set
+	 */
+	public void setNumShrs(String numShrs) {
+		this.numShrs = numShrs;
+	}
+	/**
 	 * @return the costBasis
 	 */
-	@Element ( name = "COSTBASIS", required = false, order = 4 )
+	@Element ( name = "COSTBASIS", order = 7 )
 	public String getCostBasis() {
 		return costBasis;
 	}
@@ -91,7 +157,7 @@ public class ProcDet {
 	/**
 	 * @return the saleSpr
 	 */
-	@Element ( name = "SALESPR", required = false, order = 5 )
+	@Element ( name = "SALESPR", order = 8 )
 	public String getSaleSpr() {
 		return saleSpr;
 	}
@@ -102,9 +168,22 @@ public class ProcDet {
 		this.saleSpr = saleSpr;
 	}
 	/**
+	 * @return the accruedMktDiscount
+	 */
+	@Element(name = "ACCRUEDMKTDISCOUNT", order = 9)
+	public String getAccruedMktDiscount() {
+		return accruedMktDiscount;
+	}
+	/**
+	 * @param accruedMktDiscount the accruedMktDiscount to set
+	 */
+	public void setAccruedMktDiscount(String accruedMktDiscount) {
+		this.accruedMktDiscount = accruedMktDiscount;
+	}
+	/**
 	 * @return the longShort
 	 */
-	@Element ( name = "LONGSHORT", required = false, order = 6 )
+	@Element ( name = "LONGSHORT", order = 10 )
 	public String getLongShort() {
 		return longShort;
 	}
@@ -115,22 +194,61 @@ public class ProcDet {
 		this.longShort = longShort;
 	}
 	/**
-	 * @return the wasDisAllowed
+	 * @return the ordinary
 	 */
-	@Element ( name = "WASHSALELOSSDISALLOWED", required = false, order = 7 )
-	public String getWasDisAllowed() {
-		return wasDisAllowed;
+	@Element(name = "ORDINARY", order = 11)
+	public String getOrdinary() {
+		return ordinary;
 	}
 	/**
-	 * @param wasDisAllowed the wasDisAllowed to set
+	 * @param ordinary the ordinary to set
 	 */
-	public void setWasDisAllowed(String wasDisAllowed) {
-		this.wasDisAllowed = wasDisAllowed;
+	public void setOrdinary(String ordinary) {
+		this.ordinary = ordinary;
+	}
+	/**
+	 * @return the washSale
+	 */
+	@Element(name = "WASHSALE", order = 12)
+	public String getWashSale() {
+		return washSale;
+	}
+	/**
+	 * @param washSale the washSale to set
+	 */
+	public void setWashSale(String washSale) {
+		this.washSale = washSale;
+	}
+	/**
+	 * @return the fedTaxWh
+	 */
+	@Element(name = "FEDTAXWH", order = 13)
+	public String getFedTaxWh() {
+		return fedTaxWh;
+	}
+	/**
+	 * @param fedTaxWh the fedTaxWh to set
+	 */
+	public void setFedTaxWh(String fedTaxWh) {
+		this.fedTaxWh = fedTaxWh;
+	}
+	/**
+	 * @return the washDisAllowed
+	 */
+	@Element ( name = "WASHSALELOSSDISALLOWED", order = 14 )
+	public String getWashDisAllowed() {
+		return washDisAllowed;
+	}
+	/**
+	 * @param washDisAllowed the washDisAllowed to set
+	 */
+	public void setWashDisAllowed(String washDisAllowed) {
+		this.washDisAllowed = washDisAllowed;
 	}
 	/**
 	 * @return the noncoveredSec
 	 */
-	@Element ( name = "NONCOVEREDSECURITY", required = false, order = 8 )
+	@Element ( name = "NONCOVEREDSECURITY", order = 15 )
 	public String getNoncoveredSec() {
 		return noncoveredSec;
 	}
@@ -143,7 +261,7 @@ public class ProcDet {
 	/**
 	 * @return the basisNotshown
 	 */
-	@Element ( name = "BASISNOTSHOWN", required = false, order = 9 )
+	@Element ( name = "BASISNOTSHOWN", order = 16 )
 	public String getBasisNotshown() {
 		return basisNotshown;
 	}
@@ -153,7 +271,82 @@ public class ProcDet {
 	public void setBasisNotshown(String basisNotshown) {
 		this.basisNotshown = basisNotshown;
 	}
-	
-	
-	
+	/**
+	 * @return the form1099BNotRec
+	 */
+	@Element(name = "FORM1099BNOTRECEIVED", order = 17)
+	public String getForm1099BNotRec() {
+		return form1099BNotRec;
+	}
+	/**
+	 * @param form1099BNotRec the form1099BNotRec to set
+	 */
+	public void setForm1099BNotRec(String form1099BNotRec) {
+		this.form1099BNotRec = form1099BNotRec;
+	}
+	/**
+	 * @return the collectible
+	 */
+	@Element(name = "COLLECTIBLE", order = 18)
+	public String getCollectible() {
+		return collectible;
+	}
+	/**
+	 * @param collectible the collectible to set
+	 */
+	public void setCollectible(String collectible) {
+		this.collectible = collectible;
+	}
+	/**
+	 * @return the stateCode
+	 */
+	@Element(name = "STATECODE", order = 19)
+	public String getStateCode() {
+		return stateCode;
+	}
+	/**
+	 * @param stateCode the stateCode to set
+	 */
+	public void setStateCode(String stateCode) {
+		this.stateCode = stateCode;
+	}
+	/**
+	 * @return the stateIdNum
+	 */
+	@Element(name = "STATEIDNUM", order = 20)
+	public String getStateIdNum() {
+		return stateIdNum;
+	}
+	/**
+	 * @param stateIdNum the stateIdNum to set
+	 */
+	public void setStateIdNum(String stateIdNum) {
+		this.stateIdNum = stateIdNum;
+	}
+	/**
+	 * @return the stateTaxWh
+	 */
+	@Element(name = "STATETAXWHELD", order = 21)
+	public String getStateTaxWh() {
+		return stateTaxWh;
+	}
+	/**
+	 * @param stateTaxWh the stateTaxWh to set
+	 */
+	public void setStateTaxWh(String stateTaxWh) {
+		this.stateTaxWh = stateTaxWh;
+	}
+	/**
+	 * @return the fatca
+	 */
+	@Element(name = "FATCA", order = 22)
+	public String getFatca() {
+		return fatca;
+	}
+	/**
+	 * @param fatca the fatca to set
+	 */
+	public void setFatca(String fatca) {
+		this.fatca = fatca;
+	}
 }

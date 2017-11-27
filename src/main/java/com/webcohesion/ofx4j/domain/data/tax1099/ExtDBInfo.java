@@ -55,7 +55,7 @@ public class ExtDBInfo {
 	/**
 	 * @return the teInterest
 	 */
-	@Element ( name = "TEINTEREST",required = false , order = 1 )
+	@Element ( name = "TEINTEREST", order = 1 )
 	public String getTeInterest() {
 		return teInterest;
 	}
@@ -70,7 +70,7 @@ public class ExtDBInfo {
 	/**
 	 * @return the pabInterest
 	 */
-	@Element ( name = "PABINTEREST",required = false , order = 2 )
+	@Element ( name = "PABINTEREST" , order = 2 )
 	public String getPabInterest() {
 		return pabInterest;
 	}
@@ -85,7 +85,7 @@ public class ExtDBInfo {
 	/**
 	 * @return the teIntDividend
 	 */
-	@Element ( name = "TEINTDIVIDEND",required = false , order = 3 )
+	@Element ( name = "TEINTDIVIDEND", order = 3 )
 	public String getTeIntDividend() {
 		return teIntDividend;
 	}
@@ -100,7 +100,7 @@ public class ExtDBInfo {
 	/**
 	 * @return the pabDividend
 	 */
-	@Element ( name = "PABDIVIDEND",required = false , order = 4 )
+	@Element ( name = "PABDIVIDEND", order = 4 )
 	public String getPabDividend() {
 		return pabDividend;
 	}

@@ -33,7 +33,7 @@ public class Tax1099ResponseTransaction extends TransactionWrappedResponseMessag
    *
    * @return The tax1099Response.
    */
-  @ChildAggregate(required=false, order = 2)
+  @ChildAggregate(order = 30)
   public Tax1099Response getTax1099Response() {
     return tax1099Response;
   }
