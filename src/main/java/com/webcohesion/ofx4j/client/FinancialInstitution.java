@@ -37,6 +37,16 @@ public interface FinancialInstitution {
   FinancialInstitutionData getData();
 
   /**
+   * Get a previously set client UID.
+   */
+  public String getClientUID();
+
+  /**
+   * Set a custom client UID.
+   */
+  void setClientUID(String clientUID);
+
+  /**
    * Read the specified financial institution profile. Implies a network call.
    *
    * @return The profile.
