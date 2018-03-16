@@ -53,6 +53,7 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
 
   private final OFXConnection connection;
   private final FinancialInstitutionData data;
+  private String clientUID;
 
   public FinancialInstitutionImpl(FinancialInstitutionData data, OFXConnection connection) {
     if (data == null) {
@@ -288,6 +289,7 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
     signonRequest.setFinancialInstitution(fi);
     signonRequest.setUserId(username);
     signonRequest.setPassword(password);
+    signonRequest.setClientUID(clientUID);
     signonRequest.setApplicationId(OFXApplicationContextHolder.getCurrentContext().getAppId());
     signonRequest.setApplicationVersion(OFXApplicationContextHolder.getCurrentContext().getAppVersion());
     return signonRequest;
@@ -354,5 +356,19 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
    */
   public FinancialInstitutionData getData() {
     return data;
+  }
+
+  /**
+   * Get a previously set client UID.
+   */
+  public String getClientUID() {
+    return this.clientUID;
+  }
+
+  /**
+   * Set a custom client UID.
+   */
+  public void setClientUID(String clientUID) {
+    this.clientUID = clientUID;
   }
 }
