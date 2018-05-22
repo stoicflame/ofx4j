@@ -26,5 +26,7 @@ public enum ClientRoutingCapability {
 
   SERVICE,
 
-  MESSAGE_SET
+  MESSAGE_SET,
+  
+  MSGSET
 }
