@@ -16,14 +16,14 @@
 
 package com.webcohesion.ofx4j.domain.data.banking;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.webcohesion.ofx4j.domain.data.MessageSetType;
-import com.webcohesion.ofx4j.domain.data.RequestMessage;
 import com.webcohesion.ofx4j.domain.data.RequestMessageSet;
+import com.webcohesion.ofx4j.domain.data.RequestMessage;
 import com.webcohesion.ofx4j.meta.Aggregate;
 import com.webcohesion.ofx4j.meta.ChildAggregate;
+
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * @author Ryan Heaton
@@ -31,15 +31,16 @@ import com.webcohesion.ofx4j.meta.ChildAggregate;
 @Aggregate ( "BANKMSGSRQV1" )
 public class BankingRequestMessageSet extends RequestMessageSet {
 
+  private BankStatementRequestTransaction statementRequest;
+
 	/**
 	 *  Multiple statement requests.
 	 */
 	private List<BankStatementRequestTransaction> statementRequests;
-
-
-	public MessageSetType getType() {
-		return MessageSetType.banking;
-	}
+	
+  public MessageSetType getType() {
+    return MessageSetType.banking;
+  }
 
 	@ChildAggregate( order = 0 )
 	public List<BankStatementRequestTransaction> getStatementRequests() {
@@ -50,36 +51,37 @@ public class BankingRequestMessageSet extends RequestMessageSet {
 		this.statementRequests = statementRequests;
 	}
 
+	
+  /**
+   * The statement request.
+   *
+   * @return The statement request.
+   */
+ 
+  public BankStatementRequestTransaction getStatementRequest() {
+    return statementRequests == null || statementRequests.isEmpty() ? null : statementRequests.get(0);
+  }
 
-	/**
-	 * The statement request.
-	 *
-	 * @return The statement request.
-	 */
-	public BankStatementRequestTransaction getStatementRequest() {
-		return statementRequests == null || statementRequests.isEmpty() ? null : statementRequests.get(0);
-	}
-
-	/**
-	 * The statement request.
-	 *
-	 * @param statementRequest The statement request.
-	 */
-	public void setStatementRequest(BankStatementRequestTransaction statementRequest) {
-		if(statementRequest!=null){
+  /**
+   * The statement request.
+   *
+   * @param statementRequest The statement request.
+   */
+  public void setStatementRequest(BankStatementRequestTransaction statementRequest) {
+    if(statementRequest!=null){
 			if(statementRequests==null){
 				this.statementRequests = new ArrayList<BankStatementRequestTransaction>();
 			}
 			this.statementRequests.add(statementRequest);
 		}
-	}
+  }
 
-	// Inherited.
-	public List<RequestMessage> getRequestMessages() {
-		ArrayList<RequestMessage> requestMessages = new ArrayList<RequestMessage>();
-		if (getStatementRequest() != null && getStatementRequests().size()>0) {
-			requestMessages.add(getStatementRequest());
-		}
-		return requestMessages;
-	}
+  // Inherited.
+  public List<RequestMessage> getRequestMessages() {
+    ArrayList<RequestMessage> requestMessages = new ArrayList<RequestMessage>();
+    if (getStatementRequest() != null) {
+      requestMessages.add(getStatementRequest());
+    }
+    return requestMessages;
+  }
 }
