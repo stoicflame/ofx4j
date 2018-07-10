@@ -33,18 +33,33 @@ public class BankingRequestMessageSet extends RequestMessageSet {
 
   private BankStatementRequestTransaction statementRequest;
 
+	/**
+	 *  Multiple statement requests.
+	 */
+	private List<BankStatementRequestTransaction> statementRequests;
+	
   public MessageSetType getType() {
     return MessageSetType.banking;
   }
 
+	@ChildAggregate( order = 0 )
+	public List<BankStatementRequestTransaction> getStatementRequests() {
+		return statementRequests;
+	}
+
+	public void setStatementRequests(List<BankStatementRequestTransaction> statementRequests) {
+		this.statementRequests = statementRequests;
+	}
+
+	
   /**
    * The statement request.
    *
    * @return The statement request.
    */
-  @ChildAggregate( order = 0 )
+ 
   public BankStatementRequestTransaction getStatementRequest() {
-    return statementRequest;
+    return statementRequests == null || statementRequests.isEmpty() ? null : statementRequests.get(0);
   }
 
   /**
@@ -53,7 +68,12 @@ public class BankingRequestMessageSet extends RequestMessageSet {
    * @param statementRequest The statement request.
    */
   public void setStatementRequest(BankStatementRequestTransaction statementRequest) {
-    this.statementRequest = statementRequest;
+    if(statementRequest!=null){
+			if(statementRequests==null){
+				this.statementRequests = new ArrayList<BankStatementRequestTransaction>();
+			}
+			this.statementRequests.add(statementRequest);
+		}
   }
 
   // Inherited.
