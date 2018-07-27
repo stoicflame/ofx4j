@@ -74,7 +74,7 @@ public class StatementRange {
    *
    * @return Whether to include transactions.
    */
-  @Element( name = "INCLUDE", required = true, order = 20 )
+  @Element( name = "INCLUDE", required = false, order = 20 )
   public Boolean getIncludeTransactions() {
     return includeTransactions;
   }
