@@ -33,7 +33,7 @@ public class AccountInfoResponseTransaction extends TransactionWrappedResponseMe
    *
    * @return The wrapped message.
    */
-  @ChildAggregate ( required = true, order = 30 )
+  @ChildAggregate ( required = false, order = 30 )
   public AccountInfoResponse getMessage() {
     return message;
   }
