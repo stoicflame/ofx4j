@@ -190,6 +190,9 @@ public abstract class BaseOFXReader implements OFXReader {
       if (colonIndex >= 0) {
         String name = line.substring(0, colonIndex);
         String value = line.length() > colonIndex ? line.substring(colonIndex + 1) : "";
+        value = value.replace('"', ' ');
+        value = value.replace('\'', ' ');
+        value = value.trim();
         this.contentHandler.onHeader(name, value);
       }
       line = reader.readLine();
