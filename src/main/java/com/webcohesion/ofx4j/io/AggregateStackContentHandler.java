@@ -63,13 +63,20 @@ public class AggregateStackContentHandler<A> implements OFXHandler {
         }
         this.stack.peek().currentAttributeIndex = attribute.getOrder();
       }
-      else if (LOG.isInfoEnabled()) {
+      else if(name.equals(this.stack.peek().info.getName().toString()) && value!=null){    	 
+    	  throw new IllegalStateException(String.format("Element %s is not supported on aggregate %s (class %s) at index %s.",
+                  name,
+                  this.stack.peek().info.getName(),
+                  this.stack.peek().aggregate.getClass().getName(),
+                  this.stack.peek().currentAttributeIndex));
+      }
+     else if (LOG.isInfoEnabled()) {
         LOG.info(String.format("Element %s is not supported on aggregate %s (class %s) at index %s.",
                                name,
                                this.stack.peek().info.getName(),
                                this.stack.peek().aggregate.getClass().getName(),
                                this.stack.peek().currentAttributeIndex));
-      }
+      }                
     }
   }
 
