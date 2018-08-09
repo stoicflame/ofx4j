@@ -28,7 +28,7 @@ import java.util.Date;
 @Aggregate ("ACCTINFORQ")
 public class AccountInfoRequest extends RequestMessage {
 
-  private Date lastUpdated = new Date(0); //default is never updated.
+  private Date lastUpdated; //default is never updated.
 
   /**
    * When the account info was last updated.

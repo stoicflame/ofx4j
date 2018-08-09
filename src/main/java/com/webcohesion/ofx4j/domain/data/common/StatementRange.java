@@ -29,7 +29,7 @@ public class StatementRange {
 
   private Date start;
   private Date end;
-  private Boolean includeTransactions = Boolean.TRUE;
+  private Boolean includeTransactions;
 
   /**
    * The start of the statement range.

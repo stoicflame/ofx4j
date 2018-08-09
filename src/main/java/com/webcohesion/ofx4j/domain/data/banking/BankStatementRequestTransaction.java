@@ -33,7 +33,7 @@ public class BankStatementRequestTransaction extends TransactionWrappedRequestMe
    *
    * @return The message.
    */
-  @ChildAggregate( required = true, order = 30 )
+  @ChildAggregate( required = false, order = 30 )
   public BankStatementRequest getMessage() {
     return message;
   }

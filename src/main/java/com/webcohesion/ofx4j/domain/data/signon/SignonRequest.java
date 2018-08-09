@@ -43,11 +43,11 @@ public class SignonRequest extends RequestMessage {
   private String password;
   private String userKey;
   private Boolean generateUserKey;
-  private String language = Locale.US.getISO3Language().toUpperCase();
+  private String language;
   private FinancialInstitution financialInstitution;
   private String sessionId;
-  private String applicationId = "Money"; //many institutions just won't work with an unrecognized app id...
-  private String applicationVersion = "1600"; //many institutions just won't work with an unrecognized app id...
+  private String applicationId; //many institutions just won't work with an unrecognized app id...
+  private String applicationVersion; //many institutions just won't work with an unrecognized app id...
   private String clientUID;
   private String additionalCredentials1;
   private String additionalCredentials2;
