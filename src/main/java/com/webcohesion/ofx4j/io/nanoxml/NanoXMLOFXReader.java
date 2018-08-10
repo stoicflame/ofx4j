@@ -16,13 +16,21 @@
 
 package com.webcohesion.ofx4j.io.nanoxml;
 
-import net.n3.nanoxml.*;
-import com.webcohesion.ofx4j.io.BaseOFXReader;
-import com.webcohesion.ofx4j.io.OFXParseException;
-
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringWriter;
+
+import com.webcohesion.ofx4j.io.BaseOFXReader;
+import com.webcohesion.ofx4j.io.OFXParseException;
+
+import net.n3.nanoxml.CDATAReaderBackdoor;
+import net.n3.nanoxml.ContentReaderBackdoor;
+import net.n3.nanoxml.IXMLEntityResolver;
+import net.n3.nanoxml.IXMLReader;
+import net.n3.nanoxml.StdXMLReader;
+import net.n3.nanoxml.XMLEntityResolver;
+import net.n3.nanoxml.XMLParseException;
+import net.n3.nanoxml.XMLUtilBackdoor;
 
 /**
  * OFX reader using the <a href="http://nanoxml.cyberelf.be/">NanoXML</a> library.<br/><br/>
@@ -40,10 +48,16 @@ public class NanoXMLOFXReader extends BaseOFXReader {
       char ch = xmlReader.read();
       if (ch != '<') {
         throw new OFXParseException("Unexpected content before root <OFX> tag: " + ch);
-      }
-      
-      processOFXTag(xmlReader, new XMLEntityResolver());
-    }
+      }      
+      String endTag = processOFXTag(xmlReader, new XMLEntityResolver());
+			if (endTag.equals("OFX")) {
+				while (!xmlReader.atEOF()) {
+					ch = xmlReader.read();
+					if (ch != ' ' && ch != '\t' && ch != '\n')
+						throw new OFXParseException("Unexpected content after root <OFX> tag: " + ch);
+				}
+			}
+		} 
     catch (XMLParseException e) {
       throw new OFXParseException(e.getMessage(), e);
     }
@@ -97,7 +111,7 @@ public class NanoXMLOFXReader extends BaseOFXReader {
           if(!startTag.equals(endTag) || aggregateStarted) {
             getContentHandler().endAggregate(endTag);
           }
-          
+                
           return endTag;
         }
         else if (str.charAt(0) == '!') {
@@ -136,7 +150,7 @@ public class NanoXMLOFXReader extends BaseOFXReader {
             String endTag = processOFXTag(reader, entityResolver);
             if (endTag.equals(startTag)) {
               //we could have processed our own end tag.  If so, we're done.
-              //otherwise, we processed the end tag of a child aggregate, so continue.
+              //otherwise, we processed the end tag of a child aggregate, so continue.            	
               return endTag;
             }
           }
