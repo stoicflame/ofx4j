@@ -47,6 +47,11 @@ public interface FinancialInstitution {
   void setClientUID(String clientUID);
 
   /**
+   * Set the language code.
+   */
+  public void setLanguage(String language);
+
+  /**
    * Read the specified financial institution profile. Implies a network call.
    *
    * @return The profile.

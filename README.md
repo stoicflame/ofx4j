@@ -40,6 +40,7 @@ FinancialInstitutionData data = ...;
 FinancialInstitutionService service
   = new FinancialInstitutionServiceImpl();
 FinancialInstitution fi = service.getFinancialInstitution(data);
+fi.setLanguage(Locale.US.getISO3Language().toUpperCase());
 
 // read the fi profile (note: not all institutions
 // support this, and you normally don't need it.)
