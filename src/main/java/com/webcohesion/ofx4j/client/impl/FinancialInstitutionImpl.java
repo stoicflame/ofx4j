@@ -54,6 +54,7 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
   private final OFXConnection connection;
   private final FinancialInstitutionData data;
   private String clientUID;
+  private String language;
 
   public FinancialInstitutionImpl(FinancialInstitutionData data, OFXConnection connection) {
     if (data == null) {
@@ -65,6 +66,10 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
 
     this.data = data;
     this.connection = connection;
+  }
+
+  public void setLanguage(String language) {
+    this.language = language;
   }
 
   // Inherited.
@@ -114,9 +119,13 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
   protected RequestEnvelope createAuthenticatedRequest(String username, String password) {
     RequestEnvelope request = new RequestEnvelope();
     TreeSet<RequestMessageSet> messageSets = new TreeSet<RequestMessageSet>();
-    SignonRequestMessageSet signonRequest = new SignonRequestMessageSet();
-    signonRequest.setSignonRequest(createSignonRequest(username, password));
-    messageSets.add(signonRequest);
+    SignonRequestMessageSet signonRequestMessageSet = new SignonRequestMessageSet();
+    final SignonRequest signonRequest = createSignonRequest(username, password);
+    if (null != language) {
+      signonRequest.setLanguage(language);
+    }
+    signonRequestMessageSet.setSignonRequest(signonRequest);
+    messageSets.add(signonRequestMessageSet);
     request.setMessageSets(messageSets);
     return request;
   }
@@ -286,6 +295,9 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
     com.webcohesion.ofx4j.domain.data.signon.FinancialInstitution fi = new com.webcohesion.ofx4j.domain.data.signon.FinancialInstitution();
     fi.setId(getData().getFinancialInstitutionId());
     fi.setOrganization(getData().getOrganization());
+    if (null != language) {
+      signonRequest.setLanguage(language);
+    }
     signonRequest.setFinancialInstitution(fi);
     signonRequest.setUserId(username);
     signonRequest.setPassword(password);
