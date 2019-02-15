@@ -90,10 +90,12 @@ public class DefaultStringConversion implements StringConversion {
       return (E) new Short(Short.parseShort(value));
     }
     else if ((Float.class.isAssignableFrom(clazz)) || (Float.TYPE == clazz)) {
-      return (E) new Float(Float.parseFloat(value.replace(",", ".")));
+      String replacement = value.replace(',', '.'); //handle commas
+      return (E) new Float(Float.parseFloat(replacement));
     }
     else if ((Double.class.isAssignableFrom(clazz)) || (Double.TYPE == clazz)) {
-      return (E) new Double(Double.parseDouble(value.replace(",", ".")));
+      String replacement = value.replace(',', '.'); //handle commas
+      return (E) new Double(Double.parseDouble(replacement));
     }
     else if (Time.class.isAssignableFrom(clazz)) {
       return (E) parseTime(value);
