@@ -376,7 +376,7 @@ public class SellInvestmentTransaction {
    *
    * @return the original currency info for the transaction
    */
-  @Element( name = "ORIGCURRENCY", order = 120)
+  @ChildAggregate( name = "ORIGCURRENCY", order = 120)
   public OriginalCurrency getOriginalCurrencyInfo() {
     return originalCurrencyInfo;
   }
