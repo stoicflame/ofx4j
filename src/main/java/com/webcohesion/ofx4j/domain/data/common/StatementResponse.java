@@ -40,7 +40,7 @@ public abstract class StatementResponse extends ResponseMessage implements Accou
    * @return The currency code.
    * @see java.util.Currency#getCurrencyCode()
    */
-  @Element ( name = "CURDEF", required = true, order = 0 )
+  @Element ( name = "CURDEF", required = true, order = 5 )
   public String getCurrencyCode() {
     return currencyCode;
   }

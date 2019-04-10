@@ -41,7 +41,7 @@ public class BuyInvestmentTransaction {
   private Double fees;
   private Double load;
   private Double total;
-  private String currencyCode;
+  private OriginalCurrency currencyInfo;
   private OriginalCurrency originalCurrencyInfo;
   private String subAccountSecurity;
   private String subAccountFund;
@@ -281,9 +281,9 @@ public class BuyInvestmentTransaction {
    *
    * @return the currency code for the transaction.
    */
-  @Element( name = "CURRENCY", order = 110)
-  public String getCurrencyCode() {
-    return currencyCode;
+  @ChildAggregate( name = "CURRENCY", order = 110)
+  public OriginalCurrency getCurrencyInfo() {
+    return currencyInfo;
   }
 
   /**
@@ -293,8 +293,8 @@ public class BuyInvestmentTransaction {
    *
    * @param currencyCode the currency code for the transaction.
    */
-  public void setCurrencyCode(String currencyCode) {
-    this.currencyCode = currencyCode;
+  public void setCurrencyInfo(OriginalCurrency currency) {
+    this.currencyInfo = currency;
     this.originalCurrencyInfo = null;
   }
 
@@ -317,7 +317,7 @@ public class BuyInvestmentTransaction {
    */
   public void setOriginalCurrencyInfo(OriginalCurrency originalCurrencyInfo) {
     this.originalCurrencyInfo = originalCurrencyInfo;
-    this.currencyCode = null;
+    this.currencyInfo = null;
   }
 
  /**

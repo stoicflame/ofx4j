@@ -16,11 +16,12 @@
 
 package com.webcohesion.ofx4j.domain.data.seclist;
 
+import java.util.Date;
+
+import com.webcohesion.ofx4j.domain.data.investment.transactions.OriginalCurrency;
 import com.webcohesion.ofx4j.meta.Aggregate;
 import com.webcohesion.ofx4j.meta.ChildAggregate;
 import com.webcohesion.ofx4j.meta.Element;
-
-import java.util.Date;
 
 /**
  * Info about a security.
@@ -37,7 +38,7 @@ public class SecurityInfo {
   private String rating;
   private Double unitPrice;
   private Date marketValueDate;
-  private String currencyCode;
+  private OriginalCurrency currencyInfo;
   private String memo;
 
   /**
@@ -187,9 +188,9 @@ public class SecurityInfo {
    *
    * @return the overriding currency code or null to mean the default currency
    */
-  @Element( name = "CURRENCY", order = 80)
-  public String getCurrencyCode() {
-    return currencyCode;
+  @ChildAggregate( name = "CURRENCY", order = 80)
+  public OriginalCurrency getCurrencyInfo() {
+    return currencyInfo;
   }
 
   /**
@@ -198,8 +199,8 @@ public class SecurityInfo {
    *
    * @param currencyCode the overriding currency code or null to mean the default currency
    */
-  public void setCurrencyCode(String currencyCode) {
-    this.currencyCode = currencyCode;
+  public void setCurrencyInfo(OriginalCurrency currencyInfo) {
+    this.currencyInfo = currencyInfo;
   }
 
   /**

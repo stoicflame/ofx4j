@@ -174,8 +174,8 @@ public abstract class BaseBuyInvestmentTransaction extends BaseInvestmentTransac
    *
    * @return the currency code for the transaction
    */
-  public String getCurrencyCode() {
-    return getBuyInvestment().getCurrencyCode();
+  public OriginalCurrency getCurrencyInfo() {
+    return getBuyInvestment().getCurrencyInfo();
   }
 
   /**

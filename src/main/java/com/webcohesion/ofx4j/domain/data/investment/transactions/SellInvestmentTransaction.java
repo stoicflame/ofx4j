@@ -44,7 +44,7 @@ public class SellInvestmentTransaction {
   private Boolean taxExempt;
   private Double total;
   private Double gain;
-  private String currencyCode;
+  private OriginalCurrency currencyInfo;
   private OriginalCurrency originalCurrencyInfo;
   private String subAccountSecurity;
   private String subAccountFund;
@@ -353,9 +353,9 @@ public class SellInvestmentTransaction {
    *
    * @return the currency code for the transaction
    */
-  @Element( name = "CURRENCY", order = 110)
-  public String getCurrencyCode() {
-    return currencyCode;
+  @ChildAggregate( name = "CURRENCY", order = 110)
+  public OriginalCurrency getCurrencyInfo() {
+    return currencyInfo;
   }
 
   /**
@@ -365,8 +365,8 @@ public class SellInvestmentTransaction {
    *
    * @param currencyCode the currency code for the transaction
    */
-  public void setCurrencyCode(String currencyCode) {
-    this.currencyCode = currencyCode;
+  public void setCurrencyInfo(OriginalCurrency currency) {
+    this.currencyInfo = currency;
     this.originalCurrencyInfo = null;
   }
 
@@ -376,7 +376,7 @@ public class SellInvestmentTransaction {
    *
    * @return the original currency info for the transaction
    */
-  @Element( name = "ORIGCURRENCY", order = 120)
+  @ChildAggregate( name = "ORIGCURRENCY", order = 120)
   public OriginalCurrency getOriginalCurrencyInfo() {
     return originalCurrencyInfo;
   }
@@ -389,7 +389,7 @@ public class SellInvestmentTransaction {
    */
   public void setOriginalCurrencyInfo(OriginalCurrency originalCurrencyInfo) {
     this.originalCurrencyInfo = originalCurrencyInfo;
-    this.currencyCode = null;
+    this.currencyInfo = null;
   }
 
   /**

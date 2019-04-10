@@ -16,9 +16,10 @@
 
 package com.webcohesion.ofx4j.domain.data.seclist;
 
-import com.webcohesion.ofx4j.meta.ChildAggregate;
-
 import java.util.Date;
+
+import com.webcohesion.ofx4j.domain.data.investment.transactions.OriginalCurrency;
+import com.webcohesion.ofx4j.meta.ChildAggregate;
 
 /**
  * Base class for info about the various types of securities.
@@ -125,8 +126,8 @@ public class BaseSecurityInfo {
    *
    * @return the overriding currency code or null to mean the default currency
    */
-  public String getCurrencyCode() {
-    return getSecurityInfo().getCurrencyCode();
+  public OriginalCurrency getCurrencyInfo() {
+    return getSecurityInfo().getCurrencyInfo();
   }
 
   /**
