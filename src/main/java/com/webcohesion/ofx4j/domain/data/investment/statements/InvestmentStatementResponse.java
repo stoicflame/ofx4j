@@ -64,7 +64,7 @@ public class InvestmentStatementResponse extends StatementResponse {
    *
    * @return the date and time for the statement download
    */
-  @Element( name = "DTASOF", required = true, order = 60)
+  @Element( name = "DTASOF", required = true, order = 0)
   public Date getDateOfStatement() {
     return dateOfStatement;
   }
