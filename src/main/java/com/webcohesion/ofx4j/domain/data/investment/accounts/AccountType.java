@@ -33,8 +33,8 @@ public enum AccountType {
       return INDIVIDUAL;
     } else if ("JOINT".equals(ofxVal)) {
       return JOINT;
-    } else if ("CORPORATE".equals(ofxVal)) {
-      return CORPORATE;
+    } else if ("TRUST".equals(ofxVal)) {
+      return TRUST;
     } else if ("CORPORATE".equals(ofxVal)) {
       return CORPORATE;
     } else {
