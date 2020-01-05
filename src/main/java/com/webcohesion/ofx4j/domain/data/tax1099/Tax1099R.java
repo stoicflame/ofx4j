@@ -36,6 +36,7 @@ public class Tax1099R  {
 	
 	private String taxAmt;
 	private String taxAmtNd;
+	private String totalDist;
 	private String capGain;
 	private String fedTaxWh;
 	private String empContins;
@@ -44,7 +45,9 @@ public class Tax1099R  {
 	private String iraSepSimp;
 	private String annCtrctDist;
 	private String totEmpCount;
-		
+	private String firstYearDesignatedRoth;
+
+	private StateTaxWithheldAggregate stateTaxWithheldAggregate;
 	private PayerAddress payerAddress;
 	private String payerId;
 	private RecAddress recAddress;
@@ -52,102 +55,115 @@ public class Tax1099R  {
 	private String recAcct;
 	
 	 
-	  @Element ( name = "SRVRTID",required = true , order = 0 )
-	  public String getSrvrtId() {
+	@Element ( name = "SRVRTID",required = true , order = 0 )
+	public String getSrvrtId() {
 	    return srvrtId;
 	  }
 
-	  
-	  public void setSrvrtId(String srvrtId) {
+
+	public void setSrvrtId(String srvrtId) {
 	    this.srvrtId = srvrtId;
 	  }
 
-	 
-	  @Element ( name = "TAXYEAR", required = true, order = 1 )
-	  public String getTaxYear() {
+
+	@Element ( name = "TAXYEAR", required = true, order = 1 )
+	public String getTaxYear() {
 	    return taxYear;
 	  }
 
-	 
-	  public void setTaxYear(String taxYear) {
+
+	public void setTaxYear(String taxYear) {
 	    this.taxYear = taxYear;
 	  }
 
 
-	  /**
-		 * @return the grossDist
-		 */
-	  @Element ( name = "GROSSDIST", required = true, order = 2 )
-		public String getGrossDist() {
+	/**
+	 * @return the grossDist
+	 */
+	@Element ( name = "GROSSDIST", required = true, order = 2 )
+	public String getGrossDist() {
 			return grossDist;
 		}
 
 
-		/**
-		 * @param grossDist the grossDist to set
-		 */
-		public void setGrossDist(String grossDist) {
+	/**
+	 * @param grossDist the grossDist to set
+	 */
+	public void setGrossDist(String grossDist) {
 			this.grossDist = grossDist;
 		}
 
 
-		/**
-		 * @return the taxAmt
-		 */
-		@Element ( name = "TAXAMT", required = false, order = 3 )
-		public String getTaxAmt() {
+	/**
+	 * @return the taxAmt
+	 */
+	@Element ( name = "TAXAMT", required = false, order = 3 )
+	public String getTaxAmt() {
 			return taxAmt;
 		}
 
 
-		/**
-		 * @param taxAmt the taxAmt to set
-		 */
-		public void setTaxAmt(String taxAmt) {
+	/**
+	 * @param taxAmt the taxAmt to set
+	 */
+	public void setTaxAmt(String taxAmt) {
 			this.taxAmt = taxAmt;
 		}
 
 
-		/**
-		 * @return the taxAmtNd
-		 */
-		@Element ( name = "TAXAMTND", required = false, order = 4 )
-		public String getTaxAmtNd() {
+    /**
+	 * @return the taxAmtNd
+	 */
+	@Element ( name = "TAXAMTND", required = false, order = 4 )
+    public String getTaxAmtNd() {
 			return taxAmtNd;
 		}
 
 
-		/**
-		 * @param taxAmtNd the taxAmtNd to set
-		 */
-		public void setTaxAmtNd(String taxAmtNd) {
+	/**
+	 * @param taxAmtNd the taxAmtNd to set
+	 */
+	public void setTaxAmtNd(String taxAmtNd) {
 			this.taxAmtNd = taxAmtNd;
 		}
 
 
-		/**
-		 * @return the capGain
-		 */
-		@Element ( name = "CAPGAIN", required = false, order = 5 )
-		public String getCapGain() {
+    /**
+     * @return the totalDist
+     */
+    @Element ( name = "TOTALDIST", required = false, order = 5 )
+    public String getTotalDist() {
+        return totalDist;
+    }
+
+    /**
+     * @param totalDist the totalDist to set
+     */
+    public void setTotalDist(String totalDist) {
+        this.totalDist = totalDist;
+    }
+
+	/**
+	 * @return the capGain
+	 */
+	@Element ( name = "CAPGAIN", required = false, order = 6 )
+	public String getCapGain() {
 			return capGain;
 		}
 
 
-		/**
-		 * @param capGain the capGain to set
-		 */
-		public void setCapGain(String capGain) {
+	/**
+	 * @param capGain the capGain to set
+	 */
+	public void setCapGain(String capGain) {
 			this.capGain = capGain;
 		}
-
-
 
 
 	/**
 	 * @return the fedTaxWh
 	 */
-	@Element ( name = "FEDTAXWH", required = false, order = 6 )
+	@Element ( name = "FEDTAXWH", required = false, order = 7 )
 	public String getFedTaxWh() {
 		return fedTaxWh;
 	}
@@ -163,7 +179,7 @@ public class Tax1099R  {
 	/**
 	 * @return the empContins
 	 */
-	@Element ( name = "EMPCONTINS", required = false, order = 7 )
+	@Element ( name = "EMPCONTINS", required = false, order = 8 )
 	public String getEmpContins() {
 		return empContins;
 	}
@@ -180,7 +196,7 @@ public class Tax1099R  {
 	/**
 	 * @return the netUnapEmp
 	 */
-	@Element ( name = "NETUNAPEMP", required = false, order = 8 )
+	@Element ( name = "NETUNAPEMP", required = false, order = 9 )
 	public String getNetUnapEmp() {
 		return netUnapEmp;
 	}
@@ -197,7 +213,7 @@ public class Tax1099R  {
 	/**
 	 * @return the distCode
 	 */
-	@Element ( name = "DISTCODE", required = true, order = 9 )
+	@Element ( name = "DISTCODE", required = true, order = 10 )
 	public String getDistCode() {
 		return distCode;
 	}
@@ -214,7 +230,7 @@ public class Tax1099R  {
 	/**
 	 * @return the iraSepSimp
 	 */
-	@Element ( name = "IRASEPSIMP", required = true, order = 10 )
+	@Element ( name = "IRASEPSIMP", required = true, order = 11 )
 	public String getIraSepSimp() {
 		return iraSepSimp;
 	}
@@ -231,7 +247,7 @@ public class Tax1099R  {
 	/**
 	 * @return the annCtrctDist
 	 */
-	@Element ( name = "ANNCTRCTDIST", required = false, order = 11 )
+	@Element ( name = "ANNCTRCTDIST", required = false, order = 12 )
 	public String getAnnCtrctDist() {
 		return annCtrctDist;
 	}
@@ -248,7 +264,7 @@ public class Tax1099R  {
 	/**
 	 * @return the totEmpCount
 	 */
-	@Element ( name = "TOTEMPCONT", required = false, order = 12 )
+	@Element ( name = "TOTEMPCONT", required = false, order = 13 )
 	public String getTotEmpCount() {
 		return totEmpCount;
 	}
@@ -262,10 +278,43 @@ public class Tax1099R  {
 	}
 
 
-	/**
+    /**
+     * @return the firstYearDesignatedRoth
+     */
+    @Element ( name = "FIRSTYEARDESIGROTH", required = false, order = 14 )
+    public String getFirstYearDesignatedRoth() {
+        return firstYearDesignatedRoth;
+    }
+
+
+    /**
+     * @param firstYearDesignatedRoth the firstYearDesignatedRoth to set
+     */
+    public void setFirstYearDesignatedRoth(String firstYearDesignatedRoth) {
+        this.firstYearDesignatedRoth = firstYearDesignatedRoth;
+    }
+
+
+    /**
+     * @return the stateTaxWithheldAggregate
+     */
+    @ChildAggregate(required=false, order = 15)
+    public StateTaxWithheldAggregate getStateTaxWithheldAggregate() {
+        return stateTaxWithheldAggregate;
+    }
+
+
+    /**
+     * @param stateTaxWithheldAggregate the stateTaxWithheldAggregate to set
+     */
+    public void setStateTaxWithheldAggregate(StateTaxWithheldAggregate stateTaxWithheldAggregate) {
+        this.stateTaxWithheldAggregate = stateTaxWithheldAggregate;
+    }
+
+    /**
 	 * @return the payerAddress
 	 */
-	@ChildAggregate(required=true, order = 13)
+	@ChildAggregate(required=true, order = 16)
 	public PayerAddress getPayerAddress() {
 		return payerAddress;
 	}
@@ -281,7 +330,7 @@ public class Tax1099R  {
 	/**
 	 * @return the payerId
 	 */
-	@Element ( name = "PAYERID", required = true, order = 14 )
+	@Element ( name = "PAYERID", required = true, order = 17 )
 	public String getPayerId() {
 		return payerId;
 	}
@@ -298,7 +347,7 @@ public class Tax1099R  {
 	/**
 	 * @return the recAddress
 	 */
-	@ChildAggregate(required=true, order = 15)
+	@ChildAggregate(required=true, order = 18)
 	public RecAddress getRecAddress() {
 		return recAddress;
 	}
@@ -314,7 +363,7 @@ public class Tax1099R  {
 	/**
 	 * @return the recId
 	 */
-	@Element ( name = "RECID", required = true, order = 16 )
+	@Element ( name = "RECID", required = true, order = 19 )
 	public String getRecId() {
 		return recId;
 	}
@@ -331,7 +380,7 @@ public class Tax1099R  {
 	/**
 	 * @return the recAcct
 	 */
-	@Element ( name = "RECACCT", required = true, order = 17 )
+	@Element ( name = "RECACCT", required = true, order = 20 )
 	public String getRecAcct() {
 		return recAcct;
 	}

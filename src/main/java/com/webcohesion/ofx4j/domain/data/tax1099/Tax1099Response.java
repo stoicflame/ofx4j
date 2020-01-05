@@ -20,6 +20,7 @@ import java.util.List;
 import com.webcohesion.ofx4j.domain.data.common.T1099Response;
 import com.webcohesion.ofx4j.meta.Aggregate;
 import com.webcohesion.ofx4j.meta.ChildAggregate;
+import com.webcohesion.ofx4j.meta.Element;
 
 /**
  * @author Aparna Gawali
@@ -27,6 +28,8 @@ import com.webcohesion.ofx4j.meta.ChildAggregate;
  */
 @Aggregate("TAX1099RS")
 public class Tax1099Response extends T1099Response {
+
+	private String accountNumber;
 
 	// private Tax1099DIV tax1099div;
 	private List<Tax1099DIV> lstTax1099DIV;
@@ -42,9 +45,24 @@ public class Tax1099Response extends T1099Response {
 	private List<Tax1099OID> lstTax1099OID;
 
 	/**
+	 * @return the accountNumber
+	 */
+	@Element( name = "ACCTNUM", required = false, order = 0 )
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+
+	/**
+	 * @param accountNumber the accountNumber to set
+	 */
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
+	/**
 	 * @return the lstTax1099DIV
 	 */
-	@ChildAggregate(required = false, order = 0)
+	@ChildAggregate(required = false, order = 1)
 	public List<Tax1099DIV> getLstTax1099DIV() {
 		return lstTax1099DIV;
 	}
@@ -66,7 +84,7 @@ public class Tax1099Response extends T1099Response {
 	/**
 	 * @return the lstTax1099INT
 	 */
-	@ChildAggregate(required = false, order = 1)
+	@ChildAggregate(required = false, order = 2)
 	public List<Tax1099INT> getLstTax1099INT() {
 		return lstTax1099INT;
 	}
@@ -81,7 +99,7 @@ public class Tax1099Response extends T1099Response {
 	/**
 	 * @return the lstTax1099R
 	 */
-	@ChildAggregate(required = false, order = 2)
+	@ChildAggregate(required = false, order = 3)
 	public List<Tax1099R> getLstTax1099R() {
 		return lstTax1099R;
 	}
@@ -96,7 +114,7 @@ public class Tax1099Response extends T1099Response {
 	/**
 	 * @return the lstTax1099B
 	 */
-	@ChildAggregate(required = false, order = 3)
+	@ChildAggregate(required = false, order = 4)
 	public List<Tax1099B> getLstTax1099B() {
 		return lstTax1099B;
 	}
@@ -111,7 +129,7 @@ public class Tax1099Response extends T1099Response {
 	/**
 	 * @return the lstTax1099MISC
 	 */
-	@ChildAggregate(required = false, order = 4)
+	@ChildAggregate(required = false, order = 5)
 	public List<Tax1099MISC> getLstTax1099MISC() {
 		return lstTax1099MISC;
 	}
@@ -126,7 +144,7 @@ public class Tax1099Response extends T1099Response {
 	/**
 	 * @return the lstTax1099OID
 	 */
-	@ChildAggregate(required = false, order =5)
+	@ChildAggregate(required = false, order = 6)
 	public List<Tax1099OID> getLstTax1099OID() {
 		return lstTax1099OID;
 	}
