@@ -224,7 +224,7 @@ public class Tax1099OID  {
 	/**
 	 * @return the recAddress
 	 */
-	@ChildAggregate(required=true, order = 11)
+	@ChildAggregate(order = 11)
 	public RecAddress getRecAddress() {
 		return recAddress;
 	}

@@ -114,7 +114,7 @@ public class Tax1099B  {
 	/**
 	 * @return the recAddress
 	 */
-	@ChildAggregate(required=true, order = 5)
+	@ChildAggregate(order = 5)
 	public RecAddress getRecAddress() {
 		return recAddress;
 	}

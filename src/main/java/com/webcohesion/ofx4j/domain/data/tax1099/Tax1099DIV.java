@@ -314,7 +314,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the recAddress
 	 */
-	@ChildAggregate(required=true, order = 16)
+	@ChildAggregate(order = 16)
 	public RecAddress getRecAddress() {
 		return recAddress;
 	}

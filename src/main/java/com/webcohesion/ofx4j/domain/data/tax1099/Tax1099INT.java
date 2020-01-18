@@ -208,7 +208,7 @@ public class Tax1099INT  {
 	/**
 	 * @return the recAddress
 	 */
-	@ChildAggregate(required=true, order = 10)
+	@ChildAggregate(order = 10)
 	public RecAddress getRecAddress() {
 		return recAddress;
 	}
