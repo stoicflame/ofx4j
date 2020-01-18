@@ -40,11 +40,15 @@ public class Tax1099DIV  {
 	private String sec1202;
 	private String nonTaxDist;
 	private String fedTaxWh;
+	private String sec199a;
 	private String investExp;
 	private String forTaxPd;
+	private String forCnt;
 	private String cashLiq;
 	private String nonCashLiq;
-	
+	private String exemptIntDiv;
+	private String specifiedPabIntDiv;
+
 	private PayerAddress payerAddress;
 	private String payerId;
 	private RecAddress recAddress;
@@ -211,9 +215,26 @@ public class Tax1099DIV  {
 
 
 	/**
+	 * @return the sec199a
+	 */
+	@Element ( name = "SEC199A", required = false, order = 10 )
+	public String getSec199a() {
+		return sec199a;
+	}
+
+
+	/**
+	 * @param sec199a the sec199a to set
+	 */
+	public void setSec199a(String sec199a) {
+		this.sec199a = sec199a;
+	}
+
+
+	/**
 	 * @return the investExp
 	 */
-	@Element ( name = "INVESTEXP", required = false, order = 10 )
+	@Element ( name = "INVESTEXP", required = false, order = 11 )
 	public String getInvestExp() {
 		return investExp;
 	}
@@ -230,7 +251,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the forTaxPd
 	 */
-	@Element ( name = "FORTAXPD", required = false, order = 11 )
+	@Element ( name = "FORTAXPD", required = false, order = 12 )
 	public String getForTaxPd() {
 		return forTaxPd;
 	}
@@ -245,9 +266,26 @@ public class Tax1099DIV  {
 
 
 	/**
+	 * @return the forCnt
+	 */
+	@Element ( name = "FORCNT", required = false, order = 13 )
+	public String getForCnt() {
+		return forCnt;
+	}
+
+
+	/**
+	 * @param forCnt the forCnt to set
+	 */
+	public void setForCnt(String forCnt) {
+		this.forCnt = forCnt;
+	}
+
+
+	/**
 	 * @return the cashLiq
 	 */
-	@Element ( name = "CASHLIQ", required = false, order = 12 )
+	@Element ( name = "CASHLIQ", required = false, order = 14 )
 	public String getCashLiq() {
 		return cashLiq;
 	}
@@ -264,7 +302,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the nonCashLiq
 	 */
-	@Element ( name = "NONCASHLIQ", required = false, order = 13 )
+	@Element ( name = "NONCASHLIQ", required = false, order = 15 )
 	public String getNonCashLiq() {
 		return nonCashLiq;
 	}
@@ -279,9 +317,43 @@ public class Tax1099DIV  {
 
 
 	/**
+	 * @return the exemptIntDiv
+	 */
+	@Element ( name = "EXEMPTINTDIV", required = false, order = 16 )
+	public String getExemptIntDiv() {
+		return exemptIntDiv;
+	}
+
+
+	/**
+	 * @param exemptIntDiv the exemptIntDiv to set
+	 */
+	public void setExemptIntDiv(String exemptIntDiv) {
+		this.exemptIntDiv = exemptIntDiv;
+	}
+
+
+	/**
+	 * @return the specifiedPabIntDiv
+	 */
+	@Element ( name = "SPECIFIEDPABINTDIV", required = false, order = 17 )
+	public String getSpecifiedPabIntDiv() {
+		return specifiedPabIntDiv;
+	}
+
+
+	/**
+	 * @param specifiedPabIntDiv the specifiedPabIntDiv to set
+	 */
+	public void setSpecifiedPabIntDiv(String specifiedPabIntDiv) {
+		this.specifiedPabIntDiv = specifiedPabIntDiv;
+	}
+
+
+	/**
 	 * @return the payerAddress
 	 */
-	@ChildAggregate(required=true, order = 14)
+	@ChildAggregate(required=true, order = 18)
 	public PayerAddress getPayerAddress() {
 		return payerAddress;
 	}
@@ -297,7 +369,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the payerId
 	 */
-	@Element ( name = "PAYERID", required = true, order = 15 )
+	@Element ( name = "PAYERID", required = true, order = 19 )
 	public String getPayerId() {
 		return payerId;
 	}
@@ -314,7 +386,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the recAddress
 	 */
-	@ChildAggregate(order = 16)
+	@ChildAggregate(order = 20)
 	public RecAddress getRecAddress() {
 		return recAddress;
 	}
@@ -330,7 +402,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the recId
 	 */
-	@Element ( name = "RECID", required = true, order = 17 )
+	@Element ( name = "RECID", required = true, order = 21 )
 	public String getRecId() {
 		return recId;
 	}
@@ -347,7 +419,7 @@ public class Tax1099DIV  {
 	/**
 	 * @return the recAcct
 	 */
-	@Element ( name = "RECACCT", required = true, order = 18 )
+	@Element ( name = "RECACCT", required = true, order = 22 )
 	public String getRecAcct() {
 		return recAcct;
 	}
@@ -359,7 +431,7 @@ public class Tax1099DIV  {
 	public void setRecAcct(String recAcct) {
 		this.recAcct = recAcct;
 	}
-	
-	
-	  
+
+
+
 }
