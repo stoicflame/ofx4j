@@ -20,6 +20,10 @@ import com.webcohesion.ofx4j.meta.ChildAggregate;
 
 import com.webcohesion.ofx4j.meta.Element;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @author Aparna Gawali
  * aparna.gawali@sungard.com
@@ -41,7 +45,7 @@ public class Tax1099R  {
 	private String fedTaxWh;
 	private String empContins;
 	private String netUnapEmp;
-	private String distCode;
+	private List<String> distCodes;
 	private String iraSepSimp;
 	private String annCtrctDist;
 	private String totEmpCount;
@@ -214,18 +218,24 @@ public class Tax1099R  {
 	 * @return the distCode
 	 */
 	@Element ( name = "DISTCODE", required = true, order = 10 )
-	public String getDistCode() {
-		return distCode;
+	public List<String> getDistCodes() {
+		return distCodes;
 	}
 
+	public String getDistCode() {
+	    return distCodes == null || distCodes.isEmpty() ? null : distCodes.get(0);
+    }
 
 	/**
 	 * @param distCode the distCode to set
 	 */
 	public void setDistCode(String distCode) {
-		this.distCode = distCode;
+		this.distCodes = Collections.singletonList(distCode);
 	}
 
+    public void setDistCodes(List<String> distCodes) {
+        this.distCodes = distCodes;
+    }
 
 	/**
 	 * @return the iraSepSimp
@@ -347,7 +357,7 @@ public class Tax1099R  {
 	/**
 	 * @return the recAddress
 	 */
-	@ChildAggregate(required=true, order = 18)
+	@ChildAggregate(order = 18)
 	public RecAddress getRecAddress() {
 		return recAddress;
 	}

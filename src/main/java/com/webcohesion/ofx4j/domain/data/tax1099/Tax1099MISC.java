@@ -170,7 +170,7 @@ public class Tax1099MISC  {
 	/**
 	 * @return the recAddress
 	 */
-	@ChildAggregate(required=true, order = 8)
+	@ChildAggregate(order = 8)
 	public RecAddress getRecAddress() {
 		return recAddress;
 	}
