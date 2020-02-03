@@ -35,6 +35,8 @@ public class InvestmentStatementRequest extends StatementRequest {
   private Boolean includeOpenOrders = Boolean.FALSE;
   private IncludePosition includePosition;
   private Boolean includeBalance = Boolean.TRUE;
+  private Boolean include401k = Boolean.TRUE;
+  private Boolean include401kBalance = Boolean.TRUE;
 
   /**
    * The account details.
@@ -117,4 +119,47 @@ public class InvestmentStatementRequest extends StatementRequest {
   public void setIncludeBalance(Boolean includeBalance) {
     this.includeBalance = includeBalance;
   }
+
+  /**
+   * Gets whether to include 401K information in the response. This is a optional field according to
+   * the OFX spec.
+   *
+   * @return whether to include balance info in the response
+   */
+  @Element( name = "INC401K", order = 50)
+  public Boolean getInclude401k() {
+    return include401k;
+  }
+
+  /**
+   * Sets whether to include 401K information in the response. This is a optional field according to
+   * the OFX spec.
+   *
+   * @param include401k whether to include balance info in the response
+   */
+  public void setInclude401k(Boolean include401k) {
+    this.include401k = include401k;
+  }
+
+  /**
+   * Gets whether to include 401K balances in the response. This is a optional field according to
+   * the OFX spec.
+   *
+   * @return whether to include balance info in the response
+   */
+  @Element( name = "INC401KBAL", order = 50)
+  public Boolean getInclude401kBalance() {
+    return include401kBalance;
+  }
+
+  /**
+   * Sets whether to include 401K balances in the response. This is a optional field according to
+   * the OFX spec.
+   *
+   * @param include401kBalance whether to include balance info in the response
+   */
+  public void setInclude401kBalance(Boolean include401kBalance) {
+    this.include401kBalance = include401kBalance;
+  }
+
 }
