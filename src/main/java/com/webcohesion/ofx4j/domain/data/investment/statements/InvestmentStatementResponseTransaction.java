@@ -37,7 +37,7 @@ public class InvestmentStatementResponseTransaction
    *
    * @return the statement response message.
    */
-  @ChildAggregate( required = true, order = 30 )
+  @ChildAggregate( order = 30 )
   public InvestmentStatementResponse getMessage() {
     return message;
   }
