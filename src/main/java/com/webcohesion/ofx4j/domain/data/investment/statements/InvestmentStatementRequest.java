@@ -147,7 +147,7 @@ public class InvestmentStatementRequest extends StatementRequest {
    *
    * @return whether to include balance info in the response
    */
-  @Element( name = "INC401KBAL", order = 50)
+  @Element( name = "INC401KBAL", order = 60)
   public Boolean getInclude401kBalance() {
     return include401kBalance;
   }
