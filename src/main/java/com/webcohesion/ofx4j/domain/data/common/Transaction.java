@@ -143,7 +143,7 @@ public class Transaction {
    * @param amount The transaction amount.
    */
   public void setAmount(Double amount) {
-    this.amount = amount == null ? null : new BigDecimal(amount);
+    this.amount = amount == null ? null : BigDecimal.valueOf(amount);
   }
 
   /**
