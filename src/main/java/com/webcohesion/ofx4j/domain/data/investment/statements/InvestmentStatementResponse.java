@@ -41,6 +41,7 @@ public class InvestmentStatementResponse extends StatementResponse {
   private InvestmentTransactionList transactionList;
   private InvestmentPositionList positionList;
   private InvestmentBalance accountBalance;
+  private FourOhOneKBalance fourOhOneKBalance;
 
   // This is not actually technically part of the INVSTMTRS, but according to Section 13.8.4,
   // OFX spec, this aggregate can appear in a statement response as part of the SECLISTMSGSRQV1
@@ -153,6 +154,25 @@ public class InvestmentStatementResponse extends StatementResponse {
    */
   public void setAccountBalance(InvestmentBalance accountBalance) {
     this.accountBalance = accountBalance;
+  }
+
+  /**
+   * Gets the 401(k) account balance. This is an optional field according to the OFX spec.
+   *
+   * @return the 401(k) account balance
+   */
+  @ChildAggregate ( order = 100 )
+  public FourOhOneKBalance getFourOhOneKBalance() {
+    return fourOhOneKBalance;
+  }
+
+  /**
+   * Sets the 401(k) account balance. This is an optional field according to the OFX spec.
+   *
+   * @param fourOhOneKBalance the account balance
+   */
+  public void setFourOhOneKBalance(FourOhOneKBalance fourOhOneKBalance) {
+    this.fourOhOneKBalance = fourOhOneKBalance;
   }
 
   /**
