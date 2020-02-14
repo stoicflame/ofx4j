@@ -38,7 +38,7 @@ public class PayerAddress {
 	/**
 	 * @return the payerName1
 	 */
-	@Element ( name = "PAYERNAME1",required = true , order = 0 )
+	@Element ( name = "PAYERNAME1", required = true, order = 0 )
 	public String getPayerName1() {
 		return payerName1;
 	}
@@ -51,7 +51,7 @@ public class PayerAddress {
 	/**
 	 * @return the payerName2
 	 */
-	@Element ( name = "PAYERNAME2",required = false , order = 1 )
+	@Element ( name = "PAYERNAME2", order = 1 )
 	public String getPayerName2() {
 		return payerName2;
 	}
@@ -64,7 +64,7 @@ public class PayerAddress {
 	/**
 	 * @return the address1
 	 */
-	@Element ( name = "ADDR1",required = true , order = 2 )
+	@Element ( name = "ADDR1", required = true, order = 2 )
 	public String getAddress1() {
 		return address1;
 	}
@@ -74,11 +74,11 @@ public class PayerAddress {
 	public void setAddress1(String address1) {
 		this.address1 = address1;
 	}
-	
+
 	/**
 	 * @return the address2
 	 */
-	@Element ( name = "ADDR2",required = true , order = 3 )
+	@Element ( name = "ADDR2", order = 3 )
 	public String getAddress2() {
 		return address2;
 	}
@@ -91,7 +91,7 @@ public class PayerAddress {
 	/**
 	 * @return the city
 	 */
-	@Element ( name = "CITY",required = true , order = 4 )
+	@Element ( name = "CITY", required = true, order = 4 )
 	public String getCity() {
 		return city;
 	}
@@ -104,7 +104,7 @@ public class PayerAddress {
 	/**
 	 * @return the state
 	 */
-	@Element ( name = "STATE",required = true , order = 5 )
+	@Element ( name = "STATE", required = true, order = 5 )
 	public String getState() {
 		return state;
 	}
@@ -117,7 +117,7 @@ public class PayerAddress {
 	/**
 	 * @return the postalCode
 	 */
-	@Element ( name = "POSTALCODE",required = true , order = 6 )
+	@Element ( name = "POSTALCODE", required = true, order = 6 )
 	public String getPostalCode() {
 		return postalCode;
 	}
@@ -130,7 +130,7 @@ public class PayerAddress {
 	/**
 	 * @return the phone
 	 */
-	@Element ( name = "PHONE",required = false , order = 7 )
+	@Element ( name = "PHONE", order = 7 )
 	public String getPhone() {
 		return phone;
 	}
@@ -140,6 +140,6 @@ public class PayerAddress {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	
-	
+
+
 }
