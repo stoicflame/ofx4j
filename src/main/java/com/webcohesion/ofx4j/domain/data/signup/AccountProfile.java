@@ -34,6 +34,7 @@ public class AccountProfile {
   private BankAccountInfo bankSpecifics;
   private CreditCardAccountInfo creditCardSpecifics;
   private InvestmentAccountInfo investSpecifics;
+  private AccountHolderInfo accountHolderInfo;
 
   /**
    * Description of the account.
@@ -172,5 +173,24 @@ public class AccountProfile {
     this.bankSpecifics = null;
     this.creditCardSpecifics = null;
     this.investSpecifics = investSpecifics;
+  }
+
+  /**
+   * account holder info.
+   *
+   * @return get account holder info.
+   */
+  @ChildAggregate ( order = 50 )
+  public AccountHolderInfo getAccountHolderInfo() {
+    return accountHolderInfo;
+  }
+
+  /**
+   * account holder info.
+   *
+   * @param accountHolderInfo account holder info.
+   */
+  public void setAccountHolderInfo(AccountHolderInfo accountHolderInfo) {
+    this.accountHolderInfo = accountHolderInfo;
   }
 }

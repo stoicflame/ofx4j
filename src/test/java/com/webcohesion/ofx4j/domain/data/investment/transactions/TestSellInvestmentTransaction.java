@@ -49,6 +49,6 @@ public class TestSellInvestmentTransaction extends TestCase {
 
 
 		String output = sw.toString();
-		assertTrue(output.indexOf("USD") > -1);
+		assertTrue(output.contains("USD"));
 	}
 }
