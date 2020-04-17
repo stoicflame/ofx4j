@@ -55,7 +55,7 @@ public class AggregateUnmarshaller<A> {
     }
   }
 
-  public A unmarshal(Reader reader) throws IOException, OFXParseException {
+  public A unmarshal(Reader reader) throws OFXParseException {
     try {
       A aggregate = clazz.newInstance();
       OFXReader ofxReader = newReader();
