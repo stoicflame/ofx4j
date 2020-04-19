@@ -5,19 +5,16 @@ import com.webcohesion.ofx4j.domain.data.signup.AccountHolderInfo;
 import com.webcohesion.ofx4j.domain.data.signup.AccountProfile;
 import com.webcohesion.ofx4j.domain.data.signup.HolderType;
 import com.webcohesion.ofx4j.io.AggregateMarshaller;
-import com.webcohesion.ofx4j.io.AggregateUnmarshaller;
-import com.webcohesion.ofx4j.io.OFXParseException;
 import com.webcohesion.ofx4j.io.v2.OFXV2Writer;
 
 import junit.framework.TestCase;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.io.StringWriter;
 
 public class TestHolderInfo extends TestCase {
 
-    public void testAccountHolderMarshalling() throws IOException, OFXParseException {
+    public void testAccountHolderMarshalling() throws IOException {
         AccountProfile accountProfile = new AccountProfile();
         AccountHolderInfo accountHolderInfo = new AccountHolderInfo();
         AccountHolder primary = new AccountHolder();
@@ -31,7 +28,7 @@ public class TestHolderInfo extends TestCase {
         primary.setState("NY");
         primary.setCountry("USA");
         primary.setDayPhone("123-123-1234");
-        primary.setEveningPhone("123-123-1234");
+        primary.setEveningPhone("321-123-1234");
         primary.setHolderType(HolderType.INDIVIDUAL);
         primary.setEmail("testing@test.com");
         accountHolderInfo.setPrimaryAccountHolder(primary);

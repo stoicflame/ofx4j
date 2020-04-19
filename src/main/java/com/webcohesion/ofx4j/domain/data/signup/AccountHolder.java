@@ -47,7 +47,7 @@ public class AccountHolder {
         this.lastName = lastName;
     }
 
-    @Element(name = "LASTNAME", required = true, order = 40)
+    @Element(name = "ADDR1", required = true, order = 40)
     public String getAddressLine1() {
         return addressLine1;
     }
