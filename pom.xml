@@ -6,7 +6,7 @@
   <artifactId>ofx4j</artifactId>
   <packaging>bundle</packaging>
 
-  <version>1.26</version>
+  <version>1.27-SNAPSHOT</version>
   <name>ofx4j</name>
   <description>
     OFX4J is a Java implementation of Open Financial Exchange, which defines web service
