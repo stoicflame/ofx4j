@@ -324,7 +324,9 @@ public class FinancialInstitutionImpl implements FinancialInstitution {
    * @return The account info request.
    */
   protected AccountInfoRequest createAccountInfoRequest() {
-    return new AccountInfoRequest();
+    AccountInfoRequest accountInfoRequest = new AccountInfoRequest();
+    accountInfoRequest.setLastUpdated(new Date(0));
+    return accountInfoRequest;
   }
 
   /**
