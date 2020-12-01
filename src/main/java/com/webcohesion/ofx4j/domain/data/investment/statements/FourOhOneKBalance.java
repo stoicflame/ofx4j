@@ -1,6 +1,7 @@
 package com.webcohesion.ofx4j.domain.data.investment.statements;
 
 import com.webcohesion.ofx4j.meta.Aggregate;
+import com.webcohesion.ofx4j.meta.ChildAggregate;
 import com.webcohesion.ofx4j.meta.Element;
 
 import java.math.BigDecimal;
@@ -217,7 +218,7 @@ public class FourOhOneKBalance {
      *
      * @return the 401(k) balance list
      */
-    @ChildAggregate( order = 100 )
+    @ChildAggregate( name = "BALLIST", required = true, order = 100 )
     public BalanceList getBalanceList() {
         return balanceList;
     }
