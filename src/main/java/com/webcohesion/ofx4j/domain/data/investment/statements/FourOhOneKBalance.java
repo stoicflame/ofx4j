@@ -217,7 +217,7 @@ public class FourOhOneKBalance {
      *
      * @return the 401(k) balance list
      */
-    @Element(name = "BALLIST", required = true, order = 100)
+    @ChildAggregate( order = 100 )
     public BalanceList getBalanceList() {
         return balanceList;
     }
