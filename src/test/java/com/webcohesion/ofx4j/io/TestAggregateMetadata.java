@@ -18,10 +18,12 @@ package com.webcohesion.ofx4j.io;
 
 import junit.framework.TestCase;
 
-import java.util.Map;
-import java.util.Iterator;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+
+import static java.util.Collections.singletonList;
 
 /**
  * @author Ryan Heaton
@@ -47,12 +49,13 @@ public class TestAggregateMetadata extends TestCase {
     AggregateExample2 child3 = new AggregateExample2();
     AggregateExample2 child4 = new AggregateExample2();
     example.setAggregateList(Arrays.asList(child3, child4));
+    example.setElementList(singletonList("evalue1"));
 
     Map<String,Object> headers = info.getHeaders(example);
     assertEquals(2, headers.size());
     assertEquals("3", headers.get("HEADER1"));
     assertEquals("hvalue2", headers.get("ANOTHERHEADER"));
-    assertEquals(4, info.getAttributes().size());
+    assertEquals(5, info.getAttributes().size());
     Iterator<AggregateAttribute> it = info.getAttributes().iterator();
 
     AggregateAttribute elementInfo = it.next();
@@ -94,6 +97,12 @@ public class TestAggregateMetadata extends TestCase {
     assertSame(child2, childAggregate3.get(example));
     childAggregate3.set(child4, example);
     assertSame(child4, example.getAggregate2());
+
+    AggregateAttribute elementListInfo = it.next();
+    assertEquals("SOMEELEMENTLIST", elementListInfo.getName());
+    assertEquals(AggregateAttribute.Type.ELEMENT, elementListInfo.getType());
+    assertEquals(List.class, elementListInfo.getAttributeType());
+    assertEquals(singletonList("evalue1"), elementListInfo.get(example));
 
     assertFalse(it.hasNext());
 
