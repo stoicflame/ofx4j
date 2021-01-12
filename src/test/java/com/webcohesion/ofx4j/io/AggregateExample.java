@@ -34,6 +34,7 @@ public class AggregateExample {
   private String element1;
   private AggregateExample2 aggregate1;
   private AggregateExample2 aggregate2;
+  private List<String> elementList;
   private List aggregateList;
 
   @Header ( name = "HEADER1" )
@@ -57,6 +58,15 @@ public class AggregateExample {
   @Element ( name = "SOMEELEMENT", order = 0 )
   public String getElement1() {
     return element1;
+  }
+
+  @Element ( name = "SOMEELEMENTLIST", order = 30 )
+  public List<String> getElementList() {
+    return elementList;
+  }
+
+  public void setElementList(List<String> elementList) {
+    this.elementList = elementList;
   }
 
   public void setElement1(String element1) {

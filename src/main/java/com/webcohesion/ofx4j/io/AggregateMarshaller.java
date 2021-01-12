@@ -98,16 +98,20 @@ public class AggregateMarshaller {
               if (aggregateAttribute.isCollection()) {
                 attributeName = aggregateInfo.getName();
               }
-              
+
               writer.writeStartAggregate(attributeName);
               writeAggregateAttributes(value, writer, aggregateInfo.getAttributes());
               writer.writeEndAggregate(attributeName);
             }
             break;
           case ELEMENT:
-            String value = getConversion().toString(childValue);
-            if ((value != null) && (!"".equals(value.trim()))) {
-              writer.writeElement(aggregateAttribute.getName(), value);
+            if (childValue instanceof Collection) {
+              //For element lists of children, write them as individual tags.
+              for (Object c : (Collection<?>) childValue) {
+                writeElement(c, writer, aggregateAttribute);
+              }
+            } else {
+              writeElement(childValue, writer, aggregateAttribute);
             }
             break;
           default:
@@ -120,6 +124,12 @@ public class AggregateMarshaller {
     }
   }
 
+  private void writeElement(Object childValue, OFXWriter writer, AggregateAttribute aggregateAttribute) throws IOException {
+    String value = getConversion().toString(childValue);
+    if ((value != null) && (!"".equals(value.trim()))) {
+      writer.writeElement(aggregateAttribute.getName(), value);
+    }
+  }
   /**
    * The conversion.
    *
