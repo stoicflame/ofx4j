@@ -57,6 +57,7 @@ public class TestAggregateMarshaller extends TestCase {
     child3.setElement("child3-element1");
     AggregateExample3 child4 = new AggregateExample3();
     child4.setElement("child4-element1");
+    example.setElementList(Arrays.asList("root-element-list-1", "root-element-list-2"));
     example.setAggregateList(Arrays.asList(child3, child4));
     new AggregateMarshaller().marshal(example, new OFXWriter() {
       public void writeHeaders(Map<String, String> headers) throws IOException {
@@ -87,8 +88,10 @@ public class TestAggregateMarshaller extends TestCase {
     assertEquals(2, headersWritten.size());
     assertEquals("header1", headersWritten.get("HEADER1"));
     assertEquals("header2", headersWritten.get("ANOTHERHEADER"));
-    assertEquals(5, elementValuesWritten.size());
-    assertEquals("SOMEELEMENT", elementValuesWritten.get("root-element1"));
+    assertEquals(7, elementValuesWritten.size());
+    assertEquals("SOMEELEMENTLIST", elementValuesWritten.get("root-element-list-1"));
+    assertEquals("SOMEELEMENTLIST", elementValuesWritten.get("root-element-list-2"));
+    assertEquals("EXAMPLE3EL1", elementValuesWritten.get("child4-element1"));
     assertEquals("EXAMPLE2EL1", elementValuesWritten.get("child1-element1"));
     assertEquals("EXAMPLE2EL1", elementValuesWritten.get("child2-element1"));
     assertEquals("EXAMPLE2EL1", elementValuesWritten.get("child3-element1"));
@@ -121,6 +124,7 @@ public class TestAggregateMarshaller extends TestCase {
     example.setHeader1("header1");
     example.setHeader2("header2");
     example.setElement1("root-element1");
+    example.setElementList(Arrays.asList("root-element-list-1", "root-element-list-2"));
     AggregateExample2 child1 = new AggregateExample2();
     child1.setElement("child1-element1");
     example.setAggregate1(child1);
@@ -160,6 +164,8 @@ public class TestAggregateMarshaller extends TestCase {
     assertEquals("child2-element1", example.getAggregate2().getElement());
     assertNotNull(example.getAggregateList());
     assertEquals(2, example.getAggregateList().size());
+    assertEquals("root-element-list-1", example.getElementList().get(0));
+    assertEquals("root-element-list-2", example.getElementList().get(1));
     assertEquals("child4-element1", ((AggregateExample3) example.getAggregateList().get(0)).getElement());
     assertEquals("child3-element1", ((AggregateExample4) example.getAggregateList().get(1)).getElement());
   }

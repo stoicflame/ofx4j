@@ -40,6 +40,7 @@ public class TestFourOhOneKBalance {
         BalanceList balanceList = new BalanceList();
         BalanceRecord balanceRecord = new BalanceRecord();
         balanceRecord.setCurrency(new Currency());
+        balanceRecord.getCurrency().setExchangeRate(0.1F);
         balanceRecord.setDescription("401K balance");
         balanceRecord.setName("My 401K Account");
         balanceRecord.setTimestamp(new Date());
