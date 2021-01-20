@@ -18,6 +18,7 @@ package com.webcohesion.ofx4j.domain.data.investment.statements;
 
 import com.webcohesion.ofx4j.domain.data.common.StatementResponse;
 import com.webcohesion.ofx4j.domain.data.investment.accounts.InvestmentAccountDetails;
+import com.webcohesion.ofx4j.domain.data.investment.inv401k.Inv401KInfo;
 import com.webcohesion.ofx4j.domain.data.investment.positions.InvestmentPositionList;
 import com.webcohesion.ofx4j.domain.data.seclist.SecurityList;
 import com.webcohesion.ofx4j.domain.data.investment.transactions.InvestmentTransactionList;
@@ -42,6 +43,7 @@ public class InvestmentStatementResponse extends StatementResponse {
   private InvestmentPositionList positionList;
   private InvestmentBalance accountBalance;
   private FourOhOneKBalance fourOhOneKBalance;
+  private Inv401KInfo inv401KInfo;
 
   // This is not actually technically part of the INVSTMTRS, but according to Section 13.8.4,
   // OFX spec, this aggregate can appear in a statement response as part of the SECLISTMSGSRQV1
@@ -173,6 +175,25 @@ public class InvestmentStatementResponse extends StatementResponse {
    */
   public void setFourOhOneKBalance(FourOhOneKBalance fourOhOneKBalance) {
     this.fourOhOneKBalance = fourOhOneKBalance;
+  }
+
+  /**
+   * Gets the 401(k) account info. This is an optional field according to the OFX spec.
+   *
+   * @return the 401(k) account info
+   */
+  @ChildAggregate ( order = 110 )
+  public Inv401KInfo getInv401KInfo() {
+    return inv401KInfo;
+  }
+
+  /**
+   * Sets the 401(k) account balance. This is an optional field according to the OFX spec.
+   *
+   * @param inv401KInfo the 401(k) account info
+   */
+  public void setInv401KInfo(Inv401KInfo inv401KInfo) {
+    this.inv401KInfo = inv401KInfo;
   }
 
   /**
