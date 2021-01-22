@@ -225,4 +225,35 @@ public abstract class BaseBuyInvestmentTransaction extends BaseInvestmentTransac
   public SubAccountType getSubAccountFundEnum() {
     return SubAccountType.fromOfx(getSubAccountFund());
   }
+
+  /**
+   * For 401(k) accounts only. Indicates that the transaction was due to a loan or a loan
+   * repayment, and which loan it was.
+   * @see "Section 13.9.2.4.2, OFX Spec"
+   *
+   * @return the loan id.
+   */
+  public String getLoanId() {
+    return getBuyInvestment().getLoanId();
+  }
+
+  /**
+   * For 401(k) accounts only. Indicates how much of the loan repayment was interest.
+   * @see "Section 13.9.2.4.2, OFX Spec"
+   *
+   * @return how much of the loan repayment was interest.
+   */
+  public Double getLoanInterest() {
+    return getBuyInvestment().getLoanInterest();
+  }
+
+  /**
+   * For 401(k) accounts only. Indicates how much of the loan repayment was principal.
+   * @see "Section 13.9.2.4.2, OFX Spec"
+   *
+   * @return how much of the loan repayment was principal.
+   */
+  public Double getLoanPrincipal() {
+    return getBuyInvestment().getLoanPrincipal();
+  }
 }

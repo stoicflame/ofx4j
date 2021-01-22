@@ -45,6 +45,9 @@ public class BuyInvestmentTransaction {
   private OriginalCurrency originalCurrencyInfo;
   private String subAccountSecurity;
   private String subAccountFund;
+  private String loanId;
+  private Double loanInterest;
+  private Double loanPrincipal;
 
   /**
    * Gets the investment transaction child aggregate.
@@ -291,7 +294,7 @@ public class BuyInvestmentTransaction {
    * info may be set according to the OFX spec. If neither are set, means the default currency.
    * @see "Section 13.9.2.4.3, OFX Spec"
    *
-   * @param currencyCode the currency code for the transaction.
+   * @param currency the currency code for the transaction.
    */
   public void setCurrencyInfo(OriginalCurrency currency) {
     this.currencyInfo = currency;
@@ -379,5 +382,69 @@ public class BuyInvestmentTransaction {
    */
   public SubAccountType getSubAccountFundEnum() {
     return SubAccountType.fromOfx(getSubAccountFund());
+  }
+
+  /**
+   * For 401(k) accounts only. Indicates that the transaction was due to a loan or a loan
+   * repayment, and which loan it was.
+   * @see "Section 13.9.2.4.2, OFX Spec"
+   *
+   * @return the loan id.
+   */
+  @Element(name = "LOANID", order = 150)
+  public String getLoanId() {
+    return loanId;
+  }
+
+  /**
+   * For 401(k) accounts only. Sets the loan id that the transaction was due to.
+   * @see "Section 13.9.2.4.3, OFX Spec"
+   *
+   * @param loanId the loan id.
+   */
+  public void setLoanId(String loanId) {
+    this.loanId = loanId;
+  }
+
+  /**
+   * For 401(k) accounts only. Indicates how much of the loan repayment was interest.
+   * @see "Section 13.9.2.4.2, OFX Spec"
+   *
+   * @return how much of the loan repayment was interest.
+   */
+  @Element(name = "LOANINTEREST", order = 160)
+  public Double getLoanInterest() {
+    return loanInterest;
+  }
+
+  /**
+   * For 401(k) accounts only. Sets how much of the loan repayment was interest.
+   * @see "Section 13.9.2.4.3, OFX Spec"
+   *
+   * @param loanInterest the loan interest.
+   */
+  public void setLoanInterest(Double loanInterest) {
+    this.loanInterest = loanInterest;
+  }
+
+  /**
+   * For 401(k) accounts only. Indicates how much of the loan repayment was principal.
+   * @see "Section 13.9.2.4.2, OFX Spec"
+   *
+   * @return how much of the loan repayment was principal.
+   */
+  @Element(name = "LOANPRINCIPAL", order = 170)
+  public Double getLoanPrincipal() {
+    return loanPrincipal;
+  }
+
+  /**
+   * For 401(k) accounts only. Sets how much of the loan repayment was principal.
+   * @see "Section 13.9.2.4.3, OFX Spec"
+   *
+   * @param loanPrincipal the loan principal.
+   */
+  public void setLoanPrincipal(Double loanPrincipal) {
+    this.loanPrincipal = loanPrincipal;
   }
 }
