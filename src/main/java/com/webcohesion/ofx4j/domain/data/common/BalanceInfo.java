@@ -19,6 +19,7 @@ package com.webcohesion.ofx4j.domain.data.common;
 import com.webcohesion.ofx4j.meta.Aggregate;
 import com.webcohesion.ofx4j.meta.Element;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -27,7 +28,7 @@ import java.util.Date;
 @Aggregate
 public class BalanceInfo {
 
-  private double amount;
+  private BigDecimal amount = BigDecimal.ZERO;
   private Date asOfDate;
 
   /**
@@ -35,9 +36,8 @@ public class BalanceInfo {
    *
    * @return The amount.
    */
-  @Element ( name = "BALAMT", required = true, order = 0)
   public double getAmount() {
-    return amount;
+    return amount.doubleValue();
   }
 
   /**
@@ -46,7 +46,26 @@ public class BalanceInfo {
    * @param amount The amount.
    */
   public void setAmount(double amount) {
-    this.amount = amount;
+    this.amount = BigDecimal.valueOf(amount);
+  }
+  
+  /**
+   * The amount.
+   *
+   * @param amount The amount.
+   */
+  public void setBigDecimalAmount(BigDecimal amount) {
+    this.amount = amount == null? BigDecimal.ZERO : amount;
+  }
+  
+  /**
+   * The amount.
+   *
+   * @return The amount.
+   */
+  @Element ( name = "BALAMT", required = true, order = 0)
+  public BigDecimal getBigDecimalAmount() {
+    return amount;
   }
 
   /**
