@@ -12,7 +12,7 @@ This project provides an implementaion of [OFX](http://ofx.net/) for Java.
 <dependency>
   <groupId>com.webcohesion.ofx4j</groupId>
   <artifactId>ofx4j</artifactId>
-  <version>1.31</version>
+  <version>1.32</version>
 </dependency>
 ```
 
