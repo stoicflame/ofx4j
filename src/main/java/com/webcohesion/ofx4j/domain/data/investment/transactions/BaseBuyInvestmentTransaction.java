@@ -17,6 +17,7 @@
 package com.webcohesion.ofx4j.domain.data.investment.transactions;
 
 import com.webcohesion.ofx4j.domain.data.investment.accounts.SubAccountType;
+import com.webcohesion.ofx4j.domain.data.investment.positions.Inv401KSource;
 import com.webcohesion.ofx4j.domain.data.seclist.SecurityId;
 import com.webcohesion.ofx4j.meta.ChildAggregate;
 
@@ -255,5 +256,26 @@ public abstract class BaseBuyInvestmentTransaction extends BaseInvestmentTransac
    */
   public Double getLoanPrincipal() {
     return getBuyInvestment().getLoanPrincipal();
+  }
+
+  /**
+   * Gets the 401K source for the sale. Should be one of "PRETAX", "AFTERTAX", "MATCH",
+   * "PROFITSHARING", "ROLLOVER", "OTHERVEST", "OTHERNONVEST".  This is an optional field
+   * according to the OFX spec.
+   * @see "Section 13.9.2.4.3, OFX Spec"
+   *
+   * @return the 401k source
+   */
+  public String get401kSource() {
+    return getBuyInvestment().get401kSource();
+  }
+
+  /**
+   * Gets the 401k source as one of the well-known types.
+   *
+   * @return the 401k source or null if its not one of the well-known types
+   */
+  public Inv401KSource get401kSourceEnum() {
+    return Inv401KSource.fromOfx(get401kSource());
   }
 }
