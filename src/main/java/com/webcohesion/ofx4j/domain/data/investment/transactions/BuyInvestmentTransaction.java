@@ -17,6 +17,7 @@
 package com.webcohesion.ofx4j.domain.data.investment.transactions;
 
 import com.webcohesion.ofx4j.domain.data.investment.accounts.SubAccountType;
+import com.webcohesion.ofx4j.domain.data.investment.positions.Inv401KSource;
 import com.webcohesion.ofx4j.domain.data.seclist.SecurityId;
 import com.webcohesion.ofx4j.meta.Aggregate;
 import com.webcohesion.ofx4j.meta.ChildAggregate;
@@ -48,6 +49,7 @@ public class BuyInvestmentTransaction {
   private String loanId;
   private Double loanInterest;
   private Double loanPrincipal;
+  private String inv401kSource;
 
   /**
    * Gets the investment transaction child aggregate.
@@ -447,4 +449,38 @@ public class BuyInvestmentTransaction {
   public void setLoanPrincipal(Double loanPrincipal) {
     this.loanPrincipal = loanPrincipal;
   }
+
+    /**
+     * Gets the 401K source for the buy. Should be one of "PRETAX", "AFTERTAX", "MATCH",
+     * "PROFITSHARING", "ROLLOVER", "OTHERVEST", "OTHERNONVEST".  This is an optional field
+     * according to the OFX spec.
+     * @see "Section 13.9.2.4.3, OFX Spec"
+     *
+     * @return the 401k source
+     */
+    @Element( name = "INV401KSOURCE", order = 180)
+    public String get401kSource() {
+        return inv401kSource;
+    }
+
+    /**
+     * Sets the 401K source for the buy. Should be one of "PRETAX", "AFTERTAX", "MATCH",
+     * "PROFITSHARING", "ROLLOVER", "OTHERVEST", "OTHERNONVEST".  This is an optional field
+     * according to the OFX spec.
+     * @see "Section 13.9.2.4.3, OFX Spec"
+     *
+     * @param inv401kSource the 401k source
+     */
+    public void set401kSource(String inv401kSource) {
+        this.inv401kSource = inv401kSource;
+    }
+
+    /**
+     * Gets the 401k source as one of the well-known types.
+     *
+     * @return the 401k source or null if its not one of the well-known types
+     */
+    public Inv401KSource get401kSourceEnum() {
+        return Inv401KSource.fromOfx(get401kSource());
+    }
 }
