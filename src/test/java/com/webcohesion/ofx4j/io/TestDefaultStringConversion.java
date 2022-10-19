@@ -36,7 +36,7 @@ public class TestDefaultStringConversion extends TestCase {
     Date date = conversion.parseDate("20061005132200.124[-5:EST]");
     GregorianCalendar calendar = new GregorianCalendar();
     calendar.setTime(date);
-    calendar.setTimeZone(DefaultStringConversion.GMT_TIME_ZONE);
+    calendar.setTimeZone(conversion.getGmtTimeZone());
     assertEquals(2006, calendar.get(GregorianCalendar.YEAR));
     assertEquals(GregorianCalendar.OCTOBER, calendar.get(GregorianCalendar.MONTH));
     assertEquals(5, calendar.get(GregorianCalendar.DAY_OF_MONTH));
@@ -49,7 +49,7 @@ public class TestDefaultStringConversion extends TestCase {
     date = conversion.parseDate("20061005132200.124");
     calendar = new GregorianCalendar();
     calendar.setTime(date);
-    calendar.setTimeZone(DefaultStringConversion.GMT_TIME_ZONE);
+    calendar.setTimeZone(conversion.getGmtTimeZone());
     assertEquals(2006, calendar.get(GregorianCalendar.YEAR));
     assertEquals(GregorianCalendar.OCTOBER, calendar.get(GregorianCalendar.MONTH));
     assertEquals(5, calendar.get(GregorianCalendar.DAY_OF_MONTH));
@@ -62,7 +62,7 @@ public class TestDefaultStringConversion extends TestCase {
     date = conversion.parseDate("2006100513");
     calendar = new GregorianCalendar();
     calendar.setTime(date);
-    calendar.setTimeZone(DefaultStringConversion.GMT_TIME_ZONE);
+    calendar.setTimeZone(conversion.getGmtTimeZone());
     assertEquals(2006, calendar.get(GregorianCalendar.YEAR));
     assertEquals(GregorianCalendar.OCTOBER, calendar.get(GregorianCalendar.MONTH));
     assertEquals(5, calendar.get(GregorianCalendar.DAY_OF_MONTH));
@@ -75,7 +75,7 @@ public class TestDefaultStringConversion extends TestCase {
     date = conversion.parseDate("20061005");
     calendar = new GregorianCalendar();
     calendar.setTime(date);
-    calendar.setTimeZone(DefaultStringConversion.GMT_TIME_ZONE);
+    calendar.setTimeZone(conversion.getGmtTimeZone());
     assertEquals(2006, calendar.get(GregorianCalendar.YEAR));
     assertEquals(GregorianCalendar.OCTOBER, calendar.get(GregorianCalendar.MONTH));
     assertEquals(5, calendar.get(GregorianCalendar.DAY_OF_MONTH));
@@ -88,7 +88,7 @@ public class TestDefaultStringConversion extends TestCase {
     date = conversion.parseDate("20060624120000[0:GMT]");
     calendar = new GregorianCalendar();
     calendar.setTime(date);
-    calendar.setTimeZone(DefaultStringConversion.GMT_TIME_ZONE);
+    calendar.setTimeZone(conversion.getGmtTimeZone());
     assertEquals(2006, calendar.get(GregorianCalendar.YEAR));
     assertEquals(GregorianCalendar.JUNE, calendar.get(GregorianCalendar.MONTH));
     assertEquals(24, calendar.get(GregorianCalendar.DAY_OF_MONTH));
@@ -107,7 +107,7 @@ public class TestDefaultStringConversion extends TestCase {
     Time time = conversion.parseTime("132200.124[-5:EST]");
     GregorianCalendar calendar = new GregorianCalendar();
     calendar.setTime(time);
-    calendar.setTimeZone(DefaultStringConversion.GMT_TIME_ZONE);
+    calendar.setTimeZone(conversion.getGmtTimeZone());
     assertEquals(18, calendar.get(GregorianCalendar.HOUR_OF_DAY));
     assertEquals(22, calendar.get(GregorianCalendar.MINUTE));
     assertEquals(0, calendar.get(GregorianCalendar.SECOND));
@@ -117,7 +117,7 @@ public class TestDefaultStringConversion extends TestCase {
     time = conversion.parseTime("132200.124");
     calendar = new GregorianCalendar();
     calendar.setTime(time);
-    calendar.setTimeZone(DefaultStringConversion.GMT_TIME_ZONE);
+    calendar.setTimeZone(conversion.getGmtTimeZone());
     assertEquals(13, calendar.get(GregorianCalendar.HOUR_OF_DAY));
     assertEquals(22, calendar.get(GregorianCalendar.MINUTE));
     assertEquals(0, calendar.get(GregorianCalendar.SECOND));
@@ -127,7 +127,7 @@ public class TestDefaultStringConversion extends TestCase {
     time = conversion.parseTime("13");
     calendar = new GregorianCalendar();
     calendar.setTime(time);
-    calendar.setTimeZone(DefaultStringConversion.GMT_TIME_ZONE);
+    calendar.setTimeZone(conversion.getGmtTimeZone());
     assertEquals(13, calendar.get(GregorianCalendar.HOUR_OF_DAY));
     assertEquals(0, calendar.get(GregorianCalendar.MINUTE));
     assertEquals(0, calendar.get(GregorianCalendar.SECOND));
