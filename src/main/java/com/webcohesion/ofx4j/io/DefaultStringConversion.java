@@ -32,9 +32,17 @@ import java.net.MalformedURLException;
  */
 public class DefaultStringConversion implements StringConversion {
 
-  public static final TimeZone GMT_TIME_ZONE = TimeZone.getTimeZone("GMT");
+  public final TimeZone gmtTimeZone;
   public static final int DATE_FORMAT_LENGTH = "yyyyMMddHHmmss.SSS".length();
   public static final int TIME_FORMAT_LENGTH = "HHmmss.SSS".length();
+  
+  public DefaultStringConversion() {
+	  gmtTimeZone = TimeZone.getTimeZone("GMT");
+  }
+  
+  public DefaultStringConversion(String gmt) {
+	  gmtTimeZone = TimeZone.getTimeZone(gmt);
+  }
 
   public String toString(Object value) {
     if (value == null) {
@@ -149,7 +157,7 @@ public class DefaultStringConversion implements StringConversion {
       calendar.setTimeZone(parseTimeZone(tzoffset));
     }
     else {
-      calendar.setTimeZone(GMT_TIME_ZONE);
+      calendar.setTimeZone(gmtTimeZone);
     }
     calendar.add(GregorianCalendar.MILLISECOND, milli);
 
@@ -163,7 +171,7 @@ public class DefaultStringConversion implements StringConversion {
    * @return The date format.
    */
   protected String formatDate(Date date) {
-    GregorianCalendar calendar = new GregorianCalendar(GMT_TIME_ZONE);
+    GregorianCalendar calendar = new GregorianCalendar(gmtTimeZone);
     calendar.setTime(date);
     return String.format("%1$tY%1$tm%1$td%1$tH%1$tM%1$tS.%1$tL", calendar);
   }
@@ -192,7 +200,7 @@ public class DefaultStringConversion implements StringConversion {
       calendar.setTimeZone(parseTimeZone(tzoffset));
     }
     else {
-      calendar.setTimeZone(GMT_TIME_ZONE);
+      calendar.setTimeZone(gmtTimeZone);
     }
     calendar.add(GregorianCalendar.MILLISECOND, milli);
 
@@ -206,7 +214,7 @@ public class DefaultStringConversion implements StringConversion {
    * @return The formatted time.
    */
   protected String formatTime(Time time) {
-    GregorianCalendar calendar = new GregorianCalendar(GMT_TIME_ZONE);
+    GregorianCalendar calendar = new GregorianCalendar(gmtTimeZone);
     calendar.setTime(time);
     return String.format("%1$tH%1$tM%1$tS.%1$tL", calendar);
   }
@@ -219,7 +227,7 @@ public class DefaultStringConversion implements StringConversion {
    */
   protected TimeZone parseTimeZone(String tzoffset) {
     StringTokenizer tokenizer = new StringTokenizer(tzoffset, "[]:");
-    TimeZone tz = GMT_TIME_ZONE;
+    TimeZone tz = gmtTimeZone;
     if (tokenizer.hasMoreTokens()) {
       String hoursOff = tokenizer.nextToken();
       tz = TimeZone.getTimeZone("GMT" + hoursOff);
@@ -227,4 +235,8 @@ public class DefaultStringConversion implements StringConversion {
 
     return tz;
   }
+
+public TimeZone getGmtTimeZone() {
+	return gmtTimeZone;
+}
 }

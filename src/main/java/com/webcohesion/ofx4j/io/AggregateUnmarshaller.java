@@ -35,6 +35,11 @@ public class AggregateUnmarshaller<A> {
   public AggregateUnmarshaller(Class<A> clazz) {
     this.clazz = clazz;
   }
+  
+  public AggregateUnmarshaller(Class<A> clazz, String gmt) {
+	this(clazz);
+	this.conversion = new DefaultStringConversion(gmt);
+  }
 
   public A unmarshal(InputStream stream) throws IOException, OFXParseException {
     try {
