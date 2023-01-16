@@ -16,6 +16,7 @@
 
 package com.webcohesion.ofx4j.domain.data.investment.positions;
 
+import com.webcohesion.ofx4j.domain.data.common.Currency;
 import com.webcohesion.ofx4j.domain.data.investment.accounts.SubAccountType;
 import com.webcohesion.ofx4j.domain.data.seclist.SecurityId;
 import com.webcohesion.ofx4j.meta.Aggregate;
@@ -40,7 +41,7 @@ public class InvestmentPosition {
   private Double unitPrice;
   private Double marketValue;
   private Date marketValueDate;
-  private String currencyCode;
+  private Currency currencyInfo;
   private String memo;
   private String inv401kSource;
 
@@ -226,26 +227,26 @@ public class InvestmentPosition {
   }
 
   /**
-   * Gets the currency code of the position. This is an optional field according to the OFX spec.
+   * Gets the currency info of the position. This is an optional field according to the OFX spec.
    * If not present, it's the default currency of the account.
    * @see "Section 13.9.2.6.1, OFX Spec"
    *
-   * @return the currency code of the position or null for the default currency
+   * @return the currency info of the position or null for the default currency
    */
-  @Element( name = "CURRENCY", order = 80)
-  public String getCurrencyCode() {
-    return currencyCode;
+  @ChildAggregate( name = "CURRENCY", order = 80)
+  public Currency getCurrencyInfo() {
+    return currencyInfo;
   }
 
   /**
-   * Sets the currency code of the position. This is an optional field according to the OFX spec.
+   * Sets the currency info of the position. This is an optional field according to the OFX spec.
    * If not present, it's the default currency of the account.
    * @see "Section 13.9.2.6.1, OFX Spec"
    *
-   * @param currencyCode the currency code of the position or null for the default currency
+   * @param currencyInfo the currency info of the position or null for the default currency
    */
-  public void setCurrencyCode(String currencyCode) {
-    this.currencyCode = currencyCode;
+  public void setCurrencyInfo(Currency currencyInfo) {
+    this.currencyInfo = currencyInfo;
   }
 
   /**

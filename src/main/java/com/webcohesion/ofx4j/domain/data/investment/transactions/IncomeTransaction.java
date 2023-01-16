@@ -16,6 +16,7 @@
 
 package com.webcohesion.ofx4j.domain.data.investment.transactions;
 
+import com.webcohesion.ofx4j.domain.data.common.Currency;
 import com.webcohesion.ofx4j.domain.data.investment.accounts.SubAccountType;
 import com.webcohesion.ofx4j.domain.data.investment.positions.Inv401KSource;
 import com.webcohesion.ofx4j.domain.data.seclist.SecurityId;
@@ -40,7 +41,7 @@ public class IncomeTransaction extends BaseOtherInvestmentTransaction
   private String subAccountFund;
   private Boolean taxExempt;
   private Double withholding;
-  private String currencyCode;
+  private Currency currencyInfo;
   private OriginalCurrency originalCurrencyInfo;
   private String inv401kSource;
 
@@ -227,32 +228,32 @@ public class IncomeTransaction extends BaseOtherInvestmentTransaction
   }
 
   /**
-   * Gets the currency code for the transaction. Only one of currency code or original currency
+   * Gets the currency info for the transaction. Only one of currency info or original currency
    * info should be set according to the OFX spec. If neither are set, means the default currency.
-   * @see "Section 13.9.2.4.3, OFX Spec"
+   * @see "Section 13.9.2.4.4, OFX Spec"
    *
-   * @return the currency code for the transaction
+   * @return the currency info for the transaction
    */
-  @Element( name = "CURRENCY", order = 90)
-  public String getCurrencyCode() {
-    return currencyCode;
+  @ChildAggregate( name = "CURRENCY", order = 90)
+  public Currency getCurrencyInfo() {
+    return currencyInfo;
   }
 
   /**
-   * Sets the currency code for the transaction. Only one of currency code or original currency
+   * Sets the currency info for the transaction. Only one of currency info or original currency
    * info should be set according to the OFX spec. If neither are set, means the default currency.
-   * @see "Section 13.9.2.4.3, OFX Spec"
+   * @see "Section 13.9.2.4.4, OFX Spec"
    *
-   * @param currencyCode the currency code for the transaction
+   * @param currencyInfo the currency info for the transaction
    */
-  public void setCurrencyCode(String currencyCode) {
-    this.currencyCode = currencyCode;
+  public void setCurrencyInfo(Currency currencyInfo) {
+    this.currencyInfo = currencyInfo;
     this.originalCurrencyInfo = null;
   }
 
   /**
    * Gets the original currency info for the transaction.
-   * @see "Section 13.9.2.4.3, OFX Spec"
+   * @see "Section 13.9.2.4.4, OFX Spec"
    *
    * @return the currency info for the transaction
    */
@@ -263,13 +264,13 @@ public class IncomeTransaction extends BaseOtherInvestmentTransaction
 
   /**
    * Sets the original currency info for the transaction.
-   * @see "Section 13.9.2.4.3, OFX Spec"
+   * @see "Section 13.9.2.4.4, OFX Spec"
    *
    * @param originalCurrencyInfo the currency info for the transaction
    */
   public void setOriginalCurrencyInfo(OriginalCurrency originalCurrencyInfo) {
     this.originalCurrencyInfo = originalCurrencyInfo;
-    this.currencyCode = null;
+    this.currencyInfo = null;
   }
 
   /**

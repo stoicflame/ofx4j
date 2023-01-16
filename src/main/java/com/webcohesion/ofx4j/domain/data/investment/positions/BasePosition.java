@@ -16,6 +16,7 @@
 
 package com.webcohesion.ofx4j.domain.data.investment.positions;
 
+import com.webcohesion.ofx4j.domain.data.common.Currency;
 import com.webcohesion.ofx4j.domain.data.investment.accounts.SubAccountType;
 import com.webcohesion.ofx4j.domain.data.seclist.SecurityId;
 import com.webcohesion.ofx4j.meta.ChildAggregate;
@@ -151,14 +152,14 @@ public class BasePosition {
   }
 
   /**
-   * Gets the currency code of the position. This is an optional field according to the OFX spec.
+   * Gets the currency info of the position. This is an optional field according to the OFX spec.
    * If not present, it's the default currency of the account.
    * @see "Section 13.9.2.6.1, OFX Spec"
    *
-   * @return the currency code of the position or null for the default currency
+   * @return the currency info of the position or null for the default currency
    */
-  public String getCurrencyCode() {
-    return getInvestmentPosition().getCurrencyCode();
+  public Currency getCurrencyInfo() {
+    return getInvestmentPosition().getCurrencyInfo();
   }
 
   /**
