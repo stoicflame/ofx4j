@@ -55,7 +55,7 @@ public class CreditCardAccountDetails implements AccountDetails {
    *
    * @return The account key.
    */
-  @Element ( name = "ACCKEY", order = 10 )
+  @Element ( name = "ACCTKEY", order = 10 )
   public String getAccountKey() {
     return accountKey;
   }
