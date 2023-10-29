@@ -39,6 +39,32 @@
 
   <build>
     <plugins>
+    
+    	  <plugin>
+	    <groupId>org.codehaus.mojo</groupId>
+		<artifactId>jaxb2-maven-plugin</artifactId>
+		<version>3.1.0</version>
+		<executions>
+		  <execution>
+			<id>xjc</id>
+			<goals>
+			  <goal>xjc</goal>
+			</goals>
+		  </execution>
+		</executions>
+	    <configuration>
+		  <!-- The package of your generated sources -->
+		  <packageName>com.webcohesion.ofx4j.generated</packageName>
+		  <sources>
+			<source>src/main/resources/xsd</source>
+		  </sources>
+          <arguments>
+            <argument>-b</argument>
+            <argument>src/main/resources/jaxb-customization.xml</argument>
+          </arguments>
+	    </configuration>
+	  </plugin>
+    
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>

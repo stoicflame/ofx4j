@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2003 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+-->
+
+<xsd:schema 
+  elementFormDefault="unqualified"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ofx="http://ofx.net/types/2003/04"
+  targetNamespace="http://ofx.net/types/2003/04">
+
+  
+  <xsd:include schemaLocation = "OFX_BillerDelivery.xsd" />
+
+  <xsd:complexType name="BillStatusModRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "BILLSTATUSMODRQ" is of type "BillStatusModRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="BILLID" type="ofx:IdType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="BILLSTATUS" type="ofx:BillStatus"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="BILLPMTSTATUS" type="ofx:BillPaymentstatus"
+      minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="BillStatusModResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "BILLSTATUSMODRS" is of type "BillStatusModResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="BILLID" type="ofx:IdType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="BILLSTATUS" type="ofx:BillStatus"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="BILLPMTSTATUS" type="ofx:BillPaymentstatus"
+      minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="BillTableStructureRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "BILLTBLSTRUCTRQ" is of type "BillTableStructureRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="BILLID" type="ofx:IdType" />
+
+      <xsd:element name="BILLDETAILTABLETYPE"
+      type="ofx:GenericNameType" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="BillTableStructureResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "BILLTBLSTRUCTRS" is of type "BillTableStructureResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="BILLID" type="ofx:IdType" />
+
+      <xsd:element name="BILLDETAILTABLETYPE"
+      type="ofx:GenericNameType" />
+
+      <xsd:element name="COLDEF" type="ofx:ColumnDefinition" minOccurs="0"
+      maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentDetailRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESDETAILRQ" is of type "PresentmentDetailRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="BILLID" type="ofx:IdType" />
+
+      <xsd:element name="BILLDETAILTABLETYPE"
+      type="ofx:GenericNameType" minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentDetailResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESDETAILRS" is of type "PresentmentDetailResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="PRESDETAIL" type="ofx:PresentmentDetail"
+      minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentListRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESLISTRQ" is of type "PresentmentListRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="BILLPUB" type="ofx:GenericNameType" />
+
+      <xsd:element name="DTSTART" type="ofx:DateTimeType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="DTEND" type="ofx:DateTimeType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="DTDUEBY" type="ofx:DateTimeType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="BILLERID" type="ofx:IdType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="BILLID" type="ofx:IdType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="BILLTYPE" type="ofx:BillTypeEnum"
+      minOccurs="0" maxOccurs="unbounded" />
+
+      <xsd:element name="BILLSTATUSCODE"
+      type="ofx:BillStatusCodeEnum" minOccurs="0"
+      maxOccurs="unbounded" />
+
+      <xsd:element name="BILLPMTSTATUSCODE"
+      type="ofx:BillPaymentstatusCodeEnum" minOccurs="0"
+      maxOccurs="unbounded" />
+
+      <xsd:element name="NOTIFYWILLING" type="ofx:BooleanType" />
+
+      <xsd:element name="INCLUDEDETAIL" type="ofx:BooleanType" />
+
+      <xsd:element name="INCLUDEBILLSTATUS" type="ofx:BooleanType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="INCLUDEBILLPMTSTATUS" type="ofx:BooleanType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="INCLUDESTATUSHIST" type="ofx:BooleanType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="INCLUDECOUNTS" type="ofx:BooleanType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="INCLUDESUMMARY" type="ofx:BooleanType"
+      minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentListResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESLISTRS" is of type "PresentmentListResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="BILLPUB" type="ofx:GenericNameType" />
+
+      <xsd:element name="USERID" type="ofx:IdType" />
+
+      <xsd:element name="DTSTART" type="ofx:DateTimeType" />
+
+      <xsd:element name="DTEND" type="ofx:DateTimeType" />
+
+      <xsd:element name="PRESLIST" type="ofx:PresentmentList"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="PRESCOUNTS" type="ofx:PresentmentCounts"
+      minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentMailRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESMAILRQ" is of type "PresentmentMailRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="PRESACCTFROM" type="ofx:PresentmentAccount" />
+
+      <xsd:element name="MAIL" type="ofx:Mail" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentMailResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESMAILRS" is of type "PresentmentMailResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="PRESACCTFROM" type="ofx:PresentmentAccount" />
+
+      <xsd:element name="MAIL" type="ofx:Mail" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentNotifyRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESNOTIFYRQ" is of type "PresentmentNotifyRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="PRESDELIVERYID"
+      type="ofx:PresentmentDeliveryId" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentNotifyResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESNOTIFYRS" is of type "PresentmentNotifyResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="PRESDELIVERYID"
+      type="ofx:PresentmentDeliveryId" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

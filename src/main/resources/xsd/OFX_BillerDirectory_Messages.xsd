@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2003 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+-->
+
+<xsd:schema 
+  elementFormDefault="unqualified"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ofx="http://ofx.net/types/2003/04"
+  targetNamespace="http://ofx.net/types/2003/04">
+  
+  <xsd:include schemaLocation = "OFX_BillerDirectory.xsd" />
+  <xsd:complexType name="FindBillerRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "FINDBILLERRQ" is of type "FindBillerRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="DTUPDATE" type="ofx:DateTimeType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="BILLERID" type="ofx:IdType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="NAME" type="ofx:GenericNameType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="ADDR1" type="ofx:AddressType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="ADDR2" type="ofx:AddressType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="ADDR3" type="ofx:AddressType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="CITY" type="ofx:AddressType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="STATE" type="ofx:StateType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="POSTALCODE" type="ofx:ZipType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="COUNTRY" type="ofx:CountryType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="SIC" type="ofx:StandardIndustryCodeType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="CONSUPOSTALCODE" type="ofx:ZipType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="INCIMAGES" type="ofx:BooleanType" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="FindBillerResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "FINDBILLERRS" is of type "FindBillerResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="DTUPDATE" type="ofx:DateTimeType" />
+
+      <xsd:element name="BILLERINFO" type="ofx:BillerInfo"
+      minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+
+	Open Financial Exchange Specification (c)1996-2003 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+	p1	2005-03-11  	altenburgd@businesslogic.com	Initial revision
+-->
+<xsd:schema xmlns:ofx="http://ofx.net/types/2003/04" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ofx.net/types/2003/04" elementFormDefault="unqualified">
+	<xsd:include schemaLocation="OFX_Loans.xsd"/>
+	<xsd:include schemaLocation="OFX_Common.xsd"/>
+	<xsd:complexType name="LoanStatementRequest">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "LOANSTMTRQ" is of type "LoanStatementRequest"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+			<xsd:element name="INCTRAN" type="ofx:IncTransaction" minOccurs="0"/>
+			<xsd:element name="INCTRANIMG" type="ofx:BooleanType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LoanStatementResponse">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "LOANSTMTRS" is of type "LoanStatementResponse"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CURDEF" type="ofx:CurrencyEnum"/>
+			<xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+			<xsd:element name="LOANTRANLIST" type="ofx:LoanTransactionList" minOccurs="0"/>
+			<xsd:element name="PRINBAL" type="ofx:PrincipalBalanceType"/>
+			<xsd:element name="AVAILBAL" type="ofx:AvailableBalance" minOccurs="0"/>
+			<xsd:element name="MKTGINFO" type="ofx:InfoType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AmortizationRequest">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "AMRTSTMTRQ" is of type "AmortizationRequest"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+			<xsd:element name="DTSTART" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="DTEND" type="ofx:DateTimeType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AmortizationResponse">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "AMRTSTMTRS" is of type "AmortizationResponse"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CURDEF" type="ofx:CurrencyEnum"/>
+			<xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+			<xsd:element name="AMRTTRANLIST" type="ofx:AmortizationTransactionList" minOccurs="0"/>
+			<xsd:element name="MKTGINFO" type="ofx:InfoType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AmortizationTransactionList">
+		<xsd:annotation>
+			<xsd:documentation>
+			The OFX element "AMRTSTMTRS" is of type "AmortizationResponse"
+			 </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DTSTART" type="ofx:DateTimeType"/>
+			<xsd:element name="DTEND" type="ofx:DateTimeType"/>
+			<xsd:element name="AMRTSTMTTRN" type="ofx:AmortizationTransaction" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LoanStatementEndRequest">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "LOANSTMTENDRQ" is of type "LoanStatementEndRequest"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+			<xsd:element name="DTSTART" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="DTEND" type="ofx:DateTimeType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LoanStatementEndResponse">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "LOANSTMTENDRS" is of type "LoanStatementEndResponse"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CURDEF" type="ofx:CurrencyEnum"/>
+			<xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+			<xsd:element name="LOANCLOSING" type="ofx:LoanClosing" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LoanMailRequest">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "LOANMAILRQ" is of type "LoanMailRequest"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+			<xsd:element name="MAIL" type="ofx:Mail"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LoanMailResponse">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "LOANMAILRS" is of type "LoanMailResponse"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+			<xsd:element name="MAIL" type="ofx:Mail"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

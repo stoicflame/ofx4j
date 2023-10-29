@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2003 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  xmlns:ofx="http://ofx.net/types/2003/04"
+  targetNamespace="http://ofx.net/types/2003/04">
+
+  
+  <xsd:include schemaLocation = "OFX_Profile.xsd" />
+
+  <xsd:complexType name="ProfileRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PROFRQ" is of type "ProfileRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="CLIENTROUTING"
+      type="ofx:ClientRoutingEnum" />
+
+      <xsd:element name="DTPROFUP" type="ofx:DateTimeType" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ProfileResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PROFRS" is of type "ProfileResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="MSGSETLIST" type="ofx:MessageSetList" />
+
+      <xsd:element name="SIGNONINFOLIST"
+      type="ofx:SignonInfoList" />
+
+      <xsd:element name="DTPROFUP" type="ofx:DateTimeType" />
+
+      <xsd:element name="FINAME" type="ofx:GenericNameType" />
+
+      <xsd:sequence>
+        <xsd:element name="ADDR1" type="ofx:AddressType" />
+
+        <xsd:sequence minOccurs="0" maxOccurs="1">
+          <xsd:element name="ADDR2" type="ofx:AddressType" />
+
+          <xsd:element name="ADDR3" type="ofx:AddressType"
+          minOccurs="0" maxOccurs="1" />
+        </xsd:sequence>
+      </xsd:sequence>
+
+      <xsd:element name="CITY" type="ofx:AddressType" />
+
+      <xsd:element name="STATE" type="ofx:StateType" />
+
+      <xsd:element name="POSTALCODE" type="ofx:ZipType" />
+
+      <xsd:element name="COUNTRY" type="ofx:CountryType" />
+
+      <xsd:element name="CSPHONE" type="ofx:PhoneType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="TSPHONE" type="ofx:PhoneType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="FAXPHONE" type="ofx:PhoneType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="URL" type="ofx:UrlType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="EMAIL" type="ofx:ShortMessageType"
+      minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>
+
+
+

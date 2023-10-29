@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!-- edited with XMLSPY v5 U (http://www.xmlspy.com) by Susan Murphy (Business Logic) -->
+<xsd:schema targetNamespace="http://ofx.net/types/2003/04" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ofx="http://ofx.net/types/2003/04" elementFormDefault="unqualified">
+	<xsd:include schemaLocation="OFX_Messages.xsd"/>
+	<xsd:include schemaLocation="OFX_Investment_Messages.xsd"/>
+	<xsd:include schemaLocation="OFX_Investment_Message_Wrappers.xsd"/>
+	<xsd:include schemaLocation="OFX_Signon_Messages.xsd"/>
+	<xsd:include schemaLocation="OFX_Signon_Message_Wrappers.xsd"/>
+	<xsd:include schemaLocation="OFX_Profile_Message_Wrappers.xsd"/>
+	<xsd:include schemaLocation="OFX_Common.xsd"/>
+	<xsd:include schemaLocation="OFX_Signup_Message_Wrappers.xsd"/>
+	<xsd:include schemaLocation="OFX_SecuritiesList.xsd"/>
+	<xsd:include schemaLocation="OFX_SecuritiesList_Message_Wrappers.xsd"/>
+	<xsd:include schemaLocation="OFX_Banking.xsd"/>
+	<xsd:include schemaLocation="OFX_Banking_Messages.xsd"/>
+	<xsd:include schemaLocation="OFX_Banking_Message_Wrappers.xsd"/>
+	<xsd:include schemaLocation="OFX_Email.xsd"/>
+	<xsd:include schemaLocation="OFX_Email_Messages.xsd"/>
+	<xsd:include schemaLocation="OFX_Email_Message_Wrappers.xsd"/>
+        <xsd:include schemaLocation="OFX_BillPay_Message_Wrappers.xsd"/>
+        <xsd:include schemaLocation="OFX_CreditCard_Message_Wrappers.xsd"/>
+	<xsd:complexType name="OFXTransactionRequestMessage">
+		<xsd:complexContent>
+			<xsd:extension base="ofx:RequestMessage">
+				<xsd:sequence>
+					<xsd:element name="TransactionRequest" type="ofx:AbstractTransactionRequest"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OFXTransactionResponseMessage">
+		<xsd:complexContent>
+			<xsd:extension base="ofx:ResponseMessage">
+				<xsd:sequence>
+					<xsd:element name="TransactionResponse" type="ofx:AbstractTransactionResponse"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OFXSynchronizationRequestMessage">
+		<xsd:complexContent>
+			<xsd:extension base="ofx:RequestMessage">
+				<xsd:sequence>
+					<xsd:element name="SynchronizationRequest" type="ofx:AbstractSyncRequest"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OFXSynchronizationResponseMessage">
+		<xsd:complexContent>
+			<xsd:extension base="ofx:ResponseMessage">
+				<xsd:sequence>
+					<xsd:element name="SynchronizationResponse" type="ofx:AbstractSyncResponse"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OFXSignonRequestMessage">
+		<xsd:complexContent>
+			<xsd:extension base="ofx:SignonRequestMessage">
+				<xsd:sequence>
+					<xsd:element name="SignonRequest" type="ofx:SignonRequest"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OFXSignonResponseMessage">
+		<xsd:complexContent>
+			<xsd:extension base="ofx:SignonResponseMessage">
+				<xsd:sequence>
+					<xsd:element name="SignonResponse" type="ofx:SignonResponse"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OFXHeaderMessage">
+		<xsd:complexContent>
+			<xsd:extension base="ofx:HeaderMessage">
+				<xsd:sequence>
+					<xsd:element name="OFXHEADER" type="xsd:string"/>
+					<xsd:element name="VERSION" type="xsd:string"/>
+                                        <xsd:element name="SECURITY" type="ofx:SecurityEnum"/>
+					<xsd:element name="OLDFILEUID" type="xsd:string"/>
+					<xsd:element name="NEWFILEUID" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SecuritiesListInfo">
+		<xsd:complexContent>
+			<xsd:extension base="ofx:ReferenceInfo">
+				<xsd:sequence>
+					<xsd:element name="SecurityList" type="ofx:SecurityList"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+</xsd:schema>

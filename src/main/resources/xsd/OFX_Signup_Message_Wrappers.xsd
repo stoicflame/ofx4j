@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2003 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Renamed "Account" to "AbstractAccount"
+                                                                Renamed "SyncRequest" to "AbstractSyncRequest"
+                                                                Renamed "SyncResponse" to "AbstractSyncResponse"
+                                                                Renamed "TransactionRequest" to "AbstractTransactionRequest"
+                                                                Renamed "TransactionResponse" to "AbstractTransactionResponse"
+
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+        2.2     2016-03-14      bill.cary@innovision.com        Changes for OFX version 2.2
+        2.2.1   2019-02-19      bill.cary@innovision.com        Add new types for USERINFORQ/RS support.
+-->
+
+<xsd:schema 
+  elementFormDefault="unqualified"
+  targetNamespace="http://ofx.net/types/2003/04" 
+  xmlns:ofx="http://ofx.net/types/2003/04" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:include schemaLocation="OFX_Signup_Messages.xsd"/>
+  <xsd:complexType name="AccountInfoTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "ACCTINFOTRNRQ" is of type "AccountInfoTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+      <xsd:complexContent>
+        <xsd:extension base="ofx:AbstractTransactionRequest">
+          <xsd:sequence>
+            <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="ACCTINFORQ" type="ofx:AccountInfoRequest"/>
+          </xsd:sequence>
+        </xsd:extension>
+      </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="AccountInfoTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "ACCTINFOTRNRS" is of type "AccountInfoTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="ACCTINFORS" type="ofx:AccountInfoResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+
+  </xsd:complexType>
+  <xsd:complexType name="AccountSyncRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "ACCTSYNCRQ" is of type "AccountSyncRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="ACCTTRNRQ" type="ofx:AccountTransactionRequest" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="AccountSyncResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "ACCTSYNCRS" is of type "AccountSyncResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="ACCTTRNRS" type="ofx:AccountTransactionResponse" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="AccountTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "ACCTTRNRQ" is of type "AccountTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="ACCTRQ" type="ofx:AccountRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="AccountTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "ACCTTRNRS" is of type "AccountTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="ACCTRS" type="ofx:AccountResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="UserInfoTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "USERINFOTRNRQ" is of type "UserInfoTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+      <xsd:complexContent>
+        <xsd:extension base="ofx:AbstractTransactionRequest">
+          <xsd:sequence>
+            <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="USERINFORQ" type="ofx:UserInfoRequest"/>
+          </xsd:sequence>
+        </xsd:extension>
+      </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="UserInfoTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "USERINFOTRNRS" is of type "UserInfoTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="USERINFORS" type="ofx:UserInfoResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="ChangeUserInfoSyncRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CHGUSERINFOSYNCRQ" is of type "ChangeUserInfoSyncRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="CHGUSERINFOTRNRQ" type="ofx:ChangeUserInfoTransactionRequest" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="ChangeUserInfoSyncResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CHGUSERINFOSYNCRS" is of type "ChangeUserInfoSyncResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="CHGUSERINFOTRNRS" type="ofx:ChangeUserInfoTransactionResponse" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="ChangeUserInfoTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CHGUSERINFOTRNRQ" is of type "ChangeUserInfoTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="CHGUSERINFORQ" type="ofx:ChangeUserInfoRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="ChangeUserInfoTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CHGUSERINFOTRNRS" is of type "ChangeUserInfoTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="CHGUSERINFORS" type="ofx:ChangeUserInfoResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="EnrollTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "ENROLLTRNRQ" is of type "EnrollTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="ENROLLRQ" type="ofx:EnrollRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="EnrollTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "ENROLLTRNRS" is of type "EnrollTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="ENROLLRS" type="ofx:EnrollResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+</xsd:schema>

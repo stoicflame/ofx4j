@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2003 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+        2.2     2016-03-14      bill.cary@innovision.com        Changes for OFX version 2.2        
+
+-->
+
+<xsd:schema 
+  elementFormDefault="unqualified"  
+  targetNamespace="http://ofx.net/types/2003/04" 
+  xmlns:ofx="http://ofx.net/types/2003/04" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:include schemaLocation="OFX_CreditCard_Messages.xsd"/>
+  <xsd:complexType name="CreditCardStatementEndTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CCSTMTENDTRNRQ" is of type "CreditCardStatementEndTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="CCSTMTENDRQ" type="ofx:CreditCardStatementEndRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="CreditCardStatementEndTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CCSTMTENDTRNRS" is of type "CreditCardStatementEndTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="CCSTMTENDRS" type="ofx:CreditCardStatementEndResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="CreditCardStatementTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CCSTMTTRNRQ" is of type "CreditCardStatementTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="CCSTMTRQ" type="ofx:CreditCardStatementRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="CreditCardStatementTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CCSTMTTRNRS" is of type "CreditCardStatementTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="CCSTMTRS" type="ofx:CreditCardStatementResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+</xsd:schema>

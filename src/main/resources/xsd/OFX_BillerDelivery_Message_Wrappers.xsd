@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2003 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Renamed "Account" to "AbstractAccount"
+                                                                Renamed "SyncRequest" to "AbstractSyncRequest"
+                                                                Renamed "SyncResponse" to "AbstractSyncResponse"
+                                                                Renamed "TransactionRequest" to "AbstractTransactionRequest"
+                                                                Renamed "TransactionResponse" to "AbstractTransactionResponse"
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+        2.2     2016-03-14      bill.cary@innovision.com        Changes for OFX version 2.2        
+
+-->
+
+<xsd:schema 
+  elementFormDefault="unqualified"
+  targetNamespace="http://ofx.net/types/2003/04" xmlns:ofx="http://ofx.net/types/2003/04" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="OFX_BillerDelivery_Messages.xsd"/>
+  <xsd:complexType name="BillStatusModTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "BILLSTATUSMODTRNRQ" is of type "BillStatusModTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="BILLSTATUSMODRQ" type="ofx:BillStatusModRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="BillStatusModTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "BILLSTATUSMODTRNRS" is of type "BillStatusModTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="BILLSTATUSMODRS" type="ofx:BillStatusModResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="BillTableStructureTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "BILLTBLSTRUCTTRNRQ" is of type "BillTableStructureTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="BILLTBLSTRUCTRQ" type="ofx:BillTableStructureRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="BillTableStructureTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "BILLTBLSTRUCTTRNRS" is of type "BillTableStructureTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="BILLTBLSTRUCTRS" type="ofx:BillTableStructureResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentDetailTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESDETAILTRNRQ" is of type "PresentmentDetailTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PRESDETAILRQ" type="ofx:PresentmentDetailRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentDetailTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESDETAILTRNRS" is of type "PresentmentDetailTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PRESDETAILRS" type="ofx:PresentmentDetailResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentGroupAccountInfoTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESGRPACCTINFOTRNRQ" is of type "PresentmentGroupAccountInfoTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:choice minOccurs="0">
+            <xsd:element name="USERID" type="ofx:IdType"/>
+            <xsd:element name="GROUPID" type="ofx:IdType"/>
+          </xsd:choice>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="ACCTINFORQ" type="ofx:AccountInfoRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentGroupAccountInfoTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESGRPACCTINFOTRNRS" is of type "PresentmentGroupAccountInfoTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="ACCTINFORS" type="ofx:AccountInfoResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentListTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESLISTTRNRQ" is of type "PresentmentListTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:choice minOccurs="0">
+            <xsd:element name="USERID" type="ofx:IdType"/>
+            <xsd:element name="GROUPID" type="ofx:IdType"/>
+          </xsd:choice>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PRESLISTRQ" type="ofx:PresentmentListRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentListTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESLISTTRNRS" is of type "PresentmentListTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PRESLISTRS" type="ofx:PresentmentListResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentMailSyncRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESMAILSYNCRQ" is of type "PresentmentMailSyncRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncRequest">
+        <xsd:sequence>
+          <xsd:element name="INCIMAGES" type="ofx:BooleanType"/>
+          <xsd:element name="USEHTML" type="ofx:BooleanType"/>
+          <xsd:element name="PRESACCTFROM" type="ofx:PresentmentAccount"/>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PRESMAILTRNRQ" type="ofx:PresentmentMailTransactionRequest" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentMailSyncResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESMAILSYNCRS" is of type "PresentmentMailSyncResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncResponse">
+        <xsd:sequence>
+          <xsd:element name="PRESACCTFROM" type="ofx:PresentmentAccount"/>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PRESMAILTRNRS" type="ofx:PresentmentMailTransactionResponse" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentMailTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESMAILTRNRQ" is of type "PresentmentMailTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PRESMAILRQ" type="ofx:PresentmentMailRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentMailTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESMAILTRNRS" is of type "PresentmentMailTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PRESMAILRS" type="ofx:PresentmentMailResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentNotifyTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESNOTIFYTRNRQ" is of type "PresentmentNotifyTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PRESNOTIFYRQ" type="ofx:PresentmentNotifyRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PresentmentNotifyTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PRESNOTIFYTRNRS" is of type "PresentmentNotifyTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PRESNOTIFYRS" type="ofx:PresentmentNotifyResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+</xsd:schema>

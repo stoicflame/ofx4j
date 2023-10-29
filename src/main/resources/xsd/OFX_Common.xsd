@@ -1,0 +1,2801 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+	Open Financial Exchange Specification (c)1996-2004 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+
+	p14	2002-02-03  	altenburgd@businesslogic.com	Created abstract type 'Account' 
+                                                                and changed 'BankAccount' and 
+                                                                'CreditCardAccount' to extend that type
+
+        p19     2002-02-18      altenburgd@businesslogic.com    Inlined the AccountInfoMacro
+        p20     2002-03-10      altenburgd@businesslogic.com    Created abstract type 'AbstractAccountInfo' and made BankAccountInfo, CreditCardAccountInfo,
+                                                                   BillPaymentAccountInfo, InvestmentAccountInfo, and PresentmentAccountInfo to extend it
+                                                                Made InvestmentAccount and PresentmentAccount to extent abstract Account
+        p21     2002-03-17      altenburgd@businesslogic.com    Renamed "Account" to "AbstractAccount"
+                                                                Renamed "SyncRequest" to "AbstractSyncRequest"
+                                                                Renamed "SyncResponse" to "AbstractSyncResponse"
+                                                                Renamed "TransactionRequest" to "AbstractTransactionRequest"
+                                                                Renamed "TransactionResponse" to "AbstractTransactionResponse"
+                                                                Created AbstractRequest and made AbstractSyncRequest and AbstractTransactionRequest extend it
+                                                                Created AbstractResponse and made AbstractSyncResponse and AbstractTransactionResponse extend it
+
+        p21     2002-03-17     altenburgd@businesslogic.com     Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+        p23    2002-05-13      altenburgd@businesslogic.com     Bugfixes based on Intuit Schema QA
+        RC2    2002-06-02      altenburgd@businesslogic.com     Moved CLTCOOKIE to end on AbstractTransactionResponse
+        RC3    2002-06-02      altenburgd@businesslogic.com     Changed RateType to restrict a decimal
+	RC4    2003-06-24      gil_clark@intuit.com             Added collapse to fixed length, non-string types and enums.
+	RC5    2003-07-22      gil_clark@intuit.com             Misc small bug fixes.
+	RC6    2003-07-30      gil_clark@intuit.com             Min length for datetime type now 8, for time type now 6.
+               2004-02-02      altenburgd@businesslogic.com     Replaced maxLength facet with pattern facet in YearType gYear restriction
+        p1.1   2005-02-28      altenburgd@businesslogic.com     Added Loan simple types
+	p2.1   2006-06-13      wendy_dubois@intuit.com          small bug fixes
+   p 2.1   2007-08-02      altenburgd@businesslogic.com  Made the LoanPaymentAmount's "ESCRWAMT" element be of type "EscrowAmount".
+     2.2   2016-05-23      bill.cary@innovision.com      Changes for OFX version 2.2
+     2.2   2016-06-30      bill.cary@innovision.com      Additional changes for OFX version 2.2
+     2.2   2017-05-10      bill.cary@innovision.com      Additional changes for OFX version 2.2
+     2.2.1 2018-10-18      bill.cary@innovision.com      Added OTHERACCTINFO aggregate into BankAccountInfo, CreditCardAccountInfo, BillPaymentAccountInfo, 
+                                                         InvestmentAccountInfo & LoanAccountInfo
+                                                         Fix bug in PRESACCTFROM and PRESACCTTO (PresentmentAccount type)
+     2.2.1 2019-02-19      bill.cary@innovision.com      Added optional CONTACTPROFENC|CONTACTPROF to ACCTINFO. 
+                                                         Conditionally deprecated PHONE within ACCTINFO.  CONTACTPROFENC|CONTACTPROF is preferred approach. 
+                                                         Deprecated HOLDERINFO within ACCTINFO.  CONTACTPROFENC|CONTACTPROF is preferred approach. 
+                                                         Added optional PARENTACCTID to CCACCTINFO 
+                                                         Add USERINFORQ/RS support. This includes CONTACTPROFENC|CONTACTPROF which is similar to ACCTINFORQ/RS's CONTACTPROFENC|CONTACTPROF.
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ofx="http://ofx.net/types/2003/04" targetNamespace="http://ofx.net/types/2003/04" elementFormDefault="unqualified">
+	<xsd:annotation>
+		<xsd:documentation>
+      Common types and aggregates as defined in Chapter 3 of the specification document
+    </xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="AbstractAccount" abstract="true"/>
+	<xsd:complexType name="Balance">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BAL" is of type "Balance"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="NAME" type="ofx:GenericNameType"/>
+			<xsd:element name="DESC" type="ofx:ShortMessageType"/>
+			<xsd:element name="BALTYPE" type="ofx:BalanceEnum"/>
+			<xsd:element name="VALUE" type="ofx:AmountType"/>
+			<xsd:element name="DTASOF" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="CURRENCY" type="ofx:Currency" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Status">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "STATUS" is of type "Status"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CODE" type="ofx:ErrorType"/>
+			<xsd:element name="SEVERITY" type="ofx:SeverityEnum"/>
+			<xsd:element name="MESSAGE" type="ofx:MessageType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="AccountEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "ACCTTYPE" is of type "AccountEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="CHECKING"/>
+			<xsd:enumeration value="SAVINGS"/>
+			<xsd:enumeration value="MONEYMRKT"/>
+			<xsd:enumeration value="CREDITLINE"/>
+			<xsd:enumeration value="CD"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AccountIdType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "ACCTID" is of type "AccountIdType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="22"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AddressType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "ADDRESS" is of type "AddressType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="32"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AmountType">
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="32"/>
+			<xsd:minLength value="1"/>
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:pattern value="[\+\-]?[0-9]*(([0-9][,\.]?)|([,\.][0-9]))[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BalanceEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BALANCEENUM" is of type "BalanceEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="DOLLAR"/>
+			<xsd:enumeration value="PERCENT"/>
+			<xsd:enumeration value="NUMBER"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BankIdType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BANKID" is of type "BankIdType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="9"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BillRefInfoType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BILLREFINFO" is of type "BillRefInfoType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="80"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BooleanType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BOOL" is of type "BooleanType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Y"/>
+			<xsd:enumeration value="N"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BrokerIdType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BROKERID" is of type "BrokerIdType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="22"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CharType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CHAR" is of type "CharType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CheckNumberType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CHECKNUM" is of type "CheckNumberType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="12"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CorrectiveActionEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CORRECTIVEACTENUM" is of type "CorrectiveActionEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="REPLACE"/>
+			<xsd:enumeration value="DELETE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CountryStringType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "COUNTRYSTRING" is of type "CountryStringType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CountryType">
+		<xsd:annotation>
+			<xsd:documentation>
+        Should be the three-letter country code from ISO/DIS-3166
+        The OFX element "COUNTRY" is of type "CountryType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="3"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CurrencyEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        These values are based on the ISO-4217 three-letter currency identifiers.
+        The OFX element "CURRENCYENUM" is of type "CurrencyEnum".
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="AED"/>
+			<xsd:enumeration value="AFA"/>
+			<xsd:enumeration value="ALL"/>
+			<xsd:enumeration value="AMD"/>
+			<xsd:enumeration value="ANG"/>
+			<xsd:enumeration value="AOA"/>
+			<xsd:enumeration value="ARS"/>
+			<xsd:enumeration value="AUD"/>
+			<xsd:enumeration value="AWG"/>
+			<xsd:enumeration value="AZM"/>
+			<xsd:enumeration value="BAM"/>
+			<xsd:enumeration value="BBD"/>
+			<xsd:enumeration value="BDT"/>
+			<xsd:enumeration value="BGL"/>
+			<xsd:enumeration value="BHD"/>
+			<xsd:enumeration value="BIF"/>
+			<xsd:enumeration value="BMD"/>
+			<xsd:enumeration value="BND"/>
+			<xsd:enumeration value="BOB"/>
+			<xsd:enumeration value="BRL"/>
+			<xsd:enumeration value="BSD"/>
+			<xsd:enumeration value="BTN"/>
+			<xsd:enumeration value="BWP"/>
+			<xsd:enumeration value="BYR"/>
+			<xsd:enumeration value="BZD"/>
+			<xsd:enumeration value="CAD"/>
+			<xsd:enumeration value="CDF"/>
+			<xsd:enumeration value="CHF"/>
+			<xsd:enumeration value="CLP"/>
+			<xsd:enumeration value="CNY"/>
+			<xsd:enumeration value="COP"/>
+			<xsd:enumeration value="CRC"/>
+			<xsd:enumeration value="CUP"/>
+			<xsd:enumeration value="CVE"/>
+			<xsd:enumeration value="CYP"/>
+			<xsd:enumeration value="CZK"/>
+			<xsd:enumeration value="DJF"/>
+			<xsd:enumeration value="DKK"/>
+			<xsd:enumeration value="DOP"/>
+			<xsd:enumeration value="DZD"/>
+			<xsd:enumeration value="EEK"/>
+			<xsd:enumeration value="EGP"/>
+			<xsd:enumeration value="ERN"/>
+			<xsd:enumeration value="ETB"/>
+			<xsd:enumeration value="EUR"/>
+			<xsd:enumeration value="FJD"/>
+			<xsd:enumeration value="FKP"/>
+			<xsd:enumeration value="GBP"/>
+			<xsd:enumeration value="GEL"/>
+			<xsd:enumeration value="GGP"/>
+			<xsd:enumeration value="GHC"/>
+			<xsd:enumeration value="GIP"/>
+			<xsd:enumeration value="GMD"/>
+			<xsd:enumeration value="GNF"/>
+			<xsd:enumeration value="GTQ"/>
+			<xsd:enumeration value="GYD"/>
+			<xsd:enumeration value="HKD"/>
+			<xsd:enumeration value="HNL"/>
+			<xsd:enumeration value="HRK"/>
+			<xsd:enumeration value="HTG"/>
+			<xsd:enumeration value="HUF"/>
+			<xsd:enumeration value="IDR"/>
+			<xsd:enumeration value="ILS"/>
+			<xsd:enumeration value="IMP"/>
+			<xsd:enumeration value="INR"/>
+			<xsd:enumeration value="IQD"/>
+			<xsd:enumeration value="IRR"/>
+			<xsd:enumeration value="ISK"/>
+			<xsd:enumeration value="JEP"/>
+			<xsd:enumeration value="JMD"/>
+			<xsd:enumeration value="JOD"/>
+			<xsd:enumeration value="JPY"/>
+			<xsd:enumeration value="KES"/>
+			<xsd:enumeration value="KGS"/>
+			<xsd:enumeration value="KHR"/>
+			<xsd:enumeration value="KMF"/>
+			<xsd:enumeration value="KPW"/>
+			<xsd:enumeration value="KRW"/>
+			<xsd:enumeration value="KWD"/>
+			<xsd:enumeration value="KYD"/>
+			<xsd:enumeration value="KZT"/>
+			<xsd:enumeration value="LAK"/>
+			<xsd:enumeration value="LBP"/>
+			<xsd:enumeration value="LKR"/>
+			<xsd:enumeration value="LRD"/>
+			<xsd:enumeration value="LSL"/>
+			<xsd:enumeration value="LTL"/>
+			<xsd:enumeration value="LVL"/>
+			<xsd:enumeration value="LYD"/>
+			<xsd:enumeration value="MAD"/>
+			<xsd:enumeration value="MDL"/>
+			<xsd:enumeration value="MGF"/>
+			<xsd:enumeration value="MKD"/>
+			<xsd:enumeration value="MMK"/>
+			<xsd:enumeration value="MNT"/>
+			<xsd:enumeration value="MOP"/>
+			<xsd:enumeration value="MRO"/>
+			<xsd:enumeration value="MTL"/>
+			<xsd:enumeration value="MUR"/>
+			<xsd:enumeration value="MVR"/>
+			<xsd:enumeration value="MWK"/>
+			<xsd:enumeration value="MXN"/>
+			<xsd:enumeration value="MYR"/>
+			<xsd:enumeration value="MZM"/>
+			<xsd:enumeration value="NAD"/>
+			<xsd:enumeration value="NGN"/>
+			<xsd:enumeration value="NIO"/>
+			<xsd:enumeration value="NOK"/>
+			<xsd:enumeration value="NPR"/>
+			<xsd:enumeration value="NZD"/>
+			<xsd:enumeration value="OMR"/>
+			<xsd:enumeration value="PAB"/>
+			<xsd:enumeration value="PEN"/>
+			<xsd:enumeration value="PGK"/>
+			<xsd:enumeration value="PHP"/>
+			<xsd:enumeration value="PKR"/>
+			<xsd:enumeration value="PLN"/>
+			<xsd:enumeration value="PYG"/>
+			<xsd:enumeration value="QAR"/>
+			<xsd:enumeration value="ROL"/>
+			<xsd:enumeration value="RUR"/>
+			<xsd:enumeration value="RWF"/>
+			<xsd:enumeration value="SAR"/>
+			<xsd:enumeration value="SBD"/>
+			<xsd:enumeration value="SCR"/>
+			<xsd:enumeration value="SDD"/>
+			<xsd:enumeration value="SEK"/>
+			<xsd:enumeration value="SGD"/>
+			<xsd:enumeration value="SHP"/>
+			<xsd:enumeration value="SIT"/>
+			<xsd:enumeration value="SKK"/>
+			<xsd:enumeration value="SLL"/>
+			<xsd:enumeration value="SOS"/>
+			<xsd:enumeration value="SPL"/>
+			<xsd:enumeration value="SRG"/>
+			<xsd:enumeration value="STD"/>
+			<xsd:enumeration value="SVC"/>
+			<xsd:enumeration value="SYP"/>
+			<xsd:enumeration value="SZL"/>
+			<xsd:enumeration value="THB"/>
+			<xsd:enumeration value="TJS"/>
+			<xsd:enumeration value="TMM"/>
+			<xsd:enumeration value="TND"/>
+			<xsd:enumeration value="TOP"/>
+			<xsd:enumeration value="TRL"/>
+			<xsd:enumeration value="TTD"/>
+			<xsd:enumeration value="TVD"/>
+			<xsd:enumeration value="TWD"/>
+			<xsd:enumeration value="TZS"/>
+			<xsd:enumeration value="UAH"/>
+			<xsd:enumeration value="UGX"/>
+			<xsd:enumeration value="USD"/>
+			<xsd:enumeration value="UYU"/>
+			<xsd:enumeration value="UZS"/>
+			<xsd:enumeration value="VEB"/>
+			<xsd:enumeration value="VND"/>
+			<xsd:enumeration value="VUV"/>
+			<xsd:enumeration value="WST"/>
+			<xsd:enumeration value="XAF"/>
+			<xsd:enumeration value="XAG"/>
+			<xsd:enumeration value="XAU"/>
+			<xsd:enumeration value="XCD"/>
+			<xsd:enumeration value="XDR"/>
+			<xsd:enumeration value="XOF"/>
+			<xsd:enumeration value="XPD"/>
+			<xsd:enumeration value="XPF"/>
+			<xsd:enumeration value="XPT"/>
+			<xsd:enumeration value="YER"/>
+			<xsd:enumeration value="YUM"/>
+			<xsd:enumeration value="ZAR"/>
+			<xsd:enumeration value="ZMK"/>
+			<xsd:enumeration value="ZWD"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CusipType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CUSIP" is of type "CusipType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DayspanType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "DAYSPAN" is of type "DayspanType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="3"/>
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:pattern value="[0-9]+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DateTimeType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "DTTM" is of type "DateTimeType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:minLength value="8"/>
+			<xsd:pattern value="[0-9]{4}((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))|[0-9]{4}((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))[0-5][0-9](([0-5][0-9])|(60))|[0-9]{4}((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))[0-5][0-9](([0-5][0-9])|(60))\.[0-9]{3}|[0-9]{4}((0[1-9])|(1[0-2]))((0[1-9])|([1-2][0-9])|(3[0-1]))(([0-1][0-9])|(2[0-3]))[0-5][0-9](([0-5][0-9])|(60))\.[0-9]{3}(\[[\+\-]?.+(:.+)?\])?"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ErrorType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "ERROR" is of type "ErrorType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="6"/>
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:pattern value="[0-9]+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FinancialInstitutionIdType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "FIID" is of type "FinancialInstitutionIdType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FinancialInstitutionTransactionIdType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "FITID" is of type "FinancialInstitutionTransactionIdType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FrequencyEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "FREQENUM" is of type "FrequencyEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="WEEKLY"/>
+			<xsd:enumeration value="BIWEEKLY"/>
+			<xsd:enumeration value="TWICEMONTHLY"/>
+			<xsd:enumeration value="MONTHLY"/>
+			<xsd:enumeration value="FOURWEEKS"/>
+			<xsd:enumeration value="BIMONTHLY"/>
+			<xsd:enumeration value="QUARTERLY"/>
+			<xsd:enumeration value="SEMIANNUALLY"/>
+			<xsd:enumeration value="ANNUALLY"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="InvestmentFrequencyEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "FREQENUM" is of type "FrequencyEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="WEEKLY"/>
+			<xsd:enumeration value="BIWEEKLY"/>
+			<xsd:enumeration value="TWICEMONTHLY"/>
+			<xsd:enumeration value="MONTHLY"/>
+			<xsd:enumeration value="FOURWEEKS"/>
+			<xsd:enumeration value="BIMONTHLY"/>
+			<xsd:enumeration value="QUARTERLY"/>
+			<xsd:enumeration value="SEMIANNUALLY"/>
+			<xsd:enumeration value="ANNUALLY"/>
+			<xsd:enumeration value="OTHER"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="GenericDescriptionType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "GENDESC" is of type "GenericDescriptionType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="GenericNameType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "GENNAME" is of type "GenericNameType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="IdType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "ID" is of type "IdType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="InfoType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INFO" is of type "InfoType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="360"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Investment401kSourceEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INV401KSOURCEENUM" is of type "Investment401kSourceEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="PRETAX"/>
+			<xsd:enumeration value="AFTERTAX"/>
+			<xsd:enumeration value="MATCH"/>
+			<xsd:enumeration value="PROFITSHARING"/>
+			<xsd:enumeration value="ROLLOVER"/>
+			<xsd:enumeration value="OTHERVEST"/>
+			<xsd:enumeration value="OTHERNONVEST"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="InvestmentAccountEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INVESTMENTACCOUNTENUM" is of type "InvestmentAccountEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="INDIVIDUAL"/>
+			<xsd:enumeration value="JOINT"/>
+			<xsd:enumeration value="TRUST"/>
+			<xsd:enumeration value="CORPORATE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="InvestmentNumberType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INVNO" is of type "InvestmentNumberType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LanguageEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The accepted values are based on the ISO-639 three-letter language codes.
+        The OFX element "LANGUAGEENUM" is of type "LanguageEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="AAR"/>
+			<xsd:enumeration value="ABK"/>
+			<xsd:enumeration value="ACE"/>
+			<xsd:enumeration value="ACH"/>
+			<xsd:enumeration value="ADA"/>
+			<xsd:enumeration value="AFA"/>
+			<xsd:enumeration value="AFH"/>
+			<xsd:enumeration value="AFR"/>
+			<xsd:enumeration value="AKA"/>
+			<xsd:enumeration value="AKK"/>
+			<xsd:enumeration value="ALB"/>
+			<xsd:enumeration value="ALE"/>
+			<xsd:enumeration value="ALG"/>
+			<xsd:enumeration value="AMH"/>
+			<xsd:enumeration value="ANG"/>
+			<xsd:enumeration value="APA"/>
+			<xsd:enumeration value="ARA"/>
+			<xsd:enumeration value="ARC"/>
+			<xsd:enumeration value="ARG"/>
+			<xsd:enumeration value="ARM"/>
+			<xsd:enumeration value="ARN"/>
+			<xsd:enumeration value="ARP"/>
+			<xsd:enumeration value="ART"/>
+			<xsd:enumeration value="ARW"/>
+			<xsd:enumeration value="ASM"/>
+			<xsd:enumeration value="AST"/>
+			<xsd:enumeration value="ATH"/>
+			<xsd:enumeration value="AUS"/>
+			<xsd:enumeration value="AVA"/>
+			<xsd:enumeration value="AVE"/>
+			<xsd:enumeration value="AWA"/>
+			<xsd:enumeration value="AYM"/>
+			<xsd:enumeration value="AZE"/>
+			<xsd:enumeration value="BAD"/>
+			<xsd:enumeration value="BAI"/>
+			<xsd:enumeration value="BAK"/>
+			<xsd:enumeration value="BAL"/>
+			<xsd:enumeration value="BAM"/>
+			<xsd:enumeration value="BAN"/>
+			<xsd:enumeration value="BAQ"/>
+			<xsd:enumeration value="BAS"/>
+			<xsd:enumeration value="BAT"/>
+			<xsd:enumeration value="BEJ"/>
+			<xsd:enumeration value="BEL"/>
+			<xsd:enumeration value="BEM"/>
+			<xsd:enumeration value="BEN"/>
+			<xsd:enumeration value="BER"/>
+			<xsd:enumeration value="BHO"/>
+			<xsd:enumeration value="BIH"/>
+			<xsd:enumeration value="BIK"/>
+			<xsd:enumeration value="BIN"/>
+			<xsd:enumeration value="BIS"/>
+			<xsd:enumeration value="BLA"/>
+			<xsd:enumeration value="BNT"/>
+			<xsd:enumeration value="BOS"/>
+			<xsd:enumeration value="BRA"/>
+			<xsd:enumeration value="BRE"/>
+			<xsd:enumeration value="BTK"/>
+			<xsd:enumeration value="BUA"/>
+			<xsd:enumeration value="BUG"/>
+			<xsd:enumeration value="BUL"/>
+			<xsd:enumeration value="BUR"/>
+			<xsd:enumeration value="CAD"/>
+			<xsd:enumeration value="CAI"/>
+			<xsd:enumeration value="CAR"/>
+			<xsd:enumeration value="CAT"/>
+			<xsd:enumeration value="CAU"/>
+			<xsd:enumeration value="CEB"/>
+			<xsd:enumeration value="CEL"/>
+			<xsd:enumeration value="CHA"/>
+			<xsd:enumeration value="CHB"/>
+			<xsd:enumeration value="CHE"/>
+			<xsd:enumeration value="CHG"/>
+			<xsd:enumeration value="CHI"/>
+			<xsd:enumeration value="CHK"/>
+			<xsd:enumeration value="CHM"/>
+			<xsd:enumeration value="CHN"/>
+			<xsd:enumeration value="CHO"/>
+			<xsd:enumeration value="CHP"/>
+			<xsd:enumeration value="CHR"/>
+			<xsd:enumeration value="CHU"/>
+			<xsd:enumeration value="CHV"/>
+			<xsd:enumeration value="CHY"/>
+			<xsd:enumeration value="CMC"/>
+			<xsd:enumeration value="COP"/>
+			<xsd:enumeration value="COR"/>
+			<xsd:enumeration value="COS"/>
+			<xsd:enumeration value="CPE"/>
+			<xsd:enumeration value="CPF"/>
+			<xsd:enumeration value="CPP"/>
+			<xsd:enumeration value="CRE"/>
+			<xsd:enumeration value="CRP"/>
+			<xsd:enumeration value="CUS"/>
+			<xsd:enumeration value="CZE"/>
+			<xsd:enumeration value="DAK"/>
+			<xsd:enumeration value="DAN"/>
+			<xsd:enumeration value="DAR"/>
+			<xsd:enumeration value="DAY"/>
+			<xsd:enumeration value="DEL"/>
+			<xsd:enumeration value="DEN"/>
+			<xsd:enumeration value="DGR"/>
+			<xsd:enumeration value="DIN"/>
+			<xsd:enumeration value="DIV"/>
+			<xsd:enumeration value="DOI"/>
+			<xsd:enumeration value="DRA"/>
+			<xsd:enumeration value="DUA"/>
+			<xsd:enumeration value="DUM"/>
+			<xsd:enumeration value="DUT"/>
+			<xsd:enumeration value="DYU"/>
+			<xsd:enumeration value="DZO"/>
+			<xsd:enumeration value="EFI"/>
+			<xsd:enumeration value="EGY"/>
+			<xsd:enumeration value="EKA"/>
+			<xsd:enumeration value="ELX"/>
+			<xsd:enumeration value="ENG"/>
+			<xsd:enumeration value="ENM"/>
+			<xsd:enumeration value="EPO"/>
+			<xsd:enumeration value="EST"/>
+			<xsd:enumeration value="EWE"/>
+			<xsd:enumeration value="EWO"/>
+			<xsd:enumeration value="FAN"/>
+			<xsd:enumeration value="FAO"/>
+			<xsd:enumeration value="FAT"/>
+			<xsd:enumeration value="FIJ"/>
+			<xsd:enumeration value="FIN"/>
+			<xsd:enumeration value="FIU"/>
+			<xsd:enumeration value="FON"/>
+			<xsd:enumeration value="FRE"/>
+			<xsd:enumeration value="FRM"/>
+			<xsd:enumeration value="FRO"/>
+			<xsd:enumeration value="FRY"/>
+			<xsd:enumeration value="FUL"/>
+			<xsd:enumeration value="FUR"/>
+			<xsd:enumeration value="GAA"/>
+			<xsd:enumeration value="GAY"/>
+			<xsd:enumeration value="GBA"/>
+			<xsd:enumeration value="GEM"/>
+			<xsd:enumeration value="GEO"/>
+			<xsd:enumeration value="GER"/>
+			<xsd:enumeration value="GEZ"/>
+			<xsd:enumeration value="GIL"/>
+			<xsd:enumeration value="GLA"/>
+			<xsd:enumeration value="GLE"/>
+			<xsd:enumeration value="GLG"/>
+			<xsd:enumeration value="GLV"/>
+			<xsd:enumeration value="GMH"/>
+			<xsd:enumeration value="GOH"/>
+			<xsd:enumeration value="GON"/>
+			<xsd:enumeration value="GOR"/>
+			<xsd:enumeration value="GOT"/>
+			<xsd:enumeration value="GRB"/>
+			<xsd:enumeration value="GRC"/>
+			<xsd:enumeration value="GRE"/>
+			<xsd:enumeration value="GRN"/>
+			<xsd:enumeration value="GUJ"/>
+			<xsd:enumeration value="GWI"/>
+			<xsd:enumeration value="HAI"/>
+			<xsd:enumeration value="HAU"/>
+			<xsd:enumeration value="HAW"/>
+			<xsd:enumeration value="HEB"/>
+			<xsd:enumeration value="HER"/>
+			<xsd:enumeration value="HIL"/>
+			<xsd:enumeration value="HIM"/>
+			<xsd:enumeration value="HIN"/>
+			<xsd:enumeration value="HIT"/>
+			<xsd:enumeration value="HMN"/>
+			<xsd:enumeration value="HMO"/>
+			<xsd:enumeration value="HUN"/>
+			<xsd:enumeration value="HUP"/>
+			<xsd:enumeration value="IBA"/>
+			<xsd:enumeration value="IBO"/>
+			<xsd:enumeration value="ICE"/>
+			<xsd:enumeration value="IDO"/>
+			<xsd:enumeration value="III"/>
+			<xsd:enumeration value="IJO"/>
+			<xsd:enumeration value="IKU"/>
+			<xsd:enumeration value="ILE"/>
+			<xsd:enumeration value="ILO"/>
+			<xsd:enumeration value="INA"/>
+			<xsd:enumeration value="INC"/>
+			<xsd:enumeration value="IND"/>
+			<xsd:enumeration value="INE"/>
+			<xsd:enumeration value="INH"/>
+			<xsd:enumeration value="IPK"/>
+			<xsd:enumeration value="IRA"/>
+			<xsd:enumeration value="IRO"/>
+			<xsd:enumeration value="ITA"/>
+			<xsd:enumeration value="JAV"/>
+			<xsd:enumeration value="JPN"/>
+			<xsd:enumeration value="JPR"/>
+			<xsd:enumeration value="JRB"/>
+			<xsd:enumeration value="KAA"/>
+			<xsd:enumeration value="KAB"/>
+			<xsd:enumeration value="KAC"/>
+			<xsd:enumeration value="KAL"/>
+			<xsd:enumeration value="KAM"/>
+			<xsd:enumeration value="KAN"/>
+			<xsd:enumeration value="KAR"/>
+			<xsd:enumeration value="KAS"/>
+			<xsd:enumeration value="KAU"/>
+			<xsd:enumeration value="KAW"/>
+			<xsd:enumeration value="KAZ"/>
+			<xsd:enumeration value="KBD"/>
+			<xsd:enumeration value="KHA"/>
+			<xsd:enumeration value="KHI"/>
+			<xsd:enumeration value="KHM"/>
+			<xsd:enumeration value="KHO"/>
+			<xsd:enumeration value="KIK"/>
+			<xsd:enumeration value="KIN"/>
+			<xsd:enumeration value="KIR"/>
+			<xsd:enumeration value="KMB"/>
+			<xsd:enumeration value="KOK"/>
+			<xsd:enumeration value="KOM"/>
+			<xsd:enumeration value="KON"/>
+			<xsd:enumeration value="KOR"/>
+			<xsd:enumeration value="KOS"/>
+			<xsd:enumeration value="KPE"/>
+			<xsd:enumeration value="KRO"/>
+			<xsd:enumeration value="KRU"/>
+			<xsd:enumeration value="KUA"/>
+			<xsd:enumeration value="KUM"/>
+			<xsd:enumeration value="KUR"/>
+			<xsd:enumeration value="KUT"/>
+			<xsd:enumeration value="LAD"/>
+			<xsd:enumeration value="LAH"/>
+			<xsd:enumeration value="LAM"/>
+			<xsd:enumeration value="LAO"/>
+			<xsd:enumeration value="LAT"/>
+			<xsd:enumeration value="LAV"/>
+			<xsd:enumeration value="LEZ"/>
+			<xsd:enumeration value="LIM"/>
+			<xsd:enumeration value="LIN"/>
+			<xsd:enumeration value="LIT"/>
+			<xsd:enumeration value="LOL"/>
+			<xsd:enumeration value="LOZ"/>
+			<xsd:enumeration value="LTZ"/>
+			<xsd:enumeration value="LUA"/>
+			<xsd:enumeration value="LUB"/>
+			<xsd:enumeration value="LUG"/>
+			<xsd:enumeration value="LUI"/>
+			<xsd:enumeration value="LUN"/>
+			<xsd:enumeration value="LUO"/>
+			<xsd:enumeration value="LUS"/>
+			<xsd:enumeration value="MAC"/>
+			<xsd:enumeration value="MAD"/>
+			<xsd:enumeration value="MAG"/>
+			<xsd:enumeration value="MAH"/>
+			<xsd:enumeration value="MAI"/>
+			<xsd:enumeration value="MAK"/>
+			<xsd:enumeration value="MAL"/>
+			<xsd:enumeration value="MAN"/>
+			<xsd:enumeration value="MAO"/>
+			<xsd:enumeration value="MAP"/>
+			<xsd:enumeration value="MAR"/>
+			<xsd:enumeration value="MAS"/>
+			<xsd:enumeration value="MAY"/>
+			<xsd:enumeration value="MDR"/>
+			<xsd:enumeration value="MEN"/>
+			<xsd:enumeration value="MGA"/>
+			<xsd:enumeration value="MIC"/>
+			<xsd:enumeration value="MIN"/>
+			<xsd:enumeration value="MIS"/>
+			<xsd:enumeration value="MKH"/>
+			<xsd:enumeration value="MLG"/>
+			<xsd:enumeration value="MLT"/>
+			<xsd:enumeration value="MNC"/>
+			<xsd:enumeration value="MNI"/>
+			<xsd:enumeration value="MNO"/>
+			<xsd:enumeration value="MOH"/>
+			<xsd:enumeration value="MOL"/>
+			<xsd:enumeration value="MON"/>
+			<xsd:enumeration value="MOS"/>
+			<xsd:enumeration value="MUL"/>
+			<xsd:enumeration value="MUN"/>
+			<xsd:enumeration value="MUS"/>
+			<xsd:enumeration value="MWR"/>
+			<xsd:enumeration value="MYN"/>
+			<xsd:enumeration value="NAH"/>
+			<xsd:enumeration value="NAI"/>
+			<xsd:enumeration value="NAP"/>
+			<xsd:enumeration value="NAU"/>
+			<xsd:enumeration value="NAV"/>
+			<xsd:enumeration value="NBL"/>
+			<xsd:enumeration value="NDE"/>
+			<xsd:enumeration value="NDO"/>
+			<xsd:enumeration value="NDS"/>
+			<xsd:enumeration value="NEP"/>
+			<xsd:enumeration value="NEW"/>
+			<xsd:enumeration value="NIA"/>
+			<xsd:enumeration value="NIC"/>
+			<xsd:enumeration value="NIU"/>
+			<xsd:enumeration value="NNO"/>
+			<xsd:enumeration value="NOB"/>
+			<xsd:enumeration value="NON"/>
+			<xsd:enumeration value="NOR"/>
+			<xsd:enumeration value="NSO"/>
+			<xsd:enumeration value="NUB"/>
+			<xsd:enumeration value="NYA"/>
+			<xsd:enumeration value="NYM"/>
+			<xsd:enumeration value="NYN"/>
+			<xsd:enumeration value="NYO"/>
+			<xsd:enumeration value="NZI"/>
+			<xsd:enumeration value="OCI"/>
+			<xsd:enumeration value="OJI"/>
+			<xsd:enumeration value="ORI"/>
+			<xsd:enumeration value="ORM"/>
+			<xsd:enumeration value="OSA"/>
+			<xsd:enumeration value="OSS"/>
+			<xsd:enumeration value="OTA"/>
+			<xsd:enumeration value="OTO"/>
+			<xsd:enumeration value="PAA"/>
+			<xsd:enumeration value="PAG"/>
+			<xsd:enumeration value="PAL"/>
+			<xsd:enumeration value="PAM"/>
+			<xsd:enumeration value="PAN"/>
+			<xsd:enumeration value="PAP"/>
+			<xsd:enumeration value="PAU"/>
+			<xsd:enumeration value="PEO"/>
+			<xsd:enumeration value="PER"/>
+			<xsd:enumeration value="PHI"/>
+			<xsd:enumeration value="PHN"/>
+			<xsd:enumeration value="PLI"/>
+			<xsd:enumeration value="POL"/>
+			<xsd:enumeration value="PON"/>
+			<xsd:enumeration value="POR"/>
+			<xsd:enumeration value="PRA"/>
+			<xsd:enumeration value="PRO"/>
+			<xsd:enumeration value="PUS"/>
+			<xsd:enumeration value="QAA"/>
+			<xsd:enumeration value="QUE"/>
+			<xsd:enumeration value="RAJ"/>
+			<xsd:enumeration value="RAP"/>
+			<xsd:enumeration value="RAR"/>
+			<xsd:enumeration value="ROA"/>
+			<xsd:enumeration value="ROH"/>
+			<xsd:enumeration value="ROM"/>
+			<xsd:enumeration value="RUM"/>
+			<xsd:enumeration value="RUN"/>
+			<xsd:enumeration value="RUS"/>
+			<xsd:enumeration value="SAD"/>
+			<xsd:enumeration value="SAG"/>
+			<xsd:enumeration value="SAH"/>
+			<xsd:enumeration value="SAI"/>
+			<xsd:enumeration value="SAL"/>
+			<xsd:enumeration value="SAM"/>
+			<xsd:enumeration value="SAN"/>
+			<xsd:enumeration value="SAS"/>
+			<xsd:enumeration value="SAT"/>
+			<xsd:enumeration value="SCC"/>
+			<xsd:enumeration value="SCO"/>
+			<xsd:enumeration value="SCR"/>
+			<xsd:enumeration value="SEL"/>
+			<xsd:enumeration value="SEM"/>
+			<xsd:enumeration value="SGA"/>
+			<xsd:enumeration value="SGN"/>
+			<xsd:enumeration value="SHN"/>
+			<xsd:enumeration value="SID"/>
+			<xsd:enumeration value="SIN"/>
+			<xsd:enumeration value="SIO"/>
+			<xsd:enumeration value="SIT"/>
+			<xsd:enumeration value="SLA"/>
+			<xsd:enumeration value="SLO"/>
+			<xsd:enumeration value="SLV"/>
+			<xsd:enumeration value="SMA"/>
+			<xsd:enumeration value="SME"/>
+			<xsd:enumeration value="SMI"/>
+			<xsd:enumeration value="SMJ"/>
+			<xsd:enumeration value="SMN"/>
+			<xsd:enumeration value="SMO"/>
+			<xsd:enumeration value="SMS"/>
+			<xsd:enumeration value="SNA"/>
+			<xsd:enumeration value="SND"/>
+			<xsd:enumeration value="SNK"/>
+			<xsd:enumeration value="SOG"/>
+			<xsd:enumeration value="SOM"/>
+			<xsd:enumeration value="SON"/>
+			<xsd:enumeration value="SOT"/>
+			<xsd:enumeration value="SPA"/>
+			<xsd:enumeration value="SRD"/>
+			<xsd:enumeration value="SRR"/>
+			<xsd:enumeration value="SSA"/>
+			<xsd:enumeration value="SSW"/>
+			<xsd:enumeration value="SUK"/>
+			<xsd:enumeration value="SUN"/>
+			<xsd:enumeration value="SUS"/>
+			<xsd:enumeration value="SUX"/>
+			<xsd:enumeration value="SWA"/>
+			<xsd:enumeration value="SWE"/>
+			<xsd:enumeration value="SYR"/>
+			<xsd:enumeration value="TAH"/>
+			<xsd:enumeration value="TAI"/>
+			<xsd:enumeration value="TAM"/>
+			<xsd:enumeration value="TAT"/>
+			<xsd:enumeration value="TEL"/>
+			<xsd:enumeration value="TEM"/>
+			<xsd:enumeration value="TER"/>
+			<xsd:enumeration value="TET"/>
+			<xsd:enumeration value="TGK"/>
+			<xsd:enumeration value="TGL"/>
+			<xsd:enumeration value="THA"/>
+			<xsd:enumeration value="TIB"/>
+			<xsd:enumeration value="TIG"/>
+			<xsd:enumeration value="TIR"/>
+			<xsd:enumeration value="TIV"/>
+			<xsd:enumeration value="TKL"/>
+			<xsd:enumeration value="TLI"/>
+			<xsd:enumeration value="TMH"/>
+			<xsd:enumeration value="TOG"/>
+			<xsd:enumeration value="TON"/>
+			<xsd:enumeration value="TPI"/>
+			<xsd:enumeration value="TSI"/>
+			<xsd:enumeration value="TSN"/>
+			<xsd:enumeration value="TSO"/>
+			<xsd:enumeration value="TUK"/>
+			<xsd:enumeration value="TUM"/>
+			<xsd:enumeration value="TUP"/>
+			<xsd:enumeration value="TUR"/>
+			<xsd:enumeration value="TUT"/>
+			<xsd:enumeration value="TVL"/>
+			<xsd:enumeration value="TWI"/>
+			<xsd:enumeration value="TYV"/>
+			<xsd:enumeration value="UGA"/>
+			<xsd:enumeration value="UIG"/>
+			<xsd:enumeration value="UKR"/>
+			<xsd:enumeration value="UMB"/>
+			<xsd:enumeration value="UND"/>
+			<xsd:enumeration value="URD"/>
+			<xsd:enumeration value="UZB"/>
+			<xsd:enumeration value="VAI"/>
+			<xsd:enumeration value="VEN"/>
+			<xsd:enumeration value="VIE"/>
+			<xsd:enumeration value="VOL"/>
+			<xsd:enumeration value="VOT"/>
+			<xsd:enumeration value="WAK"/>
+			<xsd:enumeration value="WAL"/>
+			<xsd:enumeration value="WAR"/>
+			<xsd:enumeration value="WAS"/>
+			<xsd:enumeration value="WEL"/>
+			<xsd:enumeration value="WEN"/>
+			<xsd:enumeration value="WLN"/>
+			<xsd:enumeration value="WOL"/>
+			<xsd:enumeration value="XHO"/>
+			<xsd:enumeration value="YAO"/>
+			<xsd:enumeration value="YAP"/>
+			<xsd:enumeration value="YID"/>
+			<xsd:enumeration value="YOR"/>
+			<xsd:enumeration value="YPK"/>
+			<xsd:enumeration value="ZAP"/>
+			<xsd:enumeration value="ZEN"/>
+			<xsd:enumeration value="ZHA"/>
+			<xsd:enumeration value="ZND"/>
+			<xsd:enumeration value="ZUL"/>
+			<xsd:enumeration value="ZUN"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MessageBodyType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "MSGBODY" is of type "MessageBodyType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="10000"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MessageType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "MSG" is of type "MessageType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="NameAccountHeldType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "NAMEACCTHELD" is of type "NameAccountHeldType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="96"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="NumberOfInstructionsType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "NINSTS" is of type "NumberOfInstructionsType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="3"/>
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:pattern value="[0-9]+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OptionLevelType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "OPTIONLEVEL" is of type "OptionLevelType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="40"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PayeeIdType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "PAYEEID" is of type "PayeeIdType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="12"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PhoneType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "PHONE" is of type "PhoneType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PositiveAmountType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:pattern value="\+?[0-9]*(([0-9][,\.]?)|([,\.][0-9]))[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PositiveQuantityType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:pattern value="\+?[0-9]*(([0-9][,\.]?)|([,\.][0-9]))[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="QuantityType">
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+			<xsd:pattern value="[\+\-]?[0-9]*(([0-9][,\.]?)|([,\.][0-9]))[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RateType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "RATE" is of type "RateType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+			<xsd:pattern value="[\+\-]?[0-9]*(([0-9][,\.]?)|([,\.][0-9]))[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="UnitPriceType">
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+			<xsd:pattern value="\+?[0-9]*(([0-9][,\.]?)|([,\.][0-9]))[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ReferenceNumberType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "REFNUM" is of type "ReferenceNumberType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SecurityNameType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SECNAME" is of type "SecurityNameType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="120"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SecurityUserIdType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SECUID" is of type "SecurityUserIdType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="10"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ServiceStatus2Enum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SERVICESTATUS2ENUM" is of type "ServiceStatus2Enum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="AVAIL"/>
+			<xsd:enumeration value="PEND"/>
+			<xsd:enumeration value="ACTIVE"/>
+			<xsd:enumeration value="REJECTED"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ServiceStatusEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SERVICESTATUSENUM" is of type "ServiceStatusEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="AVAIL"/>
+			<xsd:enumeration value="PEND"/>
+			<xsd:enumeration value="ACTIVE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SeverityEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SEVERITYENUM" is of type "SeverityEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="INFO"/>
+			<xsd:enumeration value="WARN"/>
+			<xsd:enumeration value="ERROR"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SharesPerType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "SHARESPER" is of type "SharesPerType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="5"/>
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:pattern value="[0-9]+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ShortMessageType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SHORTMSG" is of type "ShortMessageType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="80"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="StandardIndustryCodeType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "SIC" is of type "StandardIndustryCodeType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="6"/>
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:pattern value="[0-9]+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ServerIdType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SRVRTID" is of type "ServerIdType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="10"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="StateCodeType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "STATECODE" is of type "StateCodeType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="2"/>
+			<xsd:whiteSpace value="collapse"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="StateType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "STATE" is of type "StateType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="5"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SubjectType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SUBJECT" is of type "SubjectType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="60"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TransactionAuthorizationNumberType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "TAN" is of type "TransactionAuthorizationNumberType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="80"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TimeType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "TM" is of type "TimeType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:minLength value="6"/>
+			<xsd:pattern value="(([0-1][0-9])|(2[0-3]))[0-5][0-9](([0-5][0-9])|(60))(\.[0-9]{3})?(\[[\+\-]?.+(:.+)?\])?"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TransactionEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "TRANSACTIONENUM" is of type "TransactionEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="CREDIT"/>
+			<xsd:enumeration value="DEBIT"/>
+			<xsd:enumeration value="INT"/>
+			<xsd:enumeration value="DIV"/>
+			<xsd:enumeration value="FEE"/>
+			<xsd:enumeration value="SRVCHG"/>
+			<xsd:enumeration value="DEP"/>
+			<xsd:enumeration value="ATM"/>
+			<xsd:enumeration value="POS"/>
+			<xsd:enumeration value="XFER"/>
+			<xsd:enumeration value="CHECK"/>
+			<xsd:enumeration value="PAYMENT"/>
+			<xsd:enumeration value="CASH"/>
+			<xsd:enumeration value="DIRECTDEP"/>
+			<xsd:enumeration value="DIRECTDEBIT"/>
+			<xsd:enumeration value="REPEATPMT"/>
+			<xsd:enumeration value="HOLD"/>
+			<xsd:enumeration value="OTHER"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="UrlType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "URL" is of type "UrlType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="UsProductEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "USPRODUCTENUM" is of type "UsProductEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="401K"/>
+			<xsd:enumeration value="403B"/>
+			<xsd:enumeration value="IRA"/>
+			<xsd:enumeration value="KEOGH"/>
+			<xsd:enumeration value="OTHER"/>
+			<xsd:enumeration value="SARSEP"/>
+			<xsd:enumeration value="SIMPLE"/>
+			<xsd:enumeration value="NORMAL"/>
+			<xsd:enumeration value="TDA"/>
+			<xsd:enumeration value="TRUST"/>
+			<xsd:enumeration value="UGMA"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="GloballyUniqueUserIdType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "UUID" is of type "GloballyUniqueUserIdType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="36"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TransferStatusEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "XFERSTATUSENUM" is of type "TransferStatusEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="WILLPROCESSON"/>
+			<xsd:enumeration value="POSTEDON"/>
+			<xsd:enumeration value="NOFUNDSON"/>
+			<xsd:enumeration value="CANCELEDON"/>
+			<xsd:enumeration value="FAILEDON"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="YearType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "YEAR" is of type "YearType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:gYear">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:pattern value="[0-9]{4}"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZipType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "ZIP" is of type "ZipType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="11"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:annotation>
+		<xsd:documentation>
+      The following type definitions are for types references in multiple Schemas
+    </xsd:documentation>
+	</xsd:annotation>
+	<xsd:complexType name="AbstractAccountInfo" abstract="true"/>
+	<xsd:complexType name="AccountInfo">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "ACCTINFO" is of type "AccountInfo"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="NAME" type="ofx:GenericNameType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="DESC" type="ofx:ShortMessageType" minOccurs="0"/>
+			<xsd:element name="PHONE" type="ofx:PhoneType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>DEPRECATED if present in CONTACTPROFENC or CONTACTPROF</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="HOLDERINFO" type="ofx:HolderInfoType" minOccurs="0" maxOccurs="1">
+				<xsd:annotation>
+					<xsd:documentation>DEPRECATED</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:choice minOccurs="0">
+				<xsd:element name="CONTACTPROFENC" type="ofx:ContactProfileEnc"/>
+				<xsd:element name="CONTACTPROF" type="ofx:ContactProfile"/>
+			</xsd:choice>
+			<xsd:sequence maxOccurs="unbounded">
+				<xsd:choice>
+					<xsd:element name="BANKACCTINFO" type="ofx:BankAccountInfo"/>
+					<xsd:element name="LOANACCTINFO" type="ofx:LoanAccountInfo"/>
+					<xsd:element name="CCACCTINFO" type="ofx:CreditCardAccountInfo"/>
+					<xsd:element name="BPACCTINFO" type="ofx:BillPaymentAccountInfo"/>
+					<xsd:element name="INVACCTINFO" type="ofx:InvestmentAccountInfo"/>
+					<xsd:element name="PRESACCTINFO" type="ofx:PresentmentAccountInfo"/>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AccountInfoRequest">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "ACCTINFORQ" is of type "AccountInfoRequest"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DTACCTUP" type="ofx:DateTimeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AccountInfoResponse">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "ACCTINFORS" is of type "AccountInfoResponse"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DTACCTUP" type="ofx:DateTimeType"/>
+			<xsd:element name="ACCTINFO" type="ofx:AccountInfo" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Adjustment">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "ADJUSTMENT" is of type "Adjustment"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ADJNO" type="ofx:InvestmentNumberType" minOccurs="0"/>
+			<xsd:element name="ADJDESC" type="ofx:ShortMessageType"/>
+			<xsd:element name="ADJAMT" type="ofx:AmountType"/>
+			<xsd:element name="ADJDATE" type="ofx:DateTimeType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AvailableBalance">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "AVAILBAL" is of type "AvailableBalance"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BALAMT" type="ofx:AmountType"/>
+			<xsd:element name="DTASOF" type="ofx:DateTimeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BalanceList">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BALLIST" is of type "BalanceList"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BAL" type="ofx:Balance" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BankAccountInfo">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BANKACCTINFO" is of type "BankAccountInfo"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractAccountInfo">
+				<xsd:sequence>
+					<xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+					<xsd:element name="OTHERACCTINFO" type="ofx:OtherAccountInfo" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="SUPTXDL" type="ofx:BooleanType"/>
+					<xsd:element name="XFERSRC" type="ofx:BooleanType"/>
+					<xsd:element name="XFERDEST" type="ofx:BooleanType"/>
+					<xsd:element name="LOANACCTTYPE" type="ofx:LoanAccountEnum" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="MATURITYDATE" type="ofx:DateTimeType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="MATURITYAMT" type="ofx:AmountType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="MINBALREQ" type="ofx:AmountType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="ACCTCLASSIFICATION" type="ofx:AccountClassificationEnum" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="OVERDRAFTLIMIT" type="ofx:AmountType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="SVCSTATUS" type="ofx:ServiceStatusEnum"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="BankAccount">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX elements BANKACCTFROM and BANKACCTTO are of type "BankAccount"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractAccount">
+				<xsd:sequence>
+					<xsd:element name="BANKID" type="ofx:BankIdType"/>
+					<xsd:element name="BRANCHID" type="ofx:AccountIdType" minOccurs="0"/>
+					<xsd:element name="ACCTID" type="ofx:AccountIdType"/>
+					<xsd:element name="ACCTTYPE" type="ofx:AccountEnum"/>
+					<xsd:element name="ACCTKEY" type="ofx:AccountIdType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="BankTransactionList">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BANKTRANLIST" is of type "BankTransactionList"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DTSTART" type="ofx:DateTimeType"/>
+			<xsd:element name="DTEND" type="ofx:DateTimeType"/>
+			<xsd:element name="STMTTRN" type="ofx:StatementTransaction" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BillPaymentAccountInfo">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BPACCTINFO" is of type "BillPaymentAccountInfo"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractAccountInfo">
+				<xsd:sequence>
+					<xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+					<xsd:element name="OTHERACCTINFO" type="ofx:OtherAccountInfo" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="SVCSTATUS" type="ofx:ServiceStatusEnum"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="CreditCardAccount">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX elements CCACCTFROM and CCACCTTO are of type "CreditCardAccount"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractAccount">
+				<xsd:sequence>
+					<xsd:element name="ACCTID" type="ofx:AccountIdType"/>
+					<xsd:element name="ACCTKEY" type="ofx:AccountIdType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="CreditCardAccountInfo">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CCACCTINFO" is of type "CreditCardAccountInfo"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractAccountInfo">
+				<xsd:sequence>
+					<xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount"/>
+					<xsd:element name="OTHERACCTINFO" type="ofx:OtherAccountInfo" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="PARENTACCTID" type="ofx:AccountIdType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="SUPTXDL" type="ofx:BooleanType"/>
+					<xsd:element name="XFERSRC" type="ofx:BooleanType"/>
+					<xsd:element name="XFERDEST" type="ofx:BooleanType"/>
+					<xsd:element name="ACCTCLASSIFICATION" type="ofx:AccountClassificationEnum" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="SVCSTATUS" type="ofx:ServiceStatusEnum"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Currency">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX elements "ORIGCURRENCY" and  "CURRENCY" is of type "Currency"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CURRATE" type="ofx:RateType"/>
+			<xsd:element name="CURSYM" type="ofx:CurrencyEnum"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Discount">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "DISCOUNT" is of type "Discount"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DSCRATE" type="ofx:RateType"/>
+			<xsd:element name="DSCAMT" type="ofx:AmountType"/>
+			<xsd:element name="DSCDATE" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="DSCDESC" type="ofx:ShortMessageType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="IncTransaction">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INCTRAN" is of type "IncTransaction"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DTSTART" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="DTEND" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="INCLUDE" type="ofx:BooleanType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InvestmentAccount">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "InvestmentAccount" is of type "InvestmentAccount"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractAccount">
+				<xsd:sequence>
+					<xsd:element name="BROKERID" type="ofx:BrokerIdType"/>
+					<xsd:element name="ACCTID" type="ofx:AccountIdType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="InvestmentAccountInfo">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INVACCTINFO" is of type "InvestmentAccountInfo"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractAccountInfo">
+				<xsd:sequence>
+					<xsd:element name="INVACCTFROM" type="ofx:InvestmentAccount"/>
+					<xsd:element name="OTHERACCTINFO" type="ofx:OtherAccountInfo" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="USPRODUCTTYPE" type="ofx:UsProductEnum"/>
+					<xsd:element name="CHECKING" type="ofx:BooleanType"/>
+					<xsd:element name="SVCSTATUS" type="ofx:ServiceStatusEnum"/>
+					<xsd:element name="INVACCTTYPE" type="ofx:InvestmentAccountEnum" minOccurs="0"/>
+					<xsd:element name="OPTIONLEVEL" type="ofx:OptionLevelType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Invoice">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INVOICE" is of type "Invoice"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="INVNO" type="ofx:InvestmentNumberType"/>
+			<xsd:element name="INVTOTALAMT" type="ofx:AmountType"/>
+			<xsd:element name="INVPAIDAMT" type="ofx:AmountType"/>
+			<xsd:element name="INVDATE" type="ofx:DateTimeType"/>
+			<xsd:element name="INVDESC" type="ofx:ShortMessageType"/>
+			<xsd:element name="DISCOUNT" type="ofx:Discount" minOccurs="0"/>
+			<xsd:element name="ADJUSTMENT" type="ofx:Adjustment" minOccurs="0"/>
+			<xsd:element name="LINEITEM" type="ofx:LineItem" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LedgerBalance">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "LEDGERBAL" is of type "LedgerBalance"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BALAMT" type="ofx:AmountType"/>
+			<xsd:element name="DTASOF" type="ofx:DateTimeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LineItem">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "LINEITEM" is of type "LineItem"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LITMAMT" type="ofx:AmountType"/>
+			<xsd:element name="LITMDESC" type="ofx:ShortMessageType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Mail">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "MAIL" is of type "Mail"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="USERID" type="ofx:IdType"/>
+			<xsd:element name="DTCREATED" type="ofx:DateTimeType"/>
+			<xsd:element name="FROM" type="ofx:GenericNameType"/>
+			<xsd:element name="TO" type="ofx:GenericNameType"/>
+			<xsd:element name="SUBJECT" type="ofx:SubjectType"/>
+			<xsd:element name="MSGBODY" type="ofx:MessageBodyType"/>
+			<xsd:element name="INCIMAGES" type="ofx:BooleanType"/>
+			<xsd:element name="USEHTML" type="ofx:BooleanType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Payee">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "PAYEE" is of type "Payee"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="NAME" type="ofx:GenericNameType"/>
+			<xsd:sequence>
+				<xsd:element name="ADDR1" type="ofx:AddressType"/>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="ADDR2" type="ofx:AddressType"/>
+					<xsd:element name="ADDR3" type="ofx:AddressType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:sequence>
+			<xsd:element name="CITY" type="ofx:AddressType"/>
+			<xsd:element name="STATE" type="ofx:StateType"/>
+			<xsd:element name="POSTALCODE" type="ofx:ZipType"/>
+			<xsd:element name="COUNTRY" type="ofx:CountryType" minOccurs="0"/>
+			<xsd:element name="PHONE" type="ofx:PhoneType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PresentmentAccount">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "PRESACCTFROM" and "PRESACCTTO" is of type "PresentmentAccount"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractAccount">
+				<xsd:sequence>
+					<xsd:element name="BILLPUB" type="ofx:GenericNameType"/>
+					<xsd:element name="BILLERID" type="ofx:IdType"/>
+					<xsd:element name="BILLERNAME" type="ofx:GenericNameType" minOccurs="0"/>
+					<xsd:element name="ACCTID" type="ofx:AccountIdType"/>
+					<xsd:element name="PRESNAMEADDRESS" type="ofx:PresentmentNameAddress" minOccurs="0"/>
+					<xsd:element name="USERID" type="ofx:IdType" minOccurs="0"/>
+					<xsd:sequence minOccurs="0">
+						<xsd:element name="SPNAME" type="ofx:GenericNameType" minOccurs="0"/>
+						<xsd:choice>
+							<xsd:sequence>
+								<xsd:element name="PAYEEID" type="ofx:PayeeIdType"/>
+								<xsd:element name="PAYEELSTID" type="ofx:PayeeIdType" minOccurs="0"/>
+							</xsd:sequence>
+							<xsd:element name="PAYEELSTID" type="ofx:PayeeIdType"/>
+						</xsd:choice>
+					</xsd:sequence>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PresentmentAccountInfo">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "PRESACCTINFO" is of type "PresentmentAccountInfo"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractAccountInfo">
+				<xsd:sequence>
+					<xsd:element name="PRESACCTFROM" type="ofx:PresentmentAccount"/>
+					<xsd:element name="SVCSTATUS" type="ofx:ServiceStatus2Enum"/>
+					<xsd:element name="REASON" type="ofx:MessageType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PresentmentNameAddress">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "PRESNAMEADDRESS" is of type "PresentmentNameAddress"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="NAMEACCTHELD" type="ofx:NameAccountHeldType" minOccurs="0"/>
+			<xsd:element name="BUSNAMEACCTHELD" type="ofx:NameAccountHeldType" minOccurs="0"/>
+			<xsd:element name="ADDR1" type="ofx:AddressType" minOccurs="0"/>
+			<xsd:element name="ADDR2" type="ofx:AddressType" minOccurs="0"/>
+			<xsd:element name="ADDR3" type="ofx:AddressType" minOccurs="0"/>
+			<xsd:element name="CITY" type="ofx:AddressType" minOccurs="0"/>
+			<xsd:element name="STATE" type="ofx:StateType" minOccurs="0"/>
+			<xsd:element name="POSTALCODE" type="ofx:ZipType" minOccurs="0"/>
+			<xsd:element name="COUNTRY" type="ofx:CountryType" minOccurs="0"/>
+			<xsd:element name="DAYPHONE" type="ofx:PhoneType" minOccurs="0"/>
+			<xsd:element name="EVEPHONE" type="ofx:PhoneType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RecurringInstructions">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "RECURRINST" is of type "RecurringInstructions"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="NINSTS" type="ofx:NumberOfInstructionsType" minOccurs="0"/>
+			<xsd:element name="FREQ" type="ofx:FrequencyEnum"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SecurityId">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SECID" is of type "SecurityId"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="UNIQUEID" type="ofx:CusipType"/>
+			<xsd:element name="UNIQUEIDTYPE" type="ofx:SecurityUserIdType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StatementTransaction">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "STMTTRN" is of type "StatementTransaction"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="TRNTYPE" type="ofx:TransactionEnum"/>
+			<xsd:element name="DTPOSTED" type="ofx:DateTimeType"/>
+			<xsd:element name="DTUSER" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="DTAVAIL" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="TRNAMT" type="ofx:AmountType"/>
+			<xsd:element name="LOANPMTINFO" type="ofx:LoanPaymentInfo" minOccurs="0"/>
+			<xsd:element name="FITID" type="ofx:FinancialInstitutionTransactionIdType"/>
+			<xsd:sequence minOccurs="0">
+				<xsd:element name="CORRECTFITID" type="ofx:FinancialInstitutionTransactionIdType"/>
+				<xsd:element name="CORRECTACTION" type="ofx:CorrectiveActionEnum"/>
+			</xsd:sequence>
+			<xsd:element name="SRVRTID" type="ofx:ServerIdType" minOccurs="0"/>
+			<xsd:element name="CHECKNUM" type="ofx:CheckNumberType" minOccurs="0"/>
+			<xsd:element name="REFNUM" type="ofx:ReferenceNumberType" minOccurs="0"/>
+			<xsd:element name="SIC" type="ofx:StandardIndustryCodeType" minOccurs="0"/>
+			<xsd:element name="PAYEEID" type="ofx:PayeeIdType" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element name="NAME" type="ofx:GenericNameType"/>
+				<xsd:element name="PAYEE" type="ofx:Payee"/>
+			</xsd:choice>
+			<xsd:element name="EXTDNAME" type="ofx:ExtendedNameType" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element name="BANKACCTTO" type="ofx:BankAccount"/>
+				<xsd:element name="CCACCTTO" type="ofx:CreditCardAccount"/>
+			</xsd:choice>
+			<xsd:element name="MEMO" type="ofx:MessageType" minOccurs="0"/>
+			<xsd:element name="IMAGEDATA" type="ofx:ImageData" minOccurs="0" maxOccurs="2"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element name="CURRENCY" type="ofx:Currency"/>
+				<xsd:element name="ORIGCURRENCY" type="ofx:Currency"/>
+			</xsd:choice>
+			<xsd:element name="INV401KSOURCE" type="ofx:Investment401kSourceEnum" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TransferInfo">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "XFERINFO" is of type "TransferInfo"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+				<xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+				<xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount"/>
+			</xsd:choice>
+			<xsd:choice>
+				<xsd:element name="BANKACCTTO" type="ofx:BankAccount"/>
+				<xsd:element name="LOANACCTTO" type="ofx:LoanAccount"/>
+				<xsd:element name="CCACCTTO" type="ofx:CreditCardAccount"/>
+			</xsd:choice>
+			<xsd:element name="TRNAMT" type="ofx:AmountType"/>
+			<xsd:element name="LOANTRNAMT" type="ofx:LoanTransactionAmount"/>
+			<xsd:element name="DTDUE" type="ofx:DateTimeType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TransferProcessingStatus">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "XFERPRCSTS" is of type "TransferProcessingStatus"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="XFERPRCCODE" type="ofx:TransferStatusEnum"/>
+			<xsd:element name="DTXFERPRC" type="ofx:DateTimeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AbstractSyncRequest" abstract="true">
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractRequest">
+				<xsd:sequence>
+					<xsd:choice>
+						<xsd:element name="TOKEN" type="ofx:ServerIdType"/>
+						<xsd:element name="TOKENONLY" type="ofx:BooleanType"/>
+						<xsd:element name="REFRESH" type="ofx:BooleanType"/>
+					</xsd:choice>
+					<xsd:element name="REJECTIFMISSING" type="ofx:BooleanType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AbstractSyncResponse" abstract="true">
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractResponse">
+				<xsd:sequence>
+					<xsd:element name="TOKEN" type="ofx:ServerIdType"/>
+					<xsd:element name="LOSTSYNC" type="ofx:BooleanType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AbstractTransactionRequest" abstract="true">
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractRequest">
+				<xsd:sequence>
+					<xsd:element name="TRNUID" type="ofx:GloballyUniqueUserIdType"/>
+					<xsd:element name="CLTCOOKIE" type="ofx:IdType" minOccurs="0"/>
+					<xsd:element name="TAN" type="ofx:TransactionAuthorizationNumberType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AbstractTransactionResponse" abstract="true">
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractResponse">
+				<xsd:sequence>
+					<xsd:element name="TRNUID" type="ofx:GloballyUniqueUserIdType"/>
+					<xsd:element name="STATUS" type="ofx:Status"/>
+					<xsd:element name="CLTCOOKIE" type="ofx:IdType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="LoanAccountEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "LOANACCTTYPE" is of type "LoanAccountEnum"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="AUTO"/>
+			<xsd:enumeration value="CONSUMER"/>
+			<xsd:enumeration value="MORTGAGE"/>
+			<xsd:enumeration value="COMMERCIAL"/>
+			<xsd:enumeration value="STUDENT"/>
+			<xsd:enumeration value="MILITARY"/>
+			<xsd:enumeration value="SMB"/>
+			<xsd:enumeration value="CONSTR"/>
+			<xsd:enumeration value="HOMEEQUITY"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LoanTypeEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "LOANTYPE" is of type "LoanTypeEnum"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="FIXED"/>
+			<xsd:enumeration value="REVOLVE"/>
+			<xsd:enumeration value="OPEN"/>
+			<xsd:enumeration value="COMBO"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LoanNumPaymentsType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "LOANINITNUMPMTS" is of type "LoanInitialPaymentsType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="5"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ExtendedNameType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "EXTDNAME" is of type "ExtendedNameType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="100"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="PrincipalBalanceType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "PRINBAL" is of type "PrincipalBalanceType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BALAMT" type="ofx:AmountType"/>
+			<xsd:element name="PRINYTD" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="PRINLTD" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="DTASOF" type="ofx:DateTimeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LoanInterestType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "LOANINT" is of type "LoanInterestType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="LOANINTYTD" type="ofx:AmountType"/>
+				<xsd:element name="LOANINTLTD" type="ofx:AmountType"/>
+				<xsd:element name="LOANINTPRJ" type="ofx:AmountType"/>
+			</xsd:choice>
+			<xsd:element name="DTASOF" type="ofx:DateTimeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LoanRateType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "LOANRATE" is of type "LoanRateType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LOANINTRATE" type="ofx:RateType"/>
+			<xsd:element name="RATETYPE" type="ofx:LoanRateEnum"/>
+			<xsd:element name="DTASOF" type="ofx:DateTimeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LoanPaymentAmount">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "LOANPMT" is of type "LoanPaymentAmount"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="PMTAMT" type="ofx:AmountType"/>
+			<xsd:element name="DTPMTDUE" type="ofx:DateTimeType"/>
+			<xsd:element name="LATEFEEAMT" type="ofx:AmountType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="ESCRWAMT" type="ofx:EscrowAmount" minOccurs="0"/>
+			<xsd:element name="LOANPMTTYPE" type="ofx:LoanPaymentEnum" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="LoanFrequencyEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "LOANFREQ" is of type "LoanFrequencyEnum"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="WEEKLY"/>
+			<xsd:enumeration value="BIWEEKLY"/>
+			<xsd:enumeration value="TWICEMONTHLY"/>
+			<xsd:enumeration value="MONTHLY"/>
+			<xsd:enumeration value="FOURWEEKS"/>
+			<xsd:enumeration value="BIMONTHLY"/>
+			<xsd:enumeration value="QUARTERLY"/>
+			<xsd:enumeration value="SEMIANNUALLY"/>
+			<xsd:enumeration value="ANNUALLY"/>
+			<xsd:enumeration value="MATURITY"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LoanPaymentEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "LOANPMTTYPE" is of type "LoanPaymentEnum"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="INTONLY"/>
+			<xsd:enumeration value="PRNANDINT"/>
+			<xsd:enumeration value="PRNPLUSINT"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LoanRateEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "LOANFREQ" is of type "LoanFrequencyEnum"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="FIXED"/>
+			<xsd:enumeration value="FLOATING"/>
+			<xsd:enumeration value="ARM"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="LoanAccountInfo">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "LOANACCTINFO" is of type "LoanAccountInfo"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractAccountInfo">
+				<xsd:sequence>
+					<xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+					<xsd:element name="OTHERACCTINFO" type="ofx:OtherAccountInfo" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="LOANTYPE" type="ofx:LoanTypeEnum" minOccurs="0"/>
+					<xsd:element name="LOANINITNUMPMTS" type="ofx:LoanNumPaymentsType" minOccurs="0"/>
+					<xsd:element name="LOANINITBAL" type="ofx:AmountType"/>
+					<xsd:element name="LOANFREQ" type="ofx:LoanFrequencyEnum"/>
+					<xsd:element name="DTLOANSTART" type="ofx:DateTimeType"/>
+					<xsd:element name="DTLOANMATURITY" type="ofx:DateTimeType" minOccurs="0"/>
+					<xsd:element name="PRINBAL" type="ofx:PrincipalBalanceType"/>
+					<xsd:element name="BALLOONAMT" type="ofx:AmountType" minOccurs="0"/>
+					<xsd:element name="LOANINT" type="ofx:LoanInterestType" minOccurs="0"/>
+					<xsd:element name="LOANIRATE" type="ofx:LoanRateType"/>
+					<xsd:element name="LOANPMT" type="ofx:LoanPaymentAmount"/>
+					<xsd:element name="LOANRMNPMTS" type="ofx:LoanNumPaymentsType"/>
+					<xsd:element name="SUPTXDL" type="ofx:BooleanType"/>
+					<xsd:element name="XFERSRC" type="ofx:BooleanType"/>
+					<xsd:element name="XFERDEST" type="ofx:BooleanType"/>
+					<xsd:element name="ACCTCLASSIFICATION" type="ofx:AccountClassificationEnum" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="SVCSTATUS" type="ofx:ServiceStatusEnum"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="LoanAccount">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX elements LOANACCTFROM and LOANACCTTO are of type "LoanAccount"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractAccount">
+				<xsd:sequence>
+					<xsd:element name="LOANACCTID" type="ofx:AccountIdType"/>
+					<xsd:element name="LOANACCTTYPE" type="ofx:LoanAccountEnum"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="LoanTransactionAmount">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element LOANTRNAMT is of type "LoanTransactionAmount"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="PRINAMT" type="ofx:AmountType"/>
+			<xsd:element name="INTAMT" type="ofx:AmountType"/>
+			<xsd:element name="ESCRWAMT" type="ofx:EscrowAmount" minOccurs="0"/>
+			<xsd:element name="INSURANCE" type="ofx:AmountType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EscrowAmount">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element ESCRWAMT is of type "EscrowAmount"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ESCRWTOTAL" type="ofx:AmountType"/>
+			<xsd:element name="ESCRWTAX" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="ESCRWINS" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="ESCRWPMI" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="ESCRWFEES" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="ESCRWOTHER" type="ofx:AmountType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ImageData">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "IMAGEDATA" is of type "ImageData"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="IMAGETYPE" type="ofx:ImageTypeEnum"/>
+			<xsd:element name="IMAGEREF" type="ofx:ImageRefType"/>
+			<xsd:element name="IMAGEREFTYPE" type="ofx:ImageRefTypeEnum"/>
+			<xsd:choice>
+				<xsd:element name="IMAGEDELAY" type="ofx:ImageDelayType"/>
+				<xsd:element name="DTIMAGEAVAIL" type="ofx:DateTimeType"/>
+			</xsd:choice>
+			<xsd:element name="IMAGETTL" type="ofx:ImageTotalType" minOccurs="0"/>
+			<xsd:element name="CHECKSUP" type="ofx:CheckSupportEnum" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="ImageTypeEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "IMAGETYPE" is of type "ImageTypeEnum"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="STATEMENT"/>
+			<xsd:enumeration value="TRANSACTION"/>
+			<xsd:enumeration value="TAX"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ImageRefType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "IMAGEREF" is of type "ImageRefype"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="1024"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ImageRefTypeEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "IMAGEREFTYPE" is of type "ImageTypeEnum"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="OPAQUE"/>
+			<xsd:enumeration value="URL"/>
+			<xsd:enumeration value="FORMURL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ImageDelayType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "IMAGEDELAYTYPE" is of type "ImageDelayType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="5"/>
+			<xsd:pattern value="[0-9]+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ImageTotalType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "DFLTIMAGETTL" is of type "ImageTotalType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="5"/>
+			<xsd:pattern value="[0-9]+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CheckSupportEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "CHECKSUP" is of type "CheckSupportEnum"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="FRONTONLY"/>
+			<xsd:enumeration value="BACKONLY"/>
+			<xsd:enumeration value="FRONTANDBACK"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="AbstractResponse" abstract="true"/>
+	<xsd:complexType name="AbstractRequest" abstract="true"/>
+	<xsd:complexType name="RewardInfoType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "REWARDINFO" is of type "RewardInfoType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="NAME" type="ofx:GenericNameType"/>
+			<xsd:element name="REWARDBAL" type="ofx:AmountType"/>
+			<xsd:element name="REWARDEARNED" type="ofx:AmountType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LastPmtInfoType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "LASTPMTINFO" is of type "LastPmtInfoType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LASTPMTDATE" type="ofx:DateTimeType"/>
+			<xsd:element name="LASTPMTAMT" type="ofx:AmountType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="LoanDetailType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "LOANDETAIL" is of type "LoanDetailType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LOANINITNUMPMTS" type="ofx:LoanNumPaymentsType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="LOANRMNPMTS" type="ofx:LoanNumPaymentsType" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="LOANFREQ" type="ofx:LoanFrequencyEnum" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="ESCROWBAL" type="ofx:AmountType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="PRINCIPALBAL" type="ofx:AmountType" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="DTLOANSTART" type="ofx:DateTimeType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="LOANINITBAL" type="ofx:AmountType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="DTLOANMATURITY" type="ofx:DateTimeType" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CreditLineInfoType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "CREDITLINEINFO" is of type "CreditLineInfoType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CREDITLIMIT" type="ofx:AmountType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="DTPMTDUE" type="ofx:DateTimeType" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="MINPMTDUE" type="ofx:AmountType" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="INTAMT" type="ofx:AmountType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="PASTDUEAMT" type="ofx:AmountType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="LATEFEEAMT" type="ofx:AmountType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="AUTOPAY" type="ofx:BooleanType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="LASTPMTINFO" type="ofx:LastPmtInfoType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="LOANDETAIL" type="ofx:LoanDetailType" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PendingTransaction">
+		<xsd:annotation>
+			<xsd:documentation>
+               The OFX element "STMTTRNP" is of type "PendingTransaction"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="TRNTYPE" type="ofx:TransactionEnum"/>
+			<xsd:element name="DTTRAN" type="ofx:DateTimeType"/>
+			<xsd:element name="DTEXPIRE" type="ofx:DateTimeType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="TRNAMT" type="ofx:AmountType"/>
+			<xsd:element name="REFNUM" type="ofx:ReferenceNumberType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="NAME" type="ofx:GenericNameType"/>
+			<xsd:element name="EXTDNAME" type="ofx:ExtendedNameType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="MEMO" type="ofx:MessageType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="IMAGEDATA" type="ofx:ImageData" minOccurs="0" maxOccurs="2"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element name="CURRENCY" type="ofx:Currency"/>
+				<xsd:element name="ORIGCURRENCY" type="ofx:Currency"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PendingTransactionList">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BANKTRANLISTP" is of type "PendingTransactionList"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DTASOF" type="ofx:DateTimeType"/>
+			<xsd:element name="STMTTRNP" type="ofx:PendingTransaction" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+  <xsd:simpleType name="HolderTypeEnum">
+      <xsd:annotation>
+          <xsd:documentation>
+           The OFX element "HOLDERTYPE" is of type "HolderTypeEnum"
+          </xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:string">
+          <xsd:whiteSpace value="collapse"/>
+          <xsd:enumeration value="INDIVIDUAL"/>
+          <xsd:enumeration value="JOINT"/>
+          <xsd:enumeration value="CUSTODIAL"/>
+          <xsd:enumeration value="TRUST"/>
+          <xsd:enumeration value="OTHER"/>
+      </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="AccountHolderType">
+      <xsd:annotation>
+          <xsd:documentation>
+           The OFX element "PRIMARYHOLDER" and "SECONDARYHOLDER" is of type "AccountHolderType"
+          </xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+          <xsd:element name="FIRSTNAME" type="ofx:GenericNameType" minOccurs="1" maxOccurs="1"/>
+          <xsd:element name="MIDDLENAME" type="ofx:GenericNameType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="LASTNAME" type="ofx:GenericNameType" minOccurs="1" maxOccurs="1"/>
+          <xsd:sequence minOccurs="1" maxOccurs="1">
+              <xsd:element name="ADDR1" type="ofx:AddressType" minOccurs="1" maxOccurs="1"/>
+              <xsd:sequence minOccurs="0" maxOccurs="1">
+                  <xsd:element name="ADDR2" type="ofx:AddressType" minOccurs="1" maxOccurs="1"/>
+                  <xsd:element name="ADDR3" type="ofx:AddressType" minOccurs="0" maxOccurs="1"/>
+              </xsd:sequence>		
+          </xsd:sequence>
+          <xsd:element name="CITY" type="ofx:AddressType" minOccurs="1" maxOccurs="1"/>
+          <xsd:element name="STATE" type="ofx:StateType" minOccurs="1" maxOccurs="1"/>
+          <xsd:element name="POSTALCODE" type="ofx:ZipType" minOccurs="1" maxOccurs="1"/>
+          <xsd:element name="COUNTRY" type="ofx:CountryType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="DAYPHONE" type="ofx:PhoneType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="EVEPHONE" type="ofx:PhoneType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="EMAIL" type="ofx:ShortMessageType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="HOLDERTYPE" type="ofx:HolderTypeEnum" minOccurs="0" maxOccurs="1"/>
+      </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="HolderInfoType">
+      <xsd:annotation>
+          <xsd:documentation>
+           The OFX element "HOLDERINFO" is of type "HolderInfoType"
+          </xsd:documentation>
+      </xsd:annotation>
+      <xsd:sequence>
+          <xsd:element name="PRIMARYHOLDER" type="ofx:AccountHolderType" minOccurs="1" maxOccurs="1"/>
+          <xsd:element name="SECONDARYHOLDER" type="ofx:AccountHolderType" minOccurs="0" maxOccurs="1"/>
+      </xsd:sequence>		
+  </xsd:complexType>
+  <xsd:simpleType name="AccountClassificationEnum">
+      <xsd:annotation>
+          <xsd:documentation>
+           The OFX element "ACCTCLASSIFICATION" is of type "AccountClassificationEnum"
+          </xsd:documentation>
+      </xsd:annotation>
+      <xsd:restriction base="xsd:string">
+          <xsd:whiteSpace value="collapse"/>
+          <xsd:enumeration value="PERSONAL"/>
+          <xsd:enumeration value="BUSINESS"/>
+          <xsd:enumeration value="CORPORATE"/>
+          <xsd:enumeration value="OTHER"/>
+      </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="LoanPaymentInfo">
+    <xsd:annotation>
+      <xsd:documentation>
+       The OFX element LOANPMTINFO is of type "LoanPaymentInfo"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="PRINAMT" type="ofx:AmountType"/>
+      <xsd:element name="INTAMT" type="ofx:AmountType"/>
+      <xsd:element name="ESCRWAMT" type="ofx:EscrowAmount" minOccurs="0"/>
+      <xsd:element name="INSURANCE" type="ofx:AmountType" minOccurs="0"/>
+      <xsd:element name="LATEFEEAMT" type="ofx:AmountType" minOccurs="0"/>
+      <xsd:element name="OTHERAMT" type="ofx:AmountType" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="AccountUsageType">
+    <xsd:annotation>
+      <xsd:documentation>
+	The OFX element "ACCTUSAGE" is of type "AccountUsageType".
+	By convention, specify 'DEPOSITS' for deposits/credits or 'WITHDRAWALS' for charges/withdrawals/debits or 'BOTH' for all usage possibilities.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="22"/>
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="OtherAccountInfo">
+    <xsd:annotation>
+      <xsd:documentation>
+       The OFX element OTHERACCTINFO is of type "OtherAccountInfo"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="BANKID" type="ofx:BankIdType" minOccurs="0"/>
+      <xsd:element name="ACCTID" type="ofx:AccountIdType"/>
+      <xsd:element name="ACCTUSAGE" type="ofx:AccountUsageType" minOccurs="0"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:simpleType name="EncryptedContentA256">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX elements "*PII" are of type "EncryptedContentA256" or "EncryptedContentA512" 
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="256"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EncryptedContentA512">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX elements "*PII" are of type "EncryptedContentA256" or "EncryptedContentA512" 
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="512"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:simpleType name="EncryptionInfoA10000">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX elements "ENCRYPTION" is of type "EncryptionInfoA10000" 
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="10000"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+  <xsd:complexType name="ContactNameType">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CONTACTNAME" is of type "ContactNameType" or "ContactNameEncType"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:choice>
+        <xsd:sequence>
+          <xsd:element name="FIRSTNAME" type="ofx:GenericNameType" minOccurs="1" maxOccurs="1"/>
+          <xsd:element name="MIDDLENAME" type="ofx:GenericNameType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="LASTNAME" type="ofx:GenericNameType" minOccurs="1" maxOccurs="1"/>
+          <xsd:sequence minOccurs="0" maxOccurs="1">
+            <xsd:element name="BUSNAME" type="ofx:GenericNameType" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="URL" type="ofx:UrlType" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="SIC" type="ofx:StandardIndustryCodeType" minOccurs="0" maxOccurs="1"/>
+          </xsd:sequence>		
+        </xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="BUSNAME" type="ofx:GenericNameType" minOccurs="1" maxOccurs="1"/>
+          <xsd:element name="URL" type="ofx:UrlType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="SIC" type="ofx:StandardIndustryCodeType" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>		
+      </xsd:choice>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ContactNameEncType">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CONTACTNAME" is of type "ContactNameType" or "ContactNameEncType"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:choice>
+        <xsd:sequence>
+          <xsd:element name="FIRSTNAME" type="ofx:EncryptedContentA256" minOccurs="1" maxOccurs="1"/>
+          <xsd:element name="MIDDLENAME" type="ofx:EncryptedContentA256" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="LASTNAME" type="ofx:EncryptedContentA256" minOccurs="1" maxOccurs="1"/>
+          <xsd:sequence minOccurs="0" maxOccurs="1">
+            <xsd:element name="BUSNAME" type="ofx:EncryptedContentA256" minOccurs="1" maxOccurs="1"/>
+            <xsd:element name="URL" type="ofx:EncryptedContentA512" minOccurs="0" maxOccurs="1"/>
+            <xsd:element name="SIC" type="ofx:EncryptedContentA256" minOccurs="0" maxOccurs="1"/>
+          </xsd:sequence>		
+        </xsd:sequence>
+        <xsd:sequence>
+          <xsd:element name="BUSNAME" type="ofx:EncryptedContentA256" minOccurs="1" maxOccurs="1"/>
+          <xsd:element name="URL" type="ofx:EncryptedContentA512" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="SIC" type="ofx:EncryptedContentA256" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>		
+      </xsd:choice>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ContactNamesType">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CONTACTNAMES" is of type "ContactNamesType" or "ContactNamesEncType" 
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="CONTACTNAME" type="ofx:ContactNameType" minOccurs="1" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ContactNamesEncType">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CONTACTNAMES" is of type "ContactNamesType" or "ContactNamesEncType" 
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="CONTACTNAME" type="ofx:ContactNameEncType" minOccurs="1" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UserInfoRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "USERINFORQ" is of type "UserInfoRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="DTUSERUP" type="ofx:DateTimeType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="UserInfoResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "USERINFORS" is of type "UserInfoResponse".  When including CONTACTPROFENC or CONTACTPROF, 
+        only one occurrence of CONTACTNAME should be included within CONTACTNAMES.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="DTUSERUP" type="ofx:DateTimeType"/>
+      <xsd:choice minOccurs="0">
+        <xsd:element name="CONTACTPROFENC" type="ofx:ContactProfileEnc"/>
+        <xsd:element name="CONTACTPROF" type="ofx:ContactProfile"/>
+      </xsd:choice>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ContactProfile">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CONTACTPROF" is of type "ContactProfile"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="CONTACTNAMES" type="ofx:ContactNamesType" minOccurs="1" maxOccurs="1"/>
+      <xsd:sequence minOccurs="1" maxOccurs="1">
+        <xsd:element name="ADDR1" type="ofx:AddressType" minOccurs="1" maxOccurs="1"/>
+        <xsd:sequence minOccurs="0" maxOccurs="1">
+          <xsd:element name="ADDR2" type="ofx:AddressType" minOccurs="1" maxOccurs="1"/>
+          <xsd:element name="ADDR3" type="ofx:AddressType" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>		
+      </xsd:sequence>
+      <xsd:element name="CITY" type="ofx:AddressType" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="STATE" type="ofx:StateType" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="POSTALCODE" type="ofx:ZipType" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="COUNTRY" type="ofx:CountryType" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="PHONE" type="ofx:PhoneType" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="ALTPHONE" type="ofx:PhoneType" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="EMAIL" type="ofx:ShortMessageType" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="ALTEMAIL" type="ofx:ShortMessageType" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  <xsd:complexType name="ContactProfileEnc">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CONTACTPROFENC" is of type "ContactProfileEnc"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="ENCRYPTION" type="ofx:EncryptionInfoA10000" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="CONTACTNAMES" type="ofx:ContactNamesEncType" minOccurs="1" maxOccurs="1"/>
+      <xsd:sequence minOccurs="1" maxOccurs="1">
+        <xsd:element name="ADDR1" type="ofx:EncryptedContentA256" minOccurs="1" maxOccurs="1"/>
+        <xsd:sequence minOccurs="0" maxOccurs="1">
+          <xsd:element name="ADDR2" type="ofx:EncryptedContentA256" minOccurs="1" maxOccurs="1"/>
+          <xsd:element name="ADDR3" type="ofx:EncryptedContentA256" minOccurs="0" maxOccurs="1"/>
+        </xsd:sequence>		
+      </xsd:sequence>
+      <xsd:element name="CITY" type="ofx:EncryptedContentA256" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="STATE" type="ofx:EncryptedContentA256" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="POSTALCODE" type="ofx:EncryptedContentA256" minOccurs="1" maxOccurs="1"/>
+      <xsd:element name="COUNTRY" type="ofx:EncryptedContentA256" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="PHONE" type="ofx:EncryptedContentA256" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="ALTPHONE" type="ofx:EncryptedContentA256" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="EMAIL" type="ofx:EncryptedContentA512" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="ALTEMAIL" type="ofx:EncryptedContentA512" minOccurs="0" maxOccurs="1"/>
+    </xsd:sequence>
+  </xsd:complexType>
+	<xsd:simpleType name="TagTypeType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "TAGTYPE" is of type "TagTypeType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TagValueType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "TAGVALUE" is of type "TagValueType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="10000"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="OFXElementType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "OFXELEMENT" is of type "OFXElementType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="TAGNAME" type="ofx:GenericNameType" minOccurs="1" maxOccurs="1"/>
+			<xsd:element name="NAME" type="ofx:GenericNameType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="TAGTYPE" type="ofx:TagTypeType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="TAGVALUE" type="ofx:TagValueType" minOccurs="1" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="OFXExtensionType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "OFXEXTENSION" is of type "OFXExtensionType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="OFXELEMENT" type="ofx:OFXElementType" minOccurs="1" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

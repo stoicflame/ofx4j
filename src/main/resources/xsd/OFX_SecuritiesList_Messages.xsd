@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2003 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  xmlns:ofx="http://ofx.net/types/2003/04"
+  targetNamespace="http://ofx.net/types/2003/04">
+  
+  
+  <xsd:include schemaLocation = "OFX_SecuritiesList.xsd" /> 
+
+  <xsd:complexType name="SecurityListRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "SECLISTRQ" is of type "SecurityListRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="SECRQ" type="ofx:SecurityRequest" minOccurs="1"
+      maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="SecurityRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "SECRQ" is of type "SecurityRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:choice>
+      <xsd:element name="SECID" type="ofx:SecurityId" />
+
+      <xsd:element name="TICKER" type="ofx:TickerType" />
+
+      <xsd:element name="FIID" type="ofx:FinancialInstitutionIdType" />
+    </xsd:choice>
+  </xsd:complexType>
+
+</xsd:schema>
+  

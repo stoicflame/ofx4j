@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2004 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Renamed "Account" to "AbstractAccount"
+                                                                Renamed "SyncRequest" to "AbstractSyncRequest"
+                                                                Renamed "SyncResponse" to "AbstractSyncResponse"
+                                                                Renamed "TransactionRequest" to "AbstractTransactionRequest"
+                                                                Renamed "TransactionResponse" to "AbstractTransactionResponse"
+
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+        p1.1    2005-03-21      altenburgd@businesslogic.com    Added Loans to synchronization messages
+
+        2.2     2016-03-14      bill.cary@innovision.com	 	Changes for OFX version 2.2
+-->
+
+<xsd:schema 
+  elementFormDefault="unqualified"
+  targetNamespace="http://ofx.net/types/2003/04" 
+  xmlns:ofx="http://ofx.net/types/2003/04" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:include schemaLocation="OFX_InterTransfer_Messages.xsd"/>
+  <xsd:complexType name="InterSyncRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INTERSYNCRQ" is of type "InterSyncRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncRequest">
+        <xsd:sequence>
+          <xsd:choice>
+            <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+            <xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount"/>
+            <xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+          </xsd:choice>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="INTERTRNRQ" type="ofx:InterTransactionRequest" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="InterSyncResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INTERSYNCRS" is of type "InterSyncResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncResponse">
+        <xsd:sequence>
+          <xsd:choice>
+            <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+            <xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount"/>
+            <xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+          </xsd:choice>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="INTERTRNRS" type="ofx:InterTransactionResponse" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="InterTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INTERTRNRQ" is of type "InterTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:choice>
+            <xsd:element name="INTERRQ" type="ofx:InterRequest"/>
+            <xsd:element name="INTERMODRQ" type="ofx:InterModRequest"/>
+            <xsd:element name="INTERCANRQ" type="ofx:InterCancellationRequest"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="InterTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INTERTRNRS" is of type "InterTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:choice minOccurs="0">
+            <xsd:element name="INTERRS" type="ofx:InterResponse"/>
+            <xsd:element name="INTERMODRS" type="ofx:InterModResponse"/>
+            <xsd:element name="INTERCANRS" type="ofx:InterCancellationResponse"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringInterSyncRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECINTERSYNCRQ" is of type "RecurringInterSyncRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncRequest">
+        <xsd:sequence>
+          <xsd:choice>
+            <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+            <xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount"/>
+            <xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+          </xsd:choice>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="RECINTERTRNRQ" type="ofx:RecurringInterTransactionRequest" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringInterSyncResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECINTERSYNCRS" is of type "RecurringInterSyncResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncResponse">
+        <xsd:sequence>
+          <xsd:choice>
+            <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+            <xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount"/>
+            <xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+          </xsd:choice>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="RECINTERTRNRS" type="ofx:RecurringInterTransactionResponse" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringInterTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECINTERTRNRQ" is of type "RecurringInterTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:choice>
+            <xsd:element name="RECINTERRQ" type="ofx:RecurringInterRequest"/>
+            <xsd:element name="RECINTERMODRQ" type="ofx:RecurringInterModRequest"/>
+            <xsd:element name="RECINTERCANRQ" type="ofx:RecurringInterCancellationRequest"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringInterTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECINTERTRNRS" is of type "RecurringInterTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:choice minOccurs="0">
+            <xsd:element name="RECINTERRS" type="ofx:RecurringInterResponse"/>
+            <xsd:element name="RECINTERMODRS" type="ofx:RecurringInterModResponse"/>
+            <xsd:element name="RECINTERCANRS" type="ofx:RecurringInterCancellationResponse"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+</xsd:schema>

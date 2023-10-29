@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2003 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+	p20	2002-03-10  	altenburgd@businesslogic.com	Created abstract type 'AbstractWireResponse' and made 'WireResponse' and 
+                                                                  WireCancellationResponse' to extend it
+                                                                Created abstract type 'AbstractWireRequest' and made 'WireRequest' and 
+                                                                  'WireCancellationRequest' to extend it
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  xmlns:ofx="http://ofx.net/types/2003/04"
+  targetNamespace="http://ofx.net/types/2003/04">
+
+  
+  <xsd:include schemaLocation = "OFX_WireTransfer.xsd" />
+
+  <xsd:complexType name="AbstractWireResponse" abstract="true"/>
+
+  <xsd:complexType name="WireCancellationResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "WIRECANRS" is of type "WireCancellationResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractWireResponse">
+        <xsd:sequence>
+          <xsd:element name="SRVRTID" type="ofx:ServerIdType" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="AbstractWireRequest" abstract="true"/>
+
+  <xsd:complexType name="WireRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "WIRERQ" is of type "WireRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractWireRequest">
+        <xsd:sequence>
+          <xsd:element name="BANKACCTFROM" type="ofx:BankAccount" />
+          <xsd:element name="WIREBENEFICIARY" type="ofx:WireBeneficiary" />
+          <xsd:element name="WIREDESTBANK" type="ofx:WireDestinationBank" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="TRNAMT" type="ofx:AmountType" />
+          <xsd:element name="DTDUE" type="ofx:DateTimeType" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="PAYINSTRUCT" type="ofx:MessageType"  minOccurs="0" maxOccurs="1" />
+          </xsd:sequence>
+        </xsd:extension>
+      </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="WireCancellationRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "WIRECANRQ" is of type "WireCancellationRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractWireRequest">
+        <xsd:sequence>
+          <xsd:element name="SRVRTID" type="ofx:ServerIdType" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+
+
+  <xsd:complexType name="WireResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "WIRERS" is of type "WireResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractWireResponse">
+        <xsd:sequence>
+          <xsd:element name="CURDEF" type="ofx:CurrencyEnum" />
+          <xsd:element name="SRVRTID" type="ofx:ServerIdType" />
+          <xsd:element name="BANKACCTFROM" type="ofx:BankAccount" />
+          <xsd:element name="WIREBENEFICIARY" type="ofx:WireBeneficiary" />
+          <xsd:element name="WIREDESTBANK" type="ofx:WireDestinationBank" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="TRNAMT" type="ofx:AmountType" />
+          <xsd:element name="DTDUE" type="ofx:DateTimeType" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="PAYINSTRUCT" type="ofx:MessageType" minOccurs="0" maxOccurs="1" />
+          <xsd:choice minOccurs="0" maxOccurs="1">
+            <xsd:element name="DTXFERPRJ" type="ofx:DateTimeType" />
+            <xsd:element name="DTPOSTED" type="ofx:DateTimeType" />
+          </xsd:choice>
+          <xsd:element name="FEE" type="ofx:AmountType" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="CONFMSG" type="ofx:MessageType" minOccurs="0" maxOccurs="1" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+</xsd:schema>

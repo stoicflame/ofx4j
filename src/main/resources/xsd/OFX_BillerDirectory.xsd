@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2003 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+		RC4    2003-06-24      gil_clark@intuit.com             Added collapse to fixed length, non-string types and enums.
+-->
+
+<xsd:schema 
+  elementFormDefault="unqualified"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ofx="http://ofx.net/types/2003/04"
+  targetNamespace="http://ofx.net/types/2003/04">
+
+  <xsd:include schemaLocation = "OFX_Common.xsd" />
+  <xsd:complexType name="BillerInfo">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "BILLERINFO" is of type "BillerInfo"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="BILLPUB" type="ofx:GenericNameType" />
+
+      <xsd:element name="BILLERID" type="ofx:IdType" />
+
+      <xsd:element name="NAME" type="ofx:GenericNameType" />
+
+      <xsd:element name="ADDR1" type="ofx:AddressType" />
+
+      <xsd:element name="ADDR2" type="ofx:AddressType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="ADDR3" type="ofx:AddressType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="CITY" type="ofx:AddressType" />
+
+      <xsd:element name="STATE" type="ofx:StateType" />
+
+      <xsd:element name="POSTALCODE" type="ofx:ZipType" />
+
+      <xsd:element name="COUNTRY" type="ofx:CountryType" />
+
+      <xsd:element name="SIC" type="ofx:StandardIndustryCodeType" />
+
+      <xsd:element name="PHONE" type="ofx:PhoneType" />
+
+      <xsd:element name="PAYMENTINSTRUMENTS"
+      type="ofx:PaymentInstruments" minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="ACCTFORMAT" type="ofx:MessageType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="ACCTEDITMASK" type="ofx:MessageType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="HELPMESSAGE" type="ofx:MessageType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="RESTRICT" type="ofx:MessageType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="LOGO" type="ofx:UrlType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="VALIDATE" type="ofx:UrlType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="BILLERINFOURL" type="ofx:UrlType"
+      minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PaymentInstrument">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PAYMENTINSTRUMENT" is of type "PaymentInstrument"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="PMTINSTRUMENTTYPE"
+      type="ofx:PaymentInstrumentEnum" />
+
+      <xsd:element name="BRAND" type="ofx:GenericNameType"
+      minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PaymentInstruments">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PAYMENTINSTRUMENTS" is of type "PaymentInstruments"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="PAYMENTINSTRUMENT"
+      type="ofx:PaymentInstrument" minOccurs="1"
+      maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:simpleType name="PaymentInstrumentEnum">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PMTINSTRUMENTENUM" is of type "PaymentInstrumentEnum"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+      <xsd:enumeration value="CONCENTRATOR" />
+      <xsd:enumeration value="CHECKINGACCOUNT" />
+      <xsd:enumeration value="CREDITCARD" />
+      <xsd:enumeration value="ECOIN" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+</xsd:schema>
+
