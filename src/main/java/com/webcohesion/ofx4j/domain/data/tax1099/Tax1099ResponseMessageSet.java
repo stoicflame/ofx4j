@@ -72,6 +72,7 @@ public class Tax1099ResponseMessageSet extends ResponseMessageSet {
    * @return the first bank statement response.
    * @deprecated Use getStatementResponses() because sometimes there are multiple responses
    */
+  @Deprecated
   public Tax1099ResponseTransaction getStatementResponse() {
     return taxResponseTransaction == null || taxResponseTransaction.isEmpty() ? null : taxResponseTransaction.get(0);
   }

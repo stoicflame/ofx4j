@@ -35,46 +35,41 @@ public class DefaultStringConversion implements StringConversion {
   public final TimeZone gmtTimeZone;
   public static final int DATE_FORMAT_LENGTH = "yyyyMMddHHmmss.SSS".length();
   public static final int TIME_FORMAT_LENGTH = "HHmmss.SSS".length();
-  
+
   public DefaultStringConversion() {
-	  gmtTimeZone = TimeZone.getTimeZone("GMT");
-  }
-  
-  public DefaultStringConversion(String gmt) {
-	  gmtTimeZone = TimeZone.getTimeZone(gmt);
+    gmtTimeZone = TimeZone.getTimeZone("GMT");
   }
 
+  public DefaultStringConversion(String gmt) {
+    gmtTimeZone = TimeZone.getTimeZone(gmt);
+  }
+
+  @Override
   public String toString(Object value) {
     if (value == null) {
       return null;
-    }
-    else if (Boolean.class.isInstance(value)) {
+    } else if (Boolean.class.isInstance(value)) {
       return ((Boolean) value) ? "Y" : "N";
-    }
-    else if (Time.class.isInstance(value)) {
+    } else if (Time.class.isInstance(value)) {
       return formatTime((Time) value);
-    }
-    else if (Date.class.isInstance(value)) {
+    } else if (Date.class.isInstance(value)) {
       return formatDate((Date) value);
-    }
-    else {
+    } else {
       return String.valueOf(value);
     }
   }
 
+  @Override
   public <E> E fromString(Class<E> clazz, String value) throws OFXSyntaxException {
     if (value == null) {
       return null;
-    }
-    else if (String.class.isAssignableFrom(clazz)) {
+    } else if (String.class.isAssignableFrom(clazz)) {
       return (E) value;
-    }
-    else if (StatusCode.class.isAssignableFrom(clazz)) {
+    } else if (StatusCode.class.isAssignableFrom(clazz)) {
       int code = 2000;
       try {
         code = Integer.parseInt(value);
-      }
-      catch (NumberFormatException e) {
+      } catch (NumberFormatException e) {
         throw new OFXSyntaxException(e);
       }
 
@@ -82,40 +77,30 @@ public class DefaultStringConversion implements StringConversion {
       if (statusCode == null) {
         statusCode = new UnknownStatusCode(code, "Unknown status code.", Status.Severity.ERROR);
       }
-      
+
       return (E) statusCode;
-    }
-    else if (Enum.class.isAssignableFrom(clazz)) {
+    } else if (Enum.class.isAssignableFrom(clazz)) {
       return (E) Enum.valueOf((Class<? extends Enum>) clazz, value);
-    }
-    else if ((Boolean.class.isAssignableFrom(clazz)) || (Boolean.TYPE == clazz)) {
+    } else if ((Boolean.class.isAssignableFrom(clazz)) || (Boolean.TYPE == clazz)) {
       return (E) (Boolean) "Y".equals(value.toUpperCase());
-    }
-    else if ((Integer.class.isAssignableFrom(clazz)) || (Integer.TYPE == clazz)) {
-      return (E) new Integer(Integer.parseInt(value));
-    }
-    else if ((Short.class.isAssignableFrom(clazz)) || (Short.TYPE == clazz)) {
-      return (E) new Short(Short.parseShort(value));
-    }
-    else if ((Float.class.isAssignableFrom(clazz)) || (Float.TYPE == clazz)) {
-      String replacement = value.replace(',', '.'); //handle commas
-      return (E) new Float(Float.parseFloat(replacement));
-    }
-    else if ((Double.class.isAssignableFrom(clazz)) || (Double.TYPE == clazz)) {
-      String replacement = value.replace(',', '.'); //handle commas
-      return (E) new Double(Double.parseDouble(replacement));
-    }
-    else if (Time.class.isAssignableFrom(clazz)) {
+    } else if ((Integer.class.isAssignableFrom(clazz)) || (Integer.TYPE == clazz)) {
+      return (E) (Integer) Integer.parseInt(value);
+    } else if ((Short.class.isAssignableFrom(clazz)) || (Short.TYPE == clazz)) {
+      return (E) (Short) (Short.parseShort(value));
+    } else if ((Float.class.isAssignableFrom(clazz)) || (Float.TYPE == clazz)) {
+      String replacement = value.replace(',', '.'); // handle commas
+      return (E) (Float) (Float.parseFloat(replacement));
+    } else if ((Double.class.isAssignableFrom(clazz)) || (Double.TYPE == clazz)) {
+      String replacement = value.replace(',', '.'); // handle commas
+      return (E) (Double) (Double.parseDouble(replacement));
+    } else if (Time.class.isAssignableFrom(clazz)) {
       return (E) parseTime(value);
-    }
-    else if (Date.class.isAssignableFrom(clazz)) {
+    } else if (Date.class.isAssignableFrom(clazz)) {
       return (E) parseDate(value);
-    }
-    else if (URL.class.isAssignableFrom(clazz)) {
+    } else if (URL.class.isAssignableFrom(clazz)) {
       try {
         return (E) new URL(value);
-      }
-      catch (MalformedURLException e) {
+      } catch (MalformedURLException e) {
         throw new OFXSyntaxException(e);
       }
     }
@@ -138,25 +123,24 @@ public class DefaultStringConversion implements StringConversion {
       if (index < DATE_FORMAT_LENGTH) {
         parseableDate[index] = valueChars[index];
       }
-      
+
       index++;
     }
 
     int year = Integer.parseInt(new String(parseableDate, 0, 4));
-    int month = Integer.parseInt(new String(parseableDate, 4, 2)) - 1; //java month numberss are zero-based
+    int month = Integer.parseInt(new String(parseableDate, 4, 2)) - 1; // java month numberss are zero-based
     int day = Integer.parseInt(new String(parseableDate, 6, 2));
     int hour = Integer.parseInt(new String(parseableDate, 8, 2));
     int minute = Integer.parseInt(new String(parseableDate, 10, 2));
     int second = Integer.parseInt(new String(parseableDate, 12, 2));
     int milli = Integer.parseInt(new String(parseableDate, 15, 3));
 
-    //set up a new calendar at zero, then set all the fields.
+    // set up a new calendar at zero, then set all the fields.
     GregorianCalendar calendar = new GregorianCalendar(year, month, day, hour, minute, second);
     if (index < valueChars.length && valueChars[index] == '[') {
       String tzoffset = value.substring(index);
       calendar.setTimeZone(parseTimeZone(tzoffset));
-    }
-    else {
+    } else {
       calendar.setTimeZone(gmtTimeZone);
     }
     calendar.add(GregorianCalendar.MILLISECOND, milli);
@@ -193,13 +177,12 @@ public class DefaultStringConversion implements StringConversion {
     int second = Integer.parseInt(new String(parseableTime, 4, 2));
     int milli = Integer.parseInt(new String(parseableTime, 7, 3));
 
-    //set up a new calendar at zero, then set all the fields.
+    // set up a new calendar at zero, then set all the fields.
     GregorianCalendar calendar = new GregorianCalendar(0, 0, 0, hour, minute, second);
     if (value.length() > parseableTime.length) {
       String tzoffset = value.substring(parseableTime.length);
       calendar.setTimeZone(parseTimeZone(tzoffset));
-    }
-    else {
+    } else {
       calendar.setTimeZone(gmtTimeZone);
     }
     calendar.add(GregorianCalendar.MILLISECOND, milli);
@@ -236,7 +219,7 @@ public class DefaultStringConversion implements StringConversion {
     return tz;
   }
 
-public TimeZone getGmtTimeZone() {
-	return gmtTimeZone;
-}
+  public TimeZone getGmtTimeZone() {
+    return gmtTimeZone;
+  }
 }

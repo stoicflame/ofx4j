@@ -72,6 +72,7 @@ public class BankingResponseMessageSet extends ResponseMessageSet {
    * @return the first bank statement response.
    * @deprecated Use getStatementResponses() because sometimes there are multiple responses
    */
+  @Deprecated
   public BankStatementResponseTransaction getStatementResponse() {
     return statementResponses == null || statementResponses.isEmpty() ? null : statementResponses.get(0);
   }
