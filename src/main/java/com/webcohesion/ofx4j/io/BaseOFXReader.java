@@ -29,8 +29,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Base class for an OFX reader.  Parses the headers and determines whether we're parsing an
- * OFX v2 or OFX v1 element.  For OFX v2, uses a standard SAX library.
+ * Base class for an OFX reader. Parses the headers and determines whether we're
+ * parsing an OFX v2 or OFX v1 element. For OFX v2, uses a standard SAX library.
  *
  * @author Ryan Heaton
  */
@@ -39,6 +39,7 @@ public abstract class BaseOFXReader implements OFXReader {
   private static final Log LOG = LogFactory.getLog(BaseOFXReader.class);
   public static final Pattern OFX_2_PROCESSING_INSTRUCTION_PATTERN = Pattern.compile("<\\?OFX ([^\\?]+)\\?>");
   private OFXHandler contentHandler = new DefaultHandler();
+  private OFXSettings m_ofxSettings = OFXSettings.getInstance();
 
   /**
    * The content handler.
@@ -54,6 +55,7 @@ public abstract class BaseOFXReader implements OFXReader {
    *
    * @param handler The content handler.
    */
+  @Override
   public void setContentHandler(OFXHandler handler) {
     this.contentHandler = handler;
   }
@@ -63,9 +65,10 @@ public abstract class BaseOFXReader implements OFXReader {
    *
    * @param stream The stream to parse.
    */
+  @Override
   public void parse(InputStream stream) throws IOException, OFXParseException {
-    //todo: what about UTF-16 or other unicode encodings?
-    parse(new InputStreamReader(stream, "utf-8"));
+    m_ofxSettings = OFXSettings.getInstance();
+    parse(new InputStreamReader(stream, m_ofxSettings.getEncoding()));
   }
 
   /**
@@ -73,8 +76,9 @@ public abstract class BaseOFXReader implements OFXReader {
    *
    * @param reader The reader.
    */
+  @Override
   public void parse(Reader reader) throws IOException, OFXParseException {
-    //make sure we're buffering...
+    // make sure we're buffering...
     reader = new BufferedReader(reader);
 
     StringBuilder header = new StringBuilder();
@@ -84,7 +88,8 @@ public abstract class BaseOFXReader implements OFXReader {
     int ch = reader.read(buffer);
     while ((ch != -1) && (!Arrays.equals(buffer, firstElementStart))) {
       if (!contains(buffer, '<')) {
-        //if the buffer contains a '<', then we might already have marked the beginning.
+        // if the buffer contains a '<', then we might already have marked the
+        // beginning.
         reader.mark(firstElementStart.length);
       }
       ch = reader.read();
@@ -94,8 +99,7 @@ public abstract class BaseOFXReader implements OFXReader {
 
     if (ch == -1) {
       throw new OFXParseException("Invalid OFX: no root <OFX> element!");
-    }
-    else {
+    } else {
       Matcher matcher = OFX_2_PROCESSING_INSTRUCTION_PATTERN.matcher(header);
       if (matcher.find()) {
         if (LOG.isInfoEnabled()) {
@@ -105,8 +109,7 @@ public abstract class BaseOFXReader implements OFXReader {
         processOFXv2Headers(matcher.group(1));
         reader.reset();
         parseV2FromFirstElement(reader);
-      }
-      else {
+      } else {
         LOG.info("Processing OFX 1 headers...");
         processOFXv1Headers(header.toString());
         reader.reset();
@@ -121,14 +124,14 @@ public abstract class BaseOFXReader implements OFXReader {
    * @return The first characters of the OFX element.
    */
   protected char[] getFirstElementStart() {
-    return new char[]{ '<', 'O', 'F', 'X' };
+    return new char[] { '<', 'O', 'F', 'X' };
   }
 
   /**
    * Whether the specified buffer contains the specified character.
    *
    * @param buffer The buffer.
-   * @param c The character to search for.
+   * @param c      The character to search for.
    * @return Whether the specified buffer contains the specified character.
    */
   private boolean contains(char[] buffer, char c) {
@@ -150,14 +153,16 @@ public abstract class BaseOFXReader implements OFXReader {
   }
 
   /**
-   * Parse an OFX version 1 stream from the first OFX element (defined by the {@link #getFirstElementStart() first element characters}).
+   * Parse an OFX version 1 stream from the first OFX element (defined by the
+   * {@link #getFirstElementStart() first element characters}).
    *
    * @param reader The reader.
    */
   protected abstract void parseV1FromFirstElement(Reader reader) throws IOException, OFXParseException;
 
   /**
-   * Parse an OFX version 2 stream from the first OFX element (defined by the {@link #getFirstElementStart() first element characters}).
+   * Parse an OFX version 2 stream from the first OFX element (defined by the
+   * {@link #getFirstElementStart() first element characters}).
    *
    * @param reader The reader.
    */
@@ -167,12 +172,11 @@ public abstract class BaseOFXReader implements OFXReader {
       xmlReader.setFeature("http://xml.org/sax/features/namespaces", false);
       xmlReader.setContentHandler(new OFXV2ContentHandler(getContentHandler()));
       xmlReader.parse(new InputSource(reader));
-    }
-    catch (SAXException e) {
+    } catch (SAXException e) {
       if (e.getCause() instanceof OFXParseException) {
         throw (OFXParseException) e.getCause();
       }
-      
+
       throw new OFXParseException(e);
     }
   }

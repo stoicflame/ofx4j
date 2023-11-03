@@ -16,6 +16,7 @@
 
 package com.webcohesion.ofx4j.io.v1;
 
+import com.webcohesion.ofx4j.io.OFXSettings;
 import com.webcohesion.ofx4j.io.OFXWriter;
 
 import java.util.Map;
@@ -27,17 +28,17 @@ import java.io.*;
  * @author Ryan Heaton
  */
 public class OFXV1Writer implements OFXWriter {
+  private OFXSettings m_ofxSettings = OFXSettings.getInstance();
 
   private static final String LINE_SEPARATOR = "\r\n";
   protected boolean headersWritten = false;
   protected final Writer writer;
-  private boolean writeAttributesOnNewLine = false;
+  private boolean writeAttributesOnNewLine = m_ofxSettings.getWriteAttributesOnNewLine();
 
   public OFXV1Writer(OutputStream out) {
     try {
       this.writer = newWriter(out);
-    }
-    catch (UnsupportedEncodingException e) {
+    } catch (UnsupportedEncodingException e) {
       throw new RuntimeException(e);
     }
   }
@@ -47,15 +48,16 @@ public class OFXV1Writer implements OFXWriter {
   }
 
   protected OutputStreamWriter newWriter(OutputStream out) throws UnsupportedEncodingException {
-    return new OutputStreamWriter(out, "ISO-8859-1");
+    return new OutputStreamWriter(out, m_ofxSettings.getEncoding());
   }
 
+  @Override
   public void writeHeaders(Map<String, String> headers) throws IOException {
     if (headersWritten) {
       throw new IllegalStateException("Headers have already been written!");
     }
 
-    //write out the 1.0 headers
+    // write out the 1.0 headers
     println("OFXHEADER:100");
     println("DATA:OFXSGML");
     println("VERSION:102");
@@ -66,8 +68,8 @@ public class OFXV1Writer implements OFXWriter {
       security = "NONE";
     }
     println(security);
-    println("ENCODING:USASCII"); //too many ofx v1 servers don't read unicode...
-    println("CHARSET:1252"); //windows-compatible.
+    println("ENCODING:USASCII"); // too many ofx v1 servers don't read unicode...
+    println("CHARSET:1252"); // windows-compatible.
     println("COMPRESSION:NONE");
     print("OLDFILEUID:");
     String olduid = headers.get("OLDFILEUID");
@@ -81,26 +83,32 @@ public class OFXV1Writer implements OFXWriter {
       uid = "NONE";
     }
     println(uid);
-    println();
 
     this.headersWritten = true;
   }
 
+  @Override
   public void writeStartAggregate(String aggregateName) throws IOException {
+    if (isWriteAttributesOnNewLine()) {
+      println();
+      print(m_ofxSettings.getIdentSpaces());
+    }
+
+    m_ofxSettings.incrIdent();
     print('<');
     print(aggregateName);
     print('>');
-    if (isWriteAttributesOnNewLine()) {
-      println();
-    }
   }
 
+  @Override
   public void writeElement(String name, String value) throws IOException {
+    m_ofxSettings = OFXSettings.getInstance();
     if ((value == null) || ("".equals(value))) {
-      throw new IllegalArgumentException("Illegal element value for element '" + name + "' (value must not be null or empty).");
+      throw new IllegalArgumentException(
+          "Illegal element value for element '" + name + "' (value must not be null or empty).");
     }
 
-    //todo: optimize performance of the character escaping
+    // todo: optimize performance of the character escaping
     if (value.indexOf('&') >= 0) {
       value = value.replaceAll("\\&", "&amp;");
     }
@@ -112,23 +120,27 @@ public class OFXV1Writer implements OFXWriter {
     if (value.indexOf('>') >= 0) {
       value = value.replaceAll(">", "&gt;");
     }
-    
+
+    if (isWriteAttributesOnNewLine()) {
+      println();
+      print(m_ofxSettings.getIdentSpaces());
+    }
     print('<');
     print(name);
     print('>');
     print(value);
-    if (isWriteAttributesOnNewLine()) {
-      println();
-    }
   }
 
+  @Override
   public void writeEndAggregate(String aggregateName) throws IOException {
+    m_ofxSettings.decrIdent();
+    if (isWriteAttributesOnNewLine()) {
+      println();
+      print(m_ofxSettings.getIdentSpaces());
+    }
     print("</");
     print(aggregateName);
     print('>');
-    if (isWriteAttributesOnNewLine()) {
-      println();
-    }
   }
 
   public boolean isWriteAttributesOnNewLine() {
@@ -139,6 +151,7 @@ public class OFXV1Writer implements OFXWriter {
     this.writeAttributesOnNewLine = writeAttributesOnNewLine;
   }
 
+  @Override
   public void close() throws IOException {
     flush();
     this.writer.close();
