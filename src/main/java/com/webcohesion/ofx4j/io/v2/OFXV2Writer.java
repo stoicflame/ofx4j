@@ -48,12 +48,17 @@ public class OFXV2Writer extends OFXV1Writer {
 
   @Override
   public void writeHeaders(Map<String, String> headers) throws IOException {
+    m_ofxSettings = OFXSettings.getInstance();
     if (headersWritten) {
       throw new IllegalStateException("Headers have already been written!");
     }
 
+    print("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+    if (m_ofxSettings.getWriteAttributesOnNewLine()) {
+      println();
+    }
+
     // write out the XML PI
-    print("<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n");
     String security = headers.get("SECURITY");
     if (security == null) {
       security = "NONE";
@@ -70,7 +75,6 @@ public class OFXV2Writer extends OFXV1Writer {
 
     print(String.format("<?OFX OFXHEADER=\"200\" VERSION=\"202\" SECURITY=\"%s\" OLDFILEUID=\"%s\" NEWFILEUID=\"%s\"?>",
         security, olduid, uid));
-    print("\n");
     this.headersWritten = true;
   }
 

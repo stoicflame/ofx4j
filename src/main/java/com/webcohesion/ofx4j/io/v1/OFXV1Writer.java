@@ -91,10 +91,10 @@ public class OFXV1Writer implements OFXWriter {
   public void writeStartAggregate(String aggregateName) throws IOException {
     if (isWriteAttributesOnNewLine()) {
       println();
-      print(m_ofxSettings.getIdentSpaces());
+      print(m_ofxSettings.getIndentSpaces());
     }
 
-    m_ofxSettings.incrIdent();
+    m_ofxSettings.incrIndent();
     print('<');
     print(aggregateName);
     print('>');
@@ -123,7 +123,7 @@ public class OFXV1Writer implements OFXWriter {
 
     if (isWriteAttributesOnNewLine()) {
       println();
-      print(m_ofxSettings.getIdentSpaces());
+      print(m_ofxSettings.getIndentSpaces());
     }
     print('<');
     print(name);
@@ -133,10 +133,10 @@ public class OFXV1Writer implements OFXWriter {
 
   @Override
   public void writeEndAggregate(String aggregateName) throws IOException {
-    m_ofxSettings.decrIdent();
+    m_ofxSettings.decrIndent();
     if (isWriteAttributesOnNewLine()) {
       println();
-      print(m_ofxSettings.getIdentSpaces());
+      print(m_ofxSettings.getIndentSpaces());
     }
     print("</");
     print(aggregateName);
