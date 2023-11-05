@@ -17,7 +17,7 @@ public class OFXSettings {
   private String m_Currency = "EUR";
 
   private int m_Indent = 0;
-  private int m_Tab = 2; // Tab is equivalent of x spaces.
+  private int m_Tab = 2; // Tab is equivalent of 2 spaces.
   private boolean m_WriteAttributesOnNewLine = true;
 
   /**
@@ -55,15 +55,6 @@ public class OFXSettings {
    */
   public String getCurrency() {
     return m_Currency;
-  }
-
-  /**
-   * Get level of indentation
-   * 
-   * @return Indentation level
-   */
-  public int getIndent() {
-    return m_Indent;
   }
 
   /**
@@ -113,15 +104,6 @@ public class OFXSettings {
    */
   public void setWriteAttributesOnNewLine(boolean a_WriteAttributesOnNewLine) {
     m_WriteAttributesOnNewLine = a_WriteAttributesOnNewLine;
-  }
-
-  /**
-   * Set indentation level.
-   * 
-   * @param a_Indent Number of spaces.
-   */
-  public void setIndent(int a_Indent) {
-    m_Indent = a_Indent;
   }
 
   /**
