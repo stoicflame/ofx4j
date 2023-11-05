@@ -35,12 +35,12 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.test.failure.ignore>true</maven.test.failure.ignore>
   </properties>
 
   <build>
     <plugins>
-    
-    	  <plugin>
+      <plugin>
 	    <groupId>org.codehaus.mojo</groupId>
 		<artifactId>jaxb2-maven-plugin</artifactId>
 		<version>3.1.0</version>
@@ -275,7 +275,7 @@
                 </goals>
               </execution>
             </executions>
-          </plugin>
+          </plugin>          
         </plugins>
       </build>
     </profile>

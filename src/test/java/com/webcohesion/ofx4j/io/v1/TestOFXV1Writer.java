@@ -20,6 +20,8 @@ import junit.framework.TestCase;
 
 import java.io.StringWriter;
 
+import com.webcohesion.ofx4j.io.OFXSettings;
+
 /**
  * @author Ryan Heaton
  */
@@ -29,12 +31,14 @@ public class TestOFXV1Writer extends TestCase {
    * tests character escaping
    */
   public void testCharacterEscaping() throws Exception {
+    OFXSettings OFXSetting = OFXSettings.getInstance();
+    OFXSetting.setWriteAttributesOnNewLine(false);
+
     StringWriter value = new StringWriter();
     OFXV1Writer writer = new OFXV1Writer(value);
     writer.writeElement("NAME", "&<>");
     writer.close();
     assertEquals("<NAME>&amp;&lt;&gt;", value.toString());
-
   }
 
 }
