@@ -16,7 +16,13 @@ public class OFXSettings {
 
   private String m_Encoding = "ISO-8859-1";
   private String m_Currency = "EUR";
-  private Locale m_Locale = new Locale("nl", "NL");
+
+  /*  
+  @formatter:off
+ 
+  @formatter:on
+*/
+  private Locale m_Locale = new Locale("en", "US");// new Locale("nl", "NL");
 
   private int m_Indent = 0;
   private int m_Tab = 2; // Tab is equivalent of 2 spaces.
