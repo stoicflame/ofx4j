@@ -19,6 +19,7 @@ package com.webcohesion.ofx4j.domain.data.common;
 import com.webcohesion.ofx4j.domain.data.ResponseMessage;
 import com.webcohesion.ofx4j.meta.ChildAggregate;
 import com.webcohesion.ofx4j.meta.Element;
+import com.webcohesion.ofx4j.OFXSettings;
 import com.webcohesion.ofx4j.client.AccountStatement;
 
 import java.util.Locale;
@@ -33,6 +34,12 @@ public abstract class StatementResponse extends ResponseMessage implements Accou
   private BalanceInfo ledgerBalance;
   private BalanceInfo availableBalance;
   private String marketingInfo;
+  private OFXSettings m_ofxSettings;
+
+  public StatementResponse() {
+    m_ofxSettings = OFXSettings.getInstance();
+    currencyCode = java.util.Currency.getInstance(m_ofxSettings.getLocale()).getCurrencyCode().toUpperCase();
+  }
 
   /**
    * The currency code.
@@ -40,7 +47,8 @@ public abstract class StatementResponse extends ResponseMessage implements Accou
    * @return The currency code.
    * @see java.util.Currency#getCurrencyCode()
    */
-  @Element ( name = "CURDEF", required = true, order = 5 )
+  @Override
+  @Element(name = "CURDEF", required = true, order = 5)
   public String getCurrencyCode() {
     return currencyCode;
   }
@@ -59,7 +67,8 @@ public abstract class StatementResponse extends ResponseMessage implements Accou
    *
    * @return The transaction list.
    */
-  @ChildAggregate ( order = 20 )
+  @Override
+  @ChildAggregate(order = 20)
   public TransactionList getTransactionList() {
     return transactionList;
   }
@@ -78,7 +87,8 @@ public abstract class StatementResponse extends ResponseMessage implements Accou
    *
    * @return The ledger balance.
    */
-  @ChildAggregate ( name = "LEDGERBAL", order = 30)
+  @Override
+  @ChildAggregate(name = "LEDGERBAL", order = 30)
   public BalanceInfo getLedgerBalance() {
     return ledgerBalance;
   }
@@ -97,7 +107,8 @@ public abstract class StatementResponse extends ResponseMessage implements Accou
    *
    * @return The available balance.
    */
-  @ChildAggregate ( name = "AVAILBAL", order = 40 )
+  @Override
+  @ChildAggregate(name = "AVAILBAL", order = 40)
   public BalanceInfo getAvailableBalance() {
     return availableBalance;
   }
@@ -116,7 +127,7 @@ public abstract class StatementResponse extends ResponseMessage implements Accou
    *
    * @return Marketing information.
    */
-  @Element ( name = "MKTGINFO", order = 50)
+  @Element(name = "MKTGINFO", order = 50)
   public String getMarketingInfo() {
     return marketingInfo;
   }

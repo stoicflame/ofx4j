@@ -16,6 +16,7 @@
 
 package com.webcohesion.ofx4j.domain.data.profile;
 
+import com.webcohesion.ofx4j.OFXSettings;
 import com.webcohesion.ofx4j.domain.data.ApplicationSecurity;
 import com.webcohesion.ofx4j.meta.Aggregate;
 import com.webcohesion.ofx4j.meta.Element;
@@ -28,7 +29,7 @@ import java.util.Locale;
  * @author Ryan Heaton
  * @see "Section 7.2.1, OFX Spec"
  */
-@Aggregate ( "MSGSETCORE" )
+@Aggregate("MSGSETCORE")
 public class CoreMessageSetInfo {
 
   private String version = "1";
@@ -41,13 +42,19 @@ public class CoreMessageSetInfo {
   private SynchronizationCapability syncCapability;
   private Boolean fileBasedErrorRecoverySupport;
   private Integer timeout;
+  private OFXSettings m_ofxSettings;
+
+  public CoreMessageSetInfo() {
+    m_ofxSettings = OFXSettings.getInstance();
+    language = m_ofxSettings.getLocale().getISO3Language();
+  }
 
   /**
    * Version of the message set.
    *
    * @return The version of the message set.
    */
-  @Element ( name = "VER", required = true, order = 0 )
+  @Element(name = "VER", required = true, order = 0)
   public String getVersion() {
     return version;
   }
@@ -62,19 +69,23 @@ public class CoreMessageSetInfo {
   }
 
   /**
-   * The name of the service provider (sometimes the message set processing is outsourced).
+   * The name of the service provider (sometimes the message set processing is
+   * outsourced).
    *
-   * @return The name of the service provider (sometimes the message set processing is outsourced).
+   * @return The name of the service provider (sometimes the message set
+   *         processing is outsourced).
    */
-  @Element ( name = "SPNAME", order = 10 )
+  @Element(name = "SPNAME", order = 10)
   public String getServiceProviderName() {
     return serviceProviderName;
   }
 
   /**
-   * The name of the service provider (sometimes the message set processing is outsourced).
+   * The name of the service provider (sometimes the message set processing is
+   * outsourced).
    *
-   * @param serviceProviderName The name of the service provider (sometimes the message set processing is outsourced).
+   * @param serviceProviderName The name of the service provider (sometimes the
+   *                            message set processing is outsourced).
    */
   public void setServiceProviderName(String serviceProviderName) {
     this.serviceProviderName = serviceProviderName;
@@ -85,7 +96,7 @@ public class CoreMessageSetInfo {
    *
    * @return The URL at which the message set is processed.
    */
-  @Element ( name = "URL", required = true, order = 20 )
+  @Element(name = "URL", required = true, order = 20)
   public String getUrl() {
     return url;
   }
@@ -104,7 +115,7 @@ public class CoreMessageSetInfo {
    *
    * @return The application-level security required for this message set.
    */
-  @Element ( name = "OFXSEC", required = true, order = 30 )
+  @Element(name = "OFXSEC", required = true, order = 30)
   public ApplicationSecurity getSecurity() {
     return security;
   }
@@ -123,7 +134,7 @@ public class CoreMessageSetInfo {
    *
    * @return Whether transport-level security is required for this message set.
    */
-  @Element ( name = "TRANSPSEC", required = true, order = 40 )
+  @Element(name = "TRANSPSEC", required = true, order = 40)
   public Boolean getSslRequired() {
     return sslRequired;
   }
@@ -131,7 +142,8 @@ public class CoreMessageSetInfo {
   /**
    * Whether transport-level security is required for this message set.
    *
-   * @param sslRequired Whether transport-level security is required for this message set.
+   * @param sslRequired Whether transport-level security is required for this
+   *                    message set.
    */
   public void setSslRequired(Boolean sslRequired) {
     this.sslRequired = sslRequired;
@@ -142,7 +154,7 @@ public class CoreMessageSetInfo {
    *
    * @return The sign-on realm.
    */
-  @Element ( name = "SIGNONREALM", required = true, order = 50 )
+  @Element(name = "SIGNONREALM", required = true, order = 50)
   public String getRealm() {
     return realm;
   }
@@ -162,7 +174,7 @@ public class CoreMessageSetInfo {
    * @return The language.
    * @see java.util.Locale#getISO3Language()
    */
-  @Element ( name = "LANGUAGE", required = true, order = 60 )
+  @Element(name = "LANGUAGE", required = true, order = 60)
   public String getLanguage() {
     return language;
   }
@@ -181,7 +193,7 @@ public class CoreMessageSetInfo {
    *
    * @return The synchronization capability for this message set.
    */
-  @Element ( name = "SYNCMODE", required = true, order = 70 )
+  @Element(name = "SYNCMODE", required = true, order = 70)
   public SynchronizationCapability getSyncCapability() {
     return syncCapability;
   }
@@ -200,7 +212,7 @@ public class CoreMessageSetInfo {
    *
    * @return Whether there exists support for resposne-file based error recovery.
    */
-  @Element ( name = "RESPFILEER", required = true, order = 80 )
+  @Element(name = "RESPFILEER", required = true, order = 80)
   public Boolean getFileBasedErrorRecoverySupport() {
     return fileBasedErrorRecoverySupport;
   }
@@ -208,32 +220,32 @@ public class CoreMessageSetInfo {
   /**
    * Whether there exists support for resposne-file based error recovery.
    *
-   * @param fileBasedErrorRecoverySupport Whether there exists support for resposne-file based error recovery.
+   * @param fileBasedErrorRecoverySupport Whether there exists support for
+   *                                      resposne-file based error recovery.
    */
   public void setFileBasedErrorRecoverySupport(Boolean fileBasedErrorRecoverySupport) {
     this.fileBasedErrorRecoverySupport = fileBasedErrorRecoverySupport;
   }
 
   /**
-   * Gets the "INTU.TIMEOUT" field. There's no public documentation of this field but E*TRADE sends
-   * it. It likely is some type of timeout in seconds.
+   * Gets the "INTU.TIMEOUT" field. There's no public documentation of this field
+   * but E*TRADE sends it. It likely is some type of timeout in seconds.
    *
    * @return the "INTU.TIMEOUT" property
    */
-  @Element ( name = "INTU.TIMEOUT", order = 90 )
+  @Element(name = "INTU.TIMEOUT", order = 90)
   public Integer getIntuTimeout() {
     return timeout;
   }
 
   /**
-   * Sets the "INTU.TIMEOUT" field. There's no public documentation of this field but E*TRADE sends
-   * it. It likely is some type of timeout in seconds.
+   * Sets the "INTU.TIMEOUT" field. There's no public documentation of this field
+   * but E*TRADE sends it. It likely is some type of timeout in seconds.
    *
    * @param timeout the "INTU.TIMEOUT" property
    */
   public void setIntuTimeout(Integer timeout) {
     this.timeout = timeout;
   }
-
 
 }
