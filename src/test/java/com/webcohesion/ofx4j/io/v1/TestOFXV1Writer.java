@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 import java.io.StringWriter;
 
-import com.webcohesion.ofx4j.io.OFXSettings;
+import com.webcohesion.ofx4j.OFXSettings;
 
 /**
  * @author Ryan Heaton

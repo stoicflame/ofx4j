@@ -16,7 +16,7 @@
 
 package com.webcohesion.ofx4j.io.v2;
 
-import com.webcohesion.ofx4j.io.OFXSettings;
+import com.webcohesion.ofx4j.OFXSettings;
 import com.webcohesion.ofx4j.io.v1.OFXV1Writer;
 
 import java.io.*;
@@ -37,6 +37,11 @@ public class OFXV2Writer extends OFXV1Writer {
 
   public OFXV2Writer(Writer writer) {
     super(writer);
+    m_ofxSettings = OFXSettings.getInstance();
+  }
+
+  public OFXV2Writer(String filename) throws FileNotFoundException {
+    super(filename);
     m_ofxSettings = OFXSettings.getInstance();
   }
 

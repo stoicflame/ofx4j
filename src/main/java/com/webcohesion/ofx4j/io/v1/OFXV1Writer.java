@@ -16,7 +16,7 @@
 
 package com.webcohesion.ofx4j.io.v1;
 
-import com.webcohesion.ofx4j.io.OFXSettings;
+import com.webcohesion.ofx4j.OFXSettings;
 import com.webcohesion.ofx4j.io.OFXWriter;
 
 import java.util.Map;
@@ -34,6 +34,17 @@ public class OFXV1Writer implements OFXWriter {
   protected boolean headersWritten = false;
   protected final Writer writer;
   private boolean writeAttributesOnNewLine = m_ofxSettings.getWriteAttributesOnNewLine();
+  private String m_Filename = "";
+
+  public OFXV1Writer(String filename) throws FileNotFoundException {
+    m_Filename = filename;
+    OutputStream out = new FileOutputStream(filename);
+    try {
+      this.writer = newWriter(out);
+    } catch (UnsupportedEncodingException e) {
+      throw new RuntimeException(e);
+    }
+  }
 
   public OFXV1Writer(OutputStream out) {
     try {
@@ -164,6 +175,10 @@ public class OFXV1Writer implements OFXWriter {
   protected void println(String line) throws IOException {
     print(line);
     println();
+  }
+
+  protected String getFilename() {
+    return m_Filename;
   }
 
   protected void println() throws IOException {

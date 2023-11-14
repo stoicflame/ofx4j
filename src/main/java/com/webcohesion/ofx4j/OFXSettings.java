@@ -1,6 +1,7 @@
-package com.webcohesion.ofx4j.io;
+package com.webcohesion.ofx4j;
 
 import java.nio.charset.Charset;
+import java.util.Locale;
 
 import com.webcohesion.ofx4j.generated.CurrencyEnum;
 
@@ -15,6 +16,7 @@ public class OFXSettings {
 
   private String m_Encoding = "ISO-8859-1";
   private String m_Currency = "EUR";
+  private Locale m_Locale = new Locale("nl", "NL");
 
   private int m_Indent = 0;
   private int m_Tab = 2; // Tab is equivalent of 2 spaces.
@@ -71,6 +73,14 @@ public class OFXSettings {
   }
 
   /**
+   * 
+   * @return
+   */
+  public Locale getLocale() {
+    return m_Locale;
+  }
+
+  /**
    * For creating OFX files: Attributes may start on newline.
    * 
    * @return True for starting on newline or False if not.
@@ -95,6 +105,15 @@ public class OFXSettings {
    */
   public void setCurrency(CurrencyEnum a_Currency) {
     m_Currency = a_Currency.toString();
+  }
+
+  /**
+   * Set Locale
+   * 
+   * @param a_Locale
+   */
+  public void setLocale(Locale a_Locale) {
+    this.m_Locale = a_Locale;
   }
 
   /**

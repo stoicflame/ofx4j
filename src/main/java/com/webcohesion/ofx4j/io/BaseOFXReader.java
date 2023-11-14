@@ -23,6 +23,8 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import com.webcohesion.ofx4j.OFXSettings;
+
 import java.io.*;
 import java.util.Arrays;
 import java.util.regex.Matcher;
