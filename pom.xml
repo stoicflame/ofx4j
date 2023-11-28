@@ -238,16 +238,6 @@
       <build>
         <plugins>
           <plugin>
-            <groupId>org.sonatype.plugins</groupId>
-            <artifactId>nexus-staging-maven-plugin</artifactId>
-            <extensions>true</extensions>
-            <configuration>
-              <serverId>ossrh</serverId>
-              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
-              <autoReleaseAfterClose>true</autoReleaseAfterClose>
-            </configuration>
-          </plugin>
-          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
             <executions>
@@ -278,6 +268,15 @@
           </plugin>          
         </plugins>
       </build>
+      <distributionManagement>
+        <!-- Upload to Github v-->
+        <repository>
+          <id>github</id>
+          <name>GitHub Packages</name>
+          <url>https://maven.pkg.github.com/RSHKwee/ofx4j</url>
+        </repository>
+        <!-- Upload to Github ^-->
+      </distributionManagement> 
     </profile>
   </profiles>
 
