@@ -12,20 +12,21 @@
     OFX4J is a Java implementation of Open Financial Exchange, which defines web service
     APIs for interfacing with financial institutions.
   </description>
-  <url>https://github.com/stoicflame/ofx4j</url>
+<!--  <url>https://github.com/stoicflame/ofx4j</url> -->
+  <url>https://github.com/rshkwee/ofx4j</url>
 
   <developers>
     <developer>
       <name>Ryan Heaton</name>
     </developer>
   </developers>
-
+  <!--
   <scm>
     <connection>scm:git:git@github.com:stoicflame/ofx4j.git</connection>
     <url>https://github.com/stoicflame/ofx4j</url>
     <developerConnection>scm:git:git@github.com:stoicflame/ofx4j.git</developerConnection>
   </scm>
-
+  -->
   <licenses>
     <license>
       <name>Apache 2</name>
@@ -222,14 +223,24 @@
   </dependencies>
 
   <distributionManagement>
+ <!--  
     <snapshotRepository>
       <id>ossrh</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
-    <repository>
+
+   <repository>
       <id>ossrh</id>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
+    -->
+       <!-- Upload to Github v-->
+        <repository>
+          <id>github</id>
+          <name>GitHub Packages</name>
+          <url>https://maven.pkg.github.com/RSHKwee/ofx4j</url>
+        </repository>
+        <!-- Upload to Github ^-->
   </distributionManagement>
 
   <profiles>
@@ -268,15 +279,6 @@
           </plugin>          
         </plugins>
       </build>
-      <distributionManagement>
-        <!-- Upload to Github v-->
-        <repository>
-          <id>github</id>
-          <name>GitHub Packages</name>
-          <url>https://maven.pkg.github.com/RSHKwee/ofx4j</url>
-        </repository>
-        <!-- Upload to Github ^-->
-      </distributionManagement> 
     </profile>
   </profiles>
 
