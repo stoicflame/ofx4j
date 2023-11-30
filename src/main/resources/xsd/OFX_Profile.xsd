@@ -1,0 +1,867 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+	Open Financial Exchange Specification (c)1996-2004 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+    Version Date        Editor Email Addr               Short Description
+    _______ __________  ____________________________    _________________
+    p18     2002-02-11  altenburgd@businesslogic.com    Initial revision
+    p20     2002-03-17  Gil_Clark@intuit.com            Changed name of base types to use Abstract naming convention.
+    p21     2002-03-17  altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                            Changed namespace to "http://ofx.net/types/2003/04"
+    p23     2002-05-13  altenburgd@businesslogic.com    Bugfixes based on Intuit Schema QA
+    RC4     2003-06-24  gil_clark@intuit.com            Added collapse to fixed length, non-string types and enums.
+    RC4     2002-07-07  altenburgd@businesslogic.com    Changed numeric types to restrict strings for more control over actual length
+                                                            Changed name of MAXMIntegerType to PasswordLengthType
+                                                            Removed extraneous global "List" element
+    RC5     2002-07-22  gil_clark@intuit.com            Changed PasswordLengthType's back to MAXMINIntType.
+    p1.1    2003-03-23  altenburgd@businesslogic.com    Added Loan profile messages
+    p1.2    2006-06-13  wendy_dubois@intuit.com         Some bug fixes
+            2006-05-17  wendy_dubois@intuit.com             Added MFA tags to SIGNONINFO aggregate
+            2016-03-14  bill.cary@innovision.com        Changes for OFX version 2.2
+            2016-04-29  bill.cary@innovision.com        Add all missed tax updates through Tax Year 2015 
+    2.2.1   2019-02-19  bill.cary@innovision.com        Add optional USERINFOAVAIL profile response tag for indicating USERINFORQ/RS support.
+    Tax2.0  2019-09-30  clyde.e.cutting@wellsfargo.com  Introduction of TAXPDF for exchange of PDF tax forms for TY19.
+    2.3     2020-09-04  clyde.e.cutting@wellsfargo.com  Removal of all Tax files and entities for Core-only OFX release v2.3.
+-->
+<xsd:schema xmlns:ofx="http://ofx.net/types/2003/04" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://ofx.net/types/2003/04" elementFormDefault="unqualified">
+	<xsd:include schemaLocation="OFX_Common.xsd"/>
+	<xsd:simpleType name="CharTypeEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CHARTYPEENUM" is of type "CharTypeEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="ALPHAONLY"/>
+			<xsd:enumeration value="NUMERICONLY"/>
+			<xsd:enumeration value="ALPHAORNUMERIC"/>
+			<xsd:enumeration value="ALPHAANDNUMERIC"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ClientRoutingEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CLIENTROUTINGENUM" is of type "ClientRoutingEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="NONE"/>
+			<xsd:enumeration value="SERVICE"/>
+			<xsd:enumeration value="MSGSET"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="MessageSetCore">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "MSGSETCORE" is of type "MessageSetCore"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VER" type="ofx:VersionType"/>
+			<xsd:element name="URL" type="ofx:UrlType"/>
+			<xsd:element name="OFXSEC" type="ofx:SecurityEnum"/>
+			<xsd:element name="TRANSPSEC" type="ofx:BooleanType"/>
+			<xsd:element name="SIGNONREALM" type="ofx:GenericNameType"/>
+			<xsd:element name="LANGUAGE" type="ofx:LanguageEnum" maxOccurs="unbounded"/>
+			<xsd:element name="SYNCMODE" type="ofx:SyncEnum"/>
+			<xsd:element name="REFRESHSUPT" type="ofx:BooleanType" minOccurs="0"/>
+			<xsd:element name="RESPFILEER" type="ofx:BooleanType"/>
+			<xsd:element name="SPNAME" type="ofx:GenericNameType" minOccurs="0"/>
+			<xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="MessageSetMacro">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "MSGSETMACRO" is of type "MessageSetMacro"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:element name="SIGNUPMSGSET" type="ofx:SignupMessageSet"/>
+			<xsd:element name="BANKMSGSET" type="ofx:BankMessageSet"/>
+			<xsd:element name="CREDITCARDMSGSET" type="ofx:CreditcardMessageSet"/>
+			<xsd:element name="LOANMSGSET" type="ofx:LoanMessageSet"/>
+			<xsd:element name="IMAGEMSGSET" type="ofx:ImageMessageSet"/>
+			<xsd:element name="INVSTMTMSGSET" type="ofx:InvestmentStatementMessageSet"/>
+			<xsd:element name="INTERXFERMSGSET" type="ofx:InterTransferMessageSet"/>
+			<xsd:element name="WIREXFERMSGSET" type="ofx:WireTransferMessageSet"/>
+			<xsd:element name="BILLPAYMSGSET" type="ofx:BillPayMessageSet"/>
+			<xsd:element name="EMAILMSGSET" type="ofx:EmailMessageSet"/>
+			<xsd:element name="SECLISTMSGSET" type="ofx:SecurityListMessageSet"/>
+			<xsd:element name="PRESDIRMSGSET" type="ofx:PresentmentDirMessageSet"/>
+			<xsd:element name="PRESDLVMSGSET" type="ofx:PresentmentDlvMessageSet"/>
+		</xsd:choice>
+	</xsd:group>
+	<xsd:complexType name="AbstractMessageSet" abstract="true"/>
+	<xsd:complexType name="AbstractMessageSetVersion" abstract="true">
+		<xsd:sequence>
+			<xsd:element name="MSGSETCORE" type="ofx:MessageSetCore"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SignupMessageSet">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SIGNUPMSGSET" is of type "SignupMessageSet"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSet">
+				<xsd:sequence>
+					<xsd:element name="SIGNUPMSGSETV1" type="ofx:SignupMessageSetV1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SignupMessageSetV1">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SIGNUPMSGSETV1" is of type "SignupMessageSetV1"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSetVersion">
+				<xsd:sequence>
+					<xsd:choice>
+						<xsd:element name="CLIENTENROLL" type="ofx:ClientEnroll"/>
+						<xsd:element name="WEBENROLL" type="ofx:WebEnroll"/>
+						<xsd:element name="OTHERENROLL" type="ofx:OtherEnroll"/>
+					</xsd:choice>
+					<xsd:element name="CHGUSERINFO" type="ofx:BooleanType"/>
+					<xsd:element name="AVAILACCTS" type="ofx:BooleanType"/>
+					<xsd:element name="CLIENTACTREQ" type="ofx:BooleanType"/>
+					<xsd:element name="USERINFOAVAIL" type="ofx:BooleanType" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ClientEnroll">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CLIENTENROLL" is of type "ClientEnroll"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="ACCTREQUIRED" type="ofx:BooleanType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="WebEnroll">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "WEBENROLL" is of type "WebEnroll"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="URL" type="ofx:UrlType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="OtherEnroll">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "OTHERENROLL" is of type "OtherEnroll"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="MESSAGE" type="ofx:MessageType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BankMessageSet">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BANKMSGSET" is of type "BankMessageSet"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSet">
+				<xsd:sequence>
+					<xsd:element name="BANKMSGSETV1" type="ofx:BankMessageSetV1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="BankMessageSetV1">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BANKMSGSETV1" is of type "BankMessageSetV1"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSetVersion">
+				<xsd:sequence>
+					<xsd:element name="INVALIDACCTTYPE" type="ofx:AccountEnum" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element name="CLOSINGAVAIL" type="ofx:BooleanType"/>
+					<xsd:element name="PENDINGAVAIL" type="ofx:BooleanType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="XFERPROF" type="ofx:TransferProfile" minOccurs="0"/>
+					<xsd:element name="STPCHKPROF" type="ofx:StopCheckProfile" minOccurs="0"/>
+					<xsd:element name="EMAILPROF" type="ofx:EmailProfile"/>
+					<xsd:element name="IMAGEPROF" type="ofx:ImageProfile" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="TransferProfile">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "XFERPROF" is of type "TransferProfile"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="PROCDAYSOFF" type="ofx:DaysEnum" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="PROCENDTM" type="ofx:TimeType"/>
+			<xsd:element name="CANSCHED" type="ofx:BooleanType"/>
+			<xsd:element name="CANRECUR" type="ofx:BooleanType"/>
+			<xsd:element name="CANLOAN" type="ofx:BooleanType" minOccurs="0"/>
+			<xsd:element name="CANSCHEDLOAN" type="ofx:BooleanType" minOccurs="0"/>
+			<xsd:element name="CANRECURLOAN" type="ofx:BooleanType" minOccurs="0"/>
+			<xsd:element name="CANMODXFERS" type="ofx:BooleanType"/>
+			<xsd:element name="CANMODMDLS" type="ofx:BooleanType"/>
+			<xsd:element name="MODELWND" type="ofx:DayspanType"/>
+			<xsd:element name="DAYSWITH" type="ofx:DayspanType"/>
+			<xsd:element name="DFLTDAYSTOPAY" type="ofx:DayspanType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ImageProfile">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "IMAGEPROF" is of type "ImageProfile"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CLOSINGIMGAVAIL" type="ofx:BooleanType"/>
+			<xsd:element name="TRANIMGAVAIL" type="ofx:BooleanType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CreditcardMessageSet">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CREDITCARDMSGSET" is of type "CreditcardMessageSet"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSet">
+				<xsd:sequence>
+					<xsd:element name="CREDITCARDMSGSETV1" type="ofx:CreditcardMessageSetV1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="CreditcardMessageSetV1">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CREDITCARDMSGSETV1" is of type "CreditcardMessageSetV1"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSetVersion">
+				<xsd:sequence>
+					<xsd:element name="CLOSINGAVAIL" type="ofx:BooleanType"/>
+					<xsd:element name="PENDINGAVAIL" type="ofx:BooleanType" minOccurs="0" maxOccurs="1"/>
+					<xsd:element name="IMAGEPROF" type="ofx:ImageProfile" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="LoanMessageSet">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "LOANMSGSET" is of type "LoanMessageSet"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSet">
+				<xsd:sequence>
+					<xsd:element name="LOANMSGSETV1" type="ofx:LoanMessageSetV1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="LoanMessageSetV1">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "LOANMSGSETV1" is of type "LoanMessageSetV1"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSetVersion">
+				<xsd:sequence>
+					<xsd:element name="TRANDNLD" type="ofx:BooleanType"/>
+					<xsd:element name="CLOSINGAVAIL" type="ofx:BooleanType"/>
+					<xsd:element name="AMRTAVAIL" type="ofx:BooleanType"/>
+					<xsd:element name="CANEMAIL" type="ofx:BooleanType"/>
+					<xsd:element name="IMAGEPROF" type="ofx:ImageProfile" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ImageMessageSet">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "IMAGEMSGSET" is of type "ImageMessageSet"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSet">
+				<xsd:sequence>
+					<xsd:element name="IMAGEMSGSETV1" type="ofx:ImageMessageSetV1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ImageMessageSetV1">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "IMAGEMSGSETV1" is of type "ImageMessageSetV1"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSetVersion">
+				<xsd:sequence>
+					<xsd:element name="DFLTIMAGEDELAY" type="ofx:ImageDelayType" minOccurs="0"/>
+					<xsd:element name="DFLTIMAGETTL" type="ofx:ImageTotalType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="InvestmentStatementMessageSet">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INVSTMTMSGSET" is of type "InvestmentStatementMessageSet"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSet">
+				<xsd:sequence>
+					<xsd:element name="INVSTMTMSGSETV1" type="ofx:InvestmentStatementMessageSetV1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="InvestmentStatementMessageSetV1">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INVSTMTMSGSETV1" is of type "InvestmentStatementMessageSetV1"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSetVersion">
+				<xsd:sequence>
+					<xsd:element name="TRANDNLD" type="ofx:BooleanType"/>
+					<xsd:element name="OODNLD" type="ofx:BooleanType"/>
+					<xsd:element name="POSDNLD" type="ofx:BooleanType"/>
+					<xsd:element name="BALDNLD" type="ofx:BooleanType"/>
+					<xsd:element name="CANEMAIL" type="ofx:BooleanType"/>
+					<xsd:element name="INV401KDNLD" type="ofx:BooleanType" minOccurs="0"/>
+					<xsd:element name="CLOSINGAVAIL" type="ofx:BooleanType" minOccurs="0"/>
+					<xsd:element name="IMAGEPROF" type="ofx:ImageProfile" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="InterTransferMessageSet">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INTERXFERMSGSET" is of type "InterTransferMessageSet"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSet">
+				<xsd:sequence>
+					<xsd:element name="INTERXFERMSGSETV1" type="ofx:InterTransferMessageSetV1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="InterTransferMessageSetV1">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INTERXFERMSGSETV1" is of type "InterTransferMessageSetV1"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSetVersion">
+				<xsd:sequence>
+					<xsd:element name="XFERPROF" type="ofx:TransferProfile"/>
+					<xsd:element name="CANBILLPAY" type="ofx:BooleanType"/>
+					<xsd:element name="CANCELWND" type="ofx:DayspanType"/>
+					<xsd:element name="DOMXFERFEE" type="ofx:AmountType"/>
+					<xsd:element name="INTLXFERFEE" type="ofx:AmountType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="WireTransferMessageSet">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "WIREXFERMSGSET" is of type "WireTransferMessageSet"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSet">
+				<xsd:sequence>
+					<xsd:element name="WIREXFERMSGSETV1" type="ofx:WireTransferMessageSetV1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="WireTransferMessageSetV1">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "WIREXFERMSGSETV1" is of type "WireTransferMessageSetV1"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSetVersion">
+				<xsd:sequence>
+					<xsd:element name="PROCDAYSOFF" type="ofx:DaysEnum" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element name="PROCENDTM" type="ofx:TimeType"/>
+					<xsd:element name="CANSCHED" type="ofx:BooleanType"/>
+					<xsd:element name="DOMXFERFEE" type="ofx:AmountType"/>
+					<xsd:element name="INTLXFERFEE" type="ofx:AmountType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="BillPayMessageSet">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BILLPAYMSGSET" is of type "BillPayMessageSet"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSet">
+				<xsd:sequence>
+					<xsd:element name="BILLPAYMSGSETV1" type="ofx:BillPayMessageSetV1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="BillPayMessageSetV1">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BILLPAYMSGSETV1" is of type "BillPayMessageSetV1"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSetVersion">
+				<xsd:sequence>
+					<xsd:element name="DAYSWITH" type="ofx:DayspanType"/>
+					<xsd:element name="DFLTDAYSTOPAY" type="ofx:DayspanType"/>
+					<xsd:element name="XFERDAYSWITH" type="ofx:DayspanType"/>
+					<xsd:element name="XFERDFLTDAYSTOPAY" type="ofx:DayspanType"/>
+					<xsd:element name="PROCDAYSOFF" type="ofx:DaysEnum" minOccurs="0" maxOccurs="unbounded"/>
+					<xsd:element name="PROCENDTM" type="ofx:TimeType"/>
+					<xsd:element name="MODELWND" type="ofx:DayspanType"/>
+					<xsd:element name="POSTPROCWND" type="ofx:DayspanType"/>
+					<xsd:element name="STSVIAMODS" type="ofx:BooleanType"/>
+					<xsd:element name="PMTBYADDR" type="ofx:BooleanType"/>
+					<xsd:element name="PMTBYXFER" type="ofx:BooleanType"/>
+					<xsd:element name="PMTBYPAYEEID" type="ofx:BooleanType"/>
+					<xsd:element name="CANADDPAYEE" type="ofx:BooleanType"/>
+					<xsd:element name="HASEXTDPMT" type="ofx:BooleanType"/>
+					<xsd:element name="CANMODPMTS" type="ofx:BooleanType"/>
+					<xsd:element name="CANMODMDLS" type="ofx:BooleanType"/>
+					<xsd:element name="DIFFFIRSTPMT" type="ofx:BooleanType"/>
+					<xsd:element name="DIFFLASTPMT" type="ofx:BooleanType"/>
+					<xsd:element name="BILLPUBCONTEXT" type="ofx:BooleanType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="EmailMessageSet">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "EMAILMSGSET" is of type "EmailMessageSet"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSet">
+				<xsd:sequence>
+					<xsd:element name="EMAILMSGSETV1" type="ofx:EmailMessageSetV1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="EmailMessageSetV1">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "EMAILMSGSETV1" is of type "EmailMessageSetV1"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSetVersion">
+				<xsd:sequence>
+					<xsd:element name="MAILSUP" type="ofx:BooleanType"/>
+					<xsd:element name="GETMIMESUP" type="ofx:BooleanType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PresentmentDirMessageSet">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "PRESDIRMSGSET" is of type "PresentmentDirMessageSet"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSet">
+				<xsd:sequence>
+					<xsd:element name="PRESDIRMSGSETV1" type="ofx:PresentmentDirMessageSetV1" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PresentmentDirMessageSetV1">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "PRESDIRMSGSETV1" is of type "PresentmentDirMessageSetV1"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSetVersion">
+				<xsd:sequence>
+					<xsd:element name="PRESDIRPROF" type="ofx:PresentmentDirProfile" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PresentmentDirProfile">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "PRESDIRPROF" is of type "PresentmentDirProfile"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="PROCDAYSOFF" type="ofx:DaysEnum" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="CANSUPPORTIMAGES" type="ofx:BooleanType"/>
+			<xsd:element name="PROCENDTM" type="ofx:TimeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SecurityListMessageSet">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SECLISTMSGSET" is of type "SecurityListMessageSet"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSet">
+				<xsd:sequence>
+					<xsd:element name="SECLISTMSGSETV1" type="ofx:SecurityListMessageSetV1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SecurityListMessageSetV1">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SECLISTMSGSETV1" is of type "SecurityListMessageSetV1"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSetVersion">
+				<xsd:sequence>
+					<xsd:element name="SECLISTRQDNLD" type="ofx:BooleanType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PresentmentDlvMessageSet">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "PRESDLVMSGSET" is of type "PresentmentDlvMessageSet"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSet">
+				<xsd:sequence>
+					<xsd:element name="PRESDLVMSGSETV1" type="ofx:PresentmentDlvMessageSetV1" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PresentmentDlvMessageSetV1">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "PRESDLVMSGSETV1" is of type "PresentmentDlvMessageSetV1"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSetVersion">
+				<xsd:sequence>
+					<xsd:element name="PRESDLVPROF" type="ofx:PresentmentDlvProfile" minOccurs="0"/>
+					<xsd:element name="EMAILPROF" type="ofx:EmailProfile"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PresentmentDlvProfile">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "PRESDLVPROF" is of type "PresentmentDlvProfile"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CANSUPPORTGROUPID" type="ofx:BooleanType"/>
+			<xsd:element name="PROCDAYSOFF" type="ofx:DaysEnum" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="CANSUPPORTIMAGES" type="ofx:BooleanType"/>
+			<xsd:element name="PROCENDTM" type="ofx:TimeType"/>
+			<xsd:element name="CANUPDATEPRESNAMEADDRESS" type="ofx:BooleanType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StopCheckProfile">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "STPCHKPROF" is of type "StopCheckProfile"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="PROCDAYSOFF" type="ofx:DaysEnum" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="PROCENDTM" type="ofx:TimeType"/>
+			<xsd:element name="CANUSERANGE" type="ofx:BooleanType"/>
+			<xsd:element name="CANUSEDESC" type="ofx:BooleanType"/>
+			<xsd:element name="STPCHKFEE" type="ofx:AmountType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EmailProfile">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "EMAILPROF" is of type "EmailProfile"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CANEMAIL" type="ofx:BooleanType"/>
+			<xsd:element name="CANNOTIFY" type="ofx:BooleanType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="DaysEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "DAYSENUM" is of type "DaysEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="MONDAY"/>
+			<xsd:enumeration value="TUESDAY"/>
+			<xsd:enumeration value="WEDNESDAY"/>
+			<xsd:enumeration value="THURSDAY"/>
+			<xsd:enumeration value="FRIDAY"/>
+			<xsd:enumeration value="SATURDAY"/>
+			<xsd:enumeration value="SUNDAY"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MAXMINType">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "MAXMIN" is of type "MAXMINType"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="2"/>
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:pattern value="[0-9]+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="MessageSetList">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "MSGSETLIST" is of type "MessageSetList"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice>
+			<xsd:sequence>
+				<xsd:choice>
+					<xsd:sequence>
+						<xsd:element name="SIGNONMSGSET" type="ofx:SignonMessageSet"/>
+						<xsd:sequence maxOccurs="unbounded">
+							<xsd:group ref="ofx:MessageSetMacro"/>
+						</xsd:sequence>
+						<xsd:element name="PROFMSGSET" type="ofx:ProfileMessageSet"/>
+					</xsd:sequence>
+					<xsd:sequence>
+						<xsd:element name="PROFMSGSET" type="ofx:ProfileMessageSet"/>
+						<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+							<xsd:group ref="ofx:MessageSetMacro"/>
+						</xsd:sequence>
+						<xsd:element name="SIGNONMSGSET" type="ofx:SignonMessageSet"/>
+					</xsd:sequence>
+				</xsd:choice>
+				<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+					<xsd:group ref="ofx:MessageSetMacro"/>
+				</xsd:sequence>
+			</xsd:sequence>
+			<xsd:sequence>
+				<xsd:sequence maxOccurs="unbounded">
+					<xsd:group ref="ofx:MessageSetMacro"/>
+				</xsd:sequence>
+				<xsd:sequence>
+					<xsd:choice>
+						<xsd:element name="SIGNONMSGSET" type="ofx:SignonMessageSet"/>
+						<xsd:element name="PROFMSGSET" type="ofx:ProfileMessageSet"/>
+					</xsd:choice>
+					<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+						<xsd:group ref="ofx:MessageSetMacro"/>
+					</xsd:sequence>
+					<xsd:choice>
+						<xsd:element name="PROFMSGSET" type="ofx:ProfileMessageSet"/>
+						<xsd:element name="SIGNONMSGSET" type="ofx:SignonMessageSet"/>
+					</xsd:choice>
+				</xsd:sequence>
+				<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+					<xsd:group ref="ofx:MessageSetMacro"/>
+				</xsd:sequence>
+			</xsd:sequence>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="ProfileMessageSet">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "PROFMSGSET" is of type "ProfileMessageSet"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSet">
+				<xsd:sequence>
+					<xsd:element name="PROFMSGSETV1" type="ofx:ProfileMessageSetV1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ProfileMessageSetV1">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "PROFMSGSETV1" is of type "ProfileMessageSetV1"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSetVersion"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="SecurityEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SECURITYENUM" is of type "SecurityEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="NONE"/>
+			<xsd:enumeration value="TYPE1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="SignonInfo">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SIGNONINFO" is of type "SignonInfo"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SIGNONREALM" type="ofx:GenericNameType"/>
+			<xsd:element name="MIN" type="ofx:MAXMINType"/>
+			<xsd:element name="MAX" type="ofx:MAXMINType"/>
+			<xsd:element name="CHARTYPE" type="ofx:CharTypeEnum"/>
+			<xsd:element name="CASESEN" type="ofx:BooleanType"/>
+			<xsd:element name="SPECIAL" type="ofx:BooleanType"/>
+			<xsd:element name="SPACES" type="ofx:BooleanType"/>
+			<xsd:element name="PINCH" type="ofx:BooleanType"/>
+			<xsd:element name="CHGPINFIRST" type="ofx:BooleanType"/>
+			<xsd:sequence minOccurs="0" maxOccurs="1">
+				<xsd:element name="USERCRED1LABEL" type="ofx:MFATextType"/>
+				<xsd:element name="USERCRED2LABEL" type="ofx:MFATextType" minOccurs="0" maxOccurs="1"/>
+			</xsd:sequence>
+			<xsd:element name="CLIENTUIDREQ" type="ofx:BooleanType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="AUTHTOKENFIRST" type="ofx:BooleanType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="AUTHTOKENLABEL" type="ofx:MFATextType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="AUTHTOKENINFOURL" type="ofx:MFAUrlType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="MFACHALLENGESUPT" type="ofx:BooleanType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="MFACHALLENGEFIRST" type="ofx:BooleanType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="ACCESSTOKENREQ" type="ofx:BooleanType" minOccurs="0" maxOccurs="1"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SignonInfoList">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SIGNONINFOLIST" is of type "SignonInfoList"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SIGNONINFO" type="ofx:SignonInfo" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SignonMessageSet">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SIGNONMSGSET" is of type "SignonMessageSet"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSet">
+				<xsd:sequence>
+					<xsd:element name="SIGNONMSGSETV1" type="ofx:SignonMessageSetV1"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SignonMessageSetV1">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SIGNONMSGSETV1" is of type "SignonMessageSetV1"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractMessageSetVersion"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:simpleType name="SyncEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SYNCENUM" is of type "SyncEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="FULL"/>
+			<xsd:enumeration value="LITE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="VersionType">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "VER" is of type "VersionType"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="5"/>
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:pattern value="[0-9]+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MFATextType">
+		<xsd:annotation>
+			<xsd:documentation>
+                  The OFX element "USERCRED1LABEL" is of type "MFATextType"
+                  The OFX element "USERCRED2LABEL" is of type "MFATextType"
+              </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="64"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MFAUrlType">
+		<xsd:annotation>
+			<xsd:documentation>
+                  The OFX element "AUTHTOKENINFOURL" is of type "MFAUrlType"
+              </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+</xsd:schema>

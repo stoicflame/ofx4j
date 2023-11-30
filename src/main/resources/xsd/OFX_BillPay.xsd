@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2004 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+	RC4    2003-06-24      gil_clark@intuit.com             Added collapse to fixed length, non-string types and enums.
+        RC4    2003-07-10      altenburgd@businesslogic.com     Changed 'ExtType' to be a restricted string
+	       2006-06-13      wendy_dubois@intuit.com          Changed EXTDPMTDSC to be optional if EXTDPMTINV is present
+
+-->
+
+<xsd:schema 
+  elementFormDefault="unqualified"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ofx="http://ofx.net/types/2003/04"
+  targetNamespace="http://ofx.net/types/2003/04">
+
+  <xsd:include schemaLocation = "OFX_Common.xsd" />
+
+  <xsd:complexType name="BillPubInfo">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "BILLPUBINFO" is of type "BillPubInfo"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="BILLPUB" type="ofx:GenericNameType" />
+
+      <xsd:element name="BILLID" type="ofx:IdType" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="ExtendedPayee">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "EXTDPAYEE" is of type "ExtendedPayee"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:sequence minOccurs="0" maxOccurs="1">
+        <xsd:element name="PAYEEID" type="ofx:PayeeIdType" />
+
+        <xsd:element name="IDSCOPE" type="ofx:IdScopeEnum" />
+
+        <xsd:element name="NAME" type="ofx:GenericNameType" />
+      </xsd:sequence>
+
+      <xsd:element name="DAYSTOPAY" type="ofx:DayspanType" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ExtendedPayment">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "EXTDPMT" is of type "ExtendedPayment"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="EXTDPMTFOR" type="ofx:ExtendedPaymentForEnum"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="EXTDPMTCHK" type="ofx:ExtType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:choice>
+        <xsd:sequence>
+          <xsd:element name="EXTDPMTDSC" type="ofx:MessageType" />
+
+          <xsd:element name="EXTDPMTINV" type="ofx:ExtendedPaymentInvoice"
+          minOccurs="0" maxOccurs="1" />
+        </xsd:sequence>
+
+        <xsd:element name="EXTDPMTINV" type="ofx:ExtendedPaymentInvoice" />
+      </xsd:choice>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:simpleType name="ExtendedPaymentForEnum">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "EXTDPMTFORENUM" is of type "ExtendedPaymentForEnum"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+      <xsd:enumeration value="INDIVIDUAL" />
+      <xsd:enumeration value="BUSINESS" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="ExtendedPaymentInvoice">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "EXTDPMTINV" is of type "ExtendedPaymentInvoice"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="INVOICE" type="ofx:Invoice" minOccurs="1"
+      maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:simpleType name="ExtType">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "EXT" is of type "ExtType"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+      <xsd:maxLength value="10"/>
+      <xsd:pattern value="[0-9]+"/>
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="IdScopeEnum">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "IDSCOPEENUM" is of type "IdScopeEnum"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+      <xsd:enumeration value="GLOBAL" />
+      <xsd:enumeration value="USER" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+
+  <xsd:complexType name="PaymentInfo">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PMTINFO" is of type "PaymentInfo"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="BANKACCTFROM" type="ofx:BankAccount" />
+
+      <xsd:element name="TRNAMT" type="ofx:AmountType" />
+
+      <xsd:choice>
+        <xsd:element name="PAYEEID" type="ofx:PayeeIdType" />
+
+        <xsd:element name="PAYEE" type="ofx:Payee" />
+      </xsd:choice>
+
+      <xsd:element name="PAYEELSTID" type="ofx:PayeeIdType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="BANKACCTTO" type="ofx:BankAccount"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="EXTDPMT" type="ofx:ExtendedPayment" minOccurs="0"
+      maxOccurs="unbounded" />
+
+      <xsd:element name="PAYACCT" type="ofx:IdType" />
+
+      <xsd:element name="DTDUE" type="ofx:DateTimeType" />
+
+      <xsd:element name="MEMO" type="ofx:MessageType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="BILLREFINFO" type="ofx:BillRefInfoType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="BILLPUBINFO" type="ofx:BillPubInfo"
+      minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PaymentProcessingStatus">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PMTPRCSTS" is of type "PaymentProcessingStatus"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="PMTPRCCODE"
+      type="ofx:PaymentProcessStatusEnum" />
+
+      <xsd:element name="DTPMTPRC" type="ofx:DateTimeType" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:simpleType name="PaymentProcessStatusEnum">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PMTPROCESSSTATUSENUM" is of type "PaymentProcessStatusEnum"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+      <xsd:enumeration value="CANCELEDON" />
+      <xsd:enumeration value="WILLPROCESSON" />
+      <xsd:enumeration value="PROCESSEDON" />
+      <xsd:enumeration value="NOFUNDSON" />
+      <xsd:enumeration value="FAILEDON" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+
+</xsd:schema>
+

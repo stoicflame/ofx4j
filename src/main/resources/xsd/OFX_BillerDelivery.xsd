@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+	Open Financial Exchange Specification (c)1996-2003 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+		RC4    2003-06-24      gil_clark@intuit.com             Added collapse to fixed length, non-string types and enums.
+-->
+<xsd:schema targetNamespace="http://ofx.net/types/2003/04" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ofx="http://ofx.net/types/2003/04" elementFormDefault="unqualified">
+	<xsd:include schemaLocation="OFX_Common.xsd"/>
+	<xsd:simpleType name="BillPaymentstatusCodeEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "BILLPMTSTATUSCODEENUM" is of type "BillPaymentstatusCodeEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="PAIDOUTOFBAND"/>
+			<xsd:enumeration value="AUTOPAY"/>
+			<xsd:enumeration value="CANCELLED"/>
+			<xsd:enumeration value="UNPAYABLE"/>
+			<xsd:enumeration value="NONE"/>
+			<xsd:enumeration value="SCHEDULED"/>
+			<xsd:enumeration value="PROCESSED"/>
+			<xsd:enumeration value="POSTED"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BillStatusCodeEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "BILLSTATUSCODEENUM" is of type "BillStatusCodeEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="WITHDRAWN"/>
+			<xsd:enumeration value="UNDELIVERABLE"/>
+			<xsd:enumeration value="NEW"/>
+			<xsd:enumeration value="DELIVERED"/>
+			<xsd:enumeration value="VIEWED"/>
+			<xsd:enumeration value="RETIRED"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BillTypeEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "BILLTYPEENUM" is of type "BillTypeEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="BILL"/>
+			<xsd:enumeration value="STATEMENT"/>
+			<xsd:enumeration value="NOTICE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="StatusModBYEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "STATUSMODBYENUM" is of type "StatusModBYEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="BILLPUBLISHERSR"/>
+			<xsd:enumeration value="PMTPROVIDER"/>
+			<xsd:enumeration value="PMTPROVIDERSR"/>
+			<xsd:enumeration value="BILLER"/>
+			<xsd:enumeration value="BILLERSR"/>
+			<xsd:enumeration value="CUSTOMER"/>
+			<xsd:enumeration value="CUSTAGENT"/>
+			<xsd:enumeration value="BILLPUBLISHER"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ColumnType">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "COLUMN" is of type "ColumnType"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="8"/>
+			<xsd:minLength value="1"/>
+			<xsd:whiteSpace value="collapse"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="BillDetailRow">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "BILLDETAILROW" is of type "BillDetailRow"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="C" type="ofx:MessageType"/>
+			<xsd:element name="N" type="ofx:CharType"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="BillDetailTable">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "BILLDETAILTABLE" is of type "BillDetailTable"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="TABLENAME" type="ofx:GenericNameType"/>
+			<xsd:element name="BILLDETAILTABLETYPE" type="ofx:GenericNameType"/>
+			<xsd:element name="BILLDETAILROW" type="ofx:BillDetailRow" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BillPaymentstatus">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "BILLPMTSTATUS" is of type "BillPaymentstatus"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SRVRTID" type="ofx:ServerIdType" minOccurs="0"/>
+			<xsd:element name="BILLPMTSTATUSCODE" type="ofx:BillPaymentstatusCodeEnum"/>
+			<xsd:element name="DTEFF" type="ofx:DateTimeType"/>
+			<xsd:element name="STATUSMODBY" type="ofx:StatusModBYEnum" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BillPaymentstatusCounts">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "BILLPMTSTATUSCOUNTS" is of type "BillPaymentstatusCounts"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BILLPMTSTATUSCODE" type="ofx:BillPaymentstatusCodeEnum"/>
+			<xsd:element name="COUNT" type="ofx:IdType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BillStatus">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "BILLSTATUS" is of type "BillStatus"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BILLSTATUSCODE" type="ofx:BillStatusCodeEnum"/>
+			<xsd:element name="DTEFF" type="ofx:DateTimeType"/>
+			<xsd:element name="STATUSMODBY" type="ofx:StatusModBYEnum" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="BillStatusCounts">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "BILLSTATUSCOUNTS" is of type "BillStatusCounts"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BILLSTATUSCODE" type="ofx:BillStatusCodeEnum"/>
+			<xsd:element name="COUNT" type="ofx:IdType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ColumnDefinition">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "COLDEF" is of type "ColumnDefinition"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="COLNAME" type="ofx:GenericNameType"/>
+			<xsd:element name="COLTYPE" type="ofx:ColumnType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PresentmentBillInfo">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "PRESBILLINFO" is of type "PresentmentBillInfo"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BILLID" type="ofx:IdType"/>
+			<xsd:element name="PRESACCTFROM" type="ofx:PresentmentAccount"/>
+			<xsd:element name="PAYEEID" type="ofx:PayeeIdType" minOccurs="0"/>
+			<xsd:element name="BILLREFINFO" type="ofx:BillRefInfoType" minOccurs="0"/>
+			<xsd:element name="AMTDUE" type="ofx:AmountType"/>
+			<xsd:element name="MINAMTDUE" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="DTPMTDUE" type="ofx:DateTimeType"/>
+			<xsd:element name="DTBILL" type="ofx:DateTimeType"/>
+			<xsd:element name="DTOPEN" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="DTCLOSE" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="PREVBAL" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="ACTIVITY" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="ACCTBAL" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="INVOICE" type="ofx:Invoice" minOccurs="0"/>
+			<xsd:element name="NOTIFYDESIRED" type="ofx:BooleanType"/>
+			<xsd:element name="BILLTYPE" type="ofx:BillTypeEnum" minOccurs="0"/>
+			<xsd:element name="BILLSTATUS" type="ofx:BillStatus" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="BILLPMTSTATUS" type="ofx:BillPaymentstatus" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="STMNTIMAGE" type="ofx:StatementImage" minOccurs="0"/>
+			<xsd:choice>
+				<xsd:element name="DETAILAVAILABLE" type="ofx:BooleanType"/>
+				<xsd:element name="BILLDETAILTABLE" type="ofx:BillDetailTable"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PresentmentCounts">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "PRESCOUNTS" is of type "PresentmentCounts"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BILLSTATUSCOUNTS" type="ofx:BillStatusCounts" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="BILLPMTSTATUSCOUNTS" type="ofx:BillPaymentstatusCounts" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PresentmentDeliveryId">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "PRESDELIVERYID" is of type "PresentmentDeliveryId"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="PRESACCTFROM" type="ofx:PresentmentAccount"/>
+			<xsd:element name="BILLID" type="ofx:IdType"/>
+			<xsd:element name="DTSEEN" type="ofx:DateTimeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PresentmentDetail">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "PRESDETAIL" is of type "PresentmentDetail"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="BILLID" type="ofx:IdType"/>
+			<xsd:element name="PRESACCTFROM" type="ofx:PresentmentAccount" minOccurs="0"/>
+			<xsd:element name="BILLDETAILTABLE" type="ofx:BillDetailTable" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PresentmentList">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "PRESLIST" is of type "PresentmentList"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="PRESBILLINFO" type="ofx:PresentmentBillInfo" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StatementImage">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "STMNTIMAGE" is of type "StatementImage"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="IMAGEURL" type="ofx:UrlType"/>
+			<xsd:element name="PREFETCHURL" type="ofx:UrlType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="DTEXPIRE" type="ofx:DateTimeType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

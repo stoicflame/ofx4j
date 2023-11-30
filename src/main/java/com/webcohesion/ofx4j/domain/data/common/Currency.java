@@ -18,6 +18,7 @@ package com.webcohesion.ofx4j.domain.data.common;
 
 import com.webcohesion.ofx4j.meta.Aggregate;
 import com.webcohesion.ofx4j.meta.Element;
+import com.webcohesion.ofx4j.OFXSettings;
 
 import java.util.Locale;
 
@@ -25,11 +26,16 @@ import java.util.Locale;
  * @author Ryan Heaton
  * @see "Section 5.2, OFX Spec"
  */
-@Aggregate ( "CURRENCY" )
+@Aggregate("CURRENCY")
 public class Currency {
-
   private String code = java.util.Currency.getInstance(Locale.US).getCurrencyCode().toUpperCase();
   private Float exchangeRate;
+  private OFXSettings m_ofxSettings;
+
+  public Currency() {
+    m_ofxSettings = OFXSettings.getInstance();
+    code = java.util.Currency.getInstance(m_ofxSettings.getLocale()).getCurrencyCode().toUpperCase();
+  }
 
   /**
    * The currency code.
@@ -37,7 +43,7 @@ public class Currency {
    * @return The currency code.
    * @see java.util.Currency#getCurrencyCode()
    */
-  @Element ( name = "CURSYM", required = true, order = 0 )
+  @Element(name = "CURSYM", required = true, order = 0)
   public String getCode() {
     return code;
   }
@@ -56,7 +62,7 @@ public class Currency {
    *
    * @return The exchange rate.
    */
-  @Element ( name = "CURRATE", required = true, order = 10 )
+  @Element(name = "CURRATE", required = true, order = 10)
   public Float getExchangeRate() {
     return exchangeRate;
   }

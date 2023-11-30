@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2003 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+	p22     2006-04-12 smithp@businesslogic.com              Added SignonRequest MFA Extensions
+                                                                 SignonResponse MFA Extensions
+                                                                 MFAChallengeRequest
+                                                                 MFAChallengeResponse
+		2006-05-12	Wendy_dubois@intuit.com		More MFA changes
+        2016-03-14  bill.cary@innovision.com    Changes for OFX version 2.2        
+        2016-06-30  bill.cary@innovision.com    Additional changes for OFX version 2.2        
+  2.2.1 2019-02-19  bill.cary@innovision.com    Add DTUSERUP tag related to USERINFORQ/RS support.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  xmlns:ofx="http://ofx.net/types/2003/04"
+  targetNamespace="http://ofx.net/types/2003/04">
+
+  
+  <xsd:include schemaLocation = "OFX_Signon.xsd" />
+
+  <xsd:complexType name="ChallengeRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CHALLENGERQ" is of type "ChallengeRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="USERID" type="ofx:IdType" />
+
+      <xsd:element name="FICERTID" type="ofx:FinancialInstitutionCertificateIdType"
+      minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="ChallengeResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CHALLENGERS" is of type "ChallengeResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="USERID" type="ofx:IdType" />
+
+      <xsd:element name="NONCE" type="ofx:NumberNCEType" />
+
+      <xsd:element name="FICERTID" type="ofx:FinancialInstitutionCertificateIdType" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="PinChangeRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PINCHRQ" is of type "PinChangeRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="USERID" type="ofx:IdType" />
+
+      <xsd:element name="NEWUSERPASS" type="ofx:PasswordType" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+
+  <xsd:complexType name="PinChangeResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PINCHRS" is of type "PinChangeResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="USERID" type="ofx:IdType" />
+
+      <xsd:element name="DTCHANGED" type="ofx:DateTimeType"
+      minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="SignonRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "SONRQ" is of type "SignonRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="DTCLIENT" type="ofx:DateTimeType" />
+
+      <xsd:choice>
+        <xsd:sequence>
+          <xsd:element name="USERID" type="ofx:IdType" />
+
+          <xsd:element name="USERPASS" type="ofx:PasswordType" />
+        </xsd:sequence>
+
+        <xsd:element name="USERKEY" type="ofx:UserKeyType" />
+
+        <xsd:element name="ACCESSTOKEN" type="ofx:AccessTokenType" />
+      </xsd:choice>
+
+      <xsd:element name="GENUSERKEY" type="ofx:BooleanType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="LANGUAGE" type="ofx:LanguageEnum" />
+
+      <xsd:element name="FI" type="ofx:FinancialInstitution" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="SESSCOOKIE" type="ofx:SessionCookieType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="APPID" type="ofx:ApplicationIdType" />
+
+      <xsd:element name="APPVER" type="ofx:IntegerType" />
+
+      <xsd:element name="APPKEY" type="ofx:AppKeyType" minOccurs="0" maxOccurs="1"/>
+
+      <xsd:element name="CLIENTUID" type="ofx:ClientUidType" minOccurs="0"
+      maxOccurs="1"/>
+
+      <xsd:sequence minOccurs="0" maxOccurs="1">
+        <xsd:element name="USERCRED1" type="ofx:UserCredType"/>
+
+        <xsd:element name="USERCRED2" type="ofx:UserCredType" minOccurs="0"
+        maxOccurs="1"/>
+      </xsd:sequence>
+
+      <xsd:element name="AUTHTOKEN" type="ofx:AuthTokenType" minOccurs="0"
+      maxOccurs="1"/>
+
+      <xsd:element name="ACCESSKEY" type="ofx:AccessKeyType" minOccurs="0"
+      maxOccurs="1"/>
+
+      <xsd:element name="MFACHALLENGEANSWER" type="ofx:MFAChallengeAnswer"
+      minOccurs="0" maxOccurs="unbounded"/>
+
+      <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType"
+      minOccurs="0" maxOccurs="1"/>
+
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="SignonResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "SONRS" is of type "SignonResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="STATUS" type="ofx:Status" />
+
+      <xsd:element name="DTSERVER" type="ofx:DateTimeType" />
+
+      <xsd:element name="USERKEY" type="ofx:UserKeyType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="TSKEYEXPIRE" type="ofx:DateTimeType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="LANGUAGE" type="ofx:LanguageEnum" />
+
+      <xsd:element name="DTPROFUP" type="ofx:DateTimeType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="DTUSERUP" type="ofx:DateTimeType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="DTACCTUP" type="ofx:DateTimeType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="FI" type="ofx:FinancialInstitution" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="SESSCOOKIE" type="ofx:SessionCookieType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="ACCESSKEY" type="ofx:AccessKeyType"
+      minOccurs="0" maxOccurs="1"/>
+
+      <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType"
+      minOccurs="0" maxOccurs="1"/>
+
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="MFAChallengeRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "MFACHALLENGERQ" is of type "MFAChallengeRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="DTCLIENT" type="ofx:DateTimeType" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="MFAChallengeResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "MFACHALLENGERS" is of type "MFAChallengeResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="MFACHALLENGE" type="ofx:MFAChallenge" minOccurs="1"
+      maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

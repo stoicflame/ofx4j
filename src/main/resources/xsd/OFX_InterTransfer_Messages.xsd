@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2003 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+	p20	2002-02-11  	altenburgd@businesslogic.com	Changed misnamed 'Receive' types to 'Recurring'
+                                                                Created abstract 'AbstractRecurringInterResponse' type and 
+                                                                    made RecurringInterCancellationResponse,
+                                                                    RecurringInterModResponse, and RecurringInterResponse to extend it
+                                                                Created abstract 'AbstractInterResponse' typ and made InterCancellationResponse,
+                                                                    InterModeResponse, and InterResponse to extend it
+                                                                Created abstract 'AbstractRecurringInterRequest' type and made RecurringInterRequest,
+                                                                    RecurringInterModRequest, and RecurringInterCancellationRequest to extend it
+                                                                Created abstract 'AbstractInterRequest' type and made InterRequest, InterModRequest, and 
+                                                                    InterCancellationRequest to extend it
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  xmlns:ofx="http://ofx.net/types/2003/04"
+  targetNamespace="http://ofx.net/types/2003/04">
+  
+  <xsd:include schemaLocation = "OFX_InterTransfer.xsd" />
+
+  <xsd:complexType name="InterCancellationResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INTERCANRS" is of type "InterCancellationResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractInterResponse">
+        <xsd:sequence>
+          <xsd:element name="SRVRTID" type="ofx:ServerIdType" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="InterModResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INTERMODRS" is of type "InterModResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractInterResponse">
+        <xsd:sequence>
+          <xsd:element name="SRVRTID" type="ofx:ServerIdType" />
+          <xsd:element name="XFERINFO" type="ofx:TransferInfo" />
+          <xsd:element name="XFERPRCSTS" type="ofx:TransferProcessingStatus" minOccurs="0" maxOccurs="1" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="AbstractInterRequest" abstract="true"/>
+
+  <xsd:complexType name="InterRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INTERRQ" is of type "InterRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractInterRequest">
+        <xsd:sequence>
+          <xsd:element name="XFERINFO" type="ofx:TransferInfo" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="InterModRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INTERMODRQ" is of type "InterModRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractInterRequest">
+        <xsd:sequence>
+          <xsd:element name="SRVRTID" type="ofx:ServerIdType" />
+          <xsd:element name="XFERINFO" type="ofx:TransferInfo" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="InterCancellationRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INTERCANRQ" is of type "InterCancellationRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractInterRequest">
+        <xsd:sequence>
+          <xsd:element name="SRVRTID" type="ofx:ServerIdType" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="AbstractInterResponse" abstract="true"/>
+
+  <xsd:complexType name="InterResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INTERRS" is of type "InterResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractInterResponse">
+        <xsd:sequence>
+          <xsd:element name="CURDEF" type="ofx:CurrencyEnum" />
+          <xsd:element name="SRVRTID" type="ofx:ServerIdType" />
+          <xsd:element name="XFERINFO" type="ofx:TransferInfo" />
+          <xsd:choice minOccurs="0" maxOccurs="1">
+            <xsd:element name="DTXFERPRJ" type="ofx:DateTimeType" />
+            <xsd:element name="DTPOSTED" type="ofx:DateTimeType" />
+          </xsd:choice>
+          <xsd:element name="REFNUM" type="ofx:ReferenceNumberType" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="RECSRVRTID" type="ofx:ServerIdType" minOccurs="0" maxOccurs="1" />
+          <xsd:element name="XFERPRCSTS" type="ofx:TransferProcessingStatus" minOccurs="0" maxOccurs="1" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringInterCancellationResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECINTERCANRS" is of type "RecurringInterCancellationResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractRecurringInterResponse">
+        <xsd:sequence>
+          <xsd:element name="CANPENDING" type="ofx:BooleanType" />
+          </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringInterModResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECINTERMODRS" is of type "RecurringInterModResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractRecurringInterResponse">
+        <xsd:sequence>
+          <xsd:element name="RECURRINST" type="ofx:RecurringInstructions" />
+          <xsd:element name="INTERRS" type="ofx:InterResponse" />
+          <xsd:element name="MODPENDING" type="ofx:BooleanType" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="AbstractRecurringInterRequest" abstract="true"/>
+
+  <xsd:complexType name="RecurringInterRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECINTERRQ" is of type "RecurringInterRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractRecurringInterRequest">
+        <xsd:sequence>
+          <xsd:element name="RECURRINST" type="ofx:RecurringInstructions" />
+          <xsd:element name="INTERRQ" type="ofx:InterRequest" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringInterModRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECINTERMODRQ" is of type "RecurringInterModRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractRecurringInterRequest">
+        <xsd:sequence>
+          <xsd:element name="RECSRVRTID" type="ofx:ServerIdType" />
+          <xsd:element name="RECURRINST" type="ofx:RecurringInstructions" />
+          <xsd:element name="INTERRQ" type="ofx:InterRequest" />
+          <xsd:element name="MODPENDING" type="ofx:BooleanType" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringInterCancellationRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECINTERCANRQ" is of type "RecurringInterCancellationRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractRecurringInterRequest">
+        <xsd:sequence>
+          <xsd:element name="RECSRVRTID" type="ofx:ServerIdType" />
+          <xsd:element name="CANPENDING" type="ofx:BooleanType" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+
+
+
+
+  <xsd:complexType name="AbstractRecurringInterResponse" abstract="true">
+    <xsd:sequence>
+      <xsd:element name="RECSRVRTID" type="ofx:ServerIdType" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringInterResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECINTERRS" is of type "RecurringInterResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractRecurringInterResponse">
+        <xsd:sequence>
+          <xsd:element name="RECURRINST" type="ofx:RecurringInstructions" />
+          <xsd:element name="INTERRS" type="ofx:InterResponse" />
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+</xsd:schema>
+

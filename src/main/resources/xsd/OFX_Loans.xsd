@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2004
+("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+	p1	2005-03-11  	altenburgd@businesslogic.com	Initial revision
+	p1.1	2006-06-13	wendy_dubois@intuit.com		some bug fixes
+    2.2     2016-03-14  bill.cary@innovision.com    Changes for OFX version 2.2        
+    2.2     2016-06-30  bill.cary@innovision.com    Additional changes for OFX version 2.2        
+-->
+
+
+<xsd:schema 
+  elementFormDefault="unqualified"
+  targetNamespace="http://ofx.net/types/2003/04" 
+  xmlns:ofx="http://ofx.net/types/2003/04"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <xsd:include schemaLocation="OFX_Common.xsd"/>
+
+  <xsd:complexType name="LoanTransactionList">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "LOANTRANLIST" is of type "LoanTransactionList"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="DTSTART" type="ofx:DateTimeType"/>
+      <xsd:element name="DTEND" type="ofx:DateTimeType"/>
+      <xsd:element name="LOANSTMTTRN" type="ofx:LoanStatementTransaction" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="LoanStatementTransaction">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "LOANSTMTTRN" is of type "LoanStatementTransaction"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="LOANTRNTYPE" type="ofx:LoanTransactionEnum"/>
+      <xsd:element name="DTPOSTED" type="ofx:DateTimeType"/>
+      <xsd:element name="DTUSER" type="ofx:DateTimeType" minOccurs="0"/>
+      <xsd:element name="TRNAMT" type="ofx:AmountType"/>
+      <xsd:element name="LOANTRNAMT" type="ofx:LoanTransactionAmount" minOccurs="0"/>
+      <xsd:element name="FITID" type="ofx:FinancialInstitutionTransactionIdType"/>
+      <xsd:sequence minOccurs="0">
+        <xsd:element name="CORRECTFITID" type="ofx:FinancialInstitutionTransactionIdType"/>
+        <xsd:element name="CORRECTACTION" type="ofx:CorrectiveActionEnum"/>
+      </xsd:sequence>
+      <xsd:element name="SRVRTID" type="ofx:ServerIdType" minOccurs="0"/>
+      <xsd:element name="CHECKNUM" type="ofx:CheckNumberType" minOccurs="0"/>
+      <xsd:element name="REFNUM" type="ofx:ReferenceNumberType" minOccurs="0"/>
+      <xsd:element name="NAME" type="ofx:GenericNameType" minOccurs="0"/>
+      <xsd:element name="EXTDNAME" type="ofx:ExtendedNameType" minOccurs="0"/>
+      <xsd:choice minOccurs="0">
+        <xsd:element name="LOANACCTTO" type="ofx:LoanAccount"/>
+        <xsd:element name="BANKACCTTO" type="ofx:BankAccount"/>
+      </xsd:choice>
+      <xsd:element name="MEMO" type="ofx:MessageType" minOccurs="0"/>
+      <xsd:element name="IMAGEDATA" type="ofx:ImageData" minOccurs="0"/>
+      <xsd:choice minOccurs="0">
+        <xsd:element name="CURRENCY" type="ofx:Currency"/>
+        <xsd:element name="ORIGCURRENCY" type="ofx:Currency"/>
+      </xsd:choice>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="AmortizationTransaction">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "AMRTSTMTTRN" is of type "AmortizationTransaction"
+      </xsd:documentation>
+    </xsd:annotation>
+    
+    <xsd:sequence>
+      <xsd:element name="PMTNUMBER" type="ofx:LoanPaymentNumber" minOccurs="0"/>
+      <xsd:element name="LOANINITBAL" type="ofx:AmountType" minOccurs="0"/>
+      <xsd:element name="PRINBAL" type="ofx:PrincipalBalanceType"/>
+      <xsd:element name="LOANTRNAMT" type="ofx:LoanTransactionAmount"/>
+      <xsd:element name="LOANIRATE" type="ofx:LoanRateType" minOccurs="0"/>
+      <xsd:element name="AMRTTYPE" type="ofx:AmortizationType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:complexType name="LoanClosing">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "LOANCLOSING" is of type "LoanClosing"
+      </xsd:documentation>
+    </xsd:annotation>
+    
+    <xsd:sequence>
+      <xsd:element name="FITID" type="ofx:FinancialInstitutionTransactionIdType" />
+      <xsd:element name="DTOPEN" type="ofx:DateTimeType" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="DTCLOSE" type="ofx:DateTimeType" />
+      <xsd:element name="DTNEXT" type="ofx:DateTimeType" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="BALOPEN" type="ofx:AmountType" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="PRINBAL" type="ofx:PrincipalBalanceType"/>
+      <xsd:element name="LOANINT" type="ofx:LoanInterestType"/>
+      <xsd:element name="LOANRATE" type="ofx:LoanRateType"/>
+      <xsd:element name="ESTPAYOFF" type="ofx:EstimatedPayoff" minOccurs="0"/>
+      <xsd:element name="BALLOONAMT" type="ofx:AmountType" minOccurs="0"/>
+      <xsd:element name="LOANPMT" type="ofx:LoanPaymentAmount" minOccurs="0"/>
+      <xsd:element name="LOANRMNPMTS" type="ofx:LoanNumPaymentsType" minOccurs="0"/>
+      <xsd:element name="BALLIST" type="ofx:BalanceList" minOccurs="0"/>
+      <xsd:element name="TAXYTD" type="ofx:AmountType" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="ESCRWBAL" type="ofx:EscrowBalance" minOccurs="0"/>
+      <xsd:element name="DTPOSTSTART" type="ofx:DateTimeType" />
+      <xsd:element name="DTPOSTEND" type="ofx:DateTimeType" />
+      <xsd:element name="AUTOPAY" type="ofx:BooleanType" minOccurs="0" maxOccurs="1"/>
+      <xsd:element name="LASTPMTINFO" type="ofx:LastPmtInfoType" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="MKTGINFO" type="ofx:InfoType" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="IMAGEDATA" type="ofx:ImageData" minOccurs="0"/>
+      <xsd:choice minOccurs="0" maxOccurs="1">
+        <xsd:element name="CURRENCY" type="ofx:Currency" />
+        <xsd:element name="ORIGCURRENCY" type="ofx:Currency" />
+      </xsd:choice>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="EstimatedPayoff">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "ESTPAYOFF" is of type "EstimatedPayoff"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:sequence>
+      <xsd:element name="ESTPAYOFFBAL" type="ofx:AmountType"/>
+      <xsd:element name="DTASOF" type="ofx:DateTimeType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="EscrowBalance">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "ESCRWBAL" is of type "EscrowBalance"
+      </xsd:documentation>
+    </xsd:annotation>
+    
+    <xsd:sequence>
+      <xsd:element name="BALAMT" type="ofx:AmountType"/>
+      <xsd:element name="ESCRWTAXBAL" type="ofx:AmountType" minOccurs="0"/>
+      <xsd:element name="ESCRWINSBAL" type="ofx:AmountType" minOccurs="0"/>
+      <xsd:element name="ESCRWPMIBAL" type="ofx:AmountType" minOccurs="0"/>
+      <xsd:element name="ESCRWFEESBAL" type="ofx:AmountType" minOccurs="0"/>
+      <xsd:element name="ESCRWOTHERBAL" type="ofx:AmountType" minOccurs="0"/>
+      <xsd:element name="DTASOF" type="ofx:DateTimeType"/>
+    </xsd:sequence>
+  </xsd:complexType>
+  
+  <xsd:simpleType name="LoanTransactionEnum">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "LOANTRNTYPE" is of type "LoanTransactionEnum"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+      <xsd:enumeration value="PAYMENT"/>
+      <xsd:enumeration value="FEE"/>
+      <xsd:enumeration value="LATE"/>
+      <xsd:enumeration value="INT"/>
+      <xsd:enumeration value="ADVANCE"/>
+      <xsd:enumeration value="XFER"/>
+      <xsd:enumeration value="BALLOON"/>
+      <xsd:enumeration value="OTHER"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="LoanPaymentNumber">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PMTNUMBER" is of type "LoanPaymentNumber"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:maxLength value="3"/>
+      <xsd:minLength value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="AmortizationType">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "AMRTTYPE" is of type "AmortizationType"
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:whiteSpace value="collapse"/>
+      <xsd:enumeration value="ORIGINAL"/>
+      <xsd:enumeration value="ADJUSTED"/>
+      <xsd:enumeration value="PROJECTED"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+</xsd:schema>

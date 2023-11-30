@@ -18,6 +18,7 @@ package com.webcohesion.ofx4j.domain.data.signon;
 
 import com.webcohesion.ofx4j.domain.data.common.Status;
 import com.webcohesion.ofx4j.domain.data.common.StatusHolder;
+import com.webcohesion.ofx4j.OFXSettings;
 import com.webcohesion.ofx4j.domain.data.ResponseMessage;
 import com.webcohesion.ofx4j.meta.Aggregate;
 import com.webcohesion.ofx4j.meta.ChildAggregate;
@@ -32,7 +33,7 @@ import java.util.Locale;
  * @author Ryan Heaton
  * @see "Section 2.5.1.2, OFX Spec."
  */
-@Aggregate ( "SONRS" )
+@Aggregate("SONRS")
 public class SignonResponse extends ResponseMessage implements StatusHolder {
 
   private Status status;
@@ -45,11 +46,19 @@ public class SignonResponse extends ResponseMessage implements StatusHolder {
   private FinancialInstitution financialInstitution;
   private String sessionId;
   private String accessKey;
+  private OFXSettings m_ofxSettings;
 
+  public SignonResponse() {
+    m_ofxSettings = OFXSettings.getInstance();
+    language = m_ofxSettings.getLocale().getISO3Language();
+  }
+
+  @Override
   public String getResponseMessageName() {
     return "signon";
   }
 
+  @Override
   public String getStatusHolderName() {
     return getResponseMessageName();
   }
@@ -59,7 +68,8 @@ public class SignonResponse extends ResponseMessage implements StatusHolder {
    *
    * @return The signon response status.
    */
-  @ChildAggregate ( required = true, order = 0 )
+  @Override
+  @ChildAggregate(required = true, order = 0)
   public Status getStatus() {
     return status;
   }
@@ -78,7 +88,7 @@ public class SignonResponse extends ResponseMessage implements StatusHolder {
    *
    * @return The timestamp of this response.
    */
-  @Element ( name = "DTSERVER", required = true, order = 10 )
+  @Element(name = "DTSERVER", required = true, order = 10)
   public Date getTimestamp() {
     return timestamp;
   }
@@ -97,7 +107,7 @@ public class SignonResponse extends ResponseMessage implements StatusHolder {
    *
    * @return The userkey that can be used instead of the username/password.
    */
-  @Element ( name = "USERKEY", order = 20 )
+  @Element(name = "USERKEY", order = 20)
   public String getUserKey() {
     return userKey;
   }
@@ -116,7 +126,7 @@ public class SignonResponse extends ResponseMessage implements StatusHolder {
    *
    * @return The date/time of the expiration of the user key.
    */
-  @Element ( name = "TSKEYEXPIRE", order = 30 )
+  @Element(name = "TSKEYEXPIRE", order = 30)
   public Date getUserKeyExpiration() {
     return userKeyExpiration;
   }
@@ -136,7 +146,7 @@ public class SignonResponse extends ResponseMessage implements StatusHolder {
    * @return The three-letter langauge code.
    * @see java.util.Locale#getISO3Language()
    */
-  @Element ( name = "LANGUAGE", required = true, order = 40 )
+  @Element(name = "LANGUAGE", required = true, order = 40)
   public String getLanguage() {
     return language;
   }
@@ -155,7 +165,7 @@ public class SignonResponse extends ResponseMessage implements StatusHolder {
    *
    * @return The date/time that the FI profile was last updated.
    */
-  @Element ( name = "DTPROFUP", order = 50 )
+  @Element(name = "DTPROFUP", order = 50)
   public Date getProfileLastUpdated() {
     return profileLastUpdated;
   }
@@ -174,7 +184,7 @@ public class SignonResponse extends ResponseMessage implements StatusHolder {
    *
    * @return The date/time that the user's account information was updated.
    */
-  @Element ( name = "DTACCTUP", order = 60 )
+  @Element(name = "DTACCTUP", order = 60)
   public Date getAccountLastUpdated() {
     return accountLastUpdated;
   }
@@ -182,7 +192,8 @@ public class SignonResponse extends ResponseMessage implements StatusHolder {
   /**
    * The date/time that the user's account information was updated.
    *
-   * @param accountLastUpdated The date/time that the user's account information was updated.
+   * @param accountLastUpdated The date/time that the user's account information
+   *                           was updated.
    */
   public void setAccountLastUpdated(Date accountLastUpdated) {
     this.accountLastUpdated = accountLastUpdated;
@@ -193,7 +204,7 @@ public class SignonResponse extends ResponseMessage implements StatusHolder {
    *
    * @return The financial instutution identity information.
    */
-  @ChildAggregate ( order = 70 )
+  @ChildAggregate(order = 70)
   public FinancialInstitution getFinancialInstitution() {
     return financialInstitution;
   }
@@ -212,7 +223,7 @@ public class SignonResponse extends ResponseMessage implements StatusHolder {
    *
    * @return The session id for the client.
    */
-  @Element ( name = "SESSCOOKIE", order = 80 )
+  @Element(name = "SESSCOOKIE", order = 80)
   public String getSessionId() {
     return sessionId;
   }
@@ -229,9 +240,10 @@ public class SignonResponse extends ResponseMessage implements StatusHolder {
   /**
    * The access key that the client should return in the next sign-on requuest.
    *
-   * @return The access key that the client should return in the next sign-on requuest.
+   * @return The access key that the client should return in the next sign-on
+   *         requuest.
    */
-  @Element ( name = "ACCESSKEY", order = 90 )
+  @Element(name = "ACCESSKEY", order = 90)
   public String getAccessKey() {
     return accessKey;
   }
@@ -239,7 +251,8 @@ public class SignonResponse extends ResponseMessage implements StatusHolder {
   /**
    * The access key that the client should return in the next sign-on requuest.
    *
-   * @param accessKey The access key that the client should return in the next sign-on requuest.
+   * @param accessKey The access key that the client should return in the next
+   *                  sign-on requuest.
    */
   public void setAccessKey(String accessKey) {
     this.accessKey = accessKey;

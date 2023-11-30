@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--	Open Financial Exchange Specification (c)1996-2006 ("Specification") by all of its publishers:
+        CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved.
+        
+        Revision History:
+
+        Version	Date    	Editor Email Addr    		Short Description
+        
+        p1      2005-03-11  altenburgd@businesslogic.com	Initial revision
+
+        2.2     2016-03-14  bill.cary@innovision.com        Changes for OFX version 2.2
+-->
+
+<xsd:schema 
+  elementFormDefault="unqualified" 
+  targetNamespace="http://ofx.net/types/2003/04" 
+  xmlns:ofx="http://ofx.net/types/2003/04" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <xsd:include schemaLocation="OFX_Loan_Messages.xsd"/>
+  <xsd:complexType name="LoanStatementTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "LOANSTMTTRNRQ" is of type "LoanStatementTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="LOANSTMTRQ" type="ofx:LoanStatementRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="LoanStatementTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "LOANSTMTTRNRS" is of type "LoanStatementTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+    
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="LOANSTMTRS" type="ofx:LoanStatementResponse"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="AmortizationTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "AMRTSTMTTRNRQ" is of type "AmortizationTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+    
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="AMRTSTMTRQ" type="ofx:AmortizationRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="AmortizationTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "AMRTSTMTTRNRS" is of type "AmortizationTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+    
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="AMRTSTMTRS" type="ofx:AmortizationResponse"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="LoanStatementEndTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "LOANSTMTENDTRNRQ" is of type "LoanStatementEndTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+    
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="LOANSTMTENDRQ" type="ofx:LoanStatementEndRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="LoanStatementEndTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "LOANSTMTENDTRNRS" is of type "LoanStatementEndTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+    
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="LOANSTMTENDRS" type="ofx:LoanStatementEndResponse"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="LoanMailTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "LOANMAILTRNRQ" is of type "LoanMailTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+    
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="LOANMAILRQ" type="ofx:LoanMailRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="LoanMailTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "LOANMAILTRNRS" is of type "LoanMailTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+    
+	<xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="LOANMAILRS" type="ofx:LoanMailResponse"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="LoanMailSyncRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "LOANMAILSYNCRQ" is of type "LoanMailSyncRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+    
+	<xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncRequest">
+        <xsd:sequence>
+          <xsd:element name="INCIMAGES" type="ofx:BooleanType"/>
+          <xsd:element name="USEHTML" type="ofx:BooleanType"/>
+          <xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="LOANMAILTRNRQ" type="ofx:LoanMailTransactionRequest" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+       </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="LoanMailSyncResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "LOANMAILSYNCRS" is of type "LoanMailSyncResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+	
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncResponse">
+        <xsd:sequence>
+          <xsd:choice>
+            <xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+          </xsd:choice>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="LOANMAILTRNRS" type="ofx:LoanMailTransactionResponse" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+</xsd:schema>

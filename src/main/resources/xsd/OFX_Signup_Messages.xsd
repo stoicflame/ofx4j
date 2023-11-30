@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+
+	Open Financial Exchange Specification (c)1996-2004 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+
+	p17	2002-02-10  	altenburgd@businesslogic.com	Initial revision
+        p18     2002-02-10      Gil_Clark@intuit.com
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+                2006-06-13	wendy_dubois@intuit.com	        some ENROLLRQ tags changed to optional
+	
+-->
+
+<xsd:schema targetNamespace="http://ofx.net/types/2003/04" xmlns:ofx="http://ofx.net/types/2003/04" xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="unqualified">
+	<xsd:include schemaLocation="OFX_Signup.xsd"/>
+	<xsd:complexType name="AccountRequest">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "ACCTRQ" is of type "AccountRequest"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="SVCADD" type="ofx:ServiceAdd"/>
+				<xsd:element name="SVCCHG" type="ofx:ServiceChange"/>
+				<xsd:element name="SVCDEL" type="ofx:ServiceDelete"/>
+			</xsd:choice>
+			<xsd:element name="SVC" type="ofx:ServiceEnum"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AccountResponse">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "ACCTRS" is of type "AccountResponse"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice>
+				<xsd:element name="SVCADD" type="ofx:ServiceAdd"/>
+				<xsd:element name="SVCCHG" type="ofx:ServiceChange"/>
+				<xsd:element name="SVCDEL" type="ofx:ServiceDelete"/>
+			</xsd:choice>
+			<xsd:element name="SVC" type="ofx:ServiceEnum"/>
+			<xsd:element name="SVCSTATUS" type="ofx:ServiceStatusEnum"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ChangeUserInfoRequest">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CHGUSERINFORQ" is of type "ChangeUserInfoRequest"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="FIRSTNAME" type="ofx:GenericNameType" minOccurs="0"/>
+			<xsd:element name="MIDDLENAME" type="ofx:GenericNameType" minOccurs="0"/>
+			<xsd:element name="LASTNAME" type="ofx:GenericNameType" minOccurs="0"/>
+			<xsd:sequence minOccurs="0">
+				<xsd:element name="ADDR1" type="ofx:AddressType"/>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="ADDR2" type="ofx:AddressType"/>
+					<xsd:element name="ADDR3" type="ofx:AddressType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:sequence>
+			<xsd:element name="CITY" type="ofx:AddressType" minOccurs="0"/>
+			<xsd:element name="STATE" type="ofx:StateType" minOccurs="0"/>
+			<xsd:element name="POSTALCODE" type="ofx:ZipType" minOccurs="0"/>
+			<xsd:element name="COUNTRY" type="ofx:CountryType" minOccurs="0"/>
+			<xsd:element name="DAYPHONE" type="ofx:PhoneType" minOccurs="0"/>
+			<xsd:element name="EVEPHONE" type="ofx:PhoneType" minOccurs="0"/>
+			<xsd:element name="EMAIL" type="ofx:ShortMessageType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ChangeUserInfoResponse">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CHGUSERINFORS" is of type "ChangeUserInfoResponse"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="FIRSTNAME" type="ofx:GenericNameType" minOccurs="0"/>
+			<xsd:element name="MIDDLENAME" type="ofx:GenericNameType" minOccurs="0"/>
+			<xsd:element name="LASTNAME" type="ofx:GenericNameType" minOccurs="0"/>
+			<xsd:sequence minOccurs="0">
+				<xsd:element name="ADDR1" type="ofx:AddressType"/>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="ADDR2" type="ofx:AddressType"/>
+					<xsd:element name="ADDR3" type="ofx:AddressType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:sequence>
+			<xsd:element name="CITY" type="ofx:AddressType" minOccurs="0"/>
+			<xsd:element name="STATE" type="ofx:StateType" minOccurs="0"/>
+			<xsd:element name="POSTALCODE" type="ofx:ZipType" minOccurs="0"/>
+			<xsd:element name="COUNTRY" type="ofx:CountryType" minOccurs="0"/>
+			<xsd:element name="DAYPHONE" type="ofx:PhoneType" minOccurs="0"/>
+			<xsd:element name="EVEPHONE" type="ofx:PhoneType" minOccurs="0"/>
+			<xsd:element name="EMAIL" type="ofx:ShortMessageType" minOccurs="0"/>
+			<xsd:element name="DTINFOCHG" type="ofx:DateTimeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EnrollRequest">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "ENROLLRQ" is of type "EnrollRequest"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="FIRSTNAME" type="ofx:GenericNameType"/>
+			<xsd:element name="MIDDLENAME" type="ofx:GenericNameType" minOccurs="0"/>
+			<xsd:element name="LASTNAME" type="ofx:GenericNameType"/>
+			<xsd:sequence>
+				<xsd:element name="ADDR1" type="ofx:AddressType"/>
+				<xsd:sequence minOccurs="0">
+					<xsd:element name="ADDR2" type="ofx:AddressType"/>
+					<xsd:element name="ADDR3" type="ofx:AddressType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:sequence>
+			<xsd:element name="CITY" type="ofx:AddressType"/>
+			<xsd:element name="STATE" type="ofx:StateType"/>
+			<xsd:element name="POSTALCODE" type="ofx:ZipType"/>
+			<xsd:element name="COUNTRY" type="ofx:CountryType" minOccurs="0"/>
+			<xsd:element name="DAYPHONE" type="ofx:PhoneType" minOccurs="0"/>
+			<xsd:element name="EVEPHONE" type="ofx:PhoneType" minOccurs="0"/>
+			<xsd:element name="EMAIL" type="ofx:ShortMessageType"/>
+			<xsd:element name="USERID" type="ofx:IdType" minOccurs="0"/>
+			<xsd:element name="TAXID" type="ofx:IdType" minOccurs="0"/>
+			<xsd:element name="SECURITYNAME" type="ofx:GenericNameType" minOccurs="0"/>
+			<xsd:element name="DATEBIRTH" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+				<xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount"/>
+				<xsd:element name="INVACCTFROM" type="ofx:InvestmentAccount"/>
+				<xsd:element name="PRESACCTFROM" type="ofx:PresentmentAccount"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EnrollResponse">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "ENROLLRS" is of type "EnrollResponse"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="TEMPPASS" type="ofx:TempPassType" minOccurs="0"/>
+			<xsd:element name="USERID" type="ofx:IdType" minOccurs="0"/>
+			<xsd:element name="DTEXPIRE" type="ofx:DateTimeType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

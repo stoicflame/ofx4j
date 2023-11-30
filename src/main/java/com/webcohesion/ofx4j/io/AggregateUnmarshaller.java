@@ -35,10 +35,10 @@ public class AggregateUnmarshaller<A> {
   public AggregateUnmarshaller(Class<A> clazz) {
     this.clazz = clazz;
   }
-  
+
   public AggregateUnmarshaller(Class<A> clazz, String gmt) {
-	this(clazz);
-	this.conversion = new DefaultStringConversion(gmt);
+    this(clazz);
+    this.conversion = new DefaultStringConversion(gmt);
   }
 
   public A unmarshal(InputStream stream) throws IOException, OFXParseException {
@@ -48,14 +48,11 @@ public class AggregateUnmarshaller<A> {
       reader.setContentHandler(new AggregateStackContentHandler<A>(aggregate, getConversion()));
       reader.parse(stream);
       return aggregate;
-    }
-    catch (OFXParseException e) {
+    } catch (OFXParseException e) {
       throw e;
-    }
-    catch (RuntimeException e) {
+    } catch (RuntimeException e) {
       throw e;
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       throw new IllegalStateException(e);
     }
   }
@@ -67,11 +64,9 @@ public class AggregateUnmarshaller<A> {
       ofxReader.setContentHandler(new AggregateStackContentHandler<A>(aggregate, getConversion()));
       ofxReader.parse(reader);
       return aggregate;
-    }
-    catch (OFXParseException e) {
+    } catch (OFXParseException e) {
       throw e;
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       throw new IllegalStateException(e);
     }
   }

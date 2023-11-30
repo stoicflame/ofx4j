@@ -16,6 +16,7 @@
 
 package com.webcohesion.ofx4j.io.v2;
 
+import com.webcohesion.ofx4j.OFXSettings;
 import com.webcohesion.ofx4j.io.v1.OFXV1Writer;
 
 import java.io.*;
@@ -27,27 +28,42 @@ import java.util.Map;
  * @author Ryan Heaton
  */
 public class OFXV2Writer extends OFXV1Writer {
+  private OFXSettings m_ofxSettings;
 
   public OFXV2Writer(OutputStream out) {
     super(out);
+    m_ofxSettings = OFXSettings.getInstance();
   }
 
   public OFXV2Writer(Writer writer) {
     super(writer);
+    m_ofxSettings = OFXSettings.getInstance();
+  }
+
+  public OFXV2Writer(String filename) throws FileNotFoundException {
+    super(filename);
+    m_ofxSettings = OFXSettings.getInstance();
   }
 
   @Override
   protected OutputStreamWriter newWriter(OutputStream out) throws UnsupportedEncodingException {
-    return new OutputStreamWriter(out, "UTF-8");
+    m_ofxSettings = OFXSettings.getInstance();
+    return new OutputStreamWriter(out, m_ofxSettings.getEncoding());
   }
 
+  @Override
   public void writeHeaders(Map<String, String> headers) throws IOException {
+    m_ofxSettings = OFXSettings.getInstance();
     if (headersWritten) {
       throw new IllegalStateException("Headers have already been written!");
     }
 
-    //write out the XML PI
     print("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+    if (m_ofxSettings.getWriteAttributesOnNewLine()) {
+      println();
+    }
+
+    // write out the XML PI
     String security = headers.get("SECURITY");
     if (security == null) {
       security = "NONE";
@@ -62,10 +78,12 @@ public class OFXV2Writer extends OFXV1Writer {
       uid = "NONE";
     }
 
-    print(String.format("<?OFX OFXHEADER=\"200\" VERSION=\"202\" SECURITY=\"%s\" OLDFILEUID=\"%s\" NEWFILEUID=\"%s\"?>", security, olduid, uid));
+    print(String.format("<?OFX OFXHEADER=\"200\" VERSION=\"202\" SECURITY=\"%s\" OLDFILEUID=\"%s\" NEWFILEUID=\"%s\"?>",
+        security, olduid, uid));
     this.headersWritten = true;
   }
 
+  @Override
   public void writeElement(String name, String value) throws IOException {
     super.writeElement(name, value);
     print("</");
@@ -75,6 +93,6 @@ public class OFXV2Writer extends OFXV1Writer {
 
   @Override
   public boolean isWriteAttributesOnNewLine() {
-    return false;
+    return m_ofxSettings.getWriteAttributesOnNewLine();
   }
 }

@@ -1,0 +1,362 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2003 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Renamed "Account" to "AbstractAccount"
+                                                                Renamed "SyncRequest" to "AbstractSyncRequest"
+                                                                Renamed "SyncResponse" to "AbstractSyncResponse"
+                                                                Renamed "TransactionRequest" to "AbstractTransactionRequest"
+                                                                Renamed "TransactionResponse" to "AbstractTransactionResponse"
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+        2.2     2016-03-14      bill.cary@innovision.com        Changes for OFX version 2.2        
+
+-->
+
+<xsd:schema 
+  elementFormDefault="unqualified"
+  targetNamespace="http://ofx.net/types/2003/04" xmlns:ofx="http://ofx.net/types/2003/04" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="OFX_BillPay_Messages.xsd"/>
+  <xsd:complexType name="PayeeSyncRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PAYEESYNCRQ" is of type "PayeeSyncRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PAYEETRNRQ" type="ofx:PayeeTransactionRequest" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PayeeSyncResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PAYEESYNCRS" is of type "PayeeSyncResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PAYEETRNRS" type="ofx:PayeeTransactionResponse" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PayeeTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PAYEETRNRQ" is of type "PayeeTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:choice>
+            <xsd:element name="PAYEERQ" type="ofx:PayeeRequest"/>
+            <xsd:element name="PAYEEMODRQ" type="ofx:PayeeModRequest"/>
+            <xsd:element name="PAYEEDELRQ" type="ofx:PayeeDeleteRequest"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PayeeTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PAYEETRNRS" is of type "PayeeTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:choice minOccurs="0">
+            <xsd:element name="PAYEERS" type="ofx:PayeeResponse"/>
+            <xsd:element name="PAYEEMODRS" type="ofx:PayeeModResponse"/>
+            <xsd:element name="PAYEEDELRS" type="ofx:PayeeDeleteResponse"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PaymentInquiryTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PMTINQTRNRQ" is of type "PaymentInquiryTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PMTINQRQ" type="ofx:PaymentInquiryRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PaymentInquiryTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PMTINQTRNRS" is of type "PaymentInquiryTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PMTINQRS" type="ofx:PaymentInquiryResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="PaymentMailTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PMTMAILTRNRQ" is of type "PaymentMailTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PMTMAILRQ" type="ofx:PaymentMailRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PaymentMailTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PMTMAILTRNRS" is of type "PaymentMailTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PMTMAILRS" type="ofx:PaymentMailResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PaymentSyncRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PMTSYNCRQ" is of type "PaymentSyncRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncRequest">
+        <xsd:sequence>
+          <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PMTTRNRQ" type="ofx:PaymentTransactionRequest" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PaymentSyncResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PMTSYNCRS" is of type "PaymentSyncResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncResponse">
+        <xsd:sequence>
+          <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PMTTRNRS" type="ofx:PaymentTransactionResponse" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PaymentTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PMTTRNRQ" is of type "PaymentTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:choice>
+            <xsd:element name="PMTRQ" type="ofx:PaymentRequest"/>
+            <xsd:element name="PMTMODRQ" type="ofx:PaymentModRequest"/>
+            <xsd:element name="PMTCANCRQ" type="ofx:PaymentCancelRequest"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PaymentTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PMTTRNRS" is of type "PaymentTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:choice minOccurs="0">
+            <xsd:element name="PMTRS" type="ofx:PaymentResponse"/>
+            <xsd:element name="PMTMODRS" type="ofx:PaymentModResponse"/>
+            <xsd:element name="PMTCANCRS" type="ofx:PaymentCancelResponse"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringPaymentSyncRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECPMTSYNCRQ" is of type "RecurringPaymentSyncRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncRequest">
+        <xsd:sequence>
+          <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="RECPMTTRNRQ" type="ofx:RecurringPaymentTransactionRequest" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringPaymentSyncResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECPMTSYNCRS" is of type "RecurringPaymentSyncResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncResponse">
+        <xsd:sequence>
+          <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="RECPMTTRNRS" type="ofx:RecurringPaymentTransactionResponse" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+  <xsd:complexType name="RecurringPaymentTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECPMTTRNRQ" is of type "RecurringPaymentTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:choice>
+            <xsd:element name="RECPMTRQ" type="ofx:RecurringPaymentRequest"/>
+            <xsd:element name="RECPMTMODRQ" type="ofx:RecurringPaymentModRequest"/>
+            <xsd:element name="RECPMTCANCRQ" type="ofx:RecurringPaymentCancelRequest"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringPaymentTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECPMTTRNRS" is of type "RecurringPaymentTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:choice minOccurs="0">
+            <xsd:element name="RECPMTRS" type="ofx:RecurringPaymentResponse"/>
+            <xsd:element name="RECPMTMODRS" type="ofx:RecurringPaymentModResponse"/>
+            <xsd:element name="RECPMTCANCRS" type="ofx:RecurringPaymentCancelResponse"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PaymentMailSyncRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PMTMAILSYNCRQ" is of type "PaymentMailSyncRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncRequest">
+        <xsd:sequence>
+          <xsd:element name="INCIMAGES" type="ofx:BooleanType"/>
+          <xsd:element name="USEHTML" type="ofx:BooleanType"/>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PMTMAILTRNRQ" type="ofx:PaymentMailTransactionRequest" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="PaymentMailSyncResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "PMTMAILSYNCRS" is of type "PaymentMailSyncResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="PMTMAILTRNRS" type="ofx:PaymentMailTransactionResponse" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+
+  </xsd:complexType>
+</xsd:schema>

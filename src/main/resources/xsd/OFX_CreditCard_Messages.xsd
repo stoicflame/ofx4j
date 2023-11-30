@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2004 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+        2.2     2016-03-14      bill.cary@innovision.com        Changes for OFX version 2.2
+        2.2.1   2018-10-18      bill.cary@innovision.com        add optional CASHADVAVAILAMT and CASHADVCREDITLIMIT tags to CCSTMTRS
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  xmlns:ofx="http://ofx.net/types/2003/04"
+  targetNamespace="http://ofx.net/types/2003/04">
+
+  <xsd:include schemaLocation = "OFX_CreditCard.xsd" />
+
+  <xsd:complexType name="CreditCardStatementEndRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CCSTMTENDRQ" is of type "CreditCardStatementEndRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount" />
+
+      <xsd:element name="DTSTART" type="ofx:DateTimeType" minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="DTEND" type="ofx:DateTimeType" minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="INCSTMTIMG" type="ofx:BooleanType" minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="CreditCardStatementEndResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CCSTMTENDRS" is of type "CreditCardStatementEndResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="CURDEF" type="ofx:CurrencyEnum" />
+
+      <xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount" />
+
+      <xsd:element name="CCCLOSING" type="ofx:CreditCardClosing"
+      minOccurs="0" maxOccurs="unbounded" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="CreditCardStatementRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CCSTMTRQ" is of type "CreditCardStatementRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount" />
+
+      <xsd:element name="INCTRAN" type="ofx:IncTransaction" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="INCLUDEPENDING" type="ofx:BooleanType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="INCTRANIMG" type="ofx:BooleanType" minOccurs="0"
+      maxOccurs="1" />
+
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="CreditCardStatementResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "CCSTMTRS" is of type "CreditCardStatementResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="CURDEF" type="ofx:CurrencyEnum" />
+
+      <xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount" />
+
+      <xsd:element name="BANKTRANLIST" type="ofx:BankTransactionList"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="BANKTRANLISTP" type="ofx:PendingTransactionList"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="LEDGERBAL" type="ofx:LedgerBalance" />
+
+      <xsd:element name="AVAILBAL" type="ofx:AvailableBalance"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="CASHADVBALAMT" type="ofx:AmountType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="CASHADVAVAILAMT" type="ofx:AmountType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="CASHADVCREDITLIMIT" type="ofx:AmountType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="INTRATEPURCH" type="ofx:RateType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="INTRATECASH" type="ofx:RateType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="INTRATEXFER" type="ofx:RateType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="REWARDINFO" type="ofx:RewardInfoType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="BALLIST" type="ofx:BalanceList" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="MKTGINFO" type="ofx:InfoType"
+      minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<!--
+
+	Open Financial Exchange Specification (c)1996-2004 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+        p23    2002-05-13      altenburgd@businesslogic.com     Bugfixes based on Intuit Schema QA
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ofx="http://ofx.net/types/2003/04"
+  targetNamespace="http://ofx.net/types/2003/04"
+  elementFormDefault="unqualified">
+
+  
+  <xsd:include schemaLocation = "OFX_Investment.xsd" />
+
+  <xsd:complexType name="InvestmentMailRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INVMAILRQ" is of type "InvestmentMailRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="INVACCTFROM" type="ofx:InvestmentAccount" />
+
+      <xsd:element name="MAIL" type="ofx:Mail" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="InvestmentMailResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INVMAILRS" is of type "InvestmentMailResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="INVACCTFROM" type="ofx:InvestmentAccount" />
+
+      <xsd:element name="MAIL" type="ofx:Mail" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="InvestmentStatementEndRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INVSTMTENDRQ" is of type "InvestmentStatementEndRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="INVACCTFROM" type="ofx:InvestmentAccount" />
+      <xsd:element name="DTSTART" type="ofx:DateTimeType" minOccurs="0"/>
+      <xsd:element name="DTEND" type="ofx:DateTimeType" minOccurs="0"/>
+      <xsd:element name="INCSTMTIMG" type="ofx:BooleanType" minOccurs="0"/>      
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="InvestmentStatementEndResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INVSTMTENDRS" is of type "InvestmentStatementEndResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="CURDEF" type="ofx:CurrencyEnum"/>
+      <xsd:element name="INVACCTFROM" type="ofx:InvestmentAccount" />
+      <xsd:element name="INVCLOSING" type="ofx:InvestmentClosing" minOccurs="0" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="InvestmentStatementRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INVSTMTRQ" is of type "InvestmentStatementRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="INVACCTFROM" type="ofx:InvestmentAccount" />
+
+      <xsd:element name="INCTRAN" type="ofx:IncTransaction" />
+
+      <xsd:element name="INCOO" type="ofx:BooleanType" />
+
+      <xsd:element name="INCPOS" type="ofx:IncPosition" />
+
+      <xsd:element name="INCBAL" type="ofx:BooleanType" />
+
+      <xsd:element name="INC401K" type="ofx:BooleanType" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="INC401KBAL" type="ofx:BooleanType" minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="INCTRANIMG" type="ofx:BooleanType" minOccurs="0" maxOccurs="1" />
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <xsd:complexType name="InvestmentStatementResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INVSTMTRS" is of type "InvestmentStatementResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element name="DTASOF" type="ofx:DateTimeType" />
+
+      <xsd:element name="CURDEF" type="ofx:CurrencyEnum" />
+
+      <xsd:element name="INVACCTFROM" type="ofx:InvestmentAccount" />
+
+      <xsd:element name="INVTRANLIST" type="ofx:InvestmentTransactionList"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="INVPOSLIST" type="ofx:InvestmentPositionList"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="INVBAL" type="ofx:InvestmentBalance" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="INVOOLIST" type="ofx:InvestmentOpenOrderList"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="MKTGINFO" type="ofx:InfoType"
+      minOccurs="0" maxOccurs="1" />
+
+      <xsd:element name="INV401K" type="ofx:Investment401k" minOccurs="0"
+      maxOccurs="1" />
+
+      <xsd:element name="INV401KBAL" type="ofx:Investment401kBalance"
+      minOccurs="0" maxOccurs="1" />
+
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>
+

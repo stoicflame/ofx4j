@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+
+	Open Financial Exchange Specification (c)1996-2004 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+
+	p17	2002-02-10  	altenburgd@businesslogic.com	Initial revision
+        p18     2002-02-11      ted.krawiec@citigroup.com       Created abstract type 'CheckInfoBase' and changed 
+                                                                'CheckDescription' and 'CheckRange' to extend that type.
+                                                                'CheckDescription' and 'CheckRange' are used in the choice 
+                                                                element inside of the 'StopCheckRequest' type.
+        p21     2002-03-17      altenburgd@businesslogic.com    Renamed 'CheckInfoBase' to 'AbstractCheckInfo'
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+		RC4    2003-06-24      gil_clark@intuit.com             Added collapse to fixed length, non-string types and enums.
+        2.2    2016-03-14      bill.cary@innovision.com         Changes for OFX version 2.2        
+ 
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ofx="http://ofx.net/types/2003/04" targetNamespace="http://ofx.net/types/2003/04" elementFormDefault="unqualified">
+	<xsd:include schemaLocation="OFX_Common.xsd"/>
+	<xsd:simpleType name="CheckStatusEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CHECKSTATUSENUM" is of type "CheckStatusEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="0"/>
+			<xsd:enumeration value="1"/>
+			<xsd:enumeration value="100"/>
+			<xsd:enumeration value="101"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="AbstractCheckInfo" abstract="true"/>
+	<xsd:complexType name="CheckDescription">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CHKDESC" is of type "CheckDescription"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractCheckInfo">
+				<xsd:sequence>
+					<xsd:element name="NAME" type="ofx:GenericNameType"/>
+					<xsd:element name="CHECKNUM" type="ofx:CheckNumberType" minOccurs="0"/>
+					<xsd:element name="DTUSER" type="ofx:DateTimeType" minOccurs="0"/>
+					<xsd:element name="TRNAMT" type="ofx:AmountType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="CheckRange">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CHKRANGE" is of type "CheckRange"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractCheckInfo">
+				<xsd:sequence>
+					<xsd:element name="CHKNUMSTART" type="ofx:CheckNumberType"/>
+					<xsd:element name="CHKNUMEND" type="ofx:CheckNumberType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Closing">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CLOSING" is of type "Closing"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="FITID" type="ofx:FinancialInstitutionTransactionIdType"/>
+			<xsd:element name="DTOPEN" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="DTCLOSE" type="ofx:DateTimeType"/>
+			<xsd:element name="DTNEXT" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="BALOPEN" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="BALCLOSE" type="ofx:AmountType"/>
+			<xsd:element name="BALMIN" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="DEPANDCREDIT" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="CHKANDDEB" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="TOTALFEES" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="TOTALINT" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="INTRATE" type="ofx:RateType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="INTYTD" type="ofx:AmountType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="DTPOSTSTART" type="ofx:DateTimeType"/>
+			<xsd:element name="DTPOSTEND" type="ofx:DateTimeType"/>
+			<xsd:element name="CREDITLINEINFO" type="ofx:CreditLineInfoType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="MKTGINFO" type="ofx:InfoType" minOccurs="0"/>
+			<xsd:element name="IMAGEDATA" type="ofx:ImageData" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element name="CURRENCY" type="ofx:Currency"/>
+				<xsd:element name="ORIGCURRENCY" type="ofx:Currency"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="StopCheckNumber">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "STPCHKNUM" is of type "StopCheckNumber"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CHECKNUM" type="ofx:CheckNumberType"/>
+			<xsd:element name="NAME" type="ofx:GenericNameType" minOccurs="0"/>
+			<xsd:element name="DTUSER" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="TRNAMT" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="CHKSTATUS" type="ofx:CheckStatusEnum"/>
+			<xsd:element name="CHKERROR" type="ofx:MessageType" minOccurs="0"/>
+			<xsd:choice minOccurs="0">
+				<xsd:element name="CURRENCY" type="ofx:Currency"/>
+				<xsd:element name="ORIGCURRENCY" type="ofx:Currency"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

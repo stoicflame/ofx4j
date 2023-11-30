@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+
+	Open Financial Exchange Specification (c)1996-2004 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p21     2002-03-17      altenburgd@businesslogic.com    Renamed "Account" to "AbstractAccount"
+                                                                Renamed "SyncRequest" to "AbstractSyncRequest"
+                                                                Renamed "SyncResponse" to "AbstractSyncResponse"
+                                                                Renamed "TransactionRequest" to "AbstractTransactionRequest"
+                                                                Renamed "TransactionResponse" to "AbstractTransactionResponse"
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+        p1.1    2005-03-22      altenburgd@businesslogic.com    Added Loan accounts to Sync messages
+        2.2     2016-03-14      bill.cary@innovision.com        Changes for OFX version 2.2        
+-->
+
+<xsd:schema 
+  elementFormDefault="unqualified"
+  targetNamespace="http://ofx.net/types/2003/04" 
+  xmlns:ofx="http://ofx.net/types/2003/04" 
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:include schemaLocation="OFX_Banking_Messages.xsd"/>
+  <xsd:complexType name="BankMailTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "BANKMAILTRNRQ" is of type "BankMailTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="BANKMAILRQ" type="ofx:BankMailRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="BankMailTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "BANKMAILTRNRS" is of type "BankMailTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:choice minOccurs="0">
+            <xsd:element name="BANKMAILRS" type="ofx:BankMailResponse"/>
+            <xsd:element name="CHKMAILRS" type="ofx:CheckMailResponse"/>
+            <xsd:element name="DEPMAILRS" type="ofx:DepositMailResponse"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="IntraSyncRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INTRASYNCRQ" is of type "IntraSyncRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncRequest">
+        <xsd:sequence>
+          <xsd:choice>
+            <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+            <xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount"/>
+            <xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+          </xsd:choice>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="INTRATRNRQ" type="ofx:IntraTransactionRequest" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+
+  </xsd:complexType>
+  <xsd:complexType name="IntraSyncResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INTRASYNCRS" is of type "IntraSyncResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncResponse">
+        <xsd:sequence>
+          <xsd:choice>
+            <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+            <xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount"/>
+            <xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+          </xsd:choice>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="INTRATRNRS" type="ofx:IntraTransactionResponse" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="IntraTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INTRATRNRQ" is of type "IntraTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:choice>
+            <xsd:element name="INTRARQ" type="ofx:IntraRequest"/>
+            <xsd:element name="INTRAMODRQ" type="ofx:IntraModRequest"/>
+            <xsd:element name="INTRACANRQ" type="ofx:IntraCancellationRequest"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="IntraTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "INTRATRNRS" is of type "IntraTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:choice minOccurs="0">
+            <xsd:element name="INTRARS" type="ofx:IntraResponse"/>
+            <xsd:element name="INTRAMODRS" type="ofx:IntraModResponse"/>
+            <xsd:element name="INTRACANRS" type="ofx:IntraCancellationResponse"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="StopCheckSyncRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "STPCHKSYNCRQ" is of type "StopCheckSyncRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncRequest">
+        <xsd:sequence>
+          <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="STPCHKTRNRQ" type="ofx:StopCheckTransactionRequest" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="StopCheckSyncResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "STPCHKSYNCRS" is of type "StopCheckSyncResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncResponse">
+        <xsd:sequence>
+          <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="STPCHKTRNRS" type="ofx:StopCheckTransactionResponse" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="StopCheckTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "STPCHKTRNRQ" is of type "StopCheckTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="STPCHKRQ" type="ofx:StopCheckRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+
+  </xsd:complexType>
+  <xsd:complexType name="StopCheckTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "STPCHKTRNRS" is of type "StopCheckTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="STPCHKRS" type="ofx:StopCheckResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="StatementTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "STMTTRNRQ" is of type "StatementTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="STMTRQ" type="ofx:StatementRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="StatementTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "STMTTRNRS" is of type "StatementTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="STMTRS" type="ofx:StatementResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="StatementEndTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "STMTENDTRNRQ" is of type "StatementEndTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="STMTENDRQ" type="ofx:StatementEndRequest"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="StatementEndTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "STMTENDTRNRS" is of type "StatementEndTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="STMTENDRS" type="ofx:StatementEndResponse" minOccurs="0"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringIntraSyncRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECINTRASYNCRQ" is of type "RecurringIntraSyncRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncRequest">
+        <xsd:sequence>
+          <xsd:choice>
+            <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+            <xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount"/>
+            <xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+          </xsd:choice>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="RECINTRATRNRQ" type="ofx:RecurringIntraTransactionRequest" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringIntraSyncResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECINTRASYNCRS" is of type "RecurringIntraSyncResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncResponse">
+        <xsd:sequence>
+          <xsd:choice>
+            <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+            <xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount"/>
+            <xsd:element name="LOANACCTFROM" type="ofx:LoanAccount"/>
+          </xsd:choice>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="RECINTRATRNRS" type="ofx:RecurringIntraTransactionResponse" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringIntraTransactionRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECINTRATRNRQ" is of type "RecurringIntraTransactionRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionRequest">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:choice>
+            <xsd:element name="RECINTRARQ" type="ofx:RecurringIntraRequest"/>
+            <xsd:element name="RECINTRAMODRQ" type="ofx:RecurringIntraModRequest"/>
+            <xsd:element name="RECINTRACANRQ" type="ofx:RecurringIntraCancellationRequest"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="RecurringIntraTransactionResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "RECINTRATRNRS" is of type "RecurringIntraTransactionResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractTransactionResponse">
+        <xsd:sequence>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:choice minOccurs="0">
+            <xsd:element name="RECINTRARS" type="ofx:RecurringIntraResponse"/>
+            <xsd:element name="RECINTRAMODRS" type="ofx:RecurringIntraModResponse"/>
+            <xsd:element name="RECINTRACANRS" type="ofx:RecurringIntraCancellationResponse"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="BankMailSyncRequest">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "BANKMAILSYNCRQ" is of type "BankMailSyncRequest"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncRequest">
+        <xsd:sequence>
+          <xsd:element name="INCIMAGES" type="ofx:BooleanType"/>
+          <xsd:element name="USEHTML" type="ofx:BooleanType"/>
+          <xsd:choice>
+            <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+            <xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount"/>
+          </xsd:choice>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="BANKMAILTRNRQ" type="ofx:BankMailTransactionRequest" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:complexType name="BankMailSyncResponse">
+    <xsd:annotation>
+      <xsd:documentation>
+        The OFX element "BANKMAILSYNCRS" is of type "BankMailSyncResponse"
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="ofx:AbstractSyncResponse">
+        <xsd:sequence>
+          <xsd:choice>
+            <xsd:element name="BANKACCTFROM" type="ofx:BankAccount"/>
+            <xsd:element name="CCACCTFROM" type="ofx:CreditCardAccount"/>
+          </xsd:choice>
+          <xsd:element name="OFXEXTENSION" type="ofx:OFXExtensionType" minOccurs="0" maxOccurs="1"/>
+          <xsd:element name="BANKMAILTRNRS" type="ofx:BankMailTransactionResponse" minOccurs="0" maxOccurs="unbounded"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+
+  </xsd:complexType>
+</xsd:schema>

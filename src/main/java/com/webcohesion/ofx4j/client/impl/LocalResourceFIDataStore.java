@@ -21,8 +21,9 @@ import com.webcohesion.ofx4j.client.FinancialInstitutionDataStore;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
+//import javax.xml.bind.JAXBContext;
+//import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.HashMap;

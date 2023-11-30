@@ -1,0 +1,1361 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--
+	Open Financial Exchange Specification (c)1996-2004 ("Specification") by all of its publishers: 
+	CheckFree Corp., Intuit Inc., and Microsoft Corporation. All rights reserved. 
+
+	Revision History:
+
+	Version	Date    	Editor Email Addr    		Short Description
+
+	p18	2002-02-11  	altenburgd@businesslogic.com	Initial revision
+        p20     2002-03-10      altenburgd@businesslogic.com	Renamed type 'OpenOrder' to 'GeneralOpenOrder'
+                                                                Created abstract type 'OpenOrder' and made all the open order types extend it
+                                                                Created abstract type 'InvestmentBuyTransaction' and made BuyDebt, BuyMutualFund, 
+                                                                         BuyOpt, BuyOther, and BuyStock to extend it
+                                                                Created abstract type 'InvestmentSellTransaction' and made SellDebt, 
+                                                                         SellMutualFund, SellOpt, SellOther, and SellStock to extend it
+                                                                Created abstract type 'AbstractInvestmentTransaction' and made ClosureOption, 
+                                                                         Income, InvestmentBuy, InvestmentExpense, InvestmentSell, JournalFund, 
+                                                                         JournalSecurity, MarginInterest, Reinvest, ReturnOfCapital, Split, 
+                                                                         and Transfer to extend it
+        p21     2002-03-17      altenburgd@businesslogic.com    Changed elementFormDefault to "unqualified"
+                                                                Changed namespace to "http://ofx.net/types/2003/04"
+        p22     2002-03-24      altenburgd@businesslogic.com    Created type AbstractInvestmentTransactionBase and made AbstractInvestmentTransaction,
+                                                                         AbstractInvestmentBuyTransaction, and AbstractInvestmentSellTransaction
+                                                                         to extend it
+        p23    2002-05-13      altenburgd@businesslogic.com     Bugfixes based on Intuit Schema QA        
+		RC4    2003-06-24      gil_clark@intuit.com             Added collapse to fixed length, non-string types and enums.
+		RC5    2003-07-22      gil_clark@intuit.com             Removed complex content flags.  Changed UNITPRICE to be UnitPriceType.
+             RC6    2003-08-01      gil_clark@intuit.com              Removed BUYTYPE from BUYOTHER and SELLTYPE from SELLOTHER.
+                                                                                              2.0 erroneously added them in from 1.6.  They were removed from 2.0.1.
+        2.2     2016-03-14      bill.cary@innovision.com        Changes for OFX version 2.2
+        2.2     2016-06-30      bill.cary@innovision.com        Additional changes for OFX version 2.2
+-->
+<xsd:schema targetNamespace="http://ofx.net/types/2003/04" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:ofx="http://ofx.net/types/2003/04" elementFormDefault="unqualified">
+	<xsd:include schemaLocation="OFX_Common.xsd"/>
+	<xsd:simpleType name="BuyEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BUYENUM" is of type "BuyEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="BUY"/>
+			<xsd:enumeration value="BUYTOCOVER"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DurationEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "DURATIONENUM" is of type "DurationEnum"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="DAY"/>
+			<xsd:enumeration value="GOODTILCANCEL"/>
+			<xsd:enumeration value="IMMEDIATE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="GenericContactInfoType">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "GENCONTACTINFO" is of type "GenericContactInfoType"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="255"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="IncomeEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "INCOMEENUM" is of type "IncomeEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="CGLONG"/>
+			<xsd:enumeration value="CGSHORT"/>
+			<xsd:enumeration value="DIV"/>
+			<xsd:enumeration value="INTEREST"/>
+			<xsd:enumeration value="MISC"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="InOutEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "INOUTENUM" is of type "InOutEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="IN"/>
+			<xsd:enumeration value="OUT"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LoanIdType">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "LOANID" is of type "LoanIdType"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:maxLength value="32"/>
+			<xsd:minLength value="1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="NumberPayments">
+		<xsd:annotation>
+			<xsd:documentation>
+              The OFX element "NUMPMTS" is of type "NumberPayments"
+            </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="5"/>
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:pattern value="[0-9]+"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OptionActionEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "OPTACTIONENUM" is of type "OptionActionEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="EXERCISE"/>
+			<xsd:enumeration value="ASSIGN"/>
+			<xsd:enumeration value="EXPIRE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OptionBuyEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "OPTBUYENUM" is of type "OptionBuyEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="BUYTOOPEN"/>
+			<xsd:enumeration value="BUYTOCLOSE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OptionSellEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "OPTSELLENUM" is of type "OptionSellEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="SELLTOOPEN"/>
+			<xsd:enumeration value="SELLTOCLOSE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PositionTypeEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "POSTYPEENUM" is of type "PositionTypeEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="LONG"/>
+			<xsd:enumeration value="SHORT"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RelatedEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "RELATEDENUM" is of type "RelatedEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="SPREAD"/>
+			<xsd:enumeration value="STRADDLE"/>
+			<xsd:enumeration value="NONE"/>
+			<xsd:enumeration value="OTHER"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RestrictionEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "RESTRICTIONENUM" is of type "RestrictionEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="ALLORNONE"/>
+			<xsd:enumeration value="MINUNITS"/>
+			<xsd:enumeration value="NONE"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SecuredEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "SECUREDENUM" is of type "SecuredEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="NAKED"/>
+			<xsd:enumeration value="COVERED"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SellReasonEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "SELLREASONENUM" is of type "SellReasonEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="CALL"/>
+			<xsd:enumeration value="MATURITY"/>
+			<xsd:enumeration value="SELL"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SellTypeEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "SELLTYPEENUM" is of type "SellTypeEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="SELL"/>
+			<xsd:enumeration value="SELLSHORT"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SubAccountEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "SUBACCTENUM" is of type "SubAccountEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="CASH"/>
+			<xsd:enumeration value="MARGIN"/>
+			<xsd:enumeration value="SHORT"/>
+			<xsd:enumeration value="OTHER"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="UnitTypeEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "UNITTYPEENUM" is of type "UnitTypeEnum"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:whiteSpace value="collapse"/>
+			<xsd:enumeration value="SHARES"/>
+			<xsd:enumeration value="CURRENCY"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="AbstractInvestmentBuyTransaction" abstract="true">
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentTransactionBase">
+				<xsd:sequence>
+					<xsd:element name="INVBUY" type="ofx:InvestmentBuy"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AbstractInvestmentSellTransaction" abstract="true">
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentTransactionBase">
+				<xsd:sequence>
+					<xsd:element name="INVSELL" type="ofx:InvestmentSell"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="BuyDebt">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BUYDEBT" is of type "BuyDebt"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentBuyTransaction">
+				<xsd:sequence>
+					<xsd:element name="ACCRDINT" type="ofx:AmountType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="BuyMutualFund">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BUYMF" is of type "BuyMutualFund"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentBuyTransaction">
+				<xsd:sequence>
+					<xsd:element name="BUYTYPE" type="ofx:BuyEnum"/>
+					<xsd:element name="RELFITID" type="ofx:FinancialInstitutionTransactionIdType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="BuyOption">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BUYOPT" is of type "BuyOption"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentBuyTransaction">
+				<xsd:sequence>
+					<xsd:element name="OPTBUYTYPE" type="ofx:OptionBuyEnum"/>
+					<xsd:element name="SHPERCTRCT" type="ofx:SharesPerType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="BuyOther">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BUYOTHER" is of type "BuyOther"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentBuyTransaction"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="BuyStock">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "BUYSTOCK" is of type "BuyStock"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentBuyTransaction">
+				<xsd:sequence>
+					<xsd:element name="BUYTYPE" type="ofx:BuyEnum"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ClosureOption">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "CLOSUREOPT" is of type "ClosureOption"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentTransaction">
+				<xsd:sequence>
+					<xsd:element name="SECID" type="ofx:SecurityId"/>
+					<xsd:element name="OPTACTION" type="ofx:OptionActionEnum"/>
+					<xsd:element name="UNITS" type="ofx:QuantityType"/>
+					<xsd:element name="SHPERCTRCT" type="ofx:SharesPerType"/>
+					<xsd:element name="SUBACCTSEC" type="ofx:SubAccountEnum"/>
+					<xsd:element name="RELFITID" type="ofx:FinancialInstitutionTransactionIdType" minOccurs="0"/>
+					<xsd:element name="GAIN" type="ofx:AmountType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ContributionInfo">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "CONTRIBINFO" is of type "ContributionInfo"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CONTRIBSECURITY" type="ofx:ContributionSecurity" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="ContributionSecurity">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "CONTRIBSECURITY" is of type "ContributionSecurity"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SECID" type="ofx:SecurityId"/>
+			<xsd:choice>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="PRETAXCONTRIBPCT" type="ofx:RateType"/>
+					<xsd:element name="AFTERTAXCONTRIBPCT" type="ofx:RateType"/>
+					<xsd:element name="MATCHCONTRIBPCT" type="ofx:RateType"/>
+					<xsd:element name="PROFITSHARINGCONTRIBPCT" type="ofx:RateType"/>
+					<xsd:element name="ROLLOVERCONTRIBPCT" type="ofx:RateType"/>
+					<xsd:element name="OTHERVESTPCT" type="ofx:RateType"/>
+					<xsd:element name="OTHERNONVESTPCT" type="ofx:RateType"/>
+				</xsd:choice>
+				<xsd:choice maxOccurs="unbounded">
+					<xsd:element name="PRETAXCONTRIBAMT" type="ofx:AmountType"/>
+					<xsd:element name="AFTERTAXCONTRIBAMT" type="ofx:AmountType"/>
+					<xsd:element name="MATCHCONTRIBAMT" type="ofx:AmountType"/>
+					<xsd:element name="PROFITSHARINGCONTRIBAMT" type="ofx:AmountType"/>
+					<xsd:element name="ROLLOVERCONTRIBAMT" type="ofx:AmountType"/>
+					<xsd:element name="OTHERVESTAMT" type="ofx:AmountType"/>
+					<xsd:element name="OTHERNONVESTAMT" type="ofx:AmountType"/>
+				</xsd:choice>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Contributions">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "CONTRIBUTIONS" is of type "Contributions"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="PRETAX" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="AFTERTAX" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="MATCH" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="PROFITSHARING" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="ROLLOVER" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="OTHERVEST" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="OTHERNONVEST" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="TOTAL" type="ofx:AmountType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Earnings">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "EARNINGS" is of type "Earnings"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="PRETAX" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="AFTERTAX" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="MATCH" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="PROFITSHARING" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="ROLLOVER" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="OTHERVEST" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="OTHERNONVEST" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="TOTAL" type="ofx:AmountType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InceptToDate">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "INCEPTTODATE" is of type "InceptToDate"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DTSTART" type="ofx:DateTimeType"/>
+			<xsd:element name="DTEND" type="ofx:DateTimeType"/>
+			<xsd:element name="CONTRIBUTIONS" type="ofx:Contributions" minOccurs="0"/>
+			<xsd:element name="WITHDRAWALS" type="ofx:Withdrawals" minOccurs="0"/>
+			<xsd:element name="EARNINGS" type="ofx:Earnings" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Income">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INCOME" is of type "Income"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentTransaction">
+				<xsd:sequence>
+					<xsd:element name="SECID" type="ofx:SecurityId"/>
+					<xsd:element name="INCOMETYPE" type="ofx:IncomeEnum"/>
+					<xsd:element name="TOTAL" type="ofx:AmountType"/>
+					<xsd:element name="SUBACCTSEC" type="ofx:SubAccountEnum"/>
+					<xsd:element name="SUBACCTFUND" type="ofx:SubAccountEnum"/>
+					<xsd:element name="TAXEXEMPT" type="ofx:BooleanType" minOccurs="0"/>
+					<xsd:element name="WITHHOLDING" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="CURRENCY" type="ofx:Currency" minOccurs="0"/>
+					<xsd:element name="ORIGCURRENCY" type="ofx:Currency" minOccurs="0"/>
+					<xsd:element name="INV401KSOURCE" type="ofx:Investment401kSourceEnum" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="IncPosition">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "INCPOS" is of type "IncPosition"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DTASOF" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="INCLUDE" type="ofx:BooleanType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Investment401k">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "INV401K" is of type "Investment401k"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="EMPLOYERNAME" type="ofx:GenericNameType"/>
+			<xsd:element name="PLANID" type="ofx:IdType" minOccurs="0"/>
+			<xsd:element name="PLANJOINDATE" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="EMPLOYERCONTACTINFO" type="ofx:GenericContactInfoType" minOccurs="0"/>
+			<xsd:element name="BROKERCONTACTINFO" type="ofx:GenericContactInfoType" minOccurs="0"/>
+			<xsd:element name="DEFERPCTPRETAX" type="ofx:RateType" minOccurs="0"/>
+			<xsd:element name="DEFERPCTAFTERTAX" type="ofx:RateType" minOccurs="0"/>
+			<xsd:element name="MATCHINFO" type="ofx:MatchInfo" minOccurs="0"/>
+			<xsd:element name="CONTRIBINFO" type="ofx:ContributionInfo" minOccurs="0"/>
+			<xsd:element name="CURRENTVESTPCT" type="ofx:RateType" minOccurs="0"/>
+			<xsd:element name="VESTINFO" type="ofx:VestInfo" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="LOANINFO" type="ofx:LoanInfo" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="INV401KSUMMARY" type="ofx:Investment401kSummary" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Investment401kBalance">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "INV401KBAL" is of type "Investment401kBalance"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="CASHBAL" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="PRETAX" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="AFTERTAX" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="MATCH" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="PROFITSHARING" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="ROLLOVER" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="OTHERVEST" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="OTHERNONVEST" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="TOTAL" type="ofx:AmountType"/>
+			<xsd:element name="BALLIST" type="ofx:BalanceList" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Investment401kSummary">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "INV401KSUMMARY" is of type "Investment401kSummary"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="YEARTODATE" type="ofx:YearToDate"/>
+			<xsd:element name="INCEPTTODATE" type="ofx:InceptToDate" minOccurs="0"/>
+			<xsd:element name="PERIODTODATE" type="ofx:PeriodToDate" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InvestmentBalance">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "INVBAL" is of type "InvestmentBalance"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AVAILCASH" type="ofx:AmountType"/>
+			<xsd:element name="MARGINBALANCE" type="ofx:AmountType"/>
+			<xsd:element name="SHORTBALANCE" type="ofx:AmountType"/>
+			<xsd:element name="BUYPOWER" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="BALLIST" type="ofx:BalanceList" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InvestmentBankTransaction">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "INVBANKTRAN" is of type "InvestmentBankTransaction"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="STMTTRN" type="ofx:StatementTransaction"/>
+			<xsd:element name="SUBACCTFUND" type="ofx:SubAccountEnum"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InvestmentBuy">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INVBUY" is of type "InvestmentBuy"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentTransaction">
+				<xsd:sequence>
+					<xsd:element name="SECID" type="ofx:SecurityId"/>
+					<xsd:element name="UNITS" type="ofx:QuantityType"/>
+					<xsd:element name="UNITPRICE" type="ofx:UnitPriceType"/>
+					<xsd:element name="MARKUP" type="ofx:UnitPriceType" minOccurs="0"/>
+					<xsd:element name="COMMISSION" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="TAXES" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="FEES" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="LOAD" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="TOTAL" type="ofx:AmountType"/>
+					<xsd:element name="CURRENCY" type="ofx:Currency" minOccurs="0"/>
+					<xsd:element name="ORIGCURRENCY" type="ofx:Currency" minOccurs="0"/>
+					<xsd:element name="SUBACCTSEC" type="ofx:SubAccountEnum"/>
+					<xsd:element name="SUBACCTFUND" type="ofx:SubAccountEnum"/>
+					<xsd:sequence minOccurs="0">
+						<xsd:element name="LOANID" type="ofx:LoanIdType"/>
+						<xsd:element name="LOANPRINCIPAL" type="ofx:AmountType"/>
+						<xsd:element name="LOANINTEREST" type="ofx:AmountType"/>
+					</xsd:sequence>
+					<xsd:element name="INV401KSOURCE" type="ofx:Investment401kSourceEnum" minOccurs="0"/>
+					<xsd:element name="DTPAYROLL" type="ofx:DateTimeType" minOccurs="0"/>
+					<xsd:element name="PRIORYEARCONTRIB" type="ofx:BooleanType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="InvestmentExpense">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INVEXPENSE" is of type "InvestmentExpense"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentTransaction">
+				<xsd:sequence>
+					<xsd:element name="SECID" type="ofx:SecurityId"/>
+					<xsd:element name="TOTAL" type="ofx:AmountType"/>
+					<xsd:element name="SUBACCTSEC" type="ofx:SubAccountEnum"/>
+					<xsd:element name="SUBACCTFUND" type="ofx:SubAccountEnum"/>
+					<xsd:element name="CURRENCY" type="ofx:Currency" minOccurs="0"/>
+					<xsd:element name="ORIGCURRENCY" type="ofx:Currency" minOccurs="0"/>
+					<xsd:element name="INV401KSOURCE" type="ofx:Investment401kSourceEnum" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="InvestmentOpenOrderList">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "INVOOLIST" is of type "InvestmentOpenOrderList"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="OOBUYDEBT" type="ofx:OpenOrderBuyDebt"/>
+				<xsd:element name="OOBUYMF" type="ofx:OpenOrderBuyMutualFund"/>
+				<xsd:element name="OOBUYOPT" type="ofx:OpenOrderBuyOption"/>
+				<xsd:element name="OOBUYOTHER" type="ofx:OpenOrderBuyOther"/>
+				<xsd:element name="OOBUYSTOCK" type="ofx:OpenOrderBuyStock"/>
+				<xsd:element name="OOSELLDEBT" type="ofx:OpenOrderSellDebt"/>
+				<xsd:element name="OOSELLMF" type="ofx:OpenOrderSellMutualFund"/>
+				<xsd:element name="OOSELLOPT" type="ofx:OpenOrderSellOption"/>
+				<xsd:element name="OOSELLOTHER" type="ofx:OpenOrderSellOther"/>
+				<xsd:element name="OOSELLSTOCK" type="ofx:OpenOrderSellStock"/>
+				<xsd:element name="SWITCHMF" type="ofx:OpenOrderSwitchMutualFund"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InvestmentPosition">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "INVPOS" is of type "InvestmentPosition"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="SECID" type="ofx:SecurityId"/>
+			<xsd:element name="HELDINACCT" type="ofx:SubAccountEnum"/>
+			<xsd:element name="POSTYPE" type="ofx:PositionTypeEnum"/>
+			<xsd:element name="UNITS" type="ofx:QuantityType"/>
+			<xsd:element name="UNITPRICE" type="ofx:UnitPriceType"/>
+			<xsd:element name="MKTVAL" type="ofx:AmountType"/>
+			<xsd:element name="AVGCOSTBASIS" type="ofx:AmountType" minOccurs="0" maxOccurs="1"/>
+			<xsd:element name="DTPRICEASOF" type="ofx:DateTimeType"/>
+			<xsd:element name="CURRENCY" type="ofx:Currency" minOccurs="0"/>
+			<xsd:element name="MEMO" type="ofx:MessageType" minOccurs="0"/>
+			<xsd:element name="INV401KSOURCE" type="ofx:Investment401kSourceEnum" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InvestmentPositionList">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "INVPOSLIST" is of type "InvestmentPositionList"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="POSMF" type="ofx:PositionMutualFund"/>
+				<xsd:element name="POSSTOCK" type="ofx:PositionStock"/>
+				<xsd:element name="POSDEBT" type="ofx:PositionDebt"/>
+				<xsd:element name="POSOPT" type="ofx:PositionOption"/>
+				<xsd:element name="POSOTHER" type="ofx:PositionOther"/>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InvestmentSell">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INVSELL" is of type "InvestmentSell"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentTransaction">
+				<xsd:sequence>
+					<xsd:element name="SECID" type="ofx:SecurityId"/>
+					<xsd:element name="UNITS" type="ofx:QuantityType"/>
+					<xsd:element name="UNITPRICE" type="ofx:UnitPriceType"/>
+					<xsd:element name="MARKDOWN" type="ofx:UnitPriceType" minOccurs="0"/>
+					<xsd:element name="COMMISSION" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="TAXES" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="FEES" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="LOAD" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="WITHHOLDING" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="TAXEXEMPT" type="ofx:BooleanType" minOccurs="0"/>
+					<xsd:element name="TOTAL" type="ofx:AmountType"/>
+					<xsd:element name="GAIN" type="ofx:AmountType" minOccurs="0"/>
+					<xsd:element name="CURRENCY" type="ofx:Currency" minOccurs="0"/>
+					<xsd:element name="ORIGCURRENCY" type="ofx:Currency" minOccurs="0"/>
+					<xsd:element name="SUBACCTSEC" type="ofx:SubAccountEnum"/>
+					<xsd:element name="SUBACCTFUND" type="ofx:SubAccountEnum"/>
+					<xsd:element name="LOANID" type="ofx:LoanIdType" minOccurs="0"/>
+					<xsd:element name="STATEWITHHOLDING" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="PENALTY" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="INV401KSOURCE" type="ofx:Investment401kSourceEnum" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="InvestmentTransaction">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INVTRAN" is of type "InvestmentTransaction"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="FITID" type="ofx:FinancialInstitutionTransactionIdType"/>
+			<xsd:element name="SRVRTID" type="ofx:ServerIdType" minOccurs="0"/>
+			<xsd:element name="DTTRADE" type="ofx:DateTimeType"/>
+			<xsd:element name="DTSETTLE" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="REVERSALFITID" type="ofx:FinancialInstitutionTransactionIdType" minOccurs="0"/>
+			<xsd:element name="MEMO" type="ofx:MessageType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AbstractInvestmentTransactionBase" abstract="true"/>
+	<xsd:complexType name="AbstractInvestmentTransaction" abstract="true">
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentTransactionBase">
+				<xsd:sequence>
+					<xsd:element name="INVTRAN" type="ofx:InvestmentTransaction"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="InvestmentTransactionList">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "INVTRANLIST" is of type "InvestmentTransactionList"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DTSTART" type="ofx:DateTimeType"/>
+			<xsd:element name="DTEND" type="ofx:DateTimeType"/>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element name="BUYDEBT" type="ofx:BuyDebt"/>
+				<xsd:element name="BUYMF" type="ofx:BuyMutualFund"/>
+				<xsd:element name="BUYOPT" type="ofx:BuyOption"/>
+				<xsd:element name="BUYOTHER" type="ofx:BuyOther"/>
+				<xsd:element name="BUYSTOCK" type="ofx:BuyStock"/>
+				<xsd:element name="CLOSUREOPT" type="ofx:ClosureOption"/>
+				<xsd:element name="INCOME" type="ofx:Income"/>
+				<xsd:element name="INVEXPENSE" type="ofx:InvestmentExpense"/>
+				<xsd:element name="JRNLFUND" type="ofx:JournalFund"/>
+				<xsd:element name="JRNLSEC" type="ofx:JournalSecurity"/>
+				<xsd:element name="MARGININTEREST" type="ofx:MarginInterest"/>
+				<xsd:element name="REINVEST" type="ofx:Reinvest"/>
+				<xsd:element name="RETOFCAP" type="ofx:ReturnOfCapital"/>
+				<xsd:element name="SELLDEBT" type="ofx:SellDebt"/>
+				<xsd:element name="SELLMF" type="ofx:SellMutualFund"/>
+				<xsd:element name="SELLOPT" type="ofx:SellOption"/>
+				<xsd:element name="SELLOTHER" type="ofx:SellOther"/>
+				<xsd:element name="SELLSTOCK" type="ofx:SellStock"/>
+				<xsd:element name="SPLIT" type="ofx:Split"/>
+				<xsd:element name="TRANSFER" type="ofx:Transfer"/>
+			</xsd:choice>
+			<xsd:element name="INVBANKTRAN" type="ofx:InvestmentBankTransaction" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="JournalFund">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "JRNLFUND" is of type "JournalFund"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentTransaction">
+				<xsd:sequence>
+					<xsd:element name="SUBACCTTO" type="ofx:SubAccountEnum"/>
+					<xsd:element name="SUBACCTFROM" type="ofx:SubAccountEnum"/>
+					<xsd:element name="TOTAL" type="ofx:AmountType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="JournalSecurity">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "JRNLSEC" is of type "JournalSecurity"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentTransaction">
+				<xsd:sequence>
+					<xsd:element name="SECID" type="ofx:SecurityId"/>
+					<xsd:element name="SUBACCTTO" type="ofx:SubAccountEnum"/>
+					<xsd:element name="SUBACCTFROM" type="ofx:SubAccountEnum"/>
+					<xsd:element name="UNITS" type="ofx:QuantityType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="LoanInfo">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "LOANINFO" is of type "LoanInfo"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="LOANID" type="ofx:LoanIdType"/>
+			<xsd:element name="LOANDESC" type="ofx:GenericDescriptionType" minOccurs="0"/>
+			<xsd:element name="INITIALLOANBAL" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="LOANSTARTDATE" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="CURRENTLOANBAL" type="ofx:AmountType"/>
+			<xsd:element name="DTASOF" type="ofx:DateTimeType"/>
+			<xsd:element name="LOANRATE" type="ofx:RateType" minOccurs="0"/>
+			<xsd:element name="LOANPMTAMT" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="LOANPMTFREQ" type="ofx:InvestmentFrequencyEnum" minOccurs="0"/>
+			<xsd:element name="LOANPMTSINITIAL" type="ofx:NumberPayments" minOccurs="0"/>
+			<xsd:element name="LOANPMTSREMAINING" type="ofx:NumberPayments" minOccurs="0"/>
+			<xsd:element name="LOANMATURITYDATE" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="LOANTOTALPROJINTEREST" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="LOANINTERESTTODATE" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="LOANNEXTPMTDATE" type="ofx:DateTimeType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MarginInterest">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "MARGININTEREST" is of type "MarginInterest"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentTransaction">
+				<xsd:sequence>
+					<xsd:element name="TOTAL" type="ofx:AmountType"/>
+					<xsd:element name="SUBACCTFUND" type="ofx:SubAccountEnum"/>
+					<xsd:element name="CURRENCY" type="ofx:Currency" minOccurs="0"/>
+					<xsd:element name="ORIGCURRENCY" type="ofx:Currency" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="MatchInfo">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "MATCHINFO" is of type "MatchInfo"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="MATCHPCT" type="ofx:RateType"/>
+			<xsd:element name="MAXMATCHAMT" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="MAXMATCHPCT" type="ofx:RateType" minOccurs="0"/>
+			<xsd:element name="STARTOFYEAR" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="BASEMATCHAMT" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="BASEMATCHPCT" type="ofx:RateType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AbstractOpenOrder" abstract="true">
+		<xsd:sequence>
+			<xsd:element name="OO" type="ofx:GeneralOpenOrder"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="GeneralOpenOrder">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "OO" is of type "GeneralOpenOrder"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="FITID" type="ofx:FinancialInstitutionTransactionIdType"/>
+			<xsd:element name="SRVRTID" type="ofx:ServerIdType" minOccurs="0"/>
+			<xsd:element name="SECID" type="ofx:SecurityId"/>
+			<xsd:element name="DTPLACED" type="ofx:DateTimeType"/>
+			<xsd:element name="UNITS" type="ofx:QuantityType"/>
+			<xsd:element name="SUBACCT" type="ofx:SubAccountEnum"/>
+			<xsd:element name="DURATION" type="ofx:DurationEnum"/>
+			<xsd:element name="RESTRICTION" type="ofx:RestrictionEnum"/>
+			<xsd:element name="MINUNITS" type="ofx:QuantityType" minOccurs="0"/>
+			<xsd:element name="LIMITPRICE" type="ofx:UnitPriceType" minOccurs="0"/>
+			<xsd:element name="STOPPRICE" type="ofx:UnitPriceType" minOccurs="0"/>
+			<xsd:element name="MEMO" type="ofx:MessageType" minOccurs="0"/>
+			<xsd:element name="CURRENCY" type="ofx:Currency" minOccurs="0"/>
+			<xsd:element name="INV401KSOURCE" type="ofx:Investment401kSourceEnum" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="OpenOrderBuyDebt">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "OOBUYDEBT" is of type "OpenOrderBuyDebt"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractOpenOrder">
+				<xsd:sequence>
+					<xsd:element name="AUCTION" type="ofx:BooleanType"/>
+					<xsd:element name="DTAUCTION" type="ofx:DateTimeType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OpenOrderBuyMutualFund">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "OOBUYMF" is of type "OpenOrderBuyMutualFund"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractOpenOrder">
+				<xsd:sequence>
+					<xsd:element name="BUYTYPE" type="ofx:BuyEnum"/>
+					<xsd:element name="UNITTYPE" type="ofx:UnitTypeEnum"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OpenOrderBuyOption">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "OOBUYOPT" is of type "OpenOrderBuyOption"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractOpenOrder">
+				<xsd:sequence>
+					<xsd:element name="OPTBUYTYPE" type="ofx:OptionBuyEnum"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OpenOrderBuyOther">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "OOBUYOTHER" is of type "OpenOrderBuyOther"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractOpenOrder">
+				<xsd:sequence>
+					<xsd:element name="UNITTYPE" type="ofx:UnitTypeEnum"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OpenOrderBuyStock">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "OOBUYSTOCK" is of type "OpenOrderBuyStock"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractOpenOrder">
+				<xsd:sequence>
+					<xsd:element name="BUYTYPE" type="ofx:BuyEnum"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OpenOrderSellDebt">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "OOSELLDEBT" is of type "OpenOrderSellDebt"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractOpenOrder"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OpenOrderSellMutualFund">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "OOSELLMF" is of type "OpenOrderSellMutualFund"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractOpenOrder">
+				<xsd:sequence>
+					<xsd:element name="SELLTYPE" type="ofx:SellTypeEnum"/>
+					<xsd:element name="UNITTYPE" type="ofx:UnitTypeEnum"/>
+					<xsd:element name="SELLALL" type="ofx:BooleanType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OpenOrderSellOption">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "OOSELLOPT" is of type "OpenOrderSellOption"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractOpenOrder">
+				<xsd:sequence>
+					<xsd:element name="OPTSELLTYPE" type="ofx:OptionSellEnum"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OpenOrderSellOther">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "OOSELLOTHER" is of type "OpenOrderSellOther"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractOpenOrder">
+				<xsd:sequence>
+					<xsd:element name="UNITTYPE" type="ofx:UnitTypeEnum"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OpenOrderSellStock">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "OOSELLSTOCK" is of type "OpenOrderSellStock"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractOpenOrder">
+				<xsd:sequence>
+					<xsd:element name="SELLTYPE" type="ofx:SellTypeEnum"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="OpenOrderSwitchMutualFund">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SWITCHMF" is of type "OpenOrderSwitchMutualFund"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractOpenOrder">
+				<xsd:sequence>
+					<xsd:element name="SECID" type="ofx:SecurityId"/>
+					<xsd:element name="UNITTYPE" type="ofx:UnitTypeEnum"/>
+					<xsd:element name="SWITCHALL" type="ofx:BooleanType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PeriodToDate">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "PERIODTODATE" is of type "PeriodToDate"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DTSTART" type="ofx:DateTimeType"/>
+			<xsd:element name="DTEND" type="ofx:DateTimeType"/>
+			<xsd:element name="CONTRIBUTIONS" type="ofx:Contributions" minOccurs="0"/>
+			<xsd:element name="WITHDRAWALS" type="ofx:Withdrawals" minOccurs="0"/>
+			<xsd:element name="EARNINGS" type="ofx:Earnings" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PositionDebt">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "POSDEBT" is of type "PositionDebt"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractPositionBase"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="AbstractPositionBase" abstract="true">
+		<xsd:sequence>
+			<xsd:element name="INVPOS" type="ofx:InvestmentPosition"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="PositionMutualFund">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "POSMF" is of type "PositionMutualFund"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractPositionBase">
+				<xsd:sequence>
+					<xsd:element name="UNITSSTREET" type="ofx:PositiveQuantityType" minOccurs="0"/>
+					<xsd:element name="UNITSUSER" type="ofx:PositiveQuantityType" minOccurs="0"/>
+					<xsd:element name="REINVDIV" type="ofx:BooleanType" minOccurs="0"/>
+					<xsd:element name="REINVCG" type="ofx:BooleanType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PositionOption">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "POSOPT" is of type "PositionOption"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractPositionBase">
+				<xsd:sequence>
+					<xsd:element name="SECURED" type="ofx:SecuredEnum" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PositionOther">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "POSOTHER" is of type "PositionOther"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractPositionBase"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PositionStock">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "POSSTOCK" is of type "PositionStock"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractPositionBase">
+				<xsd:sequence>
+					<xsd:element name="UNITSSTREET" type="ofx:PositiveQuantityType" minOccurs="0"/>
+					<xsd:element name="UNITSUSER" type="ofx:PositiveQuantityType" minOccurs="0"/>
+					<xsd:element name="REINVDIV" type="ofx:BooleanType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Reinvest">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "REINVEST" is of type "Reinvest"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentTransaction">
+				<xsd:sequence>
+					<xsd:element name="SECID" type="ofx:SecurityId"/>
+					<xsd:element name="INCOMETYPE" type="ofx:IncomeEnum"/>
+					<xsd:element name="TOTAL" type="ofx:AmountType"/>
+					<xsd:element name="SUBACCTSEC" type="ofx:SubAccountEnum"/>
+					<xsd:element name="UNITS" type="ofx:QuantityType"/>
+					<xsd:element name="UNITPRICE" type="ofx:UnitPriceType"/>
+					<xsd:element name="COMMISSION" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="TAXES" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="FEES" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="LOAD" type="ofx:PositiveAmountType" minOccurs="0"/>
+					<xsd:element name="TAXEXEMPT" type="ofx:BooleanType" minOccurs="0"/>
+					<xsd:element name="CURRENCY" type="ofx:Currency" minOccurs="0"/>
+					<xsd:element name="ORIGCURRENCY" type="ofx:Currency" minOccurs="0"/>
+					<xsd:element name="INV401KSOURCE" type="ofx:Investment401kSourceEnum" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ReturnOfCapital">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "RETOFCAP" is of type "ReturnOfCapital"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentTransaction">
+				<xsd:sequence>
+					<xsd:element name="SECID" type="ofx:SecurityId"/>
+					<xsd:element name="TOTAL" type="ofx:AmountType"/>
+					<xsd:element name="SUBACCTSEC" type="ofx:SubAccountEnum"/>
+					<xsd:element name="SUBACCTFUND" type="ofx:SubAccountEnum"/>
+					<xsd:element name="CURRENCY" type="ofx:Currency" minOccurs="0"/>
+					<xsd:element name="ORIGCURRENCY" type="ofx:Currency" minOccurs="0"/>
+					<xsd:element name="INV401KSOURCE" type="ofx:Investment401kSourceEnum" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SellDebt">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SELLDEBT" is of type "SellDebt"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentSellTransaction">
+				<xsd:sequence>
+					<xsd:element name="SELLREASON" type="ofx:SellReasonEnum"/>
+					<xsd:element name="ACCRDINT" type="ofx:AmountType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SellMutualFund">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SELLMF" is of type "SellMutualFund"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentSellTransaction">
+				<xsd:sequence>
+					<xsd:element name="SELLTYPE" type="ofx:SellTypeEnum"/>
+					<xsd:element name="AVGCOSTBASIS" type="ofx:AmountType" minOccurs="0"/>
+					<xsd:element name="RELFITID" type="ofx:FinancialInstitutionTransactionIdType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SellOption">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SELLOPT" is of type "SellOption"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentSellTransaction">
+				<xsd:sequence>
+					<xsd:element name="OPTSELLTYPE" type="ofx:OptionSellEnum"/>
+					<xsd:element name="SHPERCTRCT" type="ofx:SharesPerType"/>
+					<xsd:element name="RELFITID" type="ofx:FinancialInstitutionTransactionIdType" minOccurs="0"/>
+					<xsd:element name="RELTYPE" type="ofx:RelatedEnum" minOccurs="0"/>
+					<xsd:element name="SECURED" type="ofx:SecuredEnum" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SellOther">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SELLOTHER" is of type "SellOther"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentSellTransaction"/>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SellStock">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SELLSTOCK" is of type "SellStock"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentSellTransaction">
+				<xsd:sequence>
+					<xsd:element name="SELLTYPE" type="ofx:SellTypeEnum"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Split">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "SPLIT" is of type "Split"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentTransaction">
+				<xsd:sequence>
+					<xsd:element name="SECID" type="ofx:SecurityId"/>
+					<xsd:element name="SUBACCTSEC" type="ofx:SubAccountEnum"/>
+					<xsd:element name="OLDUNITS" type="ofx:QuantityType"/>
+					<xsd:element name="NEWUNITS" type="ofx:QuantityType"/>
+					<xsd:element name="NUMERATOR" type="ofx:QuantityType"/>
+					<xsd:element name="DENOMINATOR" type="ofx:QuantityType"/>
+					<xsd:element name="CURRENCY" type="ofx:Currency" minOccurs="0"/>
+					<xsd:element name="ORIGCURRENCY" type="ofx:Currency" minOccurs="0"/>
+					<xsd:element name="FRACCASH" type="ofx:AmountType" minOccurs="0"/>
+					<xsd:element name="SUBACCTFUND" type="ofx:SubAccountEnum" minOccurs="0"/>
+					<xsd:element name="INV401KSOURCE" type="ofx:Investment401kSourceEnum" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="Transfer">
+		<xsd:annotation>
+			<xsd:documentation>
+        The OFX element "TRANSFER" is of type "Transfer"
+      </xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="ofx:AbstractInvestmentTransaction">
+				<xsd:sequence>
+					<xsd:element name="SECID" type="ofx:SecurityId"/>
+					<xsd:element name="SUBACCTSEC" type="ofx:SubAccountEnum"/>
+					<xsd:element name="UNITS" type="ofx:QuantityType"/>
+					<xsd:element name="TFERACTION" type="ofx:InOutEnum"/>
+					<xsd:element name="POSTYPE" type="ofx:PositionTypeEnum"/>
+					<xsd:element name="INVACCTFROM" type="ofx:InvestmentAccount" minOccurs="0"/>
+					<xsd:element name="AVGCOSTBASIS" type="ofx:AmountType" minOccurs="0"/>
+					<xsd:element name="UNITPRICE" type="ofx:UnitPriceType" minOccurs="0"/>
+					<xsd:element name="DTPURCHASE" type="ofx:DateTimeType" minOccurs="0"/>
+					<xsd:element name="INV401KSOURCE" type="ofx:Investment401kSourceEnum" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="VestInfo">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "VESTINFO" is of type "VestInfo"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="VESTDATE" type="ofx:DateTimeType" minOccurs="0"/>
+			<xsd:element name="VESTPCT" type="ofx:RateType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Withdrawals">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "WITHDRAWALS" is of type "Withdrawals"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="PRETAX" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="AFTERTAX" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="MATCH" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="PROFITSHARING" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="ROLLOVER" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="OTHERVEST" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="OTHERNONVEST" type="ofx:AmountType" minOccurs="0"/>
+			<xsd:element name="TOTAL" type="ofx:AmountType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="YearToDate">
+		<xsd:annotation>
+			<xsd:documentation>
+	      The OFX element "YEARTODATE" is of type "YearToDate"
+	    </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="DTSTART" type="ofx:DateTimeType"/>
+			<xsd:element name="DTEND" type="ofx:DateTimeType"/>
+			<xsd:element name="CONTRIBUTIONS" type="ofx:Contributions" minOccurs="0"/>
+			<xsd:element name="WITHDRAWALS" type="ofx:Withdrawals" minOccurs="0"/>
+			<xsd:element name="EARNINGS" type="ofx:Earnings" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+        <xsd:complexType name="InvestmentClosing">
+          <xsd:annotation>
+            <xsd:documentation>
+              The OFX element "INVCLOSING" is of type "InvestmentClosing"
+            </xsd:documentation>
+          </xsd:annotation>
+          
+          <xsd:sequence>
+            <xsd:element name="FITID" type="ofx:FinancialInstitutionTransactionIdType"/>
+            <xsd:element name="IMAGEDATA" type="ofx:ImageData" minOccurs="0"/>
+          </xsd:sequence>
+        </xsd:complexType>
+            
+</xsd:schema>
+
+
+
+
+
+
+
