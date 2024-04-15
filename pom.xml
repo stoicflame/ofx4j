@@ -6,27 +6,24 @@
   <artifactId>ofx4j</artifactId>
   <packaging>bundle</packaging>
 
-  <version>1.37</version>
+  <version>1.37-SNAPSHOT</version>
   <name>ofx4j</name>
   <description>
     OFX4J is a Java implementation of Open Financial Exchange, which defines web service
     APIs for interfacing with financial institutions.
   </description>
-<!--  <url>https://github.com/stoicflame/ofx4j</url> -->
-  <url>https://github.com/rshkwee/ofx4j</url>
+  <url>https://github.com/stoicflame/ofx4j</url>
 
   <developers>
     <developer>
       <name>Ryan Heaton</name>
     </developer>
   </developers>
-  <!--
   <scm>
     <connection>scm:git:git@github.com:stoicflame/ofx4j.git</connection>
     <url>https://github.com/stoicflame/ofx4j</url>
     <developerConnection>scm:git:git@github.com:stoicflame/ofx4j.git</developerConnection>
   </scm>
-  -->
   <licenses>
     <license>
       <name>Apache 2</name>
@@ -41,30 +38,30 @@
   <build>
     <plugins>
       <plugin>
-	    <groupId>org.codehaus.mojo</groupId>
-		<artifactId>jaxb2-maven-plugin</artifactId>
-		<version>3.1.0</version>
-		<executions>
-		  <execution>
-			<id>xjc</id>
-			<goals>
-			  <goal>xjc</goal>
-			</goals>
-		  </execution>
-		</executions>
-	    <configuration>
-		  <!-- The package of your generated sources -->
-		  <packageName>com.webcohesion.ofx4j.generated</packageName>
-		  <sources>
-			<source>src/main/resources/xsd</source>
-		  </sources>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jaxb2-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>xjc</id>
+            <goals>
+              <goal>xjc</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <!-- The package of your generated sources -->
+          <packageName>com.webcohesion.ofx4j.generated</packageName>
+          <sources>
+            <source>src/main/resources/xsd</source>
+          </sources>
           <arguments>
             <argument>-b</argument>
             <argument>src/main/resources/jaxb-customization.xml</argument>
           </arguments>
-	    </configuration>
-	  </plugin>
-    
+        </configuration>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -203,10 +200,10 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-	  <groupId>jakarta.xml.bind</groupId>
-	  <artifactId>jakarta.xml.bind-api</artifactId>
-	  <version>4.0.0</version>
-	</dependency>
+      <groupId>jakarta.xml.bind</groupId>
+      <artifactId>jakarta.xml.bind-api</artifactId>
+      <version>4.0.0</version>
+    </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
@@ -222,7 +219,7 @@
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
     </snapshotRepository>
 
-   <repository>
+    <repository>
       <id>ossrh</id>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
@@ -234,6 +231,16 @@
       <build>
         <plugins>
           <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+          <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
             <executions>
@@ -244,7 +251,7 @@
                   <goal>jar</goal>
                 </goals>
                 <configuration>
-                  <additionalparam>-Xdoclint:none</additionalparam>
+                  <additionalJOption>-Xdoclint:none</additionalJOption>
                 </configuration>
               </execution>
             </executions>
@@ -261,7 +268,7 @@
                 </goals>
               </execution>
             </executions>
-          </plugin>          
+          </plugin>
         </plugins>
       </build>
     </profile>
