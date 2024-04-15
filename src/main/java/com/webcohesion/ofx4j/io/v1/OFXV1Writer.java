@@ -28,16 +28,16 @@ import java.io.*;
  * @author Ryan Heaton
  */
 public class OFXV1Writer implements OFXWriter {
-  private OFXSettings m_ofxSettings = OFXSettings.getInstance();
+  private OFXSettings ofxSettings = OFXSettings.getInstance();
 
   private static final String LINE_SEPARATOR = "\r\n";
   protected boolean headersWritten = false;
   protected final Writer writer;
-  private boolean writeAttributesOnNewLine = m_ofxSettings.getWriteAttributesOnNewLine();
-  private String m_Filename = "";
+  private boolean writeAttributesOnNewLine = ofxSettings.getWriteAttributesOnNewLine();
+  private String filename = "";
 
   public OFXV1Writer(String filename) throws FileNotFoundException {
-    m_Filename = filename;
+    this.filename = filename;
     OutputStream out = new FileOutputStream(filename);
     try {
       this.writer = newWriter(out);
@@ -59,7 +59,7 @@ public class OFXV1Writer implements OFXWriter {
   }
 
   protected OutputStreamWriter newWriter(OutputStream out) throws UnsupportedEncodingException {
-    return new OutputStreamWriter(out, m_ofxSettings.getEncoding());
+    return new OutputStreamWriter(out, ofxSettings.getEncoding());
   }
 
   @Override
@@ -102,10 +102,10 @@ public class OFXV1Writer implements OFXWriter {
   public void writeStartAggregate(String aggregateName) throws IOException {
     if (isWriteAttributesOnNewLine()) {
       println();
-      print(m_ofxSettings.getIndentSpaces());
+      print(ofxSettings.getIndentSpaces());
     }
 
-    m_ofxSettings.incrIndent();
+    ofxSettings.incrIndent();
     print('<');
     print(aggregateName);
     print('>');
@@ -113,7 +113,7 @@ public class OFXV1Writer implements OFXWriter {
 
   @Override
   public void writeElement(String name, String value) throws IOException {
-    m_ofxSettings = OFXSettings.getInstance();
+    ofxSettings = OFXSettings.getInstance();
     if ((value == null) || ("".equals(value))) {
       throw new IllegalArgumentException(
           "Illegal element value for element '" + name + "' (value must not be null or empty).");
@@ -134,7 +134,7 @@ public class OFXV1Writer implements OFXWriter {
 
     if (isWriteAttributesOnNewLine()) {
       println();
-      print(m_ofxSettings.getIndentSpaces());
+      print(ofxSettings.getIndentSpaces());
     }
     print('<');
     print(name);
@@ -144,10 +144,10 @@ public class OFXV1Writer implements OFXWriter {
 
   @Override
   public void writeEndAggregate(String aggregateName) throws IOException {
-    m_ofxSettings.decrIndent();
+    ofxSettings.decrIndent();
     if (isWriteAttributesOnNewLine()) {
       println();
-      print(m_ofxSettings.getIndentSpaces());
+      print(ofxSettings.getIndentSpaces());
     }
     print("</");
     print(aggregateName);
@@ -178,7 +178,7 @@ public class OFXV1Writer implements OFXWriter {
   }
 
   protected String getFilename() {
-    return m_Filename;
+    return this.filename;
   }
 
   protected void println() throws IOException {

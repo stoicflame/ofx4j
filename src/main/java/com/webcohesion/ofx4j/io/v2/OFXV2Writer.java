@@ -28,38 +28,38 @@ import java.util.Map;
  * @author Ryan Heaton
  */
 public class OFXV2Writer extends OFXV1Writer {
-  private OFXSettings m_ofxSettings;
+  private OFXSettings ofxSettings;
 
   public OFXV2Writer(OutputStream out) {
     super(out);
-    m_ofxSettings = OFXSettings.getInstance();
+    ofxSettings = OFXSettings.getInstance();
   }
 
   public OFXV2Writer(Writer writer) {
     super(writer);
-    m_ofxSettings = OFXSettings.getInstance();
+    ofxSettings = OFXSettings.getInstance();
   }
 
   public OFXV2Writer(String filename) throws FileNotFoundException {
     super(filename);
-    m_ofxSettings = OFXSettings.getInstance();
+    ofxSettings = OFXSettings.getInstance();
   }
 
   @Override
   protected OutputStreamWriter newWriter(OutputStream out) throws UnsupportedEncodingException {
-    m_ofxSettings = OFXSettings.getInstance();
-    return new OutputStreamWriter(out, m_ofxSettings.getEncoding());
+    ofxSettings = OFXSettings.getInstance();
+    return new OutputStreamWriter(out, ofxSettings.getEncoding());
   }
 
   @Override
   public void writeHeaders(Map<String, String> headers) throws IOException {
-    m_ofxSettings = OFXSettings.getInstance();
+    ofxSettings = OFXSettings.getInstance();
     if (headersWritten) {
       throw new IllegalStateException("Headers have already been written!");
     }
 
     print("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
-    if (m_ofxSettings.getWriteAttributesOnNewLine()) {
+    if (ofxSettings.getWriteAttributesOnNewLine()) {
       println();
     }
 
@@ -93,6 +93,6 @@ public class OFXV2Writer extends OFXV1Writer {
 
   @Override
   public boolean isWriteAttributesOnNewLine() {
-    return m_ofxSettings.getWriteAttributesOnNewLine();
+    return ofxSettings.getWriteAttributesOnNewLine();
   }
 }

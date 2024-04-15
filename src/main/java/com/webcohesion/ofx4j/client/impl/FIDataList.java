@@ -16,8 +16,6 @@
 
 package com.webcohesion.ofx4j.client.impl;
 
-//import javax.xml.bind.annotation.XmlElement;
-//import javax.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.*;
 import java.util.Collection;
 

@@ -34,11 +34,11 @@ public abstract class StatementResponse extends ResponseMessage implements Accou
   private BalanceInfo ledgerBalance;
   private BalanceInfo availableBalance;
   private String marketingInfo;
-  private OFXSettings m_ofxSettings;
+  private OFXSettings ofxSettings;
 
   public StatementResponse() {
-    m_ofxSettings = OFXSettings.getInstance();
-    currencyCode = java.util.Currency.getInstance(m_ofxSettings.getLocale()).getCurrencyCode().toUpperCase();
+    ofxSettings = OFXSettings.getInstance();
+    currencyCode = java.util.Currency.getInstance(ofxSettings.getLocale()).getCurrencyCode().toUpperCase();
   }
 
   /**

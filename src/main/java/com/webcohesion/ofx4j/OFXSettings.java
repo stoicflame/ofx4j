@@ -14,19 +14,13 @@ import com.webcohesion.ofx4j.generated.CurrencyEnum;
 public class OFXSettings {
   private static OFXSettings uniqueInstance;
 
-  private String m_Encoding = "ISO-8859-1";
-  private String m_Currency = "EUR";
+  private String ENCODING = "ISO-8859-1";
+  private String CURRENCY = "EUR";
+  private Locale LOCALE = new Locale("en", "US");// new Locale("nl", "NL");
 
-  /*  
-  @formatter:off
- 
-  @formatter:on
-*/
-  private Locale m_Locale = new Locale("en", "US");// new Locale("nl", "NL");
-
-  private int m_Indent = 0;
-  private int m_Tab = 2; // Tab is equivalent of 2 spaces.
-  private boolean m_WriteAttributesOnNewLine = true;
+  private int INDENT = 0;
+  private int TAB = 2; // Tab is equivalent of 2 spaces.
+  private boolean WRITE_ATTRIBUTES_ON_NEWLINE = true;
 
   /**
    * Private constructor to prevent direct instantiation.
@@ -53,7 +47,7 @@ public class OFXSettings {
    * @return Encoding as String.
    */
   public String getEncoding() {
-    return m_Encoding;
+    return ENCODING;
   }
 
   /**
@@ -62,7 +56,7 @@ public class OFXSettings {
    * @return Currency as String.
    */
   public String getCurrency() {
-    return m_Currency;
+    return CURRENCY;
   }
 
   /**
@@ -72,8 +66,8 @@ public class OFXSettings {
    */
   public String getIndentSpaces() {
     String spacing = "";
-    if (m_Indent > 0) {
-      spacing = new String(new char[m_Indent * m_Tab]).replace('\0', ' ');
+    if (INDENT > 0) {
+      spacing = new String(new char[INDENT * TAB]).replace('\0', ' ');
     }
     return spacing;
   }
@@ -83,7 +77,7 @@ public class OFXSettings {
    * @return
    */
   public Locale getLocale() {
-    return m_Locale;
+    return LOCALE;
   }
 
   /**
@@ -92,7 +86,7 @@ public class OFXSettings {
    * @return True for starting on newline or False if not.
    */
   public boolean getWriteAttributesOnNewLine() {
-    return m_WriteAttributesOnNewLine;
+    return WRITE_ATTRIBUTES_ON_NEWLINE;
   }
 
   /**
@@ -101,7 +95,7 @@ public class OFXSettings {
    * @param a_encoding Encoding Charset.
    */
   public void setEncoding(Charset a_encoding) {
-    m_Encoding = a_encoding.toString();
+    ENCODING = a_encoding.toString();
   }
 
   /**
@@ -110,7 +104,7 @@ public class OFXSettings {
    * @param a_Currency Currency as Enum.
    */
   public void setCurrency(CurrencyEnum a_Currency) {
-    m_Currency = a_Currency.toString();
+    CURRENCY = a_Currency.toString();
   }
 
   /**
@@ -119,7 +113,7 @@ public class OFXSettings {
    * @param a_Locale
    */
   public void setLocale(Locale a_Locale) {
-    this.m_Locale = a_Locale;
+    this.LOCALE = a_Locale;
   }
 
   /**
@@ -128,7 +122,7 @@ public class OFXSettings {
    * @param a_WriteAttributesOnNewLine True or False
    */
   public void setWriteAttributesOnNewLine(boolean a_WriteAttributesOnNewLine) {
-    m_WriteAttributesOnNewLine = a_WriteAttributesOnNewLine;
+    WRITE_ATTRIBUTES_ON_NEWLINE = a_WriteAttributesOnNewLine;
   }
 
   /**
@@ -137,21 +131,21 @@ public class OFXSettings {
    * @param a_Tab Number of spaces.
    */
   public void setTab(int a_Tab) {
-    m_Tab = a_Tab;
+    TAB = a_Tab;
   }
 
   /**
    * Increment indentation level.
    */
   public void incrIndent() {
-    m_Indent++;
+    INDENT++;
   }
 
   /**
    * Decrease indentation level.
    */
   public void decrIndent() {
-    m_Indent--;
+    INDENT--;
   }
 
 }

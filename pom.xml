@@ -36,7 +36,6 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <maven.test.failure.ignore>true</maven.test.failure.ignore>
   </properties>
 
   <build>
@@ -70,8 +69,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <configuration>
-          <source>17</source>
-          <target>17</target>
+          <source>1.8</source>
+          <target>1.8</target>
         </configuration>
       </plugin>
       <plugin>
@@ -204,11 +203,6 @@
       <optional>true</optional>
     </dependency>
     <dependency>
-      <groupId>com.sun.xml.bind</groupId>
-      <artifactId>jaxb-impl</artifactId>
-      <version>4.0.1</version>
-    </dependency>
-    <dependency>
 	  <groupId>jakarta.xml.bind</groupId>
 	  <artifactId>jakarta.xml.bind-api</artifactId>
 	  <version>4.0.0</version>
@@ -223,7 +217,6 @@
   </dependencies>
 
   <distributionManagement>
- <!--  
     <snapshotRepository>
       <id>ossrh</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -233,14 +226,6 @@
       <id>ossrh</id>
       <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
-    -->
-       <!-- Upload to Github v-->
-        <repository>
-          <id>github</id>
-          <name>GitHub Packages</name>
-          <url>https://maven.pkg.github.com/RSHKwee/ofx4j</url>
-        </repository>
-        <!-- Upload to Github ^-->
   </distributionManagement>
 
   <profiles>

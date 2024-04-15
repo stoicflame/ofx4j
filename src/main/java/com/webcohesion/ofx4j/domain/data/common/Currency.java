@@ -30,11 +30,11 @@ import java.util.Locale;
 public class Currency {
   private String code = java.util.Currency.getInstance(Locale.US).getCurrencyCode().toUpperCase();
   private Float exchangeRate;
-  private OFXSettings m_ofxSettings;
+  private OFXSettings ofxSettings;
 
   public Currency() {
-    m_ofxSettings = OFXSettings.getInstance();
-    code = java.util.Currency.getInstance(m_ofxSettings.getLocale()).getCurrencyCode().toUpperCase();
+    ofxSettings = OFXSettings.getInstance();
+    code = java.util.Currency.getInstance(ofxSettings.getLocale()).getCurrencyCode().toUpperCase();
   }
 
   /**

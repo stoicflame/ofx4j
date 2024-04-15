@@ -46,11 +46,11 @@ public class SignonResponse extends ResponseMessage implements StatusHolder {
   private FinancialInstitution financialInstitution;
   private String sessionId;
   private String accessKey;
-  private OFXSettings m_ofxSettings;
+  private OFXSettings ofxSettings;
 
   public SignonResponse() {
-    m_ofxSettings = OFXSettings.getInstance();
-    language = m_ofxSettings.getLocale().getISO3Language();
+    ofxSettings = OFXSettings.getInstance();
+    language = ofxSettings.getLocale().getISO3Language();
   }
 
   @Override
@@ -192,8 +192,7 @@ public class SignonResponse extends ResponseMessage implements StatusHolder {
   /**
    * The date/time that the user's account information was updated.
    *
-   * @param accountLastUpdated The date/time that the user's account information
-   *                           was updated.
+   * @param accountLastUpdated The date/time that the user's account information was updated.
    */
   public void setAccountLastUpdated(Date accountLastUpdated) {
     this.accountLastUpdated = accountLastUpdated;

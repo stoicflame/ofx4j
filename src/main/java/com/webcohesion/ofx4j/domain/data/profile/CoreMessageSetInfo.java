@@ -42,11 +42,11 @@ public class CoreMessageSetInfo {
   private SynchronizationCapability syncCapability;
   private Boolean fileBasedErrorRecoverySupport;
   private Integer timeout;
-  private OFXSettings m_ofxSettings;
+  private OFXSettings ofxSettings;
 
   public CoreMessageSetInfo() {
-    m_ofxSettings = OFXSettings.getInstance();
-    language = m_ofxSettings.getLocale().getISO3Language();
+    ofxSettings = OFXSettings.getInstance();
+    language = ofxSettings.getLocale().getISO3Language();
   }
 
   /**
@@ -69,8 +69,7 @@ public class CoreMessageSetInfo {
   }
 
   /**
-   * The name of the service provider (sometimes the message set processing is
-   * outsourced).
+   * The name of the service provider (sometimes the message set processing is outsourced).
    *
    * @return The name of the service provider (sometimes the message set
    *         processing is outsourced).
