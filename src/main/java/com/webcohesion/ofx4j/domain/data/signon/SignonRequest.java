@@ -53,6 +53,7 @@ public class SignonRequest extends RequestMessage {
   private String additionalCredentials2;
   private String authToken;
   private String accessKey;
+  private String accessToken;
 
   /**
    * The date and time of the request.
@@ -338,6 +339,25 @@ public class SignonRequest extends RequestMessage {
    */
   public void setAccessKey(String accessKey) {
     this.accessKey = accessKey;
+  }
+
+  /**
+   * The access key.
+   *
+   * @param accessToken The access key.
+   */
+  public void setAccessToken(String accessToken) {
+    this.accessToken = accessToken;
+  }
+
+  /**
+   * The access key.
+   *
+   * @return The access key.
+   */
+  @Element ( name = "ACCESSTOKEN", order = 150 )
+  public String getAccessToken() {
+    return accessToken;
   }
 
   //todo: MFA challenge stuff.
