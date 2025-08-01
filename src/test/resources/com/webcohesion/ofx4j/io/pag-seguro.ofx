@@ -1,0 +1,70 @@
+OFXHEADER:100
+DATA:OFXSGML
+VERSION:100
+SECURITY:NONE
+ENCODING:UTF-8
+CHARSET:NONE
+COMPRESSION:NONE
+OLDFILEUID:NONE
+NEWFILEUID:NONE
+<OFX>
+  <SIGNONMSGSRSV1>
+    <SONRS>
+      <STATUS>
+        <CODE>0</CODE>
+        <SEVERITY>INFO</SEVERITY>
+      </STATUS>
+      <DTSERVER>20250725131611[-3:BRT]</DTSERVER>
+      <LANGUAGE>POR</LANGUAGE>
+      <FI>
+        <ORG>PagSeguro Internet S/A</ORG>
+        <FID>290</FID>
+      </FI>
+    </SONRS>
+  </SIGNONMSGSRSV1>
+  <BANKMSGSRSV1>
+    <STMTTRNRS>
+      <STATUS>
+        <CODE>0</CODE>
+        <SEVERITY>INFO</SEVERITY>
+      </STATUS>
+      <STMTRS>
+        <CURDEF>BRL</CURDEF>
+        <BANKACCTFROM>
+          <BANKID>290</BANKID>
+          <ACCTID>12345678-1</ACCTID>
+          <ACCTTYPE>CHECKING</ACCTTYPE>
+        </BANKACCTFROM>
+        <BANKTRANLIST>
+          <DTSTART>20250601000000[-3:BRT]</DTSTART>
+          <DTEND>20250630000000[-3:BRT]</DTEND>
+          <STMTTRN>
+            <TRNTYPE>OUT</TRNTYPE>
+            <DTPOSTED>20250602161542[-3:BRT]</DTPOSTED>
+            <TRNAMT>-1901.00</TRNAMT>
+            <FITID>b2cdd0c2-542c-425d-873e-7b298571641e</FITID>
+            <MEMO>Pix enviado - Chuck Norris 48966146074</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>IN</TRNTYPE>
+            <DTPOSTED>20250602154900[-3:BRT]</DTPOSTED>
+            <TRNAMT>1660.00</TRNAMT>
+            <FITID>e17ee5a0-d9d2-45b2-8466-44c4f2e4dd59</FITID>
+            <MEMO>Pix recebido - Leonildo De Lima Rocha</MEMO>
+          </STMTTRN>
+          <STMTTRN>
+            <TRNTYPE>IN</TRNTYPE>
+            <DTPOSTED>20250602152928[-3:BRT]</DTPOSTED>
+            <TRNAMT>360.00</TRNAMT>
+            <FITID>91db68ee-0ae7-4da9-8059-13b7d96912b0</FITID>
+            <MEMO>Pix recebido - Jane Doe 23698004020</MEMO>
+          </STMTTRN>
+        </BANKTRANLIST>
+        <LEDGERBAL>
+          <BALAMT>R$ 5.326,43</BALAMT>
+          <DTASOF>30/06/2025</DTASOF>
+        </LEDGERBAL>
+      </STMTRS>
+    </STMTTRNRS>
+  </BANKMSGSRSV1>
+</OFX>

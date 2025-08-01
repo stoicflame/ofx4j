@@ -102,6 +102,16 @@ public enum TransactionType {
   REPEATPMT,
 
   /**
+   * credit
+   * */
+  IN,
+
+  /**
+   * debit
+   * */
+  OUT,
+
+  /**
    * other
    */
   OTHER

@@ -57,4 +57,10 @@ public class TestUnmarshalling extends TestCase {
     unmarshaller.unmarshal(TestUnmarshalling.class.getResourceAsStream("bank-of-america-profile.ofx"));
   }
 
+  public void testPagSeguroUnmarshalling() throws Exception {
+    AggregateUnmarshaller<ResponseEnvelope> unmarshaller = new AggregateUnmarshaller<>(ResponseEnvelope.class);
+    LOG.debug("parsing Pag Seguro Profile Response");
+    unmarshaller.unmarshal(TestUnmarshalling.class.getResourceAsStream("pag-seguro.ofx"));
+  }
+
 }
