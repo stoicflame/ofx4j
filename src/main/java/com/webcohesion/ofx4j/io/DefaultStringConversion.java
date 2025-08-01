@@ -20,10 +20,13 @@ import com.webcohesion.ofx4j.domain.data.common.Status;
 import com.webcohesion.ofx4j.domain.data.common.StatusCode;
 import com.webcohesion.ofx4j.domain.data.common.UnknownStatusCode;
 
-import java.sql.Time;
-import java.util.*;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 /**
  * Utility class for conversion to/from OFX strings.
@@ -114,6 +117,12 @@ public class DefaultStringConversion implements StringConversion {
    * @return The date value.
    */
   protected Date parseDate(String value) {
+    if (value != null && value.matches("^\\d{2}/\\d{2}/\\d{4}$")) {
+      DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+      LocalDate localDate = LocalDate.parse(value, formatter);
+      return Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+    }
+
     char[] parseableDate = new char[DATE_FORMAT_LENGTH];
     Arrays.fill(parseableDate, '0');
     parseableDate[parseableDate.length - 4] = '.';
